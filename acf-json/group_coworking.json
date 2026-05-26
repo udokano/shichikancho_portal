@@ -1,0 +1,136 @@
+{
+    "key": "group_coworking",
+    "title": "コワーキング情報",
+    "fields": [
+        {
+            "key": "field_cw_description",
+            "label": "紹介文",
+            "name": "cw_description",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_cw_address",
+            "label": "住所",
+            "name": "cw_address",
+            "type": "text"
+        },
+        {
+            "key": "field_cw_hours",
+            "label": "営業時間",
+            "name": "cw_hours",
+            "type": "text"
+        },
+        {
+            "key": "field_cw_pricing",
+            "label": "料金プラン",
+            "name": "cw_pricing",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "プランを追加",
+            "sub_fields": [
+                {
+                    "key": "field_cw_plan_name",
+                    "label": "プラン名",
+                    "name": "plan_name",
+                    "type": "text"
+                },
+                {
+                    "key": "field_cw_plan_price",
+                    "label": "料金",
+                    "name": "plan_price",
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "key": "field_cw_amenities",
+            "label": "設備・特徴",
+            "name": "cw_amenities",
+            "type": "checkbox",
+            "choices": {
+                "wifi": "Wi-Fi",
+                "highspeed_wifi": "高速Wi-Fi",
+                "power": "電源完備",
+                "meeting": "会議室",
+                "meeting_2": "会議室2室",
+                "meeting_4": "会議室4室",
+                "phone_booth": "電話ブース",
+                "private_room": "個室ブース",
+                "printer": "プリンタ",
+                "drink": "フリードリンク",
+                "drink_only": "ドリンク付",
+                "locker": "ロッカー",
+                "monitor": "モニター貸出",
+                "post": "郵便受取",
+                "corp_register": "法人登記可",
+                "open_24h": "24時間利用可",
+                "event_space": "イベントスペース",
+                "shower": "シャワー",
+                "bike_parking": "駐輪場",
+                "quiet": "静かな環境",
+                "no_reservation": "予約不要"
+            },
+            "return_format": "value"
+        },
+        {
+            "key": "field_cw_capacity",
+            "label": "席数",
+            "name": "cw_capacity",
+            "type": "text"
+        },
+        {
+            "key": "field_cw_rating",
+            "label": "評価（5段階）",
+            "name": "cw_rating",
+            "type": "number",
+            "instructions": "管理者が手動で入力（例: 4.5）。空欄で星非表示。",
+            "min": 0,
+            "max": 5,
+            "step": "0.1"
+        },
+        {
+            "key": "field_cw_dropin",
+            "label": "ドロップイン料金",
+            "name": "cw_dropin",
+            "type": "text",
+            "instructions": "例: 1日 1,500円"
+        },
+        {
+            "key": "field_cw_monthly",
+            "label": "月額料金（カード表示用）",
+            "name": "cw_monthly",
+            "type": "text",
+            "instructions": "例: 月額 15,000円〜"
+        },
+        {
+            "key": "field_cw_website",
+            "label": "公式サイト",
+            "name": "cw_website",
+            "type": "url"
+        },
+        {
+            "key": "field_cw_phone",
+            "label": "電話番号",
+            "name": "cw_phone",
+            "type": "text"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "coworking"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 0
+}

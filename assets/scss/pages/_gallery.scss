@@ -1,0 +1,560 @@
+@use '../config' as *;
+
+// ─── イントロ ────────────────────────────────────────────
+.p-gallery__intro {
+  background-color: $color-washi;
+  padding-block: rem(32);
+
+  @include sp { padding-block: rem(24); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: $color-text-muted;
+    text-align: center;
+  }
+}
+
+// ─── 注目フィーチャー ─────────────────────────────────────
+.p-gallery__featured {
+  background-color: #fff;
+  padding-block: rem(40) rem(8);
+
+  @include sp { padding-block: rem(24) rem(4); }
+
+  &-inner {
+    @include page-inner;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: rem(20);
+    min-height: rem(560);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      min-height: 0;
+      gap: rem(12);
+    }
+  }
+}
+
+.p-gallery__featured-card {
+  position: relative;
+  display: block;
+  border-radius: rem(16);
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  background-color: $color-border;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  @include hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+
+    .p-gallery__featured-img img { transform: scale(1.04); }
+  }
+
+  &--main {
+    grid-row: 1 / span 2;
+  }
+
+  &--sub {
+    min-height: rem(220);
+  }
+}
+
+.p-gallery__featured-img {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.65) 100%);
+  }
+}
+
+.p-gallery__featured-body {
+  position: relative;
+  z-index: 1;
+  padding: rem(20) rem(24);
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
+  height: 100%;
+  justify-content: flex-end;
+
+  @include sp { padding: rem(14) rem(16); }
+}
+
+.p-gallery__featured-meta {
+  display: flex;
+  align-items: center;
+  gap: rem(10);
+  font-size: rem(13);
+}
+
+.p-gallery__featured-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(2) rem(10);
+  border-radius: rem(4);
+  background-color: $color-primary-dark;
+  font-size: rem(11);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+
+  &.is-best {
+    background-color: #d35d3a;
+  }
+}
+
+.p-gallery__featured-season {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.p-gallery__featured-title {
+  font-family: $font-serif;
+  font-size: rem(22);
+  font-weight: 700;
+  line-height: 1.4;
+
+  .p-gallery__featured-card--main & {
+    font-size: rem(28);
+
+    @include sp { font-size: rem(22); }
+  }
+
+  @include sp { font-size: rem(18); }
+}
+
+.p-gallery__featured-loc {
+  font-size: rem(13);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+// ─── フィルター + 件数・ビュー切替 ───────────────────────
+.p-gallery__filter {
+  background-color: #fff;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: rem(72);
+  z-index: 10;
+
+  @include sp { top: rem(56); }
+
+  &-inner {
+    @include page-inner;
+    padding-block: rem(14);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(16);
+
+    @include sp { flex-direction: column; align-items: stretch; gap: rem(10); }
+  }
+}
+
+.p-gallery__chips {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar { height: 4px; }
+}
+
+.p-gallery__chip-icon {
+  width: rem(14);
+  height: rem(14);
+  margin-right: rem(6);
+  flex-shrink: 0;
+  vertical-align: -2px;
+}
+
+.p-gallery__count {
+  font-size: rem(13);
+  color: $color-text-muted;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.p-gallery__featured-season-icon {
+  width: rem(12);
+  height: rem(12);
+  margin-right: rem(4);
+  vertical-align: -1px;
+}
+
+// ─── フォトグリッド ──────────────────────────────────────
+.p-gallery__grid-section {
+  background-color: #fff;
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+}
+
+.p-gallery__grid-inner {
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $container-pad;
+
+  @include sp { padding-inline: $container-pad-sp; }
+}
+
+// グリッド表示
+.p-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: rem(16);
+
+  @include mq-down(md) { grid-template-columns: repeat(3, 1fr); }
+  @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(8); }
+}
+
+.p-gallery__item {
+  border-radius: rem(12);
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  transition: box-shadow 0.2s ease;
+
+  @include sp { margin-bottom: rem(8); }
+
+  @include hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+
+    .p-gallery__item-img img { transform: scale(1.03); }
+  }
+
+  &-img {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background-color: $color-border;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    cursor: zoom-in;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+  }
+
+  &-season {
+    position: absolute;
+    top: rem(10);
+    left: rem(10);
+    padding: rem(3) rem(10);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: rem(11);
+    border-radius: rem(4);
+    z-index: 1;
+  }
+
+  &-loc {
+    width: 100%;
+    font-size: rem(11);
+    color: $color-text-muted;
+    line-height: 1.4;
+    @include truncate;
+    margin-top: rem(2);
+  }
+
+  // 画像下のキャプション帯（常時表示）
+  &-body {
+    padding: rem(12) rem(14);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(8);
+    flex-wrap: wrap;
+    background-color: #fff;
+  }
+
+  &-title {
+    font-size: rem(13);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    flex: 1;
+    min-width: 0;
+    @include truncate;
+  }
+
+  // 撮影者は非表示（Manus 準拠で title + like のみ）
+  &-author {
+    display: none;
+  }
+
+  &-like {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    padding: 0;
+    flex-shrink: 0;
+    font-size: rem(12);
+    font-weight: 500;
+    color: $color-text-muted;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    @include hover {
+      color: #ff5470;
+
+      .p-gallery__item-like-icon { color: #ff5470; }
+    }
+
+    &.is-liked {
+      color: #ff5470;
+      cursor: default;
+
+      .p-gallery__item-like-icon { color: #ff5470; }
+    }
+  }
+
+  &-like-icon {
+    color: #b8c5cf;
+    flex-shrink: 0;
+    transition: color 0.2s;
+
+    .p-gallery__item-like.is-liked & { color: #ff5470; }
+  }
+}
+
+// ─── 写真投稿CTA ─────────────────────────────────────────
+.p-gallery__submit {
+  background-color: $color-washi;
+  padding-block: rem(64);
+  text-align: center;
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(720);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(20);
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-icon {
+    color: $color-primary-dark;
+    margin-bottom: rem(-4);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.9;
+  }
+
+  &-steps {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(28) rem(32);
+    text-align: left;
+
+    @include sp { padding: rem(20) rem(24); }
+  }
+
+  &-steps-title {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(16);
+  }
+
+  &-steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+    padding: 0;
+    margin: 0;
+  }
+
+  &-step {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(10);
+  }
+
+  &-step-num {
+    font-size: rem(13);
+    font-weight: 700;
+    color: $color-primary-dark;
+    flex-shrink: 0;
+    line-height: 1.7;
+    min-width: rem(20);
+  }
+
+  &-step-text {
+    font-size: rem(13);
+    line-height: 1.7;
+    color: $color-text;
+  }
+}
+
+// ─── 拡大ライトボックス ──────────────────────────────────
+.p-gallery__modal {
+  &-img {
+    background-color: #000;
+    overflow: hidden;
+    border-radius: rem(12) rem(12) 0 0;
+
+    img {
+      display: block;
+      width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      background-color: #000;
+    }
+  }
+
+  &-caption {
+    padding: rem(20) rem(28);
+    border-top: 1px solid $color-border;
+
+    @include sp { padding: rem(16) rem(20); }
+  }
+
+  &-title {
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    margin: 0 0 rem(4);
+  }
+
+  &-author {
+    font-size: rem(13);
+    color: $color-text-muted;
+    margin: 0;
+  }
+}
+
+.c-modal__dialog--lightbox {
+  max-width: rem(960);
+}
+
+// 画像のフェード
+#gallery-zoom-img {
+  transition: opacity 0.2s ease;
+
+  &.is-fading { opacity: 0; }
+}
+
+// 前後ナビボタン
+.p-gallery__modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: rem(48);
+  height: rem(48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  color: $color-text;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+
+  @include hover {
+    background-color: #fff;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  &--prev { left: rem(24); }
+  &--next { right: rem(24); }
+
+  @include sp {
+    width: rem(40);
+    height: rem(40);
+
+    &--prev { left: rem(12); }
+    &--next { right: rem(12); }
+  }
+}
+
+.p-gallery__modal-counter {
+  margin-top: rem(8);
+  font-size: rem(11);
+  color: $color-text-muted;
+  letter-spacing: 0.05em;
+}
+
+// 無限スクロール用 sentinel ローダー
+.p-gallery__sentinel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(40) 0;
+  min-height: rem(60);
+}
+
+.p-gallery__sentinel-loader {
+  width: rem(28);
+  height: rem(28);
+  border: 3px solid rgba(0, 109, 166, 0.2);
+  border-top-color: $color-primary-dark;
+  border-radius: 50%;
+  animation: sc-spin 0.8s linear infinite;
+}
+
+@keyframes sc-spin {
+  to { transform: rotate(360deg); }
+}

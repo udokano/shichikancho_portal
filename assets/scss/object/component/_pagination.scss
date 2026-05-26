@@ -1,0 +1,66 @@
+@use '../../config' as *;
+
+// ─── 共通ページネーション ───────────────────────────────
+// 用途: アーカイブの paginate_links() ラッパー
+.c-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem(8);
+  flex-wrap: wrap;
+  margin-top: rem(40);
+
+  &__link,
+  &__current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(6);
+    min-width: rem(40);
+    height: rem(40);
+    padding-inline: rem(14);
+    font-size: rem(13);
+    font-weight: 500;
+    border-radius: rem(8);
+    border: 1px solid $color-border;
+    background-color: #fff;
+    color: $color-text;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  &__link {
+    @include hover {
+      border-color: $color-primary-dark;
+      color: $color-primary-dark;
+    }
+
+    &--prev,
+    &--next {
+      color: $color-text-muted;
+      padding-inline: rem(16);
+    }
+
+    &[aria-disabled="true"] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  &__current {
+    background-color: #1d6fa5;
+    color: #fff;
+    border-color: #1d6fa5;
+    font-weight: 700;
+    pointer-events: none;
+  }
+
+  &__dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: rem(40);
+    height: rem(40);
+    color: $color-text-muted;
+  }
+}

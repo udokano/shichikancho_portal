@@ -1,0 +1,87 @@
+@use '../config' as *;
+
+.p-links {
+  &__body {
+    background-color: #fff;
+    padding-block: rem(56) rem(96);
+
+    @include sp { padding-block: rem(36) rem(64); }
+  }
+
+  &__inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    gap: rem(48);
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      gap: rem(36);
+    }
+  }
+
+  // ─── カテゴリーセクション ────────────────────────────────
+  &__group-title {
+    font-size: rem(17);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(20);
+    padding-bottom: rem(12);
+    border-bottom: 1px solid $color-border;
+
+    @include sp { font-size: rem(15); }
+  }
+
+  // ─── 2カラムカードグリッド ───────────────────────────────
+  &__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(12);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(8);
+    }
+  }
+
+  // ─── リンクカード ────────────────────────────────────────
+  &__card {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    background-color: $color-washi;
+    border-radius: rem(10);
+    padding: rem(16) rem(18);
+    text-decoration: none;
+    color: $color-text;
+    transition: background-color 0.18s;
+
+    @include hover {
+      background-color: darken(#f1f3f5, 4%);
+
+      .p-links__card-name { color: $color-primary-dark; }
+    }
+
+    @include sp { padding: rem(14) rem(16); }
+  }
+
+  &__card-icon {
+    width: rem(16);
+    height: rem(16);
+    flex-shrink: 0;
+    color: $color-text-muted;
+    opacity: 0.6;
+  }
+
+  &__card-name {
+    font-size: rem(14);
+    font-weight: 500;
+    line-height: 1.4;
+    transition: color 0.18s;
+  }
+}

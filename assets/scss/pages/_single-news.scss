@@ -1,0 +1,75 @@
+@use '../config' as *;
+
+// ─── ページヒーロー（お知らせ固有） ───────────────────────
+.p-info-single__hero {
+  background: linear-gradient(135deg, $color-sakura 0%, lighten($color-washi, 1%) 100%);
+  padding-block: rem(48) rem(40);
+  text-align: center;
+
+  @include sp { padding-block: rem(32) rem(28); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(32);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    margin: 0 0 rem(8);
+
+    @include sp { font-size: rem(24); }
+  }
+
+  &-sub {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin: 0;
+
+    @include sp { font-size: rem(13); }
+  }
+}
+
+// ─── 本文セクション（お知らせ固有差分） ──────────────────
+.p-info-single {
+  background-color: #fff;
+  padding-block: rem(48) rem(80);
+
+  @include sp { padding-block: rem(32) rem(56); }
+
+  &__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  // ─── メタ情報（日付・著者） ──────────────────────────────
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: rem(12);
+    margin-bottom: rem(24);
+    padding-bottom: rem(16);
+    border-bottom: 1px solid #eee;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(13);
+    color: $color-text-muted;
+
+    svg { flex-shrink: 0; }
+  }
+}

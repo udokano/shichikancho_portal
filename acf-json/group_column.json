@@ -1,0 +1,70 @@
+{
+    "key": "group_column",
+    "title": "コラム情報",
+    "fields": [
+        {
+            "key": "field_column_author_name",
+            "label": "執筆者名",
+            "name": "column_author_name",
+            "type": "text"
+        },
+        {
+            "key": "field_column_author_image",
+            "label": "執筆者写真",
+            "name": "column_author_image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "thumbnail"
+        },
+        {
+            "key": "field_column_author_bio",
+            "label": "執筆者プロフィール",
+            "name": "column_author_bio",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_column_main_image",
+            "label": "アイキャッチ画像",
+            "name": "column_main_image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium",
+            "instructions": "未指定の場合は標準のアイキャッチを使用"
+        },
+        {
+            "key": "field_column_excerpt",
+            "label": "抜粋文",
+            "name": "column_excerpt",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br",
+            "instructions": "カード表示用の短い抜粋"
+        },
+        {
+            "key": "field_column_read_time",
+            "label": "読了時間（分）",
+            "name": "column_read_time",
+            "type": "number",
+            "append": "分",
+            "instructions": "未指定の場合は本文から自動算出"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "column"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777982720
+}

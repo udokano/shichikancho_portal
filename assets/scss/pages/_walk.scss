@@ -1,0 +1,540 @@
+@use '../config' as *;
+
+// ヒーロー: c-page-hero / フィルターチップ: c-chips / タグ: c-tag
+
+// ─── フォトコンテストバナー ──────────────────────────────
+.p-walk__contest {
+  position: relative;
+  background-color: #065f46; // fallback
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  margin-block: rem(40);
+
+  // 背景画像の上にグリーンオーバーレイ
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(#065f46, 0.72);
+    z-index: 0;
+  }
+
+  @include sp { margin-block: rem(24); }
+
+  &-inner {
+    position: relative;
+    z-index: 1;
+    @include page-inner;
+    padding-block: rem(80);
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+    align-items: flex-start;
+
+    @include sp { padding-block: rem(48); }
+  }
+
+  &-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(4) rem(12);
+    font-size: rem(12);
+    font-weight: 700;
+    border-radius: rem(9999);
+    background-color: #ecfdf5;
+    color: #065f46;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(36);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+
+    @include sp { font-size: rem(24); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: rgba(#fff, 0.9);
+    line-height: 1.7;
+  }
+
+  &-link {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    margin-top: rem(8);
+    font-size: rem(14);
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+
+    @include hover { opacity: 0.8; }
+  }
+}
+
+// ─── 入賞作品 ───────────────────────────────────────────
+.p-walk__award {
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+
+  &-inner {
+    @include page-inner;
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(28);
+
+    @include sp { font-size: rem(18); margin-bottom: rem(20); }
+  }
+
+  &-title-icon {
+    width: rem(22);
+    height: rem(22);
+    color: $color-primary-dark;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(16);
+
+    @include mq-down(md) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
+  }
+
+  // Manus準拠: 画像オーバーレイ型カード
+  &-card {
+    position: relative;
+    border-radius: rem(12);
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    aspect-ratio: 4 / 5;
+
+    &-img {
+      position: absolute;
+      inset: 0;
+      background-color: $color-border;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    // 左上の賞名ピル（緑）
+    &-rank {
+      position: absolute;
+      top: rem(12);
+      left: rem(12);
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      padding: rem(4) rem(12);
+      font-size: rem(11);
+      font-weight: 700;
+      border-radius: rem(999);
+      background-color: #16a34a;
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+      &--gold   { background-color: #16a34a; }
+      &--silver { background-color: #16a34a; }
+      &--bronze { background-color: #16a34a; }
+    }
+
+    // 下部キャプション（黒グラデーション + 白文字）
+    &-caption {
+      position: absolute;
+      inset: auto 0 0 0;
+      z-index: 2;
+      padding: rem(48) rem(16) rem(16);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%);
+    }
+
+    &-name {
+      font-size: rem(14);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      margin: 0;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    &-name-rank {
+      color: #fff;
+    }
+  }
+}
+
+// ─── メイン（フィルター + コース一覧） ──────────────────
+.p-walk__main {
+  background-color: $color-washi;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: grid;
+    grid-template-columns: rem(260) 1fr;
+    gap: rem(32);
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      grid-template-columns: 1fr;
+      gap: rem(24);
+    }
+  }
+}
+
+// ─── フィルターサイドバー ────────────────────────────────
+.p-walk__filter {
+  &-count-box {
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(20);
+    text-align: center;
+    margin-bottom: rem(12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  &-count-label {
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-bottom: rem(4);
+  }
+
+  &-count-num {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-primary-dark;
+  }
+
+  &-form {
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(24);
+    position: sticky;
+    top: rem(96);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    @include sp { position: static; padding: rem(20); }
+  }
+
+  &-heading {
+    font-size: rem(13);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(16);
+    padding-bottom: rem(12);
+    border-bottom: 1px solid $color-border;
+  }
+
+  &-block {
+    border: 0;
+    padding: 0;
+    margin: 0 0 rem(20);
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &-label {
+    font-size: rem(11);
+    font-weight: 700;
+    color: $color-text-muted;
+    margin-bottom: rem(10);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+  }
+
+  &-reset {
+    display: inline-block;
+    margin-top: rem(8);
+    font-size: rem(12);
+    color: $color-text-muted;
+    text-decoration: underline;
+
+    @include hover { color: $color-primary-dark; }
+  }
+}
+
+// ─── コース一覧 ──────────────────────────────────────────
+.p-walk__courses {
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include mq-down(md) { grid-template-columns: 1fr; }
+  }
+
+  &-empty {
+    padding: rem(48) rem(24);
+    text-align: center;
+    color: $color-text-muted;
+    font-size: rem(14);
+    background-color: #fff;
+    border-radius: rem(12);
+  }
+}
+
+// ─── コースカード ────────────────────────────────────────
+.p-walk__course-card {
+  display: block;
+  background-color: #fff;
+  border-radius: rem(16);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+
+  @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+
+  &-img {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background-color: $color-border;
+    overflow: hidden;
+  }
+
+  &-area {
+    position: absolute;
+    top: rem(12);
+    left: rem(12);
+  }
+
+  &-body {
+    padding: rem(20);
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &-name {
+    font-family: $font-serif;
+    font-size: rem(17);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+  }
+
+  &-desc {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+
+  &-meta {
+    display: flex;
+    gap: rem(16);
+    margin-top: rem(4);
+    font-size: rem(12);
+    color: $color-primary-dark;
+    font-weight: 600;
+
+    div { display: contents; }
+    dt { display: contents; }
+    dd { margin: 0; display: flex; align-items: center; gap: rem(4); }
+  }
+
+  &-meta-icon {
+    width: rem(14);
+    height: rem(14);
+    flex-shrink: 0;
+  }
+}
+
+// ─── 月間人気ランキング（カードグリッド）───────────────
+.p-walk__ranking {
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    @include page-inner;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(32);
+
+    @include sp { font-size: rem(20); margin-bottom: rem(24); }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: rem(16);
+
+    @include mq-down(md) { grid-template-columns: repeat(3, 1fr); }
+    @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
+  }
+}
+
+.p-walk__ranking-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background-color: #fff;
+  border-radius: rem(12);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
+
+  @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+
+  &-img {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    background-color: $color-border;
+    overflow: hidden;
+  }
+
+  &-num {
+    position: absolute;
+    top: rem(8);
+    left: rem(8);
+    width: rem(28);
+    height: rem(28);
+    border-radius: 50%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: rem(13);
+
+    // 1〜3位の色分け
+    &:nth-child(1) { background-color: #d97706; }
+  }
+
+  &-body {
+    padding: rem(12) rem(14);
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+  }
+
+  &-name {
+    font-size: rem(13);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    @include line-clamp(2);
+  }
+
+  &-meta {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(11);
+    color: $color-text-muted;
+  }
+
+  &-icon {
+    width: rem(12);
+    height: rem(12);
+    flex-shrink: 0;
+  }
+}
+
+// ─── 町のギャラリー ──────────────────────────────────────
+.p-walk__gallery {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    @include page-inner;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(32);
+
+    @include sp { font-size: rem(20); margin-bottom: rem(24); }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(16);
+
+    @include mq-down(md) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
+  }
+
+  &-card {
+    background-color: #fff;
+    border-radius: rem(12);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    &-img {
+      aspect-ratio: 1;
+      background-color: $color-border;
+      overflow: hidden;
+    }
+
+    &-body {
+      padding: rem(12) rem(14);
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+    }
+
+    &-likes {
+      display: flex;
+      align-items: center;
+      gap: rem(4);
+      font-size: rem(11);
+      color: #e11d48;
+      font-weight: 600;
+      margin-bottom: rem(2);
+    }
+
+    &-area {
+      align-self: flex-start;
+    }
+
+    &-name {
+      font-size: rem(13);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.4;
+      margin-top: rem(4);
+    }
+  }
+
+  &-more {
+    margin-top: rem(40);
+    text-align: center;
+  }
+}

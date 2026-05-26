@@ -1,0 +1,69 @@
+@use '../config' as *;
+
+.p-terms__body {
+  padding-block: rem(80) rem(100);
+
+  @include sp { padding-block: rem(48) rem(64); }
+}
+
+.p-terms__inner {
+  max-width: rem(760);
+  margin-inline: auto;
+  padding-inline: rem(24);
+}
+
+// ─── 各セクション ──────────────────────────────────────────
+.p-terms__section {
+  padding-block: rem(40);
+  border-bottom: 1px solid $color-border;
+
+  &:first-of-type { padding-top: 0; }
+
+  @include sp { padding-block: rem(28); }
+}
+
+.p-terms__section-title {
+  font-size: rem(18);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(16);
+  padding-left: rem(14);
+  border-left: 3px solid $color-primary;
+
+  @include sp { font-size: rem(16); }
+}
+
+.p-terms__section-text {
+  font-size: rem(15);
+  line-height: 1.9;
+  color: $color-text;
+}
+
+.p-terms__section-list {
+  margin-top: rem(12);
+  padding-left: rem(20);
+  list-style: disc;
+
+  li {
+    font-size: rem(15);
+    line-height: 1.9;
+    color: $color-text;
+
+    & + li { margin-top: rem(6); }
+  }
+}
+
+// ─── 制定日・更新日 ───────────────────────────────────────
+.p-terms__meta {
+  margin-top: rem(48);
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+
+  p {
+    font-size: rem(13);
+    color: $color-text-muted;
+  }
+
+  @include sp { margin-top: rem(32); }
+}

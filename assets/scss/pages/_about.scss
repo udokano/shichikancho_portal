@@ -1,0 +1,526 @@
+@use '../config' as *;
+
+// ─── メインビジュアル ────────────────────────────────────
+.p-about__visual {
+  background-color: #fff;
+  padding-block: rem(40);
+
+  @include sp { padding-block: rem(24); }
+
+  &-inner {
+    max-width: rem(896);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-img {
+    aspect-ratio: 16 / 9;
+    border-radius: rem(16);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    background-color: $color-sakura;
+  }
+}
+
+// ─── ストーリーガイド ────────────────────────────────────
+.p-about__story {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  // 4列グリッド（TOC 1列 + 本文 3列）
+  &-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: rem(48);
+    align-items: start;
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(32);
+    }
+  }
+
+  // TOC ラッパー（PC: sticky）
+  &-toc-wrap {
+    position: sticky;
+    top: rem(96); // ヘッダー高さ分
+
+    @include sp { position: static; }
+  }
+
+  &-toc-card {
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(24);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  &-toc-title {
+    font-family: $font-serif;
+    font-size: rem(17);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(16);
+  }
+
+  &-toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &-toc-link {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    padding: rem(8) rem(12);
+    border-radius: rem(8);
+    text-decoration: none;
+    color: $color-text;
+    font-size: rem(13);
+    transition: background-color 0.2s;
+
+    @include hover {
+      background-color: $color-sakura;
+    }
+  }
+
+  &-toc-num {
+    font-size: rem(13);
+    font-weight: 700;
+    color: $color-primary-dark;
+    flex-shrink: 0;
+    min-width: rem(20);
+  }
+
+  &-toc-sub {
+    color: $color-text-muted;
+    font-size: rem(12);
+  }
+
+  // 本文エリア
+  &-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: rem(40);
+    align-items: center;
+    padding-block: rem(40);
+    border-bottom: 1px solid $color-border;
+
+    &:last-child { border-bottom: none; }
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(20);
+      padding-block: rem(32);
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+    }
+
+    &-img {
+      border-radius: rem(12);
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+  }
+
+  &-section-num {
+    font-size: rem(36);
+    font-weight: 800;
+    color: $color-primary-dark;
+    line-height: 1;
+    font-family: $font-serif;
+
+    @include sp { font-size: rem(28); }
+  }
+
+  &-section-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    margin-top: rem(4);
+
+    @include sp { font-size: rem(16); }
+  }
+
+  &-section-body {
+    font-size: rem(14);
+    line-height: 2;
+    color: $color-text-muted;
+    margin-top: rem(4);
+  }
+}
+
+// ─── 回遊ネットワーク ────────────────────────────────────
+.p-about__network {
+  background-color: #fff;
+  padding-block: rem(72);
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(900);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(40);
+
+    @include sp { padding-inline: $container-pad-sp; gap: rem(32); }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-text;
+    text-align: center;
+    line-height: 1.4;
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &-lead {
+    font-size: rem(14);
+    color: $color-text-muted;
+    text-align: center;
+    line-height: 1.8;
+    margin-top: rem(-24);
+  }
+
+  // SVGネットワーク図コンテナ
+  &-map {
+    position: relative;
+    width: 100%;
+    background-color: $color-washi;
+    border-radius: rem(16);
+    padding: rem(24) rem(16) rem(16);
+  }
+
+  &-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    // ノードホバー
+    .js-network-node {
+      cursor: pointer;
+
+      circle:last-of-type {
+        transition: filter 0.2s;
+      }
+
+      @include hover {
+        circle:last-of-type { filter: brightness(1.15); }
+      }
+
+      &.is-active circle:last-of-type {
+        filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+      }
+    }
+  }
+
+  // クリック詳細パネル
+  &-detail {
+    position: absolute;
+    bottom: rem(56);
+    left: 50%;
+    transform: translateX(-50%);
+    width: rem(280);
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(16) rem(20);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+    z-index: 10;
+
+    &[hidden] { display: none; }
+
+    &-close {
+      position: absolute;
+      top: rem(10);
+      right: rem(10);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $color-text-muted;
+      padding: rem(4);
+      line-height: 1;
+
+      @include hover { color: $color-text; }
+    }
+
+    &-tag {
+      font-size: rem(11);
+      color: $color-primary-dark;
+      font-weight: 600;
+    }
+
+    &-name {
+      font-family: $font-serif;
+      font-size: rem(16);
+      font-weight: 700;
+      color: $color-text;
+    }
+
+    &-desc {
+      font-size: rem(12);
+      color: $color-text-muted;
+      line-height: 1.7;
+    }
+  }
+
+  &-hint {
+    text-align: center;
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-top: rem(8);
+  }
+
+  // コースカード
+  &-courses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(16);
+    width: 100%;
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(12);
+    }
+  }
+
+  &-course {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20);
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+
+    &-head {
+      display: flex;
+      align-items: center;
+      gap: rem(10);
+    }
+
+    &-num {
+      width: rem(28);
+      height: rem(28);
+      border-radius: 50%;
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: rem(13);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+    }
+
+    &-route {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.6;
+    }
+
+    &-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(6);
+    }
+
+    &-tag {
+      font-size: rem(11);
+      color: $color-text-muted;
+      background-color: $color-washi;
+      border-radius: rem(4);
+      padding: rem(2) rem(8);
+    }
+  }
+
+  // CTAボタン
+  &-cta {
+    text-align: center;
+
+    &-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(8);
+      padding: rem(14) rem(32);
+      background-color: $color-primary-dark;
+      color: #fff;
+      font-size: rem(15);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: rem(9999);
+      transition: opacity 0.2s;
+
+      @include hover { opacity: 0.85; }
+    }
+  }
+}
+
+// ─── CTAカード ──────────────────────────────────────────
+.p-about__cta {
+  background-color: $color-sakura;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(16);
+    }
+  }
+
+  &-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: rem(12);
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+    text-decoration: none;
+    color: $color-text;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    @include hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+
+      .p-about__cta-card-thumb img { transform: scale(1.05); }
+      .p-about__cta-card-title    { color: $color-primary-dark; }
+      .p-about__cta-card-link     { color: $color-primary-dark; }
+    }
+
+    &-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background-color: $color-washi;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+    }
+
+    &-body {
+      padding: rem(20) rem(20) rem(22);
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+      flex: 1;
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(17);
+      font-weight: 700;
+      color: $color-text;
+      margin: 0;
+      transition: color 0.2s;
+    }
+
+    &-text {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.7;
+      margin: 0 0 auto;
+    }
+
+    &-link {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(6);
+      margin-top: rem(8);
+      font-size: rem(13);
+      font-weight: 500;
+      color: $color-text;
+      transition: color 0.2s;
+    }
+  }
+}
+
+// ─── 回遊イメージ ────────────────────────────────────────
+.p-about__panorama {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-img {
+    aspect-ratio: 21 / 9;
+    border-radius: rem(16);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    background-color: $color-sakura;
+
+    @include sp { aspect-ratio: 16 / 9; }
+  }
+}

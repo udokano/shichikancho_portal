@@ -1,0 +1,234 @@
+@use '../config' as *;
+
+// ─── ページヒーロー（コラム固有） ───────────────────────
+.p-column-single__hero {
+  background: linear-gradient(135deg, $color-sakura 0%, lighten($color-washi, 1%) 100%);
+  padding-block: rem(48) rem(40);
+  text-align: center;
+
+  @include sp { padding-block: rem(32) rem(28); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(32);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    margin: 0 0 rem(8);
+
+    @include sp { font-size: rem(24); }
+  }
+
+  &-sub {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin: 0;
+
+    @include sp { font-size: rem(13); }
+  }
+}
+
+// ─── 本文セクション（コラム固有差分） ──────────────────
+// 共通レイアウト・本文・著者・関連などは object/component/_article.scss (.c-article)。
+.p-column-single {
+  background-color: #fff;
+  padding-block: rem(48) rem(80);
+
+  @include sp { padding-block: rem(32) rem(56); }
+
+  &__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &__article {
+    min-width: 0;
+  }
+
+  // ─── サブタイトル（excerpt） ─────────────────────
+  &__subtitle {
+    font-size: rem(16);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin-bottom: rem(16);
+
+    @include sp { font-size: rem(15); }
+  }
+
+  // ─── メタ情報（著者 / 日付 / 読了時間） ─────────
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: rem(16);
+    padding-bottom: rem(20);
+    margin-bottom: rem(32);
+    border-bottom: 1px solid rgba($color-border, 0.5);
+    font-size: rem(13);
+    color: $color-text-muted;
+  }
+
+  &__author {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(6);
+  }
+
+  &__meta-icon {
+    width: rem(16);
+    height: rem(16);
+  }
+
+  // ─── リードボックス（c-article__lead 上書き：washi + 左ボーダー） ─
+  &__lead {
+    background-color: $color-washi;
+    border-left: 4px solid $color-primary-dark;
+    border-radius: rem(12);
+    margin-block: rem(24) rem(40);
+    padding: rem(24);
+
+    @include sp { padding: rem(20); }
+
+    p {
+      font-size: rem(15);
+      color: $color-text;
+      line-height: 1.9;
+
+      @include sp { font-size: rem(14); }
+    }
+  }
+
+  // ─── 著者プロフィール（c-article__author 上書き：washi 単色） ─
+  &__bio {
+    margin-top: rem(48);
+    padding: rem(28);
+    background: $color-washi;
+    border-radius: rem(12);
+    border: 1px solid rgba($color-border, 0.5);
+
+    @include sp { padding: rem(20); }
+
+    &-label {
+      font-family: inherit;
+      font-size: rem(13);
+      font-weight: 600;
+      color: $color-text-muted;
+      margin: 0 0 rem(16);
+    }
+
+    &-body {
+      gap: rem(20);
+
+      @include sp { gap: rem(16); }
+    }
+
+    &-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-name {
+      font-size: rem(16);
+      font-weight: 700;
+      color: $color-text;
+      margin: 0 0 rem(6);
+    }
+
+    &-desc {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.7;
+      margin: 0;
+    }
+  }
+
+  // ─── 関連コラム（コラム固有 3カード：cat チップ + タイトル + 日付） ─
+  &__related {
+    margin-top: rem(48);
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(20);
+      font-weight: 600;
+      color: $color-text;
+      margin-bottom: rem(20);
+    }
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(16);
+
+      @include sp {
+        grid-template-columns: 1fr;
+        gap: rem(12);
+      }
+    }
+
+    &-card {
+      display: block;
+      background-color: #fff;
+      border: 1px solid rgba($color-border, 0.5);
+      border-radius: rem(10);
+      overflow: hidden;
+      text-decoration: none;
+      color: $color-text;
+      transition: box-shadow 0.2s, transform 0.2s;
+
+      @include hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+    }
+
+    &-thumb {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background-color: $color-washi;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-body { padding: rem(14); }
+
+    &-cat {
+      display: inline-block;
+      padding: rem(2) rem(8);
+      margin-bottom: rem(6);
+      font-size: rem(11);
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+      border-radius: rem(9999);
+    }
+
+    &-title-card {
+      font-size: rem(14);
+      font-weight: 600;
+      line-height: 1.5;
+      color: $color-text;
+      margin-bottom: rem(6);
+      @include line-clamp(2);
+    }
+
+    &-date {
+      font-size: rem(12);
+      color: $color-text-muted;
+    }
+  }
+}

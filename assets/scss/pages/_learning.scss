@@ -1,0 +1,219 @@
+@use '../config' as *;
+
+// ヒーローは c-page-hero、タブは c-tabs を使用（_page-hero.scss / _tabs.scss）
+
+// ─── イントロ ────────────────────────────────────────────
+.p-learning__intro {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    text-align: center;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(16);
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: $color-text-muted;
+  }
+}
+
+// ─── パネル ──────────────────────────────────────────────
+.p-learning__panel {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  &[hidden] { display: none; }
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(32);
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+
+    @include sp { font-size: rem(18); margin-bottom: rem(24); }
+  }
+
+  &-count {
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-primary-dark;
+    background-color: $color-sakura;
+    border-radius: rem(9999);
+    padding: rem(2) rem(12);
+  }
+
+  &-empty {
+    font-size: rem(14);
+    color: $color-text-muted;
+    text-align: center;
+    padding-block: rem(40);
+  }
+}
+
+// ─── カードグリッド ──────────────────────────────────────
+.p-learning__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(20);
+
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: rem(16);
+  }
+}
+
+.p-learning__card {
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(16);
+  padding: rem(28);
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  transition: box-shadow 0.2s ease;
+
+  @include hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  @include sp { padding: rem(20); }
+
+  &-head {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(3) rem(10);
+    font-size: rem(11);
+    font-weight: 500;
+    border-radius: rem(9999);
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+    align-self: flex-start;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+  }
+
+  &-desc {
+    font-size: rem(13);
+    line-height: 1.8;
+    color: $color-text-muted;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+    padding-block: rem(12);
+    border-block: 1px solid rgba($color-border, 0.6);
+    margin: 0;
+
+    &-row {
+      display: grid;
+      grid-template-columns: rem(56) 1fr;
+      gap: rem(12);
+      font-size: rem(12);
+    }
+
+    &-term {
+      color: $color-text-muted;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    &-desc {
+      color: $color-text;
+      margin: 0;
+    }
+
+    &-link {
+      color: $color-primary-dark;
+      text-decoration: none;
+
+      @include hover { text-decoration: underline; }
+    }
+  }
+
+  &-link {
+    align-self: flex-start;
+    margin-top: rem(4);
+  }
+}
+
+// ─── 掲載募集CTA ─────────────────────────────────────────
+.p-learning__cta {
+  background-color: $color-washi;
+  padding-block: rem(64);
+  text-align: center;
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(560);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(16);
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+}

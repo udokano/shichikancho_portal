@@ -1,0 +1,60 @@
+@use '../../config' as *;
+
+// ─── 共通ページヒーロー ──────────────────────────────────
+// 各ページの先頭で `<div class="c-page-hero">` を配置。
+// バリエーション: --washi（背景白） / --dark（暗背景）
+// Manus PageHero: 淡いサクラ背景 + 左寄せ + コンパクト
+.c-page-hero {
+  background-color: rgba($color-sakura, 0.35);
+  padding-block: rem(32);
+  border-bottom: 1px solid $color-sakura;
+
+  @include sp { padding-block: rem(20); }
+
+  &--washi {
+    background-color: $color-washi;
+  }
+
+  &--dark {
+    background-color: #1a1a2e;
+    color: #fff;
+    border-bottom: none;
+  }
+
+  &--alert {
+    background-color: #fff3cd;
+    border-bottom: 1px solid rgba(#e6a817, 0.4);
+  }
+
+  &__inner {
+    @include page-inner;
+    text-align: left;
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    font-weight: 700;
+    color: $color-text;
+    margin: 0 0 rem(8);
+    line-height: 1.3;
+
+    .c-page-hero--dark & { color: #fff; }
+
+    @include sp { font-size: rem(24); }
+  }
+
+  &__sub {
+    font-size: rem(16);
+    color: $color-text-muted;
+    margin: 0;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    .c-page-hero--dark & { color: rgba(255, 255, 255, 0.85); }
+
+    @include sp { font-size: rem(14); }
+  }
+}

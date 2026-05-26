@@ -1,0 +1,379 @@
+@use '../config' as *;
+
+.l-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid $color-border;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  &.is-scrolled {
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  // ─── 1段目 ───────────────────────────────────────────────
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: rem(64);
+    // padding-inline: rem(32);
+    max-width: 1060px;
+    margin-inline: auto;
+
+    @include sp {
+      height: rem(56);
+      padding-inline: rem(12);
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  &__logo-img {
+    display: block;
+    height: rem(40);
+    width: auto;
+    @include mq-down(sm) {
+      height: rem(30);
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: rem(24);
+  }
+
+  &__nav-primary {
+    display: flex;
+    align-items: center;
+
+    @include sp {
+      display: none;
+    }
+  }
+
+  &__nav-primary-list {
+    display: flex;
+    align-items: center;
+    gap: rem(32);
+    list-style: none;
+  }
+
+  &__nav-primary-link {
+    font-size: rem(14);
+    font-weight: 500;
+    color: $color-text;
+    white-space: nowrap;
+    transition: color 0.2s;
+
+    &[aria-current='page'] {
+      color: $color-primary-dark;
+    }
+    @include hover {
+      color: $color-primary-dark;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+  }
+
+  &__lang-wrap {
+    display: none;
+    position: relative;
+
+    @media (min-width: 1024px) {
+      display: block;
+    }
+  }
+
+  &__lang {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(13);
+    color: $color-text-muted;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: rem(4) 0;
+    font-family: inherit;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  &__lang-arrow {
+    font-size: rem(11);
+    transition: transform 0.2s ease;
+
+    [aria-expanded='true'] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__lang-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + rem(6));
+    right: 0;
+    background: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: rem(110);
+    list-style: none;
+    padding: rem(4) 0;
+    z-index: $z-header + 10;
+
+    &.is-open {
+      display: block;
+    }
+  }
+
+  &__lang-option {
+    display: block;
+    width: 100%;
+    padding: rem(8) rem(16);
+    font-size: rem(13);
+    color: $color-text;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+
+    &.is-selected {
+      font-weight: 600;
+      color: $color-primary;
+    }
+
+    @include hover {
+      background-color: $color-bg-light;
+    }
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: rem(5);
+    width: rem(40);
+    height: rem(40);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    @include sp {
+      display: flex;
+    }
+
+    &.is-open {
+      .l-header__bar:nth-child(1) {
+        transform: translateY(rem(6.5)) rotate(45deg);
+      }
+      .l-header__bar:nth-child(2) {
+        opacity: 0;
+      }
+      .l-header__bar:nth-child(3) {
+        transform: translateY(rem(-6.5)) rotate(-45deg);
+      }
+    }
+  }
+
+  &__bar {
+    display: block;
+    width: rem(22);
+    height: 1px;
+    background-color: $color-text;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  // ─── 2段目（サブナビ・PCのみ） ────────────────────────────
+  &__sub {
+    display: block;
+    border-top: 1px solid rgba($color-border, 0.3);
+    background-color: #fff;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include sp {
+      display: none;
+    }
+  }
+
+  &__nav-sub {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(4);
+    padding-block: rem(6);
+    //padding-inline: rem(32);
+    list-style: none;
+    max-width: 1080px;
+    margin-inline: auto;
+  }
+
+  &__nav-sub-link {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    padding: rem(6) rem(12);
+    //padding-inline: 0;
+    font-size: rem(12);
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: rem(9999);
+    color: $color-text;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+
+    &.is-current {
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+    }
+    @include hover {
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+    }
+  }
+
+  &__nav-sub-icon {
+    display: block;
+    width: rem(14);
+    height: rem(14);
+    flex-shrink: 0;
+  }
+}
+
+// ─── SP ドロワー ──────────────────────────────────────────
+.l-drawer {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  z-index: $z-drawer;
+  background-color: #fff;
+  overflow-y: auto;
+  padding: rem(24) rem(16);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+
+  &.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+
+  &__inner {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: rem(16);
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(53);
+    aspect-ratio: 1/1;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: $color-text;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    @include hover {
+      background-color: $color-washi;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__section {
+    & + & {
+      margin-top: rem(24);
+      padding-top: rem(24);
+      border-top: 1px solid $color-border;
+    }
+  }
+
+  &__label {
+    font-size: rem(14);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-bottom: rem(10);
+  }
+
+  &__nav-list {
+    display: grid;
+    grid-template-columns: repeat(2, 48%);
+    justify-content: space-between;
+
+    row-gap: rem(14);
+    list-style: none;
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+
+    //padding: rem(7);
+    font-size: rem(15);
+    border-radius: rem(8);
+    color: $color-text;
+    transition: background-color 0.2s;
+
+    &:active {
+      background-color: $color-sakura;
+    }
+    @include hover {
+      background-color: $color-sakura;
+    }
+  }
+
+  &__nav-icon {
+    display: block;
+    width: rem(18);
+    height: rem(18);
+    flex-shrink: 0;
+    color: $color-text-muted;
+  }
+}

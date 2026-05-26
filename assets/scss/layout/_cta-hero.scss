@@ -1,0 +1,110 @@
+@use '../config' as *;
+
+// ─── 全ページ共通: 背景画像オーバーレイCTA ─────────────
+// 用途: 映画の町「次は…」/ 商い詳細「七間町での開業を…」
+//      まなぶ「教室・スクールを掲載しませんか?」など
+.l-cta-hero {
+  position: relative;
+  padding-block: rem(96);
+  text-align: center;
+  background-image: url('../images/top/hero-main.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7));
+    z-index: 0;
+  }
+
+  // 水色オーバーレイのバリエーション
+  &--sakura::before {
+    background: linear-gradient(135deg, rgba($color-sakura, 0.85), rgba(#7dd3fc, 0.75));
+  }
+
+  @include sp { padding-block: rem(60); }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    max-width: rem(720);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    margin: 0 0 rem(16);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &__text {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0 0 rem(28);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  // sakura バリエーション時は黒文字
+  .l-cta-hero--sakura & {
+    color: $color-text;
+    text-shadow: none;
+  }
+  &--sakura &__title { color: $color-text; text-shadow: none; }
+  &--sakura &__text  { color: $color-text; text-shadow: none; }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: rem(16);
+    flex-wrap: wrap;
+
+    @include sp { flex-direction: column; align-items: stretch; }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    min-width: rem(200);
+    padding: rem(14) rem(28);
+    font-size: rem(14);
+    font-weight: 500;
+    border-radius: rem(10);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    @include hover { opacity: 0.9; }
+
+    &--primary {
+      background-color: $color-primary-dark;
+      color: #fff;
+    }
+
+    &--outline {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    // sakura バリエーションのアウトラインは青
+    .l-cta-hero--sakura &--outline {
+      color: $color-primary-dark;
+      border-color: $color-primary-dark;
+      background-color: #fff;
+    }
+  }
+}

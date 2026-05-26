@@ -1,0 +1,647 @@
+@use '../config' as *;
+
+// ─── ヒーロー（淡色背景・タイトル＋サブのみ／Manus 準拠） ──────────────────
+.p-walk-detail__hero {
+  background-color: $color-sakura;
+  border-bottom: 1px solid rgba($color-primary-dark, 0.08);
+
+  &-inner {
+    @include page-inner;
+    padding-block: rem(40) rem(32);
+    text-align: center;
+
+    @include sp { padding-block: rem(28) rem(24); }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(32);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.3;
+    margin: 0 0 rem(12);
+
+    @include sp { font-size: rem(30); }
+  }
+
+  &-sub {
+    font-size: rem(15);
+    color: $color-text;
+    line-height: 1.7;
+    margin: 0;
+    max-width: rem(720);
+    margin-inline: auto;
+
+    @include sp { font-size: rem(13); }
+  }
+}
+
+// ─── サマリー（メタバー：bg-gray-200 相当） ──────────────────────────
+.p-walk-detail__summary {
+  background-color: #e5e7eb; // tailwind gray-200 相当（Manus）
+
+  &-inner {
+    @include page-inner;
+    padding-block: rem(28);
+    display: flex;
+    flex-direction: column;
+    gap: rem(20);
+    align-items: flex-start;
+
+    @include sp { padding-block: rem(20); gap: rem(14); }
+  }
+}
+
+.p-walk-detail__meta {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(24);
+  color: $color-text;
+
+  @include sp { gap: rem(14); }
+
+  &-item {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    font-size: rem(15);
+    font-weight: 500;
+    line-height: 1.2;
+
+    @include sp { font-size: rem(13); }
+  }
+
+  &-icon {
+    width: rem(20);
+    height: rem(20);
+    color: $color-text;
+    flex-shrink: 0;
+  }
+
+  &-chip {
+    display: inline-block;
+    padding: rem(4) rem(12);
+    background-color: $color-sakura;
+    color: $color-text;
+    border-radius: rem(9999);
+    font-size: rem(13);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+}
+
+.p-walk-detail__actions {
+  display: flex;
+  gap: rem(8);
+  align-items: center;
+}
+
+.p-walk-detail__fav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(8);
+  background-color: #f3f4f6; // gray-100
+  border: 0;
+  border-radius: 50%;
+  color: #9ca3af; // gray-400
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  @include hover {
+    background-color: #e5e7eb; // gray-200
+    color: #4b5563; // gray-600
+  }
+
+  &[aria-pressed="true"] {
+    color: $color-primary-dark;
+
+    .p-walk-detail__fav-icon { fill: currentColor; }
+  }
+
+  &-icon {
+    width: rem(22);
+    height: rem(22);
+  }
+}
+
+.p-walk-detail__share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(8) rem(14);
+  background-color: $color-sakura;
+  color: $color-text;
+  border: 0;
+  border-radius: rem(6);
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  @include hover { background-color: $color-primary-dark; color: #fff; }
+
+  &-icon {
+    width: rem(20);
+    height: rem(20);
+  }
+}
+
+// ─── ウォーキングルート（順序付きスポット） ──────────
+.p-walk-detail__route {
+  background-color: #fff;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    text-align: center;
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(28);
+
+    @include sp { font-size: rem(22); }
+  }
+
+  // 縦1列：番号+カード → 徒歩X分 → 次のカード...
+  &-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: rem(720);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &-item {
+    min-width: 0;
+    position: relative;
+
+    // 番号と番号をつなぐ縦線（最後の項目以外）
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: rem(17);
+      top: rem(36);
+      bottom: 0;
+      width: rem(2);
+      background-color: rgba($color-primary-dark, 0.3);
+      z-index: 0;
+    }
+  }
+
+  &-link {
+    display: grid;
+    grid-template-columns: rem(36) 1fr;
+    gap: rem(16);
+    align-items: stretch;
+    text-decoration: none;
+    color: inherit;
+
+    @include hover {
+      .p-walk-detail__route-num { transform: scale(1.05); }
+      .p-walk-detail__route-body { border-color: $color-primary-dark; box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.08); }
+    }
+  }
+
+  &-num {
+    width: rem(36);
+    height: rem(36);
+    border-radius: 50%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: rem(14);
+    margin: 0;
+    align-self: flex-start;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  &-body {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(8);
+    padding: rem(20);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+  }
+
+  &-text { flex: 1; min-width: 0; }
+
+  &-arrow {
+    flex-shrink: 0;
+    color: $color-primary-dark;
+    transition: transform 0.2s ease;
+  }
+
+  &-link:hover &-arrow { transform: translateY(2px); }
+
+  &-link {
+    @include hover {
+      .p-walk-detail__route-body { border-color: $color-primary-dark; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); }
+    }
+  }
+
+
+  &-name {
+    font-family: $font-serif;
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    margin: 0 0 rem(6);
+  }
+
+  &-note {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.6;
+    margin: 0;
+    @include line-clamp(2);
+  }
+
+  &-item {
+    position: relative;
+  }
+
+  // 「徒歩 X分」ラベル（カードとカードの間に表示）
+  &-time {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    padding: rem(12) 0 rem(12) rem(52);
+    color: $color-text-muted;
+    font-size: rem(13);
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// アンカー追従時のスクロールオフセット（固定ヘッダ分）
+.p-walk-detail__spot[id^="walk-spot-"] {
+  scroll-margin-top: rem(80);
+}
+
+html { scroll-behavior: smooth; }
+
+// ─── マップ ──────────────────────────────────────────────
+.p-walk-detail__map {
+  background-color: rgba($color-sakura, 0.35);
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(20);
+    margin-bottom: rem(24);
+    text-align: center;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    text-align: center;
+    font-weight: 700;
+    color: $color-text;
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(10);
+    padding: rem(20) rem(48);
+    background-color: $color-primary-dark;
+    color: #fff;
+    border: 0;
+    border-radius: rem(12);
+    font-size: rem(18);
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba($color-primary-dark, 0.25);
+
+    svg { width: rem(20); height: rem(20); }
+
+    @include hover { opacity: 0.9; transform: translateY(-1px); }
+  }
+
+  &-canvas {
+    width: 100%;
+    height: rem(480);
+    border-radius: rem(16);
+    overflow: hidden;
+    background-color: $color-washi;
+    z-index: 1; // Leaflet コントロールが他に被らないように
+
+    @include sp { height: rem(360); }
+  }
+
+  // 番号付きマーカー
+  &-pin {
+    background-color: #E91E63;
+    color: #fff;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: rem(13);
+    font-weight: 700;
+
+    span {
+      line-height: 1;
+    }
+  }
+
+  &-img {
+    border-radius: rem(16);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background-color: $color-washi;
+  }
+}
+
+// ─── スポット詳細 ────────────────────────────────────────
+// Manus 仕様: 番号バッジ + タイトル → 画像 → 説明 → タグ → 写真ギャラリー
+.p-walk-detail__spots {
+  background-color: #fff;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  // 本文系セクションは PC 800px に絞る
+  &-inner {
+    @include page-inner;
+    max-width: rem(800);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    text-align: center;
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(32);
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(48);
+
+    @include sp { gap: rem(36); }
+  }
+}
+
+.p-walk-detail__spot {
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+  padding-bottom: rem(40);
+  border-bottom: 1px solid $color-border;
+
+  &:last-child { border-bottom: 0; padding-bottom: 0; }
+
+  &-head {
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+  }
+
+  &-num {
+    flex-shrink: 0;
+    width: rem(28);
+    height: rem(28);
+    border-radius: 50%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(13);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-name {
+    font-family: $font-serif;
+    font-size: rem(30);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.3;
+    margin: 0;
+
+    @include sp { font-size: rem(22); }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      @include hover { color: $color-primary-dark; }
+    }
+  }
+
+  &-img {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    border-radius: rem(12);
+    overflow: hidden;
+    background-color: $color-washi;
+
+    @include sp { aspect-ratio: 16 / 9; }
+  }
+
+  &-desc {
+    font-size: rem(14);
+    color: $color-text;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  &-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(8);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li { margin: 0; }
+  }
+
+  // このスポットの写真
+  &-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+
+    &-title {
+      font-family: $font-sans;
+      font-size: rem(14);
+      font-weight: 700;
+      color: $color-text;
+      margin: 0;
+    }
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(12);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      @include sp {
+        grid-template-columns: 1fr 1fr;
+        gap: rem(8);
+      }
+    }
+
+    &-item {
+      aspect-ratio: 4 / 3;
+      border-radius: rem(8);
+      overflow: hidden;
+      background-color: $color-washi;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+// ─── 関連コース ──────────────────────────────────────────
+.p-walk-detail__related {
+  background-color: #fff;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    @include page-inner;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    text-align: center;
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(24);
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(20);
+
+    @include mq-down(md) { grid-template-columns: 1fr; }
+  }
+}
+
+// ─── Manus準拠: スポット詳細追加要素 ─────────────────────
+.p-walk-detail__spot-head-body { flex: 1; min-width: 0; }
+
+.p-walk-detail__spot-org {
+  font-size: rem(13);
+  color: $color-text-muted;
+  margin: rem(2) 0 0;
+}
+
+.p-walk-detail__spot-info {
+  background-color: #eff6ff;
+  border-radius: rem(10);
+  padding: rem(16) rem(20);
+  margin: rem(16) 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+
+  > div {
+    display: flex;
+    align-items: baseline;
+    gap: rem(6);
+    font-size: rem(13);
+  }
+
+  dt {
+    font-weight: 700;
+    color: $color-text;
+    flex-shrink: 0;
+  }
+
+  dd {
+    margin: 0;
+    color: $color-text;
+  }
+}
+
+.p-walk-detail__spot-actions {
+  display: flex;
+  gap: rem(10);
+  margin-top: rem(16);
+  flex-wrap: wrap;
+}
+
+.p-walk-detail__spot-action {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(6);
+  padding: rem(8) rem(18);
+  font-size: rem(13);
+  font-weight: 500;
+  border-radius: rem(999);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  @include hover { opacity: 0.9; }
+
+  &--phone {
+    background-color: $color-primary-dark;
+    color: #fff;
+  }
+
+  &--web {
+    background-color: #fff;
+    color: $color-primary-dark;
+    border: 1px solid $color-primary-dark;
+  }
+}

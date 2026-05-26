@@ -1,0 +1,5 @@
+// 関数・変数・Mixin を一括 forward
+// 各パーシャルで @use '../config' as * （または相対パス）して使う
+@forward 'functions';
+@forward 'variables';
+@forward 'mixin';

@@ -1,0 +1,448 @@
+{
+  "key": "group_page_learn",
+  "title": "町でまなぶページ：項目",
+  "fields": [
+    {
+      "key": "field_lr_tab_culture",
+      "label": "文化・歴史体験",
+      "name": "文化・歴史体験",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_learn_items_culture",
+      "label": "文化・歴史体験",
+      "name": "learn_items_culture",
+      "type": "repeater",
+      "instructions": "文化・歴史体験タブに表示する項目",
+      "required": 0,
+      "layout": "row",
+      "button_label": "項目を追加",
+      "min": 0,
+      "max": 0,
+      "sub_fields": [
+        {
+          "key": "field_learn_culture_name",
+          "label": "名称",
+          "name": "name",
+          "type": "text",
+          "required": 1,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_badge",
+          "label": "バッジ",
+          "name": "badge",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_desc",
+          "label": "説明",
+          "name": "desc",
+          "type": "textarea",
+          "required": 0,
+          "rows": 3,
+          "new_lines": "br",
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_schedule",
+          "label": "開催日時",
+          "name": "schedule",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_fee",
+          "label": "料金",
+          "name": "fee",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_target",
+          "label": "対象",
+          "name": "target",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_venue",
+          "label": "会場",
+          "name": "venue",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_phone",
+          "label": "電話",
+          "name": "phone",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        },
+        {
+          "key": "field_learn_culture_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url",
+          "required": 0,
+          "parent_repeater": "field_learn_items_culture"
+        }
+      ]
+    },
+    {
+      "key": "field_lr_tab_school",
+      "label": "塾・学習塾",
+      "name": "塾・学習塾",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_learn_items_school",
+      "label": "塾・学習塾",
+      "name": "learn_items_school",
+      "type": "repeater",
+      "instructions": "塾・学習塾タブに表示する項目",
+      "required": 0,
+      "layout": "row",
+      "button_label": "項目を追加",
+      "min": 0,
+      "max": 0,
+      "sub_fields": [
+        {
+          "key": "field_learn_school_name",
+          "label": "名称",
+          "name": "name",
+          "type": "text",
+          "required": 1,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_badge",
+          "label": "バッジ",
+          "name": "badge",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_desc",
+          "label": "説明",
+          "name": "desc",
+          "type": "textarea",
+          "required": 0,
+          "rows": 3,
+          "new_lines": "br",
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_schedule",
+          "label": "開催日時",
+          "name": "schedule",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_fee",
+          "label": "料金",
+          "name": "fee",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_target",
+          "label": "対象",
+          "name": "target",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_venue",
+          "label": "会場",
+          "name": "venue",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_phone",
+          "label": "電話",
+          "name": "phone",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        },
+        {
+          "key": "field_learn_school_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url",
+          "required": 0,
+          "parent_repeater": "field_learn_items_school"
+        }
+      ]
+    },
+    {
+      "key": "field_lr_tab_lesson",
+      "label": "習い事・教室",
+      "name": "習い事・教室",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_learn_items_lesson",
+      "label": "習い事・教室",
+      "name": "learn_items_lesson",
+      "type": "repeater",
+      "instructions": "習い事・教室タブに表示する項目",
+      "required": 0,
+      "layout": "row",
+      "button_label": "項目を追加",
+      "min": 0,
+      "max": 0,
+      "sub_fields": [
+        {
+          "key": "field_learn_lesson_name",
+          "label": "名称",
+          "name": "name",
+          "type": "text",
+          "required": 1,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_badge",
+          "label": "バッジ",
+          "name": "badge",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_desc",
+          "label": "説明",
+          "name": "desc",
+          "type": "textarea",
+          "required": 0,
+          "rows": 3,
+          "new_lines": "br",
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_schedule",
+          "label": "開催日時",
+          "name": "schedule",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_fee",
+          "label": "料金",
+          "name": "fee",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_target",
+          "label": "対象",
+          "name": "target",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_venue",
+          "label": "会場",
+          "name": "venue",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_phone",
+          "label": "電話",
+          "name": "phone",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        },
+        {
+          "key": "field_learn_lesson_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url",
+          "required": 0,
+          "parent_repeater": "field_learn_items_lesson"
+        }
+      ]
+    },
+    {
+      "key": "field_lr_tab_skill",
+      "label": "資格・スキルアップ",
+      "name": "資格・スキルアップ",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_learn_items_skill",
+      "label": "資格・スキルアップ",
+      "name": "learn_items_skill",
+      "type": "repeater",
+      "instructions": "資格・スキルアップタブに表示する項目",
+      "required": 0,
+      "layout": "row",
+      "button_label": "項目を追加",
+      "min": 0,
+      "max": 0,
+      "sub_fields": [
+        {
+          "key": "field_learn_skill_name",
+          "label": "名称",
+          "name": "name",
+          "type": "text",
+          "required": 1,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_badge",
+          "label": "バッジ",
+          "name": "badge",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_desc",
+          "label": "説明",
+          "name": "desc",
+          "type": "textarea",
+          "required": 0,
+          "rows": 3,
+          "new_lines": "br",
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_schedule",
+          "label": "開催日時",
+          "name": "schedule",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_fee",
+          "label": "料金",
+          "name": "fee",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_target",
+          "label": "対象",
+          "name": "target",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_venue",
+          "label": "会場",
+          "name": "venue",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_phone",
+          "label": "電話",
+          "name": "phone",
+          "type": "text",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        },
+        {
+          "key": "field_learn_skill_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url",
+          "required": 0,
+          "parent_repeater": "field_learn_items_skill"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "page",
+        "operator": "==",
+        "value": "30"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "「町でまなぶ」固定ページのタブ別項目。タブ名・アイコン・イントロ・ヒーロー・CTA はテンプレートでハードコード。",
+  "show_in_rest": 0,
+  "display_title": "",
+  "allow_ai_access": false,
+  "ai_description": "",
+  "modified": 1778203172
+}

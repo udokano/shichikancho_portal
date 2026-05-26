@@ -1,0 +1,63 @@
+{
+    "key": "taxonomy_walk_scene",
+    "title": "散策シーン",
+    "menu_order": 0,
+    "active": true,
+    "taxonomy": "walk_scene",
+    "object_type": [
+        "walk_course"
+    ],
+    "advanced_configuration": 0,
+    "import_source": "",
+    "import_date": "",
+    "labels": {
+        "name": "散策シーン",
+        "singular_name": "シーン",
+        "menu_name": "散策シーン",
+        "all_items": "散策シーン一覧",
+        "edit_item": "シーンを編集",
+        "search_items": "シーンを検索"
+    },
+    "description": "",
+    "capabilities": {
+        "manage_terms": "manage_categories",
+        "edit_terms": "manage_categories",
+        "delete_terms": "manage_categories",
+        "assign_terms": "edit_posts"
+    },
+    "public": true,
+    "publicly_queryable": true,
+    "hierarchical": false,
+    "show_ui": true,
+    "show_in_menu": true,
+    "show_in_nav_menus": true,
+    "show_in_rest": true,
+    "rest_base": "",
+    "rest_namespace": "wp\/v2",
+    "rest_controller_class": "",
+    "show_tagcloud": true,
+    "show_in_quick_edit": true,
+    "show_admin_column": true,
+    "rewrite": true,
+    "query_var": true,
+    "query_var_name": "",
+    "default_term": {
+        "default_term_enabled": false,
+        "default_term_name": "",
+        "default_term_slug": "",
+        "default_term_description": ""
+    },
+    "sort": false,
+    "meta_box": "default",
+    "meta_box_cb": "",
+    "meta_box_sanitize_cb": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "plural_label": "散策シーン",
+    "singular_label": "シーン",
+    "rewrite_slug": "walk-scene",
+    "rewrite_withfront": true,
+    "rewrite_hierarchical": false,
+    "query_var_slug": "",
+    "modified": 1778115195
+}

@@ -1,0 +1,87 @@
+{
+    "key": "group_resident",
+    "title": "お隣さんの話",
+    "fields": [
+        {
+            "key": "field_resident_name",
+            "label": "名前（表示名）",
+            "name": "resident_name",
+            "type": "text"
+        },
+        {
+            "key": "field_resident_age",
+            "label": "年代",
+            "name": "resident_age",
+            "type": "text",
+            "instructions": "例: 30代 / 60代"
+        },
+        {
+            "key": "field_resident_occupation",
+            "label": "職業",
+            "name": "resident_occupation",
+            "type": "text"
+        },
+        {
+            "key": "field_resident_years",
+            "label": "居住年数",
+            "name": "resident_years",
+            "type": "text",
+            "instructions": "例: 七間町在住15年"
+        },
+        {
+            "key": "field_resident_portrait",
+            "label": "ポートレート写真",
+            "name": "resident_portrait",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_resident_quote",
+            "label": "一言コメント",
+            "name": "resident_quote",
+            "type": "text",
+            "instructions": "カード上に表示するキャッチコピー"
+        },
+        {
+            "key": "field_resident_story",
+            "label": "インタビュー本文",
+            "name": "resident_story",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 1
+        },
+        {
+            "key": "field_resident_favorite_spot",
+            "label": "お気に入りスポット",
+            "name": "resident_favorite_spot",
+            "type": "relationship",
+            "post_type": [
+                "spot",
+                "shop"
+            ],
+            "filters": [
+                "search"
+            ],
+            "max": 4,
+            "return_format": "id"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "resident"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777982720
+}

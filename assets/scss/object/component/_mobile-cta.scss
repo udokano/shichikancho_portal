@@ -1,0 +1,48 @@
+@use '../../config' as *;
+
+.c-mobile-cta {
+  display: none;
+
+  @include sp {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-header;
+    background-color: #ffffff;
+    border-top: 1px solid $color-border;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    // 初期は非表示、上スクロール時にスライドイン
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+
+    &.is-visible {
+      transform: translateY(0);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: rem(4);
+    padding: rem(8) rem(4);
+    font-size: rem(10);
+    color: $color-text-muted;
+    transition: color 0.2s;
+    min-height: rem(56);
+
+    &:hover,
+    &:focus-visible {
+      color: $color-green;
+    }
+  }
+
+  &__icon {
+    width: rem(22);
+    height: rem(22);
+  }
+}

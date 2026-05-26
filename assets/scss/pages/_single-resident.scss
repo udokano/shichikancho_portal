@@ -1,0 +1,325 @@
+@use '../config' as *;
+
+// ─── ページヘッダー ──────────────────────────────────────────
+.p-resident-single__header {
+  background-color: $color-washi;
+  border-bottom: 1px solid $color-sakura;
+  padding-block: rem(32) rem(28);
+
+  @include sp { padding-block: rem(20); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    min-height: rem(80);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      min-height: rem(64);
+    }
+  }
+}
+
+.p-resident-single__header-label {
+  display: inline-block;
+  font-size: rem(11);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background-color: $color-primary-dark;
+  color: #fff;
+  padding: rem(3) rem(10);
+  border-radius: rem(9999);
+  margin-bottom: rem(10);
+}
+
+.p-resident-single__header-title {
+  font-family: $font-serif;
+  font-size: rem(26);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.4;
+
+  @include sp { font-size: rem(20); }
+}
+
+// ─── 本文（2カラム） ─────────────────────────────────────────
+.p-resident-single__body {
+  background-color: #fff;
+  padding-block: rem(40) rem(72);
+
+  @include sp { padding-block: rem(24) rem(48); }
+}
+
+.p-resident-single__body-inner {
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $container-pad;
+
+  @include sp { padding-inline: $container-pad-sp; }
+}
+
+// ─── アイキャッチ画像 ─────────────────────────────────────────
+.p-resident-single__eyecatch {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-radius: rem(12);
+  background-color: $color-sakura;
+  margin-bottom: rem(24);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include sp {
+    aspect-ratio: 4 / 3;
+    border-radius: rem(8);
+    margin-bottom: rem(16);
+  }
+}
+
+// ─── プロフィール帯 ──────────────────────────────────────────
+.p-resident-single__profile {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  padding: rem(16) rem(20);
+  background-color: $color-washi;
+  border-radius: rem(10);
+  margin-bottom: rem(24);
+
+  @include sp {
+    gap: rem(10);
+    padding: rem(14) rem(16);
+    margin-bottom: rem(16);
+  }
+}
+
+.p-resident-single__profile-avatar {
+  flex-shrink: 0;
+  width: rem(48);
+  height: rem(48);
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: $color-sakura;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.p-resident-single__profile-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+.p-resident-single__profile-label {
+  font-size: rem(11);
+  color: $color-text-muted;
+  letter-spacing: 0.05em;
+}
+
+.p-resident-single__profile-name {
+  font-family: $font-serif;
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+}
+
+.p-resident-single__profile-meta {
+  font-size: rem(12);
+  color: $color-text-muted;
+}
+
+.p-resident-single__profile-date {
+  flex-shrink: 0;
+  font-size: rem(12);
+  color: $color-text-muted;
+
+  @include sp { display: none; }
+}
+
+// ─── 一言引用 ─────────────────────────────────────────────────
+.p-resident-single__quote {
+  font-family: $font-serif;
+  font-size: rem(17);
+  line-height: 1.9;
+  color: $color-text;
+  background-color: $color-washi;
+  border-left: 3px solid $color-primary-dark;
+  padding: rem(16) rem(20);
+  border-radius: 0 rem(8) rem(8) 0;
+  margin: 0 0 rem(32);
+  font-style: normal;
+
+  @include sp {
+    font-size: rem(15);
+    padding: rem(14) rem(16);
+    margin-bottom: rem(24);
+  }
+}
+
+// ─── お気に入りスポット ───────────────────────────────────────
+.p-resident-single__spots {
+  margin-top: rem(48);
+  padding-top: rem(40);
+  border-top: 1px solid $color-border;
+}
+
+.p-resident-single__spots-title {
+  font-family: $font-serif;
+  font-size: rem(20);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(20);
+
+  @include sp { font-size: rem(18); }
+}
+
+.p-resident-single__spots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(16);
+
+  @include sp { grid-template-columns: 1fr; gap: rem(12); }
+}
+
+.p-resident-single__spot-card {
+  display: block;
+  background-color: $color-washi;
+  border-radius: rem(12);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+
+  @include hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
+}
+
+.p-resident-single__spot-img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: $color-sakura;
+}
+
+.p-resident-single__spot-body {
+  padding: rem(14);
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
+}
+
+.p-resident-single__spot-name {
+  font-family: $font-serif;
+  font-size: rem(14);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.4;
+  margin: 0;
+}
+
+// ─── 他のお隣さん ────────────────────────────────────────────
+.p-resident-single__related {
+  margin-top: rem(48);
+  padding-top: rem(40);
+  border-top: 1px solid $color-border;
+}
+
+.p-resident-single__related-title {
+  font-family: $font-serif;
+  font-size: rem(20);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(20);
+
+  @include sp { font-size: rem(18); }
+}
+
+.p-resident-single__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(20);
+
+  @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
+}
+
+// ─── Join us CTA ─────────────────────────────────────────────
+.p-resident-single__join {
+  background-color: $color-primary-dark;
+  padding-block: rem(80) rem(88);
+  text-align: center;
+  // テクスチャ感のためにグラデーションを重ねる
+  background-image: radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.06) 0%, transparent 70%);
+
+  @include sp { padding-block: rem(56) rem(64); }
+}
+
+.p-resident-single__join-inner {
+  max-width: rem(600);
+  margin-inline: auto;
+  padding-inline: $container-pad;
+
+  @include sp { padding-inline: $container-pad-sp; }
+}
+
+.p-resident-single__join-sub {
+  font-size: rem(11);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: rem(16);
+}
+
+.p-resident-single__join-title {
+  font-family: $font-serif;
+  font-size: rem(30);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: rem(20);
+
+  @include sp { font-size: rem(24); }
+}
+
+.p-resident-single__join-text {
+  font-size: rem(14);
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: rem(36);
+}
+
+// アウトラインボタン（白）
+.p-resident-single__join .c-btn--outline-white {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  color: #fff;
+  background-color: transparent;
+  padding: rem(14) rem(36);
+  border-radius: rem(9999);
+  font-size: rem(14);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  @include hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #fff;
+  }
+}

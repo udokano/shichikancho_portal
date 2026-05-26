@@ -1,0 +1,428 @@
+@use '../config' as *;
+
+// ─── 共通セクション ─────────────────────────────────────
+.p-sponsor__section-head {
+  text-align: center;
+  margin-bottom: rem(48);
+
+  @include sp { margin-bottom: rem(32); }
+}
+
+.p-sponsor__section-title {
+  font-family: $font-serif;
+  font-size: rem(28);
+  font-weight: 600;
+  color: $color-text;
+  margin-bottom: rem(16);
+
+  @include sp { font-size: rem(22); }
+}
+
+.p-sponsor__section-lead {
+  font-size: rem(15);
+  line-height: 1.8;
+  color: $color-text-muted;
+  max-width: rem(720);
+  margin-inline: auto;
+}
+
+// ─── スポンサーになるメリット ──────────────────────────
+.p-sponsor__benefits {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(16);
+    }
+  }
+}
+
+.p-sponsor__benefit {
+  text-align: center;
+  padding: rem(32) rem(24);
+  background-color: $color-washi;
+  border-radius: rem(12);
+
+  &-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(64);
+    height: rem(64);
+    border-radius: 50%;
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+    margin-bottom: rem(16);
+  }
+
+  &-icon-svg {
+    width: rem(28);
+    height: rem(28);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(8);
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 1.7;
+    color: $color-text-muted;
+  }
+}
+
+// ─── スポンサープラン ──────────────────────────────────
+.p-sponsor__plans {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+    margin-bottom: rem(48);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(16);
+      margin-bottom: rem(32);
+    }
+  }
+}
+
+.p-sponsor__plan {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  padding: rem(32) rem(24);
+  display: flex;
+  flex-direction: column;
+
+  &--featured {
+    border-color: $color-primary-dark;
+    border-width: rem(2);
+    box-shadow: 0 rem(8) rem(24) rgba(0, 109, 166, 0.12);
+  }
+
+  &-badge {
+    position: absolute;
+    top: rem(-12);
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    padding: rem(4) rem(16);
+    font-size: rem(12);
+    font-weight: 600;
+    color: #fff;
+    background-color: $color-primary-dark;
+    border-radius: rem(9999);
+  }
+
+  &-name {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 600;
+    color: $color-text;
+    text-align: center;
+    margin-bottom: rem(16);
+  }
+
+  &-price {
+    font-family: $font-serif;
+    font-size: rem(32);
+    font-weight: 700;
+    color: $color-primary-dark;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: rem(4);
+
+    &-unit {
+      font-size: rem(15);
+      font-weight: 500;
+      color: $color-text-muted;
+      margin-left: rem(4);
+    }
+  }
+
+  &-monthly {
+    font-size: rem(13);
+    color: $color-text-muted;
+    text-align: center;
+    margin-bottom: rem(24);
+  }
+
+  &-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 rem(24);
+    flex: 1;
+  }
+
+  &-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(8);
+    padding-block: rem(10);
+    font-size: rem(14);
+    line-height: 1.6;
+    color: $color-text;
+    border-bottom: 1px solid $color-border;
+
+    &:last-child { border-bottom: none; }
+
+    &-icon {
+      flex-shrink: 0;
+      width: rem(16);
+      height: rem(16);
+      margin-top: rem(4);
+      color: $color-primary-dark;
+    }
+
+    &-note {
+      display: block;
+      font-size: rem(12);
+      color: $color-text-muted;
+      margin-top: rem(2);
+    }
+  }
+
+  &-cta {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+// ─── 単品オプション ─────────────────────────────────────
+.p-sponsor__addons {
+  background-color: #fff;
+  border-radius: rem(12);
+  padding: rem(32);
+
+  @include sp { padding: rem(20); }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(20);
+  }
+
+  &-table-wrap {
+    overflow-x: auto;
+  }
+
+  &-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: rem(14);
+
+    th, td {
+      padding: rem(12) rem(16);
+      text-align: left;
+      border-bottom: 1px solid $color-border;
+    }
+
+    th {
+      background-color: $color-washi;
+      font-weight: 600;
+      color: $color-text;
+    }
+
+    td {
+      color: $color-text;
+
+      &:last-child {
+        font-weight: 600;
+        color: $color-primary-dark;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &-note {
+    margin-top: rem(16);
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+}
+
+// ─── 寄付で応援する ────────────────────────────────────
+.p-sponsor__donate {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+    margin-bottom: rem(40);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(16);
+      margin-bottom: rem(32);
+    }
+  }
+
+  &-card {
+    text-align: center;
+    padding: rem(28) rem(20);
+    background-color: $color-washi;
+    border-radius: rem(12);
+  }
+
+  &-amount {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-primary-dark;
+    line-height: 1.2;
+    margin-bottom: rem(8);
+
+    &-unit {
+      font-size: rem(15);
+      font-weight: 500;
+      color: $color-text-muted;
+      margin-left: rem(4);
+    }
+  }
+
+  &-label {
+    font-size: rem(14);
+    color: $color-text;
+  }
+
+  &-usage {
+    background-color: $color-washi;
+    border-radius: rem(12);
+    padding: rem(28) rem(32);
+    margin-bottom: rem(32);
+
+    @include sp { padding: rem(20); }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(18);
+      font-weight: 600;
+      color: $color-text;
+      margin-bottom: rem(16);
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        position: relative;
+        padding-left: rem(20);
+        padding-block: rem(6);
+        font-size: rem(14);
+        line-height: 1.7;
+        color: $color-text;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: rem(14);
+          width: rem(8);
+          height: rem(8);
+          border-radius: 50%;
+          background-color: $color-primary-dark;
+        }
+      }
+    }
+  }
+
+  &-cta {
+    text-align: center;
+  }
+}
+
+// ─── よくあるご質問 ─────────────────────────────────────
+.p-sponsor__faq {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+  }
+
+  &-item {
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(24) rem(28);
+
+    @include sp { padding: rem(20); }
+  }
+
+  &-q {
+    font-family: $font-serif;
+    font-size: rem(16);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(8);
+  }
+
+  &-a {
+    font-size: rem(14);
+    line-height: 1.8;
+    color: $color-text-muted;
+  }
+}

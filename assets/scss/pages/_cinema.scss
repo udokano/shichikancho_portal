@@ -1,0 +1,494 @@
+@use '../config' as *;
+
+// ─── キャッチコピー ──────────────────────────────────────
+.p-cinema__catch {
+  background-color: #fff;
+  padding-block: rem(24);
+
+  @include sp { padding-block: rem(16); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-text {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 500;
+    color: $color-text-muted;
+    line-height: 1.5;
+    margin: 0;
+
+    @include sp { font-size: rem(15); }
+  }
+}
+
+// ─── コンセプト ──────────────────────────────────────────
+.p-cinema__concept {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: rem(48);
+    align-items: center;
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(32);
+      padding-inline: $container-pad-sp;
+    }
+  }
+
+  &-left {
+    display: flex;
+    flex-direction: column;
+    gap: rem(24);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 2;
+    color: $color-text-muted;
+  }
+
+  &-toc {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20) rem(24);
+  }
+
+  &-toc-label {
+    font-size: rem(11);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-bottom: rem(12);
+  }
+
+  &-toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+  }
+
+  &-toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(10);
+  }
+
+  &-toc-link {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(10);
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+  }
+
+  &-toc-num {
+    font-size: rem(12);
+    font-weight: 700;
+    color: $color-primary-dark;
+    flex-shrink: 0;
+    margin-top: rem(2);
+  }
+
+  &-toc-body {
+    display: flex;
+    flex-direction: column;
+    gap: rem(2);
+  }
+
+  &-toc-name {
+    font-size: rem(13);
+    font-weight: 600;
+    color: $color-text;
+    line-height: 1.4;
+  }
+
+  &-toc-sub {
+    font-size: rem(11);
+    color: $color-text-muted;
+  }
+
+  &-img {
+    border-radius: rem(16);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    aspect-ratio: 16 / 9;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+}
+
+// ─── 映画史（交互レイアウト） ────────────────────────────
+.p-cinema__history {
+  background-color: #fff;
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $container-pad;
+
+  @include sp { padding-inline: $container-pad-sp; }
+
+  &-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: rem(480);
+    gap: rem(40);
+    align-items: center;
+    padding-block: rem(48);
+
+    @include sp { grid-template-columns: 1fr; gap: rem(24); padding-block: rem(32); }
+
+    &--reverse {
+      .p-cinema__history-block-text { order: 2; }
+      .p-cinema__history-block-img  { order: 1; }
+
+      @include sp {
+        .p-cinema__history-block-text { order: 2; }
+        .p-cinema__history-block-img  { order: 1; }
+      }
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: rem(12);
+      padding: rem(64) rem(56);
+      background-color: #fff;
+
+      @include sp { padding: rem(40) $container-pad-sp; }
+    }
+
+    &-num {
+      font-size: rem(48);
+      font-weight: 800;
+      color: $color-primary-dark;
+      line-height: 1;
+    }
+
+    &-label {
+      font-size: rem(13);
+      color: $color-text-muted;
+      font-weight: 500;
+      margin-top: rem(-4);
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(20);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.5;
+      margin-top: rem(4);
+
+      @include sp { font-size: rem(17); }
+    }
+
+    &-body {
+      font-size: rem(14);
+      line-height: 1.9;
+      color: $color-text-muted;
+    }
+
+    &-img {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      @include sp { aspect-ratio: 16 / 9; }
+    }
+  }
+}
+
+// ─── 昔の映画館 ──────────────────────────────────────────
+.p-cinema__old {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(4);
+    line-height: 1.5;
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: $color-text-muted;
+    margin-top: rem(20);
+    margin-bottom: rem(32);
+    text-align: center;
+  }
+
+  &-photos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(12);
+
+    @include sp {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(8);
+    }
+  }
+
+  &-photo {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+  }
+
+  &-photo > img,
+  &-photo .u-img-cover {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: rem(12);
+    overflow: hidden;
+    display: block;
+  }
+
+  &-photo-caption {
+    font-size: rem(12);
+    color: $color-text-muted;
+    text-align: center;
+    line-height: 1.5;
+  }
+}
+
+// ─── 現在の映画館 ────────────────────────────────────────
+.p-cinema__now {
+  background-color: $color-washi;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(4);
+    line-height: 1.5;
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-lead {
+    font-size: rem(14);
+    color: $color-text-muted;
+    margin-top: rem(20);
+    margin-bottom: rem(32);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  &-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+  }
+
+  &-card {
+    background-color: #fff;
+    border-radius: rem(12);
+    padding: rem(16) rem(20);
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+    @include sp { padding: rem(14) rem(16); gap: rem(12); }
+
+    &-img {
+      flex-shrink: 0;
+      width: rem(72);
+      height: rem(72);
+      border-radius: rem(8);
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+    }
+
+    &-type {
+      display: inline-flex;
+      align-items: center;
+      padding: rem(1) rem(8);
+      font-size: rem(11);
+      font-weight: 500;
+      border-radius: rem(9999);
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+      align-self: flex-start;
+    }
+
+    &-name {
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.4;
+    }
+
+    &-area {
+      display: flex;
+      align-items: center;
+      gap: rem(4);
+      font-size: rem(12);
+      color: $color-text-muted;
+    }
+
+    &-pin {
+      width: rem(13);
+      height: rem(13);
+      flex-shrink: 0;
+      color: $color-text-muted;
+    }
+
+    &-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: rem(6);
+      padding: rem(8) rem(16);
+      font-size: rem(13);
+      font-weight: 500;
+      color: $color-text;
+      text-decoration: none;
+      border: 1px solid $color-border;
+      border-radius: rem(9999);
+      background-color: #fff;
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+
+      @include hover {
+        border-color: $color-primary-dark;
+        color: $color-primary-dark;
+      }
+
+      @include sp { display: none; }
+    }
+  }
+}
+
+// ─── 次ページCTA ─────────────────────────────────────────
+.p-cinema__next {
+  position: relative;
+  background-image: url('../images/top/hero-main.jpg');
+  background-size: cover;
+  background-position: center;
+  padding-block: rem(96);
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+
+  // 暗色オーバーレイ
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7));
+    z-index: 0;
+  }
+
+  @include sp { padding-block: rem(60); }
+
+  &-inner {
+    position: relative;
+    z-index: 1;
+    max-width: rem(640);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(20);
+
+    @include sp { padding-inline: $container-pad-sp; gap: rem(16); }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.9;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+}

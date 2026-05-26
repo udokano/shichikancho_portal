@@ -1,0 +1,374 @@
+@use '../config' as *;
+
+// ─── イントロ ────────────────────────────────────────────
+.p-guide__intro {
+  background-color: $color-washi;
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    text-align: center;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(16);
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: $color-text-muted;
+  }
+}
+
+// ─── セクション共通 ──────────────────────────────────────
+.p-guide__section {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &--washi { background-color: $color-washi; }
+
+  &-inner {
+    max-width: rem(1100);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+    line-height: 1.5;
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-lead {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.9;
+    margin-bottom: rem(32);
+
+    @include sp { margin-bottom: rem(24); }
+  }
+}
+
+// ─── 施設リスト ──────────────────────────────────────────
+.p-guide__facility-list {
+  list-style: none;
+  padding: 0;
+  margin: rem(32) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include sp { margin-top: rem(24); }
+}
+
+.p-guide__facility-card {
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  padding: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(10);
+  transition: box-shadow 0.2s ease;
+
+  @include hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); }
+
+  @include sp { padding: rem(16); }
+}
+
+.p-guide__facility-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(8);
+  margin-bottom: rem(2);
+}
+
+.p-guide__facility-name {
+  font-size: rem(18);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
+}
+
+.p-guide__facility-type {
+  display: inline-flex;
+  padding: rem(4) rem(10);
+  font-size: rem(11);
+  font-weight: 500;
+  background-color: rgba($color-sakura, 0.4);
+  color: $color-primary-dark;
+  border-radius: rem(6);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// Manus 準拠: 1カード内で住所/時間などを 2 列グリッドに
+.p-guide__facility-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(6) rem(16);
+  font-size: rem(13);
+  color: $color-text;
+
+  @include sp { grid-template-columns: 1fr; }
+
+  span {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: rem(6);
+    line-height: 1.5;
+  }
+
+  svg {
+    width: rem(14);
+    height: rem(14);
+    flex-shrink: 0;
+    margin-top: rem(2);
+    color: $color-primary-dark;
+  }
+}
+
+.p-guide__facility-desc {
+  font-size: rem(13);
+  color: $color-text-muted;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.p-guide__facility-footer {
+  display: flex;
+  align-items: center;
+  padding-top: rem(8);
+  border-top: 1px solid $color-border;
+}
+
+.p-guide__facility-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(4);
+  font-size: rem(13);
+  color: $color-text-muted;
+
+  svg {
+    width: rem(14);
+    height: rem(14);
+    flex-shrink: 0;
+  }
+
+  a {
+    color: $color-primary-dark;
+    text-decoration: none;
+
+    @include hover { text-decoration: underline; }
+  }
+}
+
+// ─── ごみの出し方 ────────────────────────────────────────
+.p-guide__garbage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(16);
+  margin-top: rem(32);
+
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: rem(12);
+    margin-top: rem(24);
+  }
+}
+
+.p-guide__garbage-card {
+  background-color: #fff;
+  border-radius: rem(12);
+  padding: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+}
+
+.p-guide__garbage-name {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+}
+
+.p-guide__garbage-schedule {
+  font-size: rem(13);
+  font-weight: 500;
+  color: $color-primary-dark;
+}
+
+.p-guide__garbage-text {
+  font-size: rem(13);
+  line-height: 1.7;
+  color: $color-text-muted;
+}
+
+.p-guide__garbage-notes {
+  position: relative;
+  margin-top: rem(32);
+  padding: rem(22) rem(24) rem(20);
+  background-color: #eaf4fb; // 薄い水色
+  border-radius: rem(10);
+  border: 3px solid $color-primary-dark;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+
+  // 上部に「ご注意」チップ
+  &::before {
+    content: "ご注意";
+    align-self: flex-start;
+    background: $color-primary-dark;
+    color: #fff;
+    font-size: rem(11);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: rem(3) rem(12);
+    border-radius: rem(999);
+    margin-bottom: rem(4);
+  }
+
+  li {
+    font-size: rem(13);
+    color: $color-text;
+    line-height: 1.8;
+    padding-left: rem(14);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: rem(2);
+      top: rem(11);
+      width: rem(4);
+      height: rem(4);
+      background: $color-primary-dark;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+  }
+
+  a {
+    color: $color-primary-dark;
+    text-decoration: underline;
+    text-underline-offset: rem(2);
+
+    @include hover { text-decoration: none; }
+  }
+}
+
+// ─── 生活ルール ──────────────────────────────────────────
+.p-guide__rules-list {
+  list-style: none;
+  padding: 0;
+  margin: rem(32) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include sp { margin-top: rem(24); }
+}
+
+.p-guide__rule-item {
+  background-color: $color-washi;
+  border-radius: rem(12);
+  padding: rem(20) rem(24);
+
+  @include sp { padding: rem(16); }
+}
+
+.p-guide__rule-title {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(8);
+}
+
+.p-guide__rule-text {
+  font-size: rem(13);
+  line-height: 1.8;
+  color: $color-text-muted;
+  margin: 0;
+}
+
+// ─── 外部リンク ──────────────────────────────────────────
+.p-guide__links-list {
+  list-style: none;
+  padding: 0;
+  margin: rem(32) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+
+  @include sp { margin-top: rem(24); }
+}
+
+.p-guide__links-item {
+  background-color: #fff;
+  border-radius: rem(8);
+}
+
+.p-guide__links-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(12);
+  padding: rem(16) rem(20);
+  text-decoration: none;
+  transition: background-color 0.2s;
+  border-radius: rem(8);
+
+  @include hover { background-color: $color-sakura; }
+}
+
+.p-guide__links-info {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+.p-guide__links-name {
+  font-size: rem(14);
+  font-weight: 600;
+  color: $color-primary-dark;
+  line-height: 1.4;
+}
+
+.p-guide__links-desc {
+  font-size: rem(12);
+  color: $color-text-muted;
+}
+
+.p-guide__links-icon {
+  width: rem(16);
+  height: rem(16);
+  flex-shrink: 0;
+  color: $color-text-muted;
+}

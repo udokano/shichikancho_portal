@@ -1,0 +1,360 @@
+@use '../../config' as *;
+
+// ─── ブロックエディタ出力（wp-block-*）の共通スタイル ──
+// フロント / エディタ両方で適用
+
+// リスト（reset で消したマーカーを wp-block-list に限り復活）
+ul.wp-block-list,
+ol.wp-block-list {
+  padding-left: 1.5em;
+}
+ul.wp-block-list { list-style: disc; }
+ol.wp-block-list { list-style: decimal; }
+ul.wp-block-list ul.wp-block-list { list-style: circle; }
+ul.wp-block-list ul.wp-block-list ul.wp-block-list { list-style: square; }
+
+// 見出し（フロント本文 .p-event-single__body と同じ装飾）
+h1.wp-block-heading {
+  font-family: $font-serif;
+  font-size: rem(32);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+
+  @include sp { font-size: rem(24); }
+}
+h2.wp-block-heading {
+  font-family: $font-serif;
+  font-size: rem(20);
+  font-weight: 700;
+  color: $color-text;
+  margin: rem(32) 0 rem(12);
+  padding-bottom: rem(8);
+  border-bottom: 2px solid $color-primary;
+  line-height: 1.4;
+
+  @include sp { font-size: rem(17); }
+}
+h3.wp-block-heading {
+  font-family: $font-serif;
+  font-size: rem(17);
+  font-weight: 700;
+  color: $color-text;
+  margin: rem(24) 0 rem(10);
+  line-height: 1.5;
+}
+h4.wp-block-heading {
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-text;
+  margin: rem(20) 0 rem(8);
+  line-height: 1.5;
+}
+h5.wp-block-heading {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+  margin: rem(16) 0 rem(8);
+}
+h6.wp-block-heading {
+  font-size: rem(14);
+  font-weight: 700;
+  color: $color-text-muted;
+  margin: rem(16) 0 rem(8);
+}
+
+// 段落
+p.wp-block-paragraph {
+  margin: 0 0 1em;
+  line-height: 1.9;
+  color: $color-text;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+// 引用
+.wp-block-quote {
+  margin: rem(24) 0;
+  padding: rem(16) rem(20);
+  border-left: 4px solid $color-primary;
+  background-color: $color-bg-light;
+  color: $color-text;
+
+  p { margin: 0 0 rem(8); }
+  p:last-child { margin-bottom: 0; }
+
+  cite {
+    display: block;
+    margin-top: rem(8);
+    font-size: rem(13);
+    color: $color-text-muted;
+    font-style: normal;
+  }
+}
+
+// プルクオート
+.wp-block-pullquote {
+  margin: rem(32) 0;
+  padding: rem(24) rem(20);
+  border-top: 2px solid $color-primary;
+  border-bottom: 2px solid $color-primary;
+  text-align: center;
+
+  p {
+    font-size: rem(20);
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0;
+  }
+  cite {
+    display: block;
+    margin-top: rem(12);
+    font-size: rem(13);
+    color: $color-text-muted;
+    font-style: normal;
+  }
+}
+
+// 画像
+.wp-block-image {
+  margin: rem(20) 0;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: rem(8);
+  }
+  figcaption {
+    margin-top: rem(8);
+    font-size: rem(13);
+    color: $color-text-muted;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  &.alignleft  { float: left;  margin: 0 rem(16) rem(12) 0; }
+  &.alignright { float: right; margin: 0 0 rem(12) rem(16); }
+  &.aligncenter { display: block; margin-inline: auto; text-align: center; }
+}
+
+// ギャラリー
+.wp-block-gallery {
+  margin: rem(20) 0;
+  gap: rem(8);
+
+  .wp-block-image img { border-radius: rem(6); }
+  figcaption { font-size: rem(12); }
+}
+
+// コード
+.wp-block-code {
+  margin: rem(20) 0;
+  padding: rem(16);
+  background-color: #1f2937;
+  color: #e5e7eb;
+  border-radius: rem(8);
+  overflow-x: auto;
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: rem(13);
+  line-height: 1.6;
+}
+
+// プレフォーマット
+.wp-block-preformatted {
+  margin: rem(20) 0;
+  padding: rem(16);
+  background-color: $color-bg-light;
+  border: 1px solid $color-border;
+  border-radius: rem(6);
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: rem(13);
+  white-space: pre-wrap;
+}
+
+// 区切り線
+.wp-block-separator {
+  margin: rem(32) auto;
+  border: 0;
+  border-top: 1px solid $color-border;
+  max-width: rem(120);
+
+  &.is-style-wide    { max-width: 100%; }
+  &.is-style-dots    {
+    border: 0;
+    text-align: center;
+    line-height: 1;
+    height: auto;
+    &::before {
+      content: '···';
+      letter-spacing: rem(8);
+      color: $color-text-muted;
+      font-size: rem(20);
+    }
+  }
+}
+
+// テーブル
+.wp-block-table {
+  margin: rem(20) 0;
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(8);
+    overflow: hidden;
+  }
+  th, td {
+    padding: rem(12) rem(16);
+    font-size: rem(14);
+    line-height: 1.7;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid $color-border;
+  }
+  tr:last-child th, tr:last-child td { border-bottom: none; }
+  th {
+    background-color: $color-washi;
+    color: $color-text;
+    font-weight: 700;
+  }
+  td { color: $color-text-muted; }
+
+  &.is-style-stripes tr:nth-child(odd) { background-color: $color-bg-light; }
+  figcaption {
+    margin-top: rem(8);
+    font-size: rem(13);
+    color: $color-text-muted;
+    text-align: center;
+  }
+}
+
+// ボタン
+.wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(12);
+  margin: rem(20) 0;
+
+  &.is-content-justification-center { justify-content: center; }
+  &.is-content-justification-right  { justify-content: flex-end; }
+}
+.wp-block-button {
+  &__link {
+    display: inline-block;
+    padding: rem(12) rem(24);
+    background-color: $color-primary-dark;
+    color: #fff;
+    border-radius: rem(999);
+    font-size: rem(14);
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.4;
+    transition: opacity 0.2s ease;
+    @include hover { opacity: 0.85; }
+  }
+  &.is-style-outline .wp-block-button__link {
+    background-color: transparent;
+    color: $color-primary-dark;
+    border: 2px solid $color-primary-dark;
+  }
+}
+
+// カラム
+.wp-block-columns {
+  display: flex;
+  gap: rem(24);
+  margin: rem(20) 0;
+  flex-wrap: wrap;
+
+  @include sp {
+    flex-direction: column;
+    gap: rem(16);
+  }
+}
+.wp-block-column { flex: 1; min-width: 0; }
+
+// グループ
+.wp-block-group {
+  &.has-background {
+    padding: rem(24);
+    border-radius: rem(8);
+  }
+}
+
+// スペーサー
+.wp-block-spacer { display: block; }
+
+// ファイル
+.wp-block-file {
+  margin: rem(16) 0;
+  padding: rem(12) rem(16);
+  background-color: $color-bg-light;
+  border: 1px solid $color-border;
+  border-radius: rem(6);
+
+  a { color: $color-primary-dark; text-decoration: underline; }
+  &__button {
+    display: inline-block;
+    margin-left: rem(12);
+    padding: rem(6) rem(12);
+    background-color: $color-primary-dark;
+    color: #fff;
+    border-radius: rem(4);
+    font-size: rem(12);
+    text-decoration: none;
+  }
+}
+
+// 動画 / 音声
+.wp-block-video,
+.wp-block-audio {
+  margin: rem(20) 0;
+  video, audio { width: 100%; border-radius: rem(6); }
+  figcaption {
+    margin-top: rem(8);
+    font-size: rem(13);
+    color: $color-text-muted;
+    text-align: center;
+  }
+}
+
+// カバー
+.wp-block-cover {
+  margin: rem(24) 0;
+  border-radius: rem(8);
+  overflow: hidden;
+  &__inner-container { padding: rem(32) rem(24); }
+}
+
+// メディア＋テキスト
+.wp-block-media-text {
+  margin: rem(24) 0;
+  display: grid;
+  gap: rem(24);
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+  &.has-media-on-the-right { grid-template-columns: 1fr 1fr; }
+  @include sp { grid-template-columns: 1fr; }
+
+  &__media img { width: 100%; height: auto; border-radius: rem(6); }
+}
+
+// 詳細
+.wp-block-details {
+  margin: rem(20) 0;
+  padding: rem(12) rem(16);
+  background-color: $color-bg-light;
+  border: 1px solid $color-border;
+  border-radius: rem(6);
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: $color-text;
+  }
+}

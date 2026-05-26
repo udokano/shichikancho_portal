@@ -1,0 +1,148 @@
+@use '../config' as *;
+
+// ─── スポットアーカイブ ──────────────────────────────────────
+.p-spot-archive {
+  background-color: $color-washi;
+  padding-block: rem(48) rem(64);
+
+  @include sp { padding-block: rem(32) rem(40); }
+
+  &__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    text-align: center;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &__list-title {
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    margin-bottom: rem(4);
+  }
+
+  &__list-sub {
+    font-size: rem(12);
+    color: $color-text-muted;
+    letter-spacing: 0.1em;
+    margin-bottom: rem(32);
+  }
+
+  &__count {
+    font-size: rem(14);
+    color: $color-text-muted;
+    text-align: left;
+    margin-bottom: rem(20);
+  }
+
+  &__back {
+    margin-top: rem(48);
+    text-align: center;
+  }
+
+  &__empty {
+    font-size: rem(14);
+    color: $color-text-muted;
+    padding: rem(40);
+  }
+}
+
+// ─── スポットタイプタブ ──────────────────────────────────────
+.p-spot-type-tabs {
+  display: flex;
+  justify-content: center;
+  gap: rem(8);
+  flex-wrap: wrap;
+  margin-bottom: rem(40);
+}
+
+.p-spot-type-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  padding: rem(8) rem(16);
+  border-radius: rem(999);
+  border: 1px solid $color-border;
+  background-color: #fff;
+  color: $color-text;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover,
+  &.is-active {
+    background-color: $color-primary-dark;
+    color: #fff;
+    border-color: $color-primary-dark;
+  }
+
+  &__icon {
+    width: rem(18);
+    height: rem(18);
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-size: rem(13);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
+
+// ─── スポットグリッド ────────────────────────────────────────
+.p-spot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(20);
+  text-align: left;
+
+  @include sp { grid-template-columns: 1fr; gap: rem(12); }
+}
+
+// ─── スポットカード ──────────────────────────────────────────
+.p-spot-card {
+  background-color: #fff;
+  border-radius: rem(12);
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s;
+
+  @include hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+  &__img {
+    aspect-ratio: 3/2;
+    overflow: hidden;
+    background-color: $color-washi;
+
+    
+
+    &:hover .u-img-cover { transform: scale(1.03); }
+  }
+
+  &__body { padding: rem(16); }
+
+  &__title {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(4);
+    line-height: 1.4;
+  }
+
+  &__type {
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-bottom: rem(8);
+  }
+
+  &__excerpt {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+}

@@ -1,0 +1,189 @@
+{
+    "key": "group_shop",
+    "title": "お店情報",
+    "fields": [
+        {
+            "key": "field_shop_name_kana",
+            "label": "店名ふりがな",
+            "name": "shop_name_kana",
+            "type": "text"
+        },
+        {
+            "key": "field_shop_catchphrase",
+            "label": "キャッチコピー",
+            "name": "shop_catchphrase",
+            "type": "text",
+            "instructions": "店舗紹介の一行コピー",
+            "maxlength": 60
+        },
+        {
+            "key": "field_shop_description",
+            "label": "店舗紹介文",
+            "name": "shop_description",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_shop_main_image",
+            "label": "メイン画像",
+            "name": "shop_main_image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_shop_gallery",
+            "label": "ギャラリー",
+            "name": "shop_gallery",
+            "type": "gallery",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_shop_address",
+            "label": "住所",
+            "name": "shop_address",
+            "type": "text"
+        },
+        {
+            "key": "field_shop_phone",
+            "label": "電話番号",
+            "name": "shop_phone",
+            "type": "text"
+        },
+        {
+            "key": "field_shop_hours",
+            "label": "営業時間",
+            "name": "shop_hours",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br",
+            "instructions": "改行で複数曜日対応可"
+        },
+        {
+            "key": "field_shop_closed",
+            "label": "定休日",
+            "name": "shop_closed",
+            "type": "text"
+        },
+        {
+            "key": "field_shop_website",
+            "label": "公式サイトURL",
+            "name": "shop_website",
+            "type": "url"
+        },
+        {
+            "key": "field_shop_instagram",
+            "label": "Instagram URL",
+            "name": "shop_instagram",
+            "type": "url"
+        },
+        {
+            "key": "field_shop_map_lat",
+            "label": "緯度",
+            "name": "shop_map_lat",
+            "type": "number",
+            "step": "0.0000001"
+        },
+        {
+            "key": "field_shop_map_lng",
+            "label": "経度",
+            "name": "shop_map_lng",
+            "type": "number",
+            "step": "0.0000001"
+        },
+        {
+            "key": "field_shop_features",
+            "label": "特徴タグ",
+            "name": "shop_features",
+            "type": "checkbox",
+            "choices": {
+                "takeout": "テイクアウト可",
+                "delivery": "デリバリー可",
+                "parking": "駐車場あり",
+                "card": "カード決済可",
+                "qr": "QR決済可",
+                "wifi": "Wi-Fiあり",
+                "smoking_no": "完全禁煙",
+                "kids_ok": "お子様歓迎",
+                "pet_ok": "ペット可",
+                "english_ok": "英語対応",
+                "reserve": "予約可",
+                "rainy_ok": "雨の日OK",
+                "luggage_ok": "手荷物OK"
+            },
+            "return_format": "value"
+        },
+        {
+            "key": "field_shop_menu",
+            "label": "メニュー・商品",
+            "name": "shop_menu",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "アイテムを追加",
+            "sub_fields": [
+                {
+                    "key": "field_shop_menu_name",
+                    "label": "商品名",
+                    "name": "item_name",
+                    "type": "text"
+                },
+                {
+                    "key": "field_shop_menu_price",
+                    "label": "価格",
+                    "name": "item_price",
+                    "type": "text"
+                },
+                {
+                    "key": "field_shop_menu_image",
+                    "label": "商品画像",
+                    "name": "item_image",
+                    "type": "image",
+                    "return_format": "array",
+                    "preview_size": "thumbnail"
+                }
+            ]
+        },
+        {
+            "key": "field_shop_faq",
+            "label": "よくある質問",
+            "name": "shop_faq",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "FAQを追加",
+            "sub_fields": [
+                {
+                    "key": "field_shop_faq_q",
+                    "label": "質問",
+                    "name": "question",
+                    "type": "text"
+                },
+                {
+                    "key": "field_shop_faq_a",
+                    "label": "回答",
+                    "name": "answer",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "br"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "shop"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777982720
+}

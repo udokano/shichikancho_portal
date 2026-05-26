@@ -1,0 +1,123 @@
+@use '../../config' as *;
+
+.c-card {
+  background-color: #fff;
+  border-radius: rem(12);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  @include hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &__thumb {
+    @include aspect-ratio(16, 9);
+    background-color: $color-border;
+  }
+
+  &__body {
+    padding: rem(16);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    font-size: rem(12);
+    color: $color-text-muted;
+    margin-bottom: rem(8);
+  }
+
+  &__date {
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+
+  &__tag {
+    display: inline-block;
+    padding: rem(2) rem(8);
+    font-size: rem(11);
+    font-weight: 500;
+    border-radius: rem(4);
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+  }
+
+  &__title {
+    font-size: rem(15);
+    font-weight: 600;
+    line-height: 1.5;
+    color: $color-text;
+    @include line-clamp(2);
+  }
+
+  &__excerpt {
+    margin-top: rem(6);
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.6;
+    @include line-clamp(2);
+  }
+}
+
+.c-shop-card {
+  @extend .c-card;
+
+  &__category {
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-bottom: rem(4);
+  }
+}
+
+.c-news-item {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(12);
+  padding-block: rem(14);
+  border-bottom: 1px solid $color-border;
+  text-decoration: none;
+  color: $color-text;
+  transition: opacity 0.2s;
+
+  @include hover { opacity: 0.7; }
+
+  &:last-child { border-bottom: none; }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    flex-shrink: 0;
+  }
+
+  &__date {
+    font-size: rem(12);
+    color: $color-text-muted;
+    white-space: nowrap;
+  }
+
+  &__tag {
+    display: inline-block;
+    padding: rem(2) rem(8);
+    font-size: rem(11);
+    border-radius: rem(4);
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+    white-space: nowrap;
+  }
+
+  &__title {
+    font-size: rem(14);
+    line-height: 1.5;
+    @include line-clamp(1);
+  }
+
+  @include sp {
+    flex-wrap: wrap;
+
+    &__meta { width: 100%; }
+  }
+}

@@ -1,0 +1,71 @@
+// ─── Foundation ──────────────────────────────────────────
+// CSS リセット・ベーススタイル
+@use 'foundation/reset';
+@use 'foundation/base';
+
+// ─── Layout ──────────────────────────────────────────────
+// コンテナ・ヘッダー・フッター
+@use 'layout/container';
+@use 'layout/header';
+@use 'layout/footer';
+@use 'layout/cta-hero';
+
+// ─── Object / Component ──────────────────────────────────
+// 再利用可能なUIコンポーネント
+@use 'object/component/button';
+@use 'object/component/heading';
+@use 'object/component/breadcrumbs';
+@use 'object/component/post-sidebar';
+@use 'object/component/article';
+@use 'object/component/mobile-cta';
+@use 'object/component/card';
+@use 'object/component/page-hero';
+@use 'object/component/tabs';
+@use 'object/component/tag';
+@use 'object/component/pagination';
+@use 'object/component/modal';
+@use 'object/component/toast';
+@use 'object/component/filter-sidebar';
+@use 'object/component/wp-blocks';
+// @use 'object/component/accordion';
+@use 'object/utility/utility';
+
+// ─── Pages ───────────────────────────────────────────────
+// 各ページ固有のスタイル（実装時にコメントアウトを外す）
+@use 'pages/front-page';
+@use 'pages/about';
+@use 'pages/cinema';
+@use 'pages/explore';
+@use 'pages/walk';
+@use 'pages/page-tourism';
+@use 'pages/living';
+@use 'pages/learning';
+@use 'pages/learn';
+@use 'pages/gallery';
+@use 'pages/guide';
+@use 'pages/safety';
+@use 'pages/working';
+@use 'pages/commerce';
+@use 'pages/contact';
+@use 'pages/sponsor';
+@use 'pages/single-column';
+@use 'pages/archive-shop';
+@use 'pages/archive-column';
+@use 'pages/archive-event';
+@use 'pages/archive-spot';
+@use 'pages/single-shop';
+@use 'pages/single-walk-course';
+@use 'pages/single-event';
+@use 'pages/single-spot';
+@use 'pages/archive-resident';
+@use 'pages/single-resident';
+@use 'pages/access';
+@use 'pages/culture-line';
+@use 'pages/archive-news';
+@use 'pages/single-news';
+@use 'pages/terms';
+@use 'pages/privacy';
+@use 'pages/links';
+@use 'pages/company';
+@use 'pages/single-property';
+@use 'pages/404' as *;

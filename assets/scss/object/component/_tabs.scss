@@ -1,0 +1,84 @@
+@use '../../config' as *;
+
+// ─── 共通タブナビ ────────────────────────────────────────
+// 用途: /learn /living /walk /guide /safety /work など
+// 構造例:
+// <nav class="c-tabs js-tabs">
+//   <ul class="c-tabs__list" role="tablist">
+//     <li><button class="c-tabs__btn is-active" role="tab"...>...</button></li>
+//   </ul>
+// </nav>
+.c-tabs {
+  background-color: #fff;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: rem(72);
+  z-index: 10;
+
+  @include sp { top: rem(56); }
+
+  &--scroll {
+    overflow-x: auto;
+  }
+
+  &__inner {
+    @include page-inner;
+    overflow-x: auto;
+  }
+
+  &__list {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    width: 100%;
+
+    @include sp { min-width: max-content; }
+  }
+
+  &__item {
+    flex: 1;
+
+    @include sp { flex: 0 0 auto; }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    width: 100%;
+    padding: rem(16) rem(12);
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-text-muted;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+
+    @include hover {
+      color: $color-primary-dark;
+    }
+
+    &.is-active {
+      color: $color-primary-dark;
+      border-bottom-color: $color-primary-dark;
+      font-weight: 700;
+    }
+
+    @include sp { padding: rem(12) rem(16); }
+  }
+
+  &__icon {
+    width: rem(16);
+    height: rem(16);
+    flex-shrink: 0;
+  }
+}
+
+// パネル
+.c-tabs-panel {
+  &[hidden] { display: none; }
+}

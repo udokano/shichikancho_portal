@@ -1,0 +1,394 @@
+{
+    "key": "group_spot",
+    "title": "スポット情報",
+    "fields": [
+        {
+            "key": "field_spot_description",
+            "label": "スポット紹介文",
+            "name": "spot_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "delay": 0,
+            "rows": 4,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_spot_note",
+            "label": "ひとこと",
+            "name": "spot_note",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "散策コースなどで表示する短い紹介文",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_gallery",
+            "label": "スポット写真",
+            "name": "spot_gallery",
+            "aria-label": "",
+            "type": "gallery",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "insert": "append",
+            "library": "all",
+            "min": 0,
+            "max": 0,
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_spot_address",
+            "label": "住所",
+            "name": "spot_address",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_parking",
+            "label": "駐車場",
+            "name": "spot_parking",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: あり（30台） \/ なし",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_access",
+            "label": "アクセス",
+            "name": "spot_access",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 静岡駅より徒歩15分",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_organization",
+            "label": "運営組織",
+            "name": "spot_organization",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 七間町商店街振興組合",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_closed",
+            "label": "定休日",
+            "name": "spot_closed",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 月曜日 \/ 不定休",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_phone",
+            "label": "電話番号",
+            "name": "spot_phone",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 054-251-XXXX",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_website",
+            "label": "ウェブサイトURL",
+            "name": "spot_website",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_spot_hours",
+            "label": "営業時間・開放時間",
+            "name": "spot_hours",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 9:00〜17:00（年中無休）",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_fee",
+            "label": "入場料",
+            "name": "spot_fee",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 大人500円 \/ 無料",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_map_lat",
+            "label": "緯度",
+            "name": "spot_map_lat",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "step": "0.0000001",
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_map_lng",
+            "label": "経度",
+            "name": "spot_map_lng",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "step": "0.0000001",
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_duration",
+            "label": "所要時間目安",
+            "name": "spot_duration",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 30〜60分",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_spot_season",
+            "label": "おすすめ季節",
+            "name": "spot_season",
+            "aria-label": "",
+            "type": "checkbox",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "spring": "春",
+                "summer": "夏",
+                "autumn": "秋",
+                "winter": "冬",
+                "all": "通年"
+            },
+            "return_format": "value",
+            "layout": "vertical",
+            "default_value": [],
+            "allow_custom": 0,
+            "save_custom": 0,
+            "toggle": 0,
+            "custom_choice_button_text": "新規選択肢を追加"
+        },
+        {
+            "key": "field_spot_related_spots",
+            "label": "関連スポット",
+            "name": "spot_related_spots",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "spot"
+            ],
+            "filters": [
+                "search"
+            ],
+            "max": 4,
+            "return_format": "id",
+            "taxonomy": [],
+            "min": 0,
+            "elements": [],
+            "bidirectional_target": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "spot"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1778117233
+}

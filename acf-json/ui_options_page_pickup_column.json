@@ -1,0 +1,20 @@
+{
+    "key": "ui_options_page_pickup_column",
+    "title": "特集コラム 設定",
+    "menu_slug": "pickup-column",
+    "parent_slug": "edit.php?post_type=column",
+    "page_title": "特集コラム 設定",
+    "menu_title": "PICK UP 設定",
+    "capability": "edit_posts",
+    "position": "",
+    "icon_url": "",
+    "redirect": false,
+    "post_id": "options",
+    "autoload": true,
+    "update_button": "保存",
+    "updated_message": "更新しました",
+    "data_storage": "options",
+    "advanced_configuration": false,
+    "active": true,
+    "description": ""
+}

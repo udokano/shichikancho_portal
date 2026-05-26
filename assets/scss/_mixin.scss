@@ -1,0 +1,119 @@
+// mixin 内で $bp-sp・rem() を使うため明示的に use
+@use 'variables' as *;
+@use 'functions' as *;
+
+// SP用メディアクエリ（レガシー）
+@mixin sp {
+  @media (max-width: #{$bp-sp}) {
+    @content;
+  }
+}
+
+// ブレイクポイントマップ対応
+@mixin mq($bp) {
+  @media #{map-get($breakpoint, $bp)} {
+    @content;
+  }
+}
+
+@mixin mq-up($bp: sm) {
+  @media #{map-get($breakpoint-up, $bp)} {
+    @content;
+  }
+}
+
+@mixin mq-down($bp: sm) {
+  @media #{map-get($breakpoint-down, $bp)} {
+    @content;
+  }
+}
+
+// テキストの省略（1行）
+@mixin truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// テキストの省略（複数行）
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// アスペクト比ボックス
+@mixin aspect-ratio($w, $h) {
+  aspect-ratio: #{$w} / #{$h};
+  overflow: hidden;
+}
+
+// ホバー対応デバイスのみ適用（タッチデバイスでのstickyホバー回避）
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// ホバー時の透明度変化
+@mixin hover-opacity($opacity: 0.75) {
+  transition: opacity 0.2s ease;
+
+  @include hover {
+    opacity: $opacity;
+  }
+}
+
+// ページ内共通インナーコンテナ
+// $size: 'wide'(1440) / 'normal'(1200, default) / 'small'(800)
+@mixin page-inner($size: 'normal') {
+  @if $size == 'wide' {
+    max-width: $container-max-wide;
+  } @else if $size == 'small' {
+    max-width: $container-max-small;
+  } @else {
+    max-width: $container-max-normal;
+  }
+  margin-inline: auto;
+  padding-inline: $container-pad;
+
+  @include sp { padding-inline: $container-pad-sp; }
+}
+
+// ページヒーロー共通ベース（sakura 背景）
+@mixin page-hero-base {
+  background-color: $color-sakura;
+  padding-block: rem(24) rem(32);
+  border-bottom: 1px solid rgba($color-border, 0.5);
+
+  @include sp { padding-block: rem(16) rem(24); }
+}
+
+// カードホバーアニメーション（hover対応デバイスのみ）
+@mixin card-hover {
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  @include hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+// 丸型アイコンコンテナ
+@mixin icon-circle($size: 48, $icon-size: 20) {
+  width: rem($size);
+  height: rem($size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &__icon {
+    width: rem($icon-size);
+    height: rem($icon-size);
+  }
+}

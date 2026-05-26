@@ -1,0 +1,1193 @@
+@use '../config' as *;
+
+// ─── イベントアーカイブ（Manus 準拠） ────────────────────────
+.p-event-archive {
+  background-color: #fff;
+  color: $color-text;
+
+  &__container {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  // ─── 注目イベントカルーセル ────────────────────────────────
+  &__featured {
+    padding-block: rem(32);
+    background-color: #fff;
+  }
+
+  &__carousel {
+    position: relative;
+    border-radius: rem(12);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    aspect-ratio: 16 / 9;
+    background-color: #1a1a1a;
+
+    @include sp { aspect-ratio: 4 / 3; }
+  }
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+
+    &.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // 画像全体クリック用ストレッチリンク
+  &__slide-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-decoration: none;
+    /* 視覚は維持しつつクリックは全面 */
+  }
+
+  &__slide-media {
+    position: absolute;
+    inset: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 35%, rgba(0, 0, 0, 0.15) 65%, transparent 100%);
+      pointer-events: none;
+    }
+  }
+
+  &__slide-body {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: rem(32);
+    color: #fff;
+    z-index: 2;
+    pointer-events: none; // 文字部分のクリックは下のリンクに通す
+
+    .p-event-archive__slide-btn,
+    .p-event-archive__slide-cat { pointer-events: auto; }
+
+    @include sp { padding: rem(20); }
+  }
+
+  &__slide-cat {
+    display: inline-block;
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(12);
+    font-weight: 500;
+    padding: rem(4) rem(12);
+    border-radius: rem(9999);
+    margin-bottom: rem(12);
+  }
+
+  &__slide-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: rem(8);
+    color: #fff;
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &__slide-excerpt {
+    font-size: rem(14);
+    line-height: 1.7;
+    opacity: 0.9;
+    margin-bottom: rem(16);
+    max-width: rem(560);
+
+    @include sp { font-size: rem(13); }
+  }
+
+  &__slide-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(14);
+    font-weight: 500;
+    padding: rem(8) rem(16);
+    border-radius: rem(8);
+    transition: background-color 0.2s ease;
+
+    @include hover { background-color: darken($color-primary-dark, 6%); }
+  }
+
+  &__carousel-prev,
+  &__carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 0;
+    width: rem(40);
+    height: rem(40);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: $color-text;
+    z-index: 3;
+    transition: background-color 0.2s ease;
+
+    @include hover { background-color: #fff; }
+  }
+
+  &__carousel-prev { left: rem(16); }
+  &__carousel-next { right: rem(16); }
+
+  &__carousel-dots {
+    position: absolute;
+    bottom: rem(16);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: rem(8);
+    z-index: 2;
+  }
+
+  &__carousel-dot {
+    width: rem(8);
+    height: rem(8);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: width 0.2s ease, background-color 0.2s ease;
+
+    &.is-active {
+      width: rem(32);
+      border-radius: rem(9999);
+      background-color: #fff;
+    }
+  }
+
+  // ─── 共通：終了バッジ ────────────────────────────────────
+  &__status-badge {
+    position: absolute;
+    top: rem(16);
+    left: rem(16);
+    background-color: #6b7280;
+    color: #fff;
+    font-size: rem(12);
+    font-weight: 500;
+    padding: rem(4) rem(12);
+    border-radius: rem(9999);
+    z-index: 2;
+
+    &--small {
+      top: rem(12);
+      left: rem(12);
+      font-size: rem(11);
+      padding: rem(3) rem(10);
+    }
+
+    &--xs {
+      top: rem(4);
+      left: rem(4);
+      font-size: rem(10);
+      padding: rem(1) rem(6);
+    }
+  }
+
+  // ─── メインレイアウト ─────────────────────────────────────
+  &__main {
+    background-color: #fff;
+    padding-block: rem(48);
+
+    @include sp { padding-block: rem(32); }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: rem(32);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(32);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: rem(48);
+    min-width: 0;
+  }
+
+  // ─── セクション共通 ──────────────────────────────────────
+  &__section {}
+
+  &__section-title {
+    font-size: rem(18);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(16);
+    line-height: 1.4;
+
+    &--icon {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(8);
+
+      svg { color: $color-primary-dark; }
+    }
+  }
+
+  // ─── 近日開催（2列） ─────────────────────────────────────
+  &__upcoming {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(16);
+
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__upcoming-card {
+    display: block;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    @include hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__upcoming-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: $color-washi;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .p-event-archive__upcoming-card:hover & img { transform: scale(1.05); }
+  }
+
+  &__upcoming-body {
+    padding: rem(16);
+  }
+
+  &__upcoming-title {
+    font-size: rem(14);
+    font-weight: 500;
+    color: $color-text;
+    margin-block: rem(8) rem(8);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ─── タグ（カテゴリー名表示用 chip） ───────────────────
+  &__tag {
+    display: inline-block;
+    font-size: rem(11);
+    font-weight: 500;
+    color: $color-primary-dark;
+    background-color: rgba($color-sakura, 0.5);
+    padding: rem(2) rem(8);
+    border-radius: rem(9999);
+    margin-bottom: rem(8);
+  }
+
+  // ─── meta（日付・場所） ─────────────────────────────────
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+
+  &__meta-row {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    margin: 0;
+
+    svg { flex-shrink: 0; }
+  }
+
+  // ─── イベント一覧（縦並び） ─────────────────────────────
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(24);
+
+    @include sp { grid-template-columns: 1fr; gap: rem(16); }
+  }
+
+  &__card {
+    display: block;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+
+    @include hover { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); }
+  }
+
+  &__card-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: $color-washi;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .p-event-archive__card:hover & img { transform: scale(1.05); }
+  }
+
+  &__card-body { padding: rem(16); }
+
+  &__card-title {
+    font-size: rem(15);
+    font-weight: 500;
+    color: $color-text;
+    line-height: 1.5;
+    margin-block: rem(0) rem(8);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__card-excerpt {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.6;
+    margin-bottom: rem(12);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ─── ランキング ──────────────────────────────────────────
+  &__ranking {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+  }
+
+  &__rank-item {
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+    padding: rem(16);
+    background-color: $color-washi;
+    border-radius: rem(8);
+    transition: background-color 0.2s ease;
+
+    @include hover { background-color: rgba($color-sakura, 0.3); }
+  }
+
+  &__rank-num {
+    flex-shrink: 0;
+    width: rem(48);
+    height: rem(48);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(18);
+    font-weight: 700;
+  }
+
+  &__rank-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__rank-head {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    margin-bottom: rem(4);
+
+    .p-event-archive__status-badge {
+      position: static;
+      flex-shrink: 0;
+    }
+  }
+
+  &__rank-title {
+    font-size: rem(14);
+    font-weight: 500;
+    color: $color-text;
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+
+    .p-event-archive__rank-item:hover & { color: $color-primary-dark; }
+  }
+
+  &__rank-views {
+    font-size: rem(12);
+    color: $color-text-muted;
+    margin: 0;
+  }
+
+  &__rank-date {
+    flex-shrink: 0;
+    font-size: rem(12);
+    color: $color-text-muted;
+
+    @include sp { display: none; }
+  }
+
+  // ─── サイドバー ─────────────────────────────────────────
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: rem(24);
+    min-width: 0;
+  }
+
+  &__widget {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+  }
+
+  &__widget-head {
+    padding: rem(16) rem(24);
+    background-color: $color-washi;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__widget-title {
+    font-family: $font-serif;
+    font-size: rem(16);
+    font-weight: 600;
+    color: $color-text;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &__widget-body {
+    padding: rem(16) rem(24);
+
+    &--list { padding: 0; }
+  }
+
+  // 特集 (sidebar list)
+  &__widget-item {
+    display: flex;
+    gap: rem(12);
+    padding: rem(16);
+    border-bottom: 1px solid $color-border;
+    transition: background-color 0.2s ease;
+
+    &:last-child { border-bottom: 0; }
+
+    @include hover { background-color: $color-washi; }
+  }
+
+  &__widget-thumb {
+    position: relative;
+    flex-shrink: 0;
+    width: rem(64);
+    height: rem(64);
+    border-radius: rem(4);
+    overflow: hidden;
+    background-color: $color-washi;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .p-event-archive__widget-item:hover & img { transform: scale(1.05); }
+  }
+
+  &__widget-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__widget-date {
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-block: 0 rem(4);
+  }
+
+  &__widget-name {
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-text;
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s ease;
+
+    .p-event-archive__widget-item:hover & { color: $color-primary-dark; }
+  }
+
+  // カテゴリーリスト
+  &__cat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__cat-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: rem(8);
+    font-size: rem(13);
+    color: $color-text-muted;
+    transition: color 0.2s ease;
+
+    @include hover { color: $color-primary-dark; }
+  }
+
+  &__cat-count {
+    font-size: rem(11);
+    background-color: $color-washi;
+    color: $color-text-muted;
+    padding: rem(2) rem(8);
+    border-radius: rem(4);
+  }
+
+  // タグクラウド
+  &__tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(8);
+  }
+
+  &__tag-link {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(12);
+    background-color: $color-washi;
+    color: $color-text-muted;
+    padding: rem(4) rem(12);
+    border-radius: rem(9999);
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    @include hover {
+      background-color: $color-sakura;
+      color: $color-text;
+    }
+  }
+
+  &__tag-count {
+    font-size: rem(10);
+  }
+
+  // サイドバー CTA
+  &__widget--cta {
+    background: linear-gradient(135deg, rgba($color-sakura, 0.4), rgba($color-sakura, 0.2));
+    border-color: rgba($color-sakura, 0.6);
+    padding: rem(24);
+  }
+
+  &__widget-cta-title {
+    font-size: rem(14);
+    font-weight: 600;
+    color: $color-text;
+    margin-block: 0 rem(12);
+  }
+
+  &__widget-cta-text {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.6;
+    margin-bottom: rem(16);
+  }
+
+  &__widget-cta-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(14);
+    font-weight: 500;
+    padding: rem(8);
+    border-radius: rem(8);
+    transition: opacity 0.2s ease;
+
+    @include hover { opacity: 0.9; }
+  }
+
+  // ─── もっと見る ───────────────────────────────────────────
+  &__more {
+    margin-top: rem(32);
+    text-align: center;
+
+    a {
+      display: inline-block;
+      padding: rem(10) rem(32);
+      border: 1px solid $color-border;
+      border-radius: rem(9999);
+      font-size: rem(13);
+      color: $color-text;
+      background-color: #fff;
+      transition: background-color 0.2s ease;
+
+      @include hover { background-color: $color-washi; }
+    }
+  }
+
+  &__empty {
+    font-size: rem(14);
+    color: $color-text-muted;
+    text-align: center;
+    padding: rem(40);
+  }
+
+  // ─── 下部 CTA ──────────────────────────────────────────
+  &__cta {
+    background-color: $color-sakura;
+    padding-block: rem(48);
+    text-align: center;
+  }
+
+  &__cta-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(16);
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &__cta-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    margin-bottom: rem(24);
+  }
+}
+
+// ─── Manus準拠 v2 上書き ─────────────────────────────────
+.p-event-archive {
+  &__main { padding-block: rem(40) rem(80); }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: rem(24);
+    gap: rem(16);
+
+    @include sp { margin-bottom: rem(16); }
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-text;
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &__view {
+    display: inline-flex;
+    border: 1px solid $color-border;
+    border-radius: rem(9999);
+    overflow: hidden;
+    background-color: #fff;
+  }
+
+  &__view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(6);
+    padding: rem(8) rem(16);
+    font-size: rem(13);
+    color: $color-text-muted;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+
+    &.is-active {
+      background-color: #1d6fa5;
+      color: #fff;
+    }
+  }
+
+  // レイアウト: 左サイドバー + 右メイン
+  &__layout {
+    display: grid;
+    grid-template-columns: rem(280) 1fr;
+    gap: rem(28);
+    align-items: start;
+
+    @include mq-down(md) { grid-template-columns: 1fr; }
+  }
+
+  // タグウィジェット
+  &__widget {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20);
+
+    &-title {
+      font-size: rem(14);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(12);
+    }
+
+    &--cta {
+      background-color: $color-washi;
+    }
+
+    &-cta-title {
+      font-size: rem(14);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(6);
+    }
+
+    &-cta-text {
+      font-size: rem(12);
+      color: $color-text-muted;
+      margin-bottom: rem(12);
+      line-height: 1.6;
+    }
+
+    &-cta-btn {
+      display: block;
+      padding: rem(10);
+      background-color: #1d6fa5;
+      color: #fff;
+      text-align: center;
+      border-radius: rem(8);
+      font-size: rem(13);
+      font-weight: 700;
+      text-decoration: none;
+
+      @include hover { opacity: 0.9; }
+    }
+  }
+
+  &__tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(6);
+  }
+
+  &__tag-link {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(2);
+    padding: rem(3) rem(8);
+    font-size: rem(11);
+    border-radius: rem(9999);
+    background-color: $color-washi;
+    color: $color-text;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    @include hover { background-color: $color-border; }
+
+    &.is-active {
+      background-color: #1d6fa5;
+      color: #fff;
+    }
+  }
+
+  &__tag-count {
+    font-size: rem(10);
+    color: $color-text-muted;
+    margin-left: rem(2);
+
+    .p-event-archive__tag-link.is-active & { color: rgba(255,255,255,0.8); }
+  }
+
+  // メインコンテンツ
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: rem(40);
+  }
+
+  &__section { padding-block: 0; }
+
+  &__section-title {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    margin-bottom: rem(16);
+    color: $color-text;
+
+    &--icon { color: $color-primary-dark; }
+  }
+
+  // 特集イベント (2-col grid)
+  &__featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include sp { grid-template-columns: 1fr; gap: rem(16); }
+  }
+
+  &__feat-card {
+    display: block;
+    text-decoration: none;
+    color: $color-text;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    @include hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+
+      .u-img-cover--transition { transform: scale(1.04); }
+    }
+  }
+
+  &__feat-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: $color-border;
+  }
+
+  &__feat-flag {
+    position: absolute;
+    top: rem(12);
+    right: rem(12);
+    padding: rem(3) rem(10);
+    background-color: #1d6fa5;
+    color: #fff;
+    font-size: rem(11);
+    font-weight: 700;
+    border-radius: rem(4);
+    z-index: 1;
+  }
+
+  &__feat-body { padding: rem(18) rem(20); }
+
+  &__feat-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    line-height: 1.5;
+    margin: rem(8) 0;
+    color: $color-text;
+  }
+
+  &__feat-excerpt {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin-bottom: rem(12);
+  }
+
+  // 近日開催 (2x2 grid)
+  &__upcoming {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include sp { grid-template-columns: 1fr; gap: rem(16); }
+  }
+
+  &__upcoming-card {
+    display: block;
+    text-decoration: none;
+    color: $color-text;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    @include hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+
+      .u-img-cover--transition { transform: scale(1.04); }
+    }
+  }
+
+  &__upcoming-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: $color-border;
+  }
+
+  &__upcoming-body { padding: rem(16) rem(18); }
+
+  &__upcoming-title {
+    font-family: $font-serif;
+    font-size: rem(16);
+    font-weight: 700;
+    line-height: 1.5;
+    margin: rem(8) 0;
+  }
+
+  &__upcoming-excerpt {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin-bottom: rem(10);
+  }
+
+  // ランキング
+  &__ranking {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &__rank-item {
+    display: flex;
+    align-items: center;
+    gap: rem(14);
+    padding: rem(14) rem(18);
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(10);
+    text-decoration: none;
+    color: $color-text;
+    transition: background-color 0.2s;
+
+    @include hover { background-color: $color-washi; }
+  }
+
+  &__rank-num {
+    flex-shrink: 0;
+    width: rem(32);
+    height: rem(32);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1d6fa5;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: rem(14);
+  }
+
+  &__rank-body { flex: 1; min-width: 0; }
+
+  &__rank-head {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    margin-bottom: rem(4);
+  }
+
+  &__rank-title {
+    font-size: rem(14);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  &__rank-meta {
+    display: flex;
+    align-items: center;
+    gap: rem(14);
+    font-size: rem(11);
+    color: $color-text-muted;
+  }
+
+  &__rank-date {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+  }
+
+  // 共通: 終了バッジ・カテゴリタグ・メタ行
+  &__status-badge {
+    position: absolute;
+    top: rem(12);
+    left: rem(12);
+    padding: rem(3) rem(10);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: rem(11);
+    border-radius: rem(4);
+    z-index: 1;
+
+    &--small { font-size: rem(10); padding: rem(2) rem(8); }
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(3) rem(10);
+    background-color: $color-washi;
+    color: $color-text-muted;
+    font-size: rem(11);
+    border-radius: rem(9999);
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+    margin-top: rem(8);
+  }
+
+  &__meta-row {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(6);
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+
+  // ページネーション
+  &__pagination {
+    margin-top: rem(28);
+    display: flex;
+    justify-content: center;
+
+    .page-numbers {
+      list-style: none;
+      display: inline-flex;
+      gap: rem(4);
+      padding: 0;
+      margin: 0;
+    }
+
+    li > * {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: rem(36);
+      height: rem(36);
+      padding: 0 rem(8);
+      border: 1px solid $color-border;
+      border-radius: rem(8);
+      background-color: #fff;
+      color: $color-text;
+      text-decoration: none;
+      font-size: rem(13);
+
+      @include hover { background-color: $color-washi; }
+    }
+
+    li > .current {
+      background-color: #1d6fa5;
+      border-color: #1d6fa5;
+      color: #fff;
+    }
+  }
+
+  &__empty {
+    padding: rem(40);
+    text-align: center;
+    color: $color-text-muted;
+  }
+
+}
+
+// ─── 共通: 適用中の絞り込みチップバー ────────────────────
+.c-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(8);
+  margin-bottom: rem(20);
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(6);
+    padding: rem(6) rem(14);
+    background-color: rgba(#d35d3a, 0.15);
+    color: #d35d3a;
+    border: 1px solid rgba(#d35d3a, 0.4);
+    border-radius: rem(9999);
+    font-size: rem(12);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    @include hover { background-color: rgba(#d35d3a, 0.25); }
+  }
+
+  &__clear {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(6) rem(14);
+    background-color: transparent;
+    color: $color-text-muted;
+    border: 1px solid $color-border;
+    border-radius: rem(9999);
+    font-size: rem(12);
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    @include hover {
+      background-color: $color-washi;
+      color: $color-text;
+    }
+  }
+}
+

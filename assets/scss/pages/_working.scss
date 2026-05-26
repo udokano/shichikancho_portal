@@ -1,0 +1,462 @@
+@use '../config' as *;
+
+// ─── スポンサー ──────────────────────────────────────────
+.p-working__sponsors {
+  background: linear-gradient(to bottom, rgba(254, 243, 199, 0.6), #fff);
+  border-bottom: 1px solid $color-border;
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+    margin-bottom: rem(24);
+  }
+
+  &-label {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(6);
+    font-size: rem(11);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #d97706;
+    background-color: #fffbe5;
+    border: 1px solid #fde68a;
+    border-radius: rem(9999);
+    padding: rem(4) rem(12);
+  }
+
+  &-label-icon {
+    width: rem(14);
+    height: rem(14);
+    color: #f59e0b;
+    flex-shrink: 0;
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(20);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(12);
+    }
+  }
+}
+
+.p-working__sponsor-card {
+  position: relative;
+  background-color: #fff;
+  border: 2px solid #fef3c7;
+  border-radius: rem(12);
+  padding: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  @include hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: #fde68a;
+  }
+}
+
+.p-working__sponsor-pr {
+  position: absolute;
+  top: rem(12);
+  right: rem(12);
+  z-index: 1;
+  font-size: rem(10);
+  font-weight: 700;
+  color: #d97706;
+  background-color: #fffbeb;
+  border-radius: rem(4);
+  padding: rem(2) rem(8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.p-working__sponsor-head {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  padding-right: rem(40);
+}
+
+.p-working__sponsor-thumb {
+  flex-shrink: 0;
+  width: rem(56);
+  height: rem(56);
+  border-radius: rem(12);
+  overflow: hidden;
+  background-color: $color-washi;
+}
+
+.p-working__sponsor-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+.p-working__sponsor-name {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.4;
+  @include line-clamp(1);
+}
+
+.p-working__sponsor-category {
+  font-size: rem(12);
+  color: $color-text-muted;
+  font-weight: 500;
+}
+
+.p-working__sponsor-desc {
+  font-size: rem(13);
+  line-height: 1.8;
+  color: $color-text-muted;
+  margin: 0;
+  @include line-clamp(2);
+}
+
+.p-working__sponsor-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(8);
+  padding-top: rem(8);
+  border-top: 1px solid $color-border;
+}
+
+.p-working__sponsor-count {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(6);
+  font-size: rem(12);
+  font-weight: 500;
+  color: $color-primary-dark;
+
+  svg {
+    color: $color-primary-dark;
+    flex-shrink: 0;
+  }
+}
+
+.p-working__sponsor-more {
+  font-size: rem(12);
+  font-weight: 500;
+  color: $color-primary-dark;
+}
+
+// ─── 求人一覧 ────────────────────────────────────────────
+.p-working__listings {
+  background-color: $color-washi;
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: grid;
+    grid-template-columns: rem(280) 1fr;
+    gap: rem(32);
+
+    @include mq-down(md) {
+      grid-template-columns: 1fr;
+      gap: rem(20);
+    }
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+}
+
+.p-working__main {
+  min-width: 0;
+}
+
+// ─── フィルターサイドバー ────────────────────────────────
+.p-working__filter {
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  padding: rem(20) rem(24);
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+  align-self: flex-start;
+  position: sticky;
+  top: rem(96);
+
+  @include mq-down(md) { position: static; }
+
+  &-heading {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    padding-bottom: rem(12);
+    border-bottom: 1px solid $color-border;
+  }
+
+  &-heading-icon {
+    color: #1d6fa5;
+    flex-shrink: 0;
+  }
+
+  &-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &-icon {
+      position: absolute;
+      left: rem(12);
+      width: rem(14);
+      height: rem(14);
+      color: $color-text-muted;
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+}
+
+.p-working__filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+}
+
+.p-working__filter-label {
+  font-size: rem(12);
+  font-weight: 500;
+  color: $color-text-muted;
+}
+
+.p-working__filter-input {
+  width: 100%;
+  padding: rem(8) rem(12) rem(8) rem(34);
+  font-size: rem(13);
+  border: 1px solid $color-border;
+  border-radius: rem(8);
+  background-color: #fff;
+  color: $color-text;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    border-color: $color-primary-dark;
+    box-shadow: 0 0 0 3px rgba($color-primary-dark, 0.1);
+  }
+}
+
+.p-working__count {
+  font-size: rem(14);
+  color: $color-text;
+  margin-bottom: rem(20);
+
+  strong {
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    margin-right: rem(2);
+  }
+
+  &-page {
+    margin-left: rem(6);
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+}
+
+// ─── 求人カード ──────────────────────────────────────────
+.p-working__jobs {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+.p-working__job {
+  position: relative;
+  display: block;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  padding: rem(24) rem(28);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+
+  @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); }
+
+  @include sp { padding: rem(20); }
+
+  // おすすめ時：左ボーダーではなく、ほのかな塗り + 全周のアンバー枠で表現
+  &--pickup {
+    background-color: #fffaf0; // 薄いアンバー
+    border: 3px solid rgba(#f59e0b, 0.55);
+    box-shadow: 0 1px 3px rgba(#f59e0b, 0.08);
+  }
+
+  &-pickup {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    margin-bottom: rem(8);
+    font-size: rem(11);
+    font-weight: 700;
+    color: #d97706;
+    letter-spacing: 0.05em;
+
+    svg {
+      color: #f59e0b;
+      flex-shrink: 0;
+    }
+  }
+
+  &-type {
+    position: absolute;
+    top: rem(20);
+    right: rem(24);
+    display: inline-flex;
+    padding: rem(4) rem(12);
+    font-size: rem(11);
+    font-weight: 700;
+    border-radius: rem(9999);
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+
+    @include sp {
+      top: rem(16);
+      right: rem(16);
+    }
+  }
+
+  &-title {
+    font-size: rem(17);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    padding-right: rem(120);
+
+    @include sp { padding-right: rem(100); font-size: rem(15); }
+  }
+
+  &-company {
+    margin-top: rem(4);
+    font-size: rem(13);
+    color: $color-text-muted;
+  }
+
+  &-desc {
+    margin-top: rem(12);
+    font-size: rem(13);
+    line-height: 1.8;
+    color: $color-text;
+  }
+
+  &-meta {
+    margin-top: rem(12);
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+    flex-wrap: wrap;
+    font-size: rem(13);
+    color: $color-text-muted;
+
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(4);
+
+      svg {
+        color: $color-text-muted;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &-tags {
+    margin-top: rem(16);
+    padding-top: rem(12);
+    border-top: 1px solid $color-border;
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(6);
+    list-style: none;
+    padding-left: 0;
+  }
+
+  &-tag {
+    padding: rem(3) rem(10);
+    font-size: rem(11);
+    color: $color-text-muted;
+    background-color: $color-washi;
+    border-radius: rem(9999);
+  }
+}
+
+// ─── 掲載CTA ─────────────────────────────────────────────
+.p-working__cta {
+  background-color: $color-washi;
+  padding-block: rem(64);
+  text-align: center;
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(560);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(16);
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(17); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+}

@@ -1,0 +1,56 @@
+ページ構成,,,スラッグ,英訳,メモ,WF,td,content,design,coding
+1,ホーム　FAQには構造化データ（Schema）を設定、カウントダウンでサイト開く。,,,,,,,,,
+2,観光情報,,/visit,Visit Shichikencho（観光・見どころ）,観光マップ,,,,,
+3,商店街のお店,,/shops,Shops & Local Stores,販売・飲食・サービス・医療,,,,,
+4,,投稿ページ,,,,,,,,
+5,アクセス,,/access,Access / How to Get Here,アクセス動画・Googleマップ,,,,,
+6,町の紹介（七間町について）,,/about,About Shichikencho,地域の歴史・名前の由来・地図,,,,,
+7,,下層ページ,,,,,,,,
+8,映画の町,,/cinema-town,Cinema Town（映画文化のまち）,,,,,,
+9,,下層ページ,,,,,,,,
+10,町をめぐる,,/explore,Explore the Town（まち歩き・回遊）,,,,,,
+11,町に住む,,/living,Living in Shichikencho,"ゴミ/リサイクル
+・ごみ収集の曜日
+・分別ガイド（静岡市公式へのリンク付きでもOK）
+・町内の清掃当番・美化ルール
+・騒音/ペット/駐車などに関する共通マナー",,,,,
+12,町で学ぶ,,/learning,Learning / Education,"子育て
+学校・塾・習い事",,,,,
+13,,下層ページ,,,,,,,,
+14,町で働く,,/working,Working / Local Businesses,求人情報・シェアオフィス情報,,,,,
+15,,投稿ページ,,,求人情報用,,,,,
+16,イベント,,/events,Events & Festivals,,,,,,
+17,,投稿ページ,,,,,,,,
+18,町のギャラリー（七間町の風景）,,/gallery,Gallery / Townscapes,写真挿入のカスタムフィールド？,,,,,
+19,,投稿ページ（仮）,,,,,,,,
+20,くらしガイド,,/life-guide,Life Guide / Daily Info,"町内のお知らせ
+・定例会や班長会議の案内
+・回覧板で伝えた重要事項（デジタル版）
+・配布物のPDF（町内報・会議資料など）
+・ゴミ収集日程変更や工事のお知らせ",,,,,
+21,いのちを守る,,/safety,Safety & Disaster Info,"病院、医療
+防災情報、防災マップ、災害時の帰宅難民
+・避難場所・ハザードマップへのリンク
+・災害時の連絡方法・安否確認のルール
+・防犯パトロールの報告・注意喚起（不審者・詐欺など）",,,,,
+22,お隣さんの話,,/stories,Local Stories / People,※コラムのとこで一元管理,,,,,
+,,投稿ページ,,,,,,,,
+24,インフォメーション,,/news,News & Announcements,ニュース的役割、アイキャッチ無し,,,,,
+25,,投稿ページ,,,,,,,,
+26,七ぶらコラム,,/column,Shichibura Column / Articles,記事方式（例：有名店TOP5）、アイキャッチあり,,,,,
+27,,投稿ページ,,,,,,,,
+28,スポンサー募集,,/sponsorship,Sponsorship Opportunities,,,,,,
+29,関連リンク,,/links,Related Links,,,,,,
+30,お問い合わせ,,/contact,Contact Us,,,,,,
+31,プライバシーポリシー,,/privacy,Privacy Policy,,,,,,
+32,ご利用案内,,/guide,Site Guide,,,,,,
+33,運営会社？,,/organization,Organization,,,,,,
+,,,,,,0,0,0,0,0
+,,,,,,,,,,
+,,,駿府城,,,,,,,
+,,富士山の見える場所,お茶マップ,,七ぶらは母校の学生が書く。,,,,,
+,,,人宿町,,,,,,,
+,,,浅間通り,,,,,,,
+,,,鷹匠,,,,,,,
+,,,呉服町,,,,,,,
+,,,青葉通り,,,,,,,

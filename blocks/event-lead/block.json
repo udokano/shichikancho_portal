@@ -1,0 +1,20 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "acf/event-lead",
+    "version": "1.0.0",
+    "title": "イベント リード文",
+    "description": "イベント詳細ページ用のリード文＋シェアバー",
+    "category": "common",
+    "icon": "megaphone",
+    "keywords": [ "event", "lead", "share" ],
+    "textdomain": "sichikenchou",
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "supports": {
+        "align": false,
+        "jsx": true
+    }
+}

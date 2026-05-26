@@ -1,0 +1,110 @@
+@use '../../config' as *;
+
+// ─── 共通タグ・バッジ ────────────────────────────────────
+// 用途: カードのカテゴリーバッジ、フィルターチップ、状態ラベル等
+.c-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: rem(3) rem(10);
+  font-size: rem(11);
+  font-weight: 500;
+  border-radius: rem(9999);
+  background-color: $color-sakura;
+  color: $color-primary-dark;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  &--primary {
+    background-color: $color-primary-dark;
+    color: #fff;
+  }
+
+  // カテゴリ（淡い primary 系）
+  &--cat {
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+    font-weight: 600;
+    text-decoration: none;
+
+    @include hover { background-color: darken($color-sakura, 4%); }
+  }
+
+  // タグ（無地 washi）
+  &--tag {
+    background-color: $color-washi;
+    color: $color-text;
+    text-decoration: none;
+
+    @include hover { background-color: darken($color-washi, 4%); }
+  }
+
+  &--outline {
+    background-color: transparent;
+    border: 1px solid $color-border;
+    color: $color-text-muted;
+  }
+
+  &--alert {
+    background-color: #fff3cd;
+    color: #7c5b00;
+  }
+
+  &--success {
+    background-color: #d1f4e0;
+    color: #065f46;
+  }
+
+  &--sm {
+    padding: rem(2) rem(8);
+    font-size: rem(10);
+  }
+
+  &--lg {
+    padding: rem(4) rem(12);
+    font-size: rem(12);
+  }
+}
+
+// ─── フィルターチップ群 ──────────────────────────────────
+// 例: <div class="c-chips"><button class="c-chips__chip">...</button></div>
+.c-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(6);
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(6) rem(14);
+    font-size: rem(12);
+    border-radius: rem(9999);
+    border: 1px solid $color-border;
+    background-color: $color-washi;
+    color: $color-text;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    @include hover {
+      border-color: $color-primary-dark;
+      color: $color-primary-dark;
+    }
+
+    &.is-active {
+      background-color: $color-primary-dark;
+      color: #fff;
+      border-color: $color-primary-dark;
+    }
+
+    // ソリッドアクティブ（Manus 検索バー横の「すべて」風）
+    &--solid {
+      background-color: $color-washi;
+
+      &.is-active {
+        background-color: #1d6fa5;
+        border-color: #1d6fa5;
+        color: #fff;
+      }
+    }
+  }
+}

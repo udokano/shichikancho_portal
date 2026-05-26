@@ -1,0 +1,409 @@
+{
+  "key": "group_page_living",
+  "title": "町に住むページ",
+  "fields": [
+    {
+      "key": "field_lv_tab_family",
+      "label": "子育て世代",
+      "name": "tab_family",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top"
+    },
+    {
+      "key": "field_lv_rep_family",
+      "label": "子育て世代カード",
+      "name": "living_family",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "子育て世代の特徴カード",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 0,
+      "max": 0,
+      "layout": "block",
+      "button_label": "カードを追加",
+      "rows_per_page": 20,
+      "collapsed": "",
+      "sub_fields": [
+        {
+          "key": "field_lf_title",
+          "label": "見出し",
+          "name": "lf_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_lf_text",
+          "label": "説明文",
+          "name": "lf_text",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "rows": 4,
+          "placeholder": "",
+          "new_lines": "br"
+        }
+      ]
+    },
+    {
+      "key": "field_lv_tab_business",
+      "label": "ビジネスパーソン",
+      "name": "tab_business",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top"
+    },
+    {
+      "key": "field_lv_rep_business",
+      "label": "ビジネスパーソンカード",
+      "name": "living_business",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "ビジネスパーソンの特徴カード",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 0,
+      "max": 0,
+      "layout": "block",
+      "button_label": "カードを追加",
+      "rows_per_page": 20,
+      "collapsed": "",
+      "sub_fields": [
+        {
+          "key": "field_lb_title",
+          "label": "見出し",
+          "name": "lb_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_lb_text",
+          "label": "説明文",
+          "name": "lb_text",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "rows": 4,
+          "placeholder": "",
+          "new_lines": "br"
+        }
+      ]
+    },
+    {
+      "key": "field_lv_tab_senior",
+      "label": "シニア世代",
+      "name": "tab_senior",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top"
+    },
+    {
+      "key": "field_lv_rep_senior",
+      "label": "シニア世代カード",
+      "name": "living_senior",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "シニア世代の特徴カード",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 0,
+      "max": 0,
+      "layout": "block",
+      "button_label": "カードを追加",
+      "rows_per_page": 20,
+      "collapsed": "",
+      "sub_fields": [
+        {
+          "key": "field_ls_title",
+          "label": "見出し",
+          "name": "ls_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_ls_text",
+          "label": "説明文",
+          "name": "ls_text",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "rows": 4,
+          "placeholder": "",
+          "new_lines": "br"
+        }
+      ]
+    },
+    {
+      "key": "field_lv_tab_access",
+      "label": "アクセス・利便性",
+      "name": "tab_access",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top"
+    },
+    {
+      "key": "field_lv_rep_access",
+      "label": "アクセス・利便性カード",
+      "name": "living_access",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "アクセス・利便性の特徴カード",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 0,
+      "max": 0,
+      "layout": "block",
+      "button_label": "カードを追加",
+      "rows_per_page": 20,
+      "collapsed": "",
+      "sub_fields": [
+        {
+          "key": "field_lac_title",
+          "label": "見出し",
+          "name": "lac_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_lac_text",
+          "label": "説明文",
+          "name": "lac_text",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "rows": 4,
+          "placeholder": "",
+          "new_lines": "br"
+        }
+      ]
+    },
+    {
+      "key": "field_lv_tab_support",
+      "label": "移住支援",
+      "name": "tab_support",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top"
+    },
+    {
+      "key": "field_lv_rep_support",
+      "label": "移住支援カード",
+      "name": "living_support",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "移住支援の特徴カード",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 0,
+      "max": 0,
+      "layout": "block",
+      "button_label": "カードを追加",
+      "rows_per_page": 20,
+      "collapsed": "",
+      "sub_fields": [
+        {
+          "key": "field_lsu_title",
+          "label": "見出し",
+          "name": "lsu_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_lsu_text",
+          "label": "説明文",
+          "name": "lsu_text",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "rows": 4,
+          "placeholder": "",
+          "new_lines": "br"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "page_template",
+        "operator": "==",
+        "value": "page-living.php"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "「町に住む」固定ページ専用フィールド",
+  "modified": 1778202770
+}

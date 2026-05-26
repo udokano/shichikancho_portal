@@ -1,0 +1,190 @@
+{
+    "key": "group_walk_course",
+    "title": "散策コース情報",
+    "fields": [
+        {
+            "key": "field_walk_duration",
+            "label": "所要時間（分）",
+            "name": "walk_duration",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "例: 120",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "append": "分",
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": ""
+        },
+        {
+            "key": "field_walk_distance",
+            "label": "距離",
+            "name": "walk_distance",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 約3km",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_walk_difficulty",
+            "label": "難易度",
+            "name": "walk_difficulty",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "easy": "やさしい",
+                "normal": "ふつう",
+                "hard": "本格"
+            },
+            "default_value": "normal",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_walk_description",
+            "label": "コース概要",
+            "name": "walk_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "delay": 0,
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_walk_spots",
+            "label": "立ち寄りスポット",
+            "name": "walk_spots",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "スポットを追加",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_walk_spot_ref",
+                    "label": "関連スポット投稿",
+                    "name": "ref",
+                    "aria-label": "",
+                    "type": "post_object",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "spot"
+                    ],
+                    "return_format": "id",
+                    "ui": 1,
+                    "allow_null": 1,
+                    "taxonomy": [],
+                    "multiple": 0,
+                    "bidirectional_target": [],
+                    "parent_repeater": "field_walk_spots"
+                },
+                {
+                    "key": "field_walk_spot_time_to_next",
+                    "label": "次のスポットまでの時間",
+                    "name": "time_to_next",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "例: 徒歩 5分（最後のスポットは空欄でOK）",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_walk_spots"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "walk_course"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1778117233
+}

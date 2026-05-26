@@ -1,0 +1,72 @@
+{
+    "key": "group_block_event_overview",
+    "title": "Block: イベント 開催概要",
+    "fields": [
+        {
+            "key": "field_overview_date_text",
+            "label": "開催日",
+            "name": "overview_date_text",
+            "type": "text",
+            "instructions": "例: 2025年2月12日 / 2025年2月12日〜14日"
+        },
+        {
+            "key": "field_overview_time",
+            "label": "時間",
+            "name": "overview_time",
+            "type": "text"
+        },
+        {
+            "key": "field_overview_venue",
+            "label": "場所",
+            "name": "overview_venue",
+            "type": "text"
+        },
+        {
+            "key": "field_overview_organizer",
+            "label": "主催",
+            "name": "overview_organizer",
+            "type": "text"
+        },
+        {
+            "key": "field_overview_fee",
+            "label": "参加料金",
+            "name": "overview_fee",
+            "type": "text"
+        },
+        {
+            "key": "field_overview_notes",
+            "label": "備考",
+            "name": "overview_notes",
+            "type": "text"
+        },
+        {
+            "key": "field_overview_contact",
+            "label": "お問い合わせ先",
+            "name": "overview_contact",
+            "type": "text",
+            "instructions": "電話番号・メール・テキスト。電話/メールは自動でリンク化"
+        },
+        {
+            "key": "field_overview_map_url",
+            "label": "地図URL",
+            "name": "overview_map_url",
+            "type": "url"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/event-overview"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1778500000
+}

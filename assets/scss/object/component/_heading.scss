@@ -1,0 +1,128 @@
+@use '../../config' as *;
+
+.c-heading-page {
+  font-size: rem(32);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+  color: $color-text;
+
+  @include sp {
+    font-size: rem(24);
+  }
+}
+
+.c-heading {
+  position: relative;
+  font-size: rem(26);
+  font-weight: 700;
+  line-height: 1.4;
+  padding-bottom: rem(12);
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: rem(40);
+    height: 2px;
+    background-color: $color-green;
+  }
+
+  @include sp {
+    font-size: rem(22);
+  }
+}
+
+// 全幅の細いグレー下線つき見出し（セクション見出し用）
+.c-heading-line {
+  font-family: $font-serif;
+  font-size: rem(18);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.4;
+  margin: rem(32) 0 rem(16);
+  padding-bottom: rem(8);
+  border-bottom: 1px solid $color-border;
+
+  @include sp { font-size: rem(16); }
+}
+
+.c-heading-sub {
+  font-size: rem(20);
+  font-weight: 600;
+  line-height: 1.5;
+  color: $color-text;
+  border-left: 3px solid $color-green;
+  padding-left: rem(12);
+
+  @include sp {
+    font-size: rem(18);
+  }
+}
+
+// 各ページ共通ヒーロー（sakura背景）
+// PHPテンプレートで class="c-page-hero" として使用
+.c-page-hero {
+  @include page-hero-base;
+
+  &__inner {
+    @include page-inner;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: rem(80);
+
+    @include sp { min-height: rem(64); }
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(6);
+    line-height: 1.3;
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &__lead {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(13); }
+  }
+}
+
+.c-heading-en {
+  display: block;
+  font-size: rem(11);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  margin-bottom: rem(4);
+}
+
+// アーカイブの「PICK UP」付きセクションタイトル（shop/event 共通）
+.c-pickup-title {
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(16);
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+
+  &__badge {
+    font-size: rem(11);
+    font-weight: 700;
+    background-color: $color-primary-dark;
+    color: #fff;
+    padding: rem(2) rem(8);
+    border-radius: rem(4);
+  }
+}

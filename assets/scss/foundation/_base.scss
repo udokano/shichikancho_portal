@@ -1,0 +1,89 @@
+@use '../config' as *;
+
+body {
+  font-family: $font-sans;
+  font-size: rem(16);
+  color: $color-text;
+  background-color: $color-bg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.8;
+}
+
+// 基本リンク
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+// 画像（reset で display:block・max-width:100% 済み、height:auto だけ追加）
+img {
+  height: auto;
+}
+
+// フォーカス（アクセシビリティ必須）
+:focus-visible {
+  outline: 2px solid $color-primary-dark;
+  outline-offset: 2px;
+}
+
+// スキップリンク（キーボードナビ用）
+.u-skip-link {
+  position: absolute;
+  top: rem(-40);
+  left: 0;
+  background-color: $color-green;
+  color: #ffffff;
+  padding: rem(8) rem(16);
+  font-size: rem(14);
+  font-weight: 600;
+  z-index: 9999;
+  transition: top 0.2s;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+// ナビ開時のボディスクロールロック
+body.is-nav-open {
+  overflow: hidden;
+}
+
+// ドロワーオーバーレイ
+.l-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: $z-overlay;
+  cursor: pointer;
+
+  &.is-visible {
+    display: block;
+  }
+}
+
+// ヘッダースクロール時の影
+.l-header.is-scrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+// Google Translate ツールバー・バルーン非表示
+// （ウィジェットは機能させたまま UI だけ隠す）
+body { top: 0 !important; }
+.goog-te-banner-frame { display: none !important; }
+#goog-gt-tt,
+.goog-te-balloon-frame { display: none !important; }
+
+// ユーティリティ：視覚的に隠す（SR 用）
+.u-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

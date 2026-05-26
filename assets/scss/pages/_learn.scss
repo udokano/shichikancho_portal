@@ -1,0 +1,246 @@
+@use '../config' as *;
+
+// ヒーロー: c-page-hero / タブ: c-tabs（_tabs.scss）
+
+// ─── イントロ ────────────────────────────────────────────
+.p-learn__intro {
+  background-color: $color-washi;
+  padding-block: rem(72);
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    text-align: center;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(20);
+    line-height: 1.4;
+
+    @include sp { font-size: rem(22); }
+  }
+
+  &-text {
+    font-size: rem(15);
+    line-height: 1.9;
+    color: $color-text-muted;
+
+    @include sp { font-size: rem(13); }
+  }
+}
+
+// ─── パネル ──────────────────────────────────────────────
+.p-learn__panel {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  &[hidden] { display: none; }
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(32);
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+
+    @include sp { font-size: rem(18); margin-bottom: rem(24); }
+  }
+
+  &-count {
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-primary-dark;
+    background-color: $color-sakura;
+    border-radius: rem(9999);
+    padding: rem(2) rem(12);
+  }
+
+  &-empty {
+    font-size: rem(14);
+    color: $color-text-muted;
+    text-align: center;
+    padding-block: rem(40);
+  }
+}
+
+// ─── カードグリッド ──────────────────────────────────────
+.p-learn__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(20);
+
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: rem(16);
+  }
+}
+
+.p-learn__card {
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(16);
+  padding: rem(28);
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  transition: box-shadow 0.2s ease;
+
+  @include hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  @include sp { padding: rem(20); }
+
+  // タイトル左・バッジ右
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: rem(12);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  &-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(3) rem(10);
+    font-size: rem(11);
+    font-weight: 500;
+    border-radius: rem(9999);
+    background-color: $color-sakura;
+    color: $color-primary-dark;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  &-desc {
+    font-size: rem(13);
+    line-height: 1.8;
+    color: $color-text-muted;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+    padding-block: rem(12);
+    border-block: 1px solid rgba($color-border, 0.6);
+    margin: 0;
+
+    &-row {
+      display: flex;
+      align-items: flex-start;
+      gap: rem(10);
+      font-size: rem(13);
+
+      dt { flex-shrink: 0; display: flex; align-items: center; }
+      dd { margin: 0; color: $color-text; line-height: 1.5; }
+    }
+  }
+
+  &-info-icon {
+    width: rem(15);
+    height: rem(15);
+    color: $color-text-muted;
+    flex-shrink: 0;
+  }
+
+  // フッター（電話 + リンク）
+  &-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(12);
+    margin-top: auto;
+  }
+
+  &-phone {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    font-size: rem(12);
+    color: $color-text-muted;
+    text-decoration: none;
+
+    @include hover { color: $color-primary-dark; }
+  }
+
+  &-link {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(13);
+    font-weight: 600;
+    color: $color-primary-dark;
+    text-decoration: none;
+    margin-left: auto;
+
+    @include hover { text-decoration: underline; }
+  }
+}
+
+// ─── 掲載募集CTA ─────────────────────────────────────────
+.p-learn__cta {
+  background-color: $color-washi;
+  padding-block: rem(72);
+  text-align: center;
+
+  @include sp { padding-block: rem(48); }
+
+  &-inner {
+    max-width: rem(560);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(16);
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.5;
+
+    @include sp { font-size: rem(20); }
+  }
+
+  &-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+}

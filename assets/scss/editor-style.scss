@@ -1,0 +1,6 @@
+// ─── ブロックエディタ専用エントリ ──
+// 共通のブロックスタイル（見出し・リスト等）
+@use 'object/component/wp-blocks';
+
+// ACFブロック（event-lead / event-overview）が使うページスタイル
+@use 'pages/single-event';

@@ -1,0 +1,222 @@
+@use '../config' as *;
+
+// ─── 本文（2カラム） ─────────────────────────────────────
+.p-contact__main {
+  background-color: #fff;
+  padding-block: rem(64);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+}
+
+.p-contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(48);
+
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: rem(40);
+  }
+}
+
+// ─── 連絡先（左） ────────────────────────────────────────
+.p-contact__info {
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(24);
+  }
+
+  &-item {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(16);
+    margin-bottom: rem(24);
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &-icon {
+    flex-shrink: 0;
+    width: rem(48);
+    height: rem(48);
+    border-radius: 50%;
+    background-color: $color-sakura;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary-dark;
+  }
+
+  &-icon-svg {
+    width: rem(20);
+    height: rem(20);
+  }
+
+  &-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-label {
+    font-size: rem(15);
+    font-weight: 500;
+    color: $color-text;
+    margin-bottom: rem(4);
+  }
+
+  &-value {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+
+  &-value-link {
+    color: $color-text-muted;
+    text-decoration: none;
+
+    @include hover { color: $color-primary-dark; text-decoration: underline; }
+  }
+
+  &-note {
+    font-size: rem(12);
+    color: $color-text-muted;
+    margin-top: rem(2);
+  }
+}
+
+// ─── お問い合わせフォーム（右） ─────────────────────────
+.p-contact__form {
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 600;
+    color: $color-text;
+    margin-bottom: rem(24);
+  }
+
+  &-body {
+    .wpcf7-form {
+      .cf7-row { margin-bottom: rem(20); }
+
+      label {
+        display: block;
+        font-size: rem(14);
+        font-weight: 600;
+        color: $color-text;
+        margin-bottom: rem(8);
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="url"],
+      textarea,
+      select {
+        width: 100%;
+        margin-top: rem(8);
+        padding: rem(12) rem(14);
+        font-size: rem(14);
+        font-family: inherit;
+        color: $color-text;
+        background-color: #fff;
+        border: 1px solid $color-border;
+        border-radius: rem(8);
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &:focus {
+          outline: none;
+          border-color: $color-primary-dark;
+          box-shadow: 0 0 0 3px rgba($color-primary-dark, 0.12);
+        }
+
+        &::placeholder {
+          color: rgba($color-text-muted, 0.6);
+        }
+      }
+
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%236b6b6b' d='M6 8L0 0h12z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right rem(14) center;
+        padding-right: rem(36);
+      }
+
+      textarea {
+        min-height: rem(160);
+        resize: vertical;
+        line-height: 1.7;
+      }
+
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        margin-top: rem(8);
+        padding: rem(14) rem(32);
+        font-size: rem(15);
+        font-weight: 600;
+        color: #fff;
+        background-color: $color-primary-dark;
+        border: none;
+        border-radius: rem(9999);
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        @include hover { background-color: darken($color-primary-dark, 5%); }
+        &:disabled { opacity: 0.6; cursor: not-allowed; }
+      }
+
+      .wpcf7-spinner { display: block; margin: rem(16) auto 0; }
+    }
+
+    .wpcf7-response-output {
+      margin: rem(24) 0 0;
+      padding: rem(12) rem(16);
+      border-radius: rem(8);
+      font-size: rem(14);
+    }
+
+    .wpcf7 form.sent .wpcf7-response-output {
+      background-color: rgba(#2d8a4f, 0.1);
+      border: 1px solid #2d8a4f;
+      color: #2d8a4f;
+    }
+
+    .wpcf7 form.invalid .wpcf7-response-output,
+    .wpcf7 form.failed .wpcf7-response-output {
+      background-color: rgba(#c0392b, 0.08);
+      border: 1px solid #c0392b;
+      color: #c0392b;
+    }
+
+    .wpcf7-not-valid-tip {
+      display: block;
+      margin-top: rem(6);
+      font-size: rem(12);
+      color: #c0392b;
+    }
+
+    .required {
+      display: inline-block;
+      margin-left: rem(6);
+      padding: rem(1) rem(8);
+      font-size: rem(11);
+      font-weight: 500;
+      color: #fff;
+      background-color: #c0392b;
+      border-radius: rem(4);
+      vertical-align: middle;
+    }
+  }
+}

@@ -1,0 +1,147 @@
+{
+    "key": "group_learn_facility",
+    "title": "学ぶ施設情報",
+    "fields": [
+        {
+            "key": "field_facility_badge",
+            "label": "サブカテゴリ（バッジ表示）",
+            "name": "facility_badge",
+            "type": "text",
+            "instructions": "カード上部の小ラベル。例: 歴史・文化 / 伝統工芸 / 食文化"
+        },
+        {
+            "key": "field_facility_type",
+            "label": "種別",
+            "name": "facility_type",
+            "type": "text",
+            "instructions": "塾・教室・スクール等"
+        },
+        {
+            "key": "field_facility_description",
+            "label": "施設紹介文",
+            "name": "facility_description",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_facility_main_image",
+            "label": "メイン画像",
+            "name": "facility_main_image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_facility_schedule",
+            "label": "開催時間",
+            "name": "facility_schedule",
+            "type": "text",
+            "instructions": "例: 毎月第2土曜 10:00〜12:00"
+        },
+        {
+            "key": "field_facility_hours",
+            "label": "営業時間",
+            "name": "facility_hours",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "br",
+            "instructions": "常時営業の場合"
+        },
+        {
+            "key": "field_facility_fee",
+            "label": "料金",
+            "name": "facility_fee",
+            "type": "text",
+            "instructions": "例: 500円（資料代込み） / 無料"
+        },
+        {
+            "key": "field_facility_target",
+            "label": "対象者",
+            "name": "facility_target",
+            "type": "text",
+            "instructions": "例: どなたでも / 小学生以上"
+        },
+        {
+            "key": "field_facility_venue",
+            "label": "会場名",
+            "name": "facility_venue",
+            "type": "text"
+        },
+        {
+            "key": "field_facility_address",
+            "label": "住所",
+            "name": "facility_address",
+            "type": "text"
+        },
+        {
+            "key": "field_facility_phone",
+            "label": "電話番号",
+            "name": "facility_phone",
+            "type": "text"
+        },
+        {
+            "key": "field_facility_website",
+            "label": "公式サイトURL",
+            "name": "facility_website",
+            "type": "url"
+        },
+        {
+            "key": "field_facility_features",
+            "label": "特徴タグ",
+            "name": "facility_features",
+            "type": "checkbox",
+            "choices": {
+                "online": "オンライン対応",
+                "trial": "体験あり",
+                "group": "グループ可",
+                "private": "個別指導",
+                "kids": "子ども向け",
+                "senior": "シニア向け",
+                "weekend": "土日開催",
+                "evening": "夜間あり"
+            },
+            "return_format": "value"
+        },
+        {
+            "key": "field_facility_faq",
+            "label": "よくある質問",
+            "name": "facility_faq",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "FAQを追加",
+            "sub_fields": [
+                {
+                    "key": "field_facility_faq_q",
+                    "label": "質問",
+                    "name": "question",
+                    "type": "text"
+                },
+                {
+                    "key": "field_facility_faq_a",
+                    "label": "回答",
+                    "name": "answer",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "br"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "learn_facility"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777982720
+}

@@ -1,0 +1,159 @@
+{
+    "key": "group_property",
+    "title": "空き物件情報",
+    "fields": [
+        {
+            "key": "field_prop_name",
+            "label": "物件名",
+            "name": "prop_name",
+            "type": "text"
+        },
+        {
+            "key": "field_prop_address",
+            "label": "所在地",
+            "name": "prop_address",
+            "type": "text"
+        },
+        {
+            "key": "field_prop_rent",
+            "label": "賃料",
+            "name": "prop_rent",
+            "type": "text",
+            "instructions": "例: 月額12万円 / 応相談"
+        },
+        {
+            "key": "field_prop_area",
+            "label": "面積",
+            "name": "prop_area",
+            "type": "text",
+            "instructions": "例: 約30㎡"
+        },
+        {
+            "key": "field_prop_floor",
+            "label": "階数",
+            "name": "prop_floor",
+            "type": "text",
+            "instructions": "例: 1F路面 / 2F"
+        },
+        {
+            "key": "field_prop_description",
+            "label": "物件紹介文",
+            "name": "prop_description",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_prop_main_image",
+            "label": "メイン画像",
+            "name": "prop_main_image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_prop_gallery",
+            "label": "物件写真",
+            "name": "prop_gallery",
+            "type": "gallery",
+            "return_format": "array",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_prop_features",
+            "label": "設備・条件",
+            "name": "prop_features",
+            "type": "checkbox",
+            "choices": {
+                "kitchen": "厨房あり",
+                "restroom": "トイレ独立",
+                "parking": "駐車場あり",
+                "ac": "エアコン付き",
+                "internet": "ネット利用可",
+                "shop": "店舗利用可",
+                "office": "事務所利用可",
+                "house": "住居併用可"
+            },
+            "return_format": "value"
+        },
+        {
+            "key": "field_prop_contact",
+            "label": "お問い合わせ先",
+            "name": "prop_contact",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_prop_is_available",
+            "label": "空き状況",
+            "name": "prop_is_available",
+            "type": "true_false",
+            "ui": 1,
+            "default_value": 1,
+            "ui_on_text": "空き",
+            "ui_off_text": "成約済み"
+        },
+        {
+            "key": "field_prop_category",
+            "label": "カテゴリー",
+            "name": "prop_category",
+            "type": "select",
+            "choices": {
+                "店舗": "店舗",
+                "オフィス": "オフィス",
+                "土地": "土地",
+                "空き部屋": "空き部屋"
+            },
+            "default_value": "店舗",
+            "return_format": "value"
+        },
+        {
+            "key": "field_prop_status",
+            "label": "ステータス",
+            "name": "prop_status",
+            "type": "select",
+            "choices": {
+                "open": "募集中",
+                "negotiating": "商談中",
+                "soon": "近日公開",
+                "closed": "成約"
+            },
+            "default_value": "open",
+            "return_format": "value"
+        },
+        {
+            "key": "field_prop_tags",
+            "label": "特徴タグ（自由入力）",
+            "name": "prop_tags",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "タグを追加",
+            "instructions": "角地 / 駐車場あり / 飲食可 などを1行ずつ。",
+            "sub_fields": [
+                {
+                    "key": "field_prop_tag",
+                    "label": "タグ",
+                    "name": "tag",
+                    "type": "text"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "property"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777989765
+}

@@ -1,0 +1,152 @@
+@use '../../config' as *;
+
+// アーカイブ共通 絞り込みサイドバー
+.c-filter-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+  position: sticky;
+  top: rem(80);
+
+  @include mq-down(md) { position: static; }
+
+  &__filter {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    margin-bottom: rem(16);
+    color: $color-primary-dark;
+  }
+
+  &__title {
+    font-size: rem(14);
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__group {
+    margin-bottom: rem(18);
+
+    &:last-of-type { margin-bottom: rem(8); }
+  }
+
+  &__label {
+    font-size: rem(12);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(8);
+    display: block;
+  }
+
+  &__search {
+    width: 100%;
+    padding: rem(8) rem(12);
+    font-size: rem(13);
+    border: 1px solid $color-border;
+    border-radius: rem(6);
+    background-color: #fff;
+    outline: none;
+
+    &:focus { border-color: $color-primary-dark; }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(6);
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(4) rem(10);
+    font-size: rem(11);
+    border-radius: rem(9999);
+    border: 1px solid $color-border;
+    background-color: #fff;
+    color: $color-text;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    @include hover {
+      border-color: $color-primary-dark;
+      color: $color-primary-dark;
+    }
+
+    &.is-active {
+      background-color: $color-primary-dark;
+      border-color: $color-primary-dark;
+      color: #fff;
+    }
+  }
+
+  &__result {
+    margin-top: rem(12);
+    padding-top: rem(14);
+    border-top: 1px solid $color-border;
+    text-align: center;
+  }
+
+  &__result-label {
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+
+  &__result-value {
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-primary-dark;
+  }
+
+  &__result-unit {
+    font-size: rem(12);
+    margin-left: rem(2);
+    color: $color-text;
+  }
+}
+
+// サイドバー CTA（掲載依頼など）— イベント・お隣さん共通
+.c-sidebar-cta {
+  background: linear-gradient(135deg, rgba($color-sakura, 0.4), rgba($color-sakura, 0.2));
+  border: 1px solid rgba($color-sakura, 0.6);
+  border-radius: rem(12);
+  padding: rem(24);
+
+  &__title {
+    font-size: rem(14);
+    font-weight: 600;
+    color: $color-text;
+    margin-block: 0 rem(12);
+  }
+
+  &__text {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.6;
+    margin-bottom: rem(16);
+  }
+
+  &__btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    font-size: rem(14);
+    font-weight: 500;
+    padding: rem(8);
+    border-radius: rem(8);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    @include hover { opacity: 0.9; }
+  }
+}

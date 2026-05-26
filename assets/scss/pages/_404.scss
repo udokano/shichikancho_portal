@@ -1,0 +1,43 @@
+@use '../config' as *;
+
+// ─── 404 ──────────────────────────────────────────────────────
+.p-404 {
+  background-color: $color-washi;
+  padding-block: rem(80) rem(100);
+
+  @include sp { padding-block: rem(48) rem(64); }
+
+  &__inner {
+    max-width: rem(560);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    text-align: center;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &__code {
+    font-size: rem(96);
+    font-weight: 700;
+    color: $color-primary-dark;
+    line-height: 1;
+    margin-bottom: rem(24);
+    letter-spacing: -0.02em;
+
+    @include sp { font-size: rem(72); }
+  }
+
+  &__message {
+    font-size: rem(15);
+    color: $color-text-muted;
+    line-height: 1.8;
+    margin-bottom: rem(40);
+  }
+
+  &__links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: rem(12);
+  }
+}

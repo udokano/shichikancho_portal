@@ -1,0 +1,117 @@
+{
+    "key": "group_job",
+    "title": "求人情報",
+    "fields": [
+        {
+            "key": "field_job_company",
+            "label": "会社名・店舗名",
+            "name": "job_company",
+            "type": "text"
+        },
+        {
+            "key": "field_job_position",
+            "label": "募集職種",
+            "name": "job_position",
+            "type": "text"
+        },
+        {
+            "key": "field_job_type",
+            "label": "雇用形態",
+            "name": "job_type",
+            "type": "select",
+            "choices": {
+                "FULL_TIME": "正社員",
+                "PART_TIME": "アルバイト・パート",
+                "CONTRACTOR": "業務委託",
+                "TEMPORARY": "派遣",
+                "INTERN": "インターン"
+            },
+            "allow_null": 1,
+            "return_format": "value"
+        },
+        {
+            "key": "field_job_salary",
+            "label": "給与",
+            "name": "job_salary",
+            "type": "text",
+            "instructions": "例: 月給25万円〜 / 時給1,200円"
+        },
+        {
+            "key": "field_job_hours",
+            "label": "勤務時間",
+            "name": "job_hours",
+            "type": "text"
+        },
+        {
+            "key": "field_job_location",
+            "label": "勤務地",
+            "name": "job_location",
+            "type": "text"
+        },
+        {
+            "key": "field_job_description",
+            "label": "仕事内容",
+            "name": "job_description",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 1
+        },
+        {
+            "key": "field_job_requirements",
+            "label": "応募条件",
+            "name": "job_requirements",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_job_benefits",
+            "label": "待遇・福利厚生",
+            "name": "job_benefits",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_job_contact",
+            "label": "応募方法・連絡先",
+            "name": "job_contact",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_job_deadline",
+            "label": "応募締切",
+            "name": "job_deadline",
+            "type": "date_picker",
+            "display_format": "Y-m-d",
+            "return_format": "Y-m-d"
+        },
+        {
+            "key": "field_job_is_active",
+            "label": "募集中",
+            "name": "job_is_active",
+            "type": "true_false",
+            "ui": 1,
+            "default_value": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "job"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1777982720
+}

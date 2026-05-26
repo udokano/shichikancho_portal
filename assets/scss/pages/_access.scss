@@ -1,0 +1,644 @@
+@use '../config' as *;
+
+// ─── アクセスページ ──────────────────────────────────────
+
+// ─── メインラッパー ──
+.p-access__main {
+  background-color: $color-bg;
+  padding-bottom: rem(64);
+}
+
+.p-access__main-inner {
+  max-width: rem(1200);
+  margin-inline: auto;
+  padding-inline: rem(64);
+
+  @include sp { padding-inline: rem(16); }
+}
+
+// ─── ナビCTAボタン ──
+.p-access__navi-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(10);
+  width: 100%;
+  padding: rem(18) rem(24);
+  margin: rem(32) 0 0;
+  background-color: #4361ee;
+  color: #fff;
+  font-size: rem(16);
+  font-weight: 700;
+  border-radius: rem(8);
+  text-decoration: none;
+  transition: background-color 0.2s;
+
+  @include hover { background-color: #3451d1; }
+  @include sp { font-size: rem(15); }
+}
+
+// ─── タブ（c-tabsを上書き） ──
+.p-access__main .c-tabs {
+  background-color: transparent;
+  border-bottom-color: $color-border;
+  position: static; // ページヘッダー後に重ならないよう
+  margin-top: rem(24);
+}
+
+// ─── パネル共通 ──
+.p-access__panel {
+  padding-top: rem(48);
+
+  @include sp { padding-top: rem(32); }
+}
+
+// ─── パネルヒーロー（センター見出し） ──
+.p-access__panel-hero {
+  text-align: center;
+  margin-bottom: rem(32);
+}
+
+.p-access__panel-title {
+  font-size: rem(30);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.3;
+  margin-bottom: rem(6);
+
+  @include sp { font-size: rem(22); }
+}
+
+// 英語サブタイトル（電車タブ用）
+.p-access__panel-en {
+  font-size: rem(15);
+  font-weight: 600;
+  color: $color-primary;
+  margin-bottom: rem(12);
+}
+
+// 説明文（電車タブ）
+.p-access__panel-lead {
+  font-size: rem(14);
+  line-height: 1.9;
+  color: $color-text-muted;
+}
+
+// サブ見出し（徒歩・バスほか）
+.p-access__panel-sub {
+  font-size: rem(14);
+  color: $color-text-muted;
+  margin-top: rem(4);
+}
+
+// ─── カード ──
+.p-access__card {
+  background-color: #fff;
+  border-radius: rem(12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  padding: rem(24) rem(28);
+  margin-bottom: rem(32);
+
+  @include sp { padding: rem(20) rem(16); }
+}
+
+.p-access__card-heading {
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(20);
+}
+
+.p-access__card-heading--icon {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(20);
+}
+
+.p-access__card-icon {
+  width: rem(20);
+  height: rem(20);
+  color: $color-primary;
+  flex-shrink: 0;
+}
+
+.p-access__card-icon--green {
+  color: #16a34a;
+}
+
+.p-access__card-desc {
+  font-size: rem(13);
+  color: $color-text-muted;
+  margin-bottom: rem(16);
+  line-height: 1.7;
+}
+
+// ─── 電車リスト ──
+.p-access__train-list {
+  list-style: none;
+}
+
+.p-access__train-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: rem(14) 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child { border-bottom: none; }
+}
+
+.p-access__train-left {
+  display: flex;
+  align-items: center;
+  gap: rem(10);
+  font-size: rem(15);
+  font-weight: 500;
+  color: $color-text;
+}
+
+.p-access__train-icon {
+  width: rem(18);
+  height: rem(18);
+  color: $color-primary;
+  flex-shrink: 0;
+}
+
+.p-access__train-right {
+  display: flex;
+  align-items: baseline;
+  gap: rem(8);
+}
+
+.p-access__train-time {
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-primary;
+}
+
+.p-access__train-line {
+  font-size: rem(12);
+  color: $color-text-muted;
+}
+
+// ─── ハイライトボックス（北口案内） ──
+.p-access__highlight-box {
+  background-color: $color-bg;
+  border-radius: rem(8);
+  padding: rem(16) rem(20);
+  margin-bottom: rem(16);
+}
+
+.p-access__highlight-text {
+  font-size: rem(14);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(8);
+}
+
+.p-access__highlight-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+
+  li {
+    font-size: rem(13);
+    color: $color-text-muted;
+    padding-left: rem(14);
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: $color-primary;
+    }
+  }
+}
+
+// ⓘ 情報行
+.p-access__note-line {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(6);
+  font-size: rem(13);
+  color: $color-text-muted;
+  line-height: 1.6;
+
+  svg { color: $color-text-muted; margin-top: rem(2); }
+}
+
+// ─── 黄色ノートボックス ──
+.p-access__yellow-note {
+  background-color: #fefce8;
+  border-radius: rem(6);
+  padding: rem(12) rem(16);
+  font-size: rem(13);
+  color: #854d0e;
+  line-height: 1.7;
+  margin-top: rem(16);
+}
+
+// ─── ブルーノート ──
+.p-access__blue-note {
+  background-color: #eff6ff;
+  border-radius: rem(6);
+  padding: rem(12) rem(16);
+  font-size: rem(13);
+  color: #1e40af;
+  line-height: 1.7;
+  margin-top: rem(16);
+}
+
+// ─── インフォノート（青系） ──
+.p-access__info-note {
+  display: flex;
+  gap: rem(12);
+  padding: rem(16) rem(20);
+  font-size: rem(13);
+  color: $color-text-muted;
+  line-height: 1.7;
+  margin-top: rem(8);
+
+  svg { color: $color-primary; margin-top: rem(2); }
+
+  strong {
+    display: block;
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(2);
+  }
+}
+
+// ─── バスDL ──
+.p-access__bus-dl {
+  display: flex;
+  flex-direction: column;
+}
+
+.p-access__bus-row {
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+  padding: rem(12) 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child { border-bottom: none; }
+
+  dt { flex-shrink: 0; }
+
+  dd {
+    font-size: rem(15);
+    color: $color-text;
+  }
+}
+
+// ラベルバッジ（バス・車タブ）
+.p-access__label {
+  display: inline-block;
+  padding: rem(3) rem(10);
+  border-radius: rem(4);
+  font-size: rem(11);
+  font-weight: 700;
+  background-color: #f3f4f6;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.p-access__label--blue {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.p-access__label--green {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+// ─── 3カラム統計グリッド ──
+.p-access__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(12);
+  margin-bottom: rem(4);
+
+  @include sp { grid-template-columns: repeat(3, 1fr); gap: rem(8); }
+}
+
+.p-access__stat {
+  background-color: $color-bg;
+  border-radius: rem(8);
+  padding: rem(14) rem(12);
+  text-align: center;
+
+  dt {
+    font-size: rem(11);
+    color: $color-text-muted;
+    margin-bottom: rem(4);
+  }
+
+  dd {
+    font-size: rem(16);
+    font-weight: 700;
+    color: $color-primary;
+  }
+}
+
+// ─── レンタカーリスト ──
+.p-access__rental-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(8);
+
+  @include sp { grid-template-columns: 1fr; }
+
+  li {
+    font-size: rem(14);
+    color: $color-text;
+    padding: rem(10) rem(14);
+    background-color: $color-bg;
+    border-radius: rem(6);
+  }
+}
+
+// ─── 徒歩ルートカード ──
+.p-access__route-card {
+  background-color: #fff;
+  border-left: 3px solid $color-primary;
+  border-radius: rem(2) rem(12) rem(12) rem(2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  padding: rem(24) rem(28);
+  margin-bottom: rem(32);
+
+  @include sp { padding: rem(20) rem(16); }
+}
+
+.p-access__route-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: rem(8);
+}
+
+.p-access__route-header-left {
+  display: flex;
+  align-items: center;
+  gap: rem(10);
+}
+
+.p-access__route-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(3) rem(10);
+  border-radius: rem(4);
+  font-size: rem(11);
+  font-weight: 800;
+  color: #fff;
+}
+
+.p-access__route-badge--a { background-color: $color-primary; }
+.p-access__route-badge--b { background-color: #7c3aed; }
+
+.p-access__route-name {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+}
+
+.p-access__route-time {
+  display: flex;
+  align-items: center;
+  gap: rem(4);
+  font-size: rem(13);
+  color: $color-text-muted;
+}
+
+.p-access__route-via {
+  font-size: rem(15);
+  font-weight: 600;
+  color: $color-text;
+  margin-bottom: rem(6);
+}
+
+.p-access__route-desc {
+  font-size: rem(13);
+  color: $color-text-muted;
+  line-height: 1.7;
+  margin-bottom: rem(16);
+}
+
+.p-access__route-steps-wrap {
+  background-color: $color-bg;
+  border-radius: rem(8);
+  padding: rem(16) rem(20);
+}
+
+.p-access__route-steps-label {
+  font-size: rem(11);
+  font-weight: 700;
+  color: $color-text-muted;
+  letter-spacing: 0.04em;
+  margin-bottom: rem(8);
+}
+
+.p-access__route-steps {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+
+  li {
+    counter-increment: step;
+    display: flex;
+    align-items: flex-start;
+    gap: rem(10);
+    font-size: rem(14);
+    color: $color-text;
+    line-height: 1.6;
+
+    &::before {
+      content: counter(step) '.';
+      display: inline-block;
+      min-width: rem(20);
+      font-size: rem(13);
+      font-weight: 700;
+      color: $color-primary;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ─── サブリスト見出し ──
+.p-access__sub-list-heading {
+  font-size: rem(13);
+  font-weight: 700;
+  color: $color-text-muted;
+  margin: rem(20) 0 rem(8);
+  border-top: 1px solid $color-border;
+  padding-top: rem(16);
+}
+
+// ─── ポートリスト ──
+.p-access__port-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    padding: rem(12) rem(16);
+    font-size: rem(14);
+    color: $color-text;
+    border: 1px solid $color-border;
+    border-radius: rem(8);
+
+    svg { color: $color-primary; flex-shrink: 0; }
+  }
+}
+
+// ─── 駐車場カード ──
+.p-access__parking-card {
+  background-color: #fff;
+  border-radius: rem(12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  padding: rem(20) rem(24);
+  margin-bottom: rem(16);
+
+  @include sp { padding: rem(16); }
+}
+
+.p-access__parking-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: rem(10);
+}
+
+.p-access__parking-name {
+  font-size: rem(16);
+  font-weight: 700;
+  color: $color-text;
+}
+
+.p-access__parking-badge {
+  display: inline-block;
+  padding: rem(2) rem(10);
+  border-radius: rem(99);
+  font-size: rem(11);
+  font-weight: 700;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.p-access__parking-body {
+  display: flex;
+  align-items: center;
+  gap: rem(20);
+  flex-wrap: wrap;
+
+  @include sp { gap: rem(12); }
+}
+
+.p-access__parking-meta-item {
+  display: flex;
+  align-items: center;
+  gap: rem(4);
+  font-size: rem(13);
+  color: $color-text-muted;
+
+  svg { color: $color-text-muted; flex-shrink: 0; }
+}
+
+.p-access__parking-fee {
+  font-size: rem(15);
+  font-weight: 700;
+  color: $color-text;
+  margin-left: auto;
+
+  @include sp { margin-left: 0; }
+}
+
+.p-access__parking-note {
+  font-size: rem(12);
+  color: $color-text-muted;
+  margin-top: rem(8);
+}
+
+// ─── 地図セクション ──
+.p-access__map {
+  padding: rem(64) 0 rem(48);
+  background-color: #fff;
+}
+
+.p-access__map-inner {
+  max-width: rem(1200);
+  margin-inline: auto;
+  padding-inline: rem(64);
+
+  @include sp { padding-inline: rem(16); }
+}
+
+.p-access__map-title {
+  font-size: rem(24);
+  font-weight: 700;
+  color: $color-text;
+  text-align: center;
+  margin-bottom: rem(24);
+}
+
+.p-access__map-wrap {
+  position: relative;
+  border-radius: rem(12);
+  overflow: hidden;
+  border: 1px solid $color-border;
+  aspect-ratio: 16 / 9;
+
+  @include sp { aspect-ratio: 4 / 3; }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+.p-access__map-open-btn {
+  position: absolute;
+  top: rem(12);
+  left: rem(12);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: rem(6);
+  padding: rem(8) rem(14);
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(6);
+  font-size: rem(13);
+  font-weight: 600;
+  color: $color-text;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+  transition: background-color 0.15s;
+
+  @include hover { background-color: $color-bg; }
+}
+
+.p-access__address {
+  font-style: normal;
+  text-align: center;
+  font-size: rem(13);
+  color: $color-text-muted;
+  margin-top: rem(16);
+}
+

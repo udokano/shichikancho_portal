@@ -1,0 +1,20 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "acf/event-overview",
+    "version": "1.0.0",
+    "title": "イベント 開催概要",
+    "description": "イベント詳細ページ用の開催概要テーブル",
+    "category": "common",
+    "icon": "list-view",
+    "keywords": [ "event", "overview", "table" ],
+    "textdomain": "sichikenchou",
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "supports": {
+        "align": false,
+        "jsx": true
+    }
+}

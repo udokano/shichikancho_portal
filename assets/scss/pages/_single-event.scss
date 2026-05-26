@@ -1,0 +1,134 @@
+@use '../config' as *;
+
+// イベント詳細ページ固有スタイル
+// 共通レイアウト・本文・関連・著者などは object/component/_article.scss (.c-article) を参照。
+.p-event-single {
+  background-color: $color-washi;
+  padding-block: rem(32) rem(64);
+
+  @include sp {
+    padding-block: rem(20) rem(48);
+  }
+
+  &__inner {
+    @include page-inner;
+  }
+
+  // ─── キー情報グリッド（イベント固有） ───────────
+  &__keyinfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(16);
+    background-color: $color-washi;
+    border-radius: rem(8);
+    padding: rem(20);
+    margin: 0 0 rem(20);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(12);
+      padding: rem(16);
+    }
+  }
+
+  &__keyinfo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(12);
+  }
+
+  &__keyinfo-icon {
+    flex-shrink: 0;
+    width: rem(32);
+    height: rem(32);
+    border-radius: rem(6);
+    background-color: #fff;
+    color: $color-primary-dark;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__keyinfo-body {
+    flex: 1;
+    min-width: 0;
+
+    dt {
+      font-size: rem(12);
+      color: $color-text-muted;
+      margin: 0 0 rem(2);
+    }
+
+    dd {
+      font-size: rem(14);
+      color: $color-text;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+
+  // ─── 開催概要テーブル（ACF event-overview ブロック） ─
+  &__overview {
+    margin-bottom: rem(32);
+  }
+
+  &__overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(8);
+    overflow: hidden;
+
+    th,
+    td {
+      padding: rem(16) rem(24);
+      font-size: rem(14);
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid $color-border;
+      line-height: 1.7;
+
+      @include sp {
+        padding: rem(12) rem(16);
+      }
+    }
+
+    tr:last-child th,
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    th {
+      width: rem(128);
+      background-color: $color-washi;
+      color: $color-text;
+      font-weight: 700;
+
+      @include sp {
+        width: rem(96);
+      }
+    }
+
+    td {
+      color: $color-text-muted;
+
+      a {
+        color: $color-primary-dark;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // 申し込みCTA（外部リンクボタン）
+  &__cta {
+    margin-top: rem(20);
+    text-align: center;
+  }
+
+  // 終了バッジは c-article__status と共存。is-ended modifier 用の差分があれば此処で。
+  &__status {
+    // 共通ベースは .c-article__status。イベント固有差分なし（フックポイントとして残す）。
+  }
+}

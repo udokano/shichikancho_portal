@@ -1,0 +1,84 @@
+@use '../../config' as *;
+
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(6);
+  padding: rem(12) rem(28);
+  font-size: rem(14);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: rem(9999);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  min-height: rem(44);
+  min-width: rem(44);
+
+  &--primary {
+    background-color: $color-blue;
+    color: #ffffff;
+    border-color: $color-blue;
+
+    &:hover,
+    &:focus-visible {
+      background-color: darken($color-blue, 8%);
+      border-color: darken($color-blue, 8%);
+    }
+  }
+
+  &--secondary {
+    background-color: $color-sakura;
+    color: $color-text;
+    border-color: $color-sakura;
+
+    &:hover,
+    &:focus-visible {
+      background-color: darken($color-sakura, 8%);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    color: $color-text;
+    border-color: $color-text-muted;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $color-sakura;
+      border-color: $color-sakura;
+      color: $color-text;
+    }
+  }
+
+  &--cta {
+    background-color: $color-orange;
+    color: #ffffff;
+    border-color: $color-orange;
+
+    &:hover,
+    &:focus-visible {
+      background-color: darken($color-orange, 8%);
+    }
+  }
+
+  &--sm {
+    padding: rem(8) rem(20);
+    font-size: rem(13);
+    min-height: rem(36);
+  }
+
+  &--lg {
+    padding: rem(16) rem(40);
+    font-size: rem(16);
+  }
+
+  &__icon {
+    width: rem(16);
+    height: rem(16);
+    flex-shrink: 0;
+  }
+}

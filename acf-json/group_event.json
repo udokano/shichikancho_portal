@@ -1,0 +1,131 @@
+{
+    "key": "group_event",
+    "title": "イベント情報",
+    "fields": [
+        {
+            "key": "field_event_date_start",
+            "label": "開催日（開始）",
+            "name": "event_date_start",
+            "type": "date_picker",
+            "required": 1,
+            "display_format": "Y-m-d",
+            "return_format": "Y-m-d",
+            "first_day": 0
+        },
+        {
+            "key": "field_event_date_end",
+            "label": "開催日（終了）",
+            "name": "event_date_end",
+            "type": "date_picker",
+            "display_format": "Y-m-d",
+            "return_format": "Y-m-d",
+            "first_day": 0
+        },
+        {
+            "key": "field_event_time",
+            "label": "開催時間",
+            "name": "event_time",
+            "type": "text",
+            "instructions": "例: 10:00〜17:00"
+        },
+        {
+            "key": "field_event_venue",
+            "label": "会場名",
+            "name": "event_venue",
+            "type": "text"
+        },
+        {
+            "key": "field_event_address",
+            "label": "会場住所",
+            "name": "event_address",
+            "type": "text"
+        },
+        {
+            "key": "field_event_fee",
+            "label": "参加費",
+            "name": "event_fee",
+            "type": "text",
+            "instructions": "例: 500 / 無料"
+        },
+        {
+            "key": "field_event_capacity",
+            "label": "定員",
+            "name": "event_capacity",
+            "type": "text"
+        },
+        {
+            "key": "field_event_organizer",
+            "label": "主催者",
+            "name": "event_organizer",
+            "type": "text"
+        },
+        {
+            "key": "field_event_contact",
+            "label": "お問い合わせ先",
+            "name": "event_contact",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_event_external_url",
+            "label": "外部申込リンク",
+            "name": "event_external_url",
+            "type": "url"
+        },
+        {
+            "key": "field_event_map_lat",
+            "label": "緯度",
+            "name": "event_map_lat",
+            "type": "number",
+            "step": "0.0000001"
+        },
+        {
+            "key": "field_event_map_lng",
+            "label": "経度",
+            "name": "event_map_lng",
+            "type": "number",
+            "step": "0.0000001"
+        },
+        {
+            "key": "field_event_faq",
+            "label": "よくある質問",
+            "name": "event_faq",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "FAQを追加",
+            "sub_fields": [
+                {
+                    "key": "field_event_faq_q",
+                    "label": "質問",
+                    "name": "question",
+                    "type": "text"
+                },
+                {
+                    "key": "field_event_faq_a",
+                    "label": "回答",
+                    "name": "answer",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "br"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "event"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1778700000
+}

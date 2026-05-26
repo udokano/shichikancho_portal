@@ -1,0 +1,664 @@
+@use '../config' as *;
+
+// ─── ページヘッダー ──────────────────────────────────────────
+.p-resident-archive__header {
+  background-color: $color-washi;
+  border-bottom: 1px solid $color-sakura;
+  padding-block: rem(32) rem(28);
+
+  @include sp { padding-block: rem(20); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    // Manusに合わせて高さ固定・下揃え
+    min-height: rem(80);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      min-height: rem(64);
+    }
+  }
+}
+
+.p-resident-archive__title {
+  font-family: $font-serif;
+  font-size: rem(30);
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.3;
+  margin-bottom: rem(4);
+
+  @include sp { font-size: rem(22); }
+}
+
+.p-resident-archive__sub {
+  font-size: rem(16);
+  color: $color-text;
+}
+
+// ─── PICK UP セクション（アーカイブカードと同じ見た目） ────────
+.p-resident-archive__featured {
+  position: relative;
+  background-color: $color-washi;
+  border-radius: rem(12);
+  padding: rem(24) rem(24) rem(28);
+  margin-bottom: rem(32);
+
+  @include sp {
+    padding: rem(16) rem(12) rem(20);
+    margin-bottom: rem(20);
+    border-radius: rem(8);
+  }
+}
+
+.p-resident-archive__featured-head {
+  margin-bottom: rem(16);
+}
+
+.p-resident-archive__featured-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(24);
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(16);
+  }
+
+  // slick 適用後（4件以上 or SP）はグリッドを解除
+  &.slick-initialized {
+    display: block;
+    grid-template-columns: none;
+    gap: 0;
+
+    .slick-slide { padding-inline: rem(10); }
+    .slick-list  { margin-inline: rem(-10); }
+    .slick-dots {
+      bottom: rem(-32);
+      li button::before { font-size: rem(8); color: $color-primary-dark; opacity: 0.4; }
+      li.slick-active button::before { opacity: 1; }
+    }
+  }
+}
+
+// カスタム矢印（slick デフォルトの ←→ ではなく SVG）
+.p-resident-archive__slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: rem(44);
+  height: rem(44);
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  color: $color-primary-dark;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &::before { content: none !important; }
+
+  @include hover {
+    background-color: $color-primary-dark;
+    color: #fff;
+  }
+
+  &--prev { left: rem(-16); }
+  &--next { right: rem(-16); }
+
+  @include sp {
+    width: rem(36);
+    height: rem(36);
+    &--prev { left: rem(-4); }
+    &--next { right: rem(-4); }
+  }
+
+  // slick-disabled 時は非表示
+  &.slick-disabled { opacity: 0.4; cursor: default; }
+}
+
+// SP 時のリストレイアウト調整
+.p-resident-archive__featured-list {
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: rem(12);
+
+    &.slick-initialized {
+      .slick-slide { padding-inline: rem(6); }
+      .slick-list  { margin-inline: rem(-6); }
+    }
+  }
+}
+
+.p-resident-archive__carousel {
+  position: relative;
+  border-radius: rem(16);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  aspect-ratio: 21 / 9;
+  background-color: $color-sakura;
+
+  @include sp { aspect-ratio: 16 / 7; }
+}
+
+.p-resident-archive__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+
+  &.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.p-resident-archive__slide-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
+}
+
+.p-resident-archive__slide-media {
+  position: absolute;
+  inset: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+    pointer-events: none;
+  }
+}
+
+.p-resident-archive__slide-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: rem(32);
+  color: #fff;
+  z-index: 2;
+  max-width: rem(600);
+  pointer-events: none;
+
+  .p-resident-archive__slide-btn { pointer-events: auto; }
+
+  @include sp { padding: rem(20); }
+}
+
+.p-resident-archive__slide-badge {
+  display: inline-block;
+  background-color: $color-primary-dark;
+  color: #fff;
+  font-size: rem(11);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: rem(3) rem(10);
+  border-radius: rem(9999);
+  margin-bottom: rem(10);
+}
+
+.p-resident-archive__slide-meta {
+  font-size: rem(12);
+  opacity: 0.85;
+  margin-bottom: rem(4);
+}
+
+.p-resident-archive__slide-name {
+  font-family: $font-serif;
+  font-size: rem(28);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-block: 0 rem(10);
+  color: #fff;
+
+  @include sp { font-size: rem(20); }
+}
+
+.p-resident-archive__slide-quote {
+  font-size: rem(13);
+  opacity: 0.9;
+  line-height: 1.7;
+  margin-bottom: rem(16);
+
+  @include sp { display: none; }
+}
+
+.p-resident-archive__slide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  background-color: $color-primary-dark;
+  color: #fff;
+  font-size: rem(13);
+  font-weight: 500;
+  padding: rem(8) rem(16);
+  border-radius: rem(8);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  @include hover { opacity: 0.85; }
+}
+
+.p-resident-archive__carousel-prev,
+.p-resident-archive__carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 0;
+  width: rem(36);
+  height: rem(36);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $color-text;
+  z-index: 3;
+  transition: background-color 0.2s ease;
+
+  @include hover { background-color: #fff; }
+}
+
+.p-resident-archive__carousel-prev { left: rem(16); }
+.p-resident-archive__carousel-next { right: rem(16); }
+
+.p-resident-archive__carousel-dots {
+  position: absolute;
+  bottom: rem(16);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: rem(8);
+}
+
+.p-resident-archive__carousel-dot {
+  width: rem(8);
+  height: rem(8);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.2s ease, background-color 0.2s ease;
+
+  &.is-active {
+    width: rem(32);
+    border-radius: rem(9999);
+    background-color: #fff;
+  }
+}
+
+// ─── メインラッパー ──────────────────────────────────────────
+.p-resident-archive {
+  background-color: #fff;
+  padding-block: rem(40) rem(72);
+
+  @include sp { padding-block: rem(24) rem(48); }
+
+  &__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: grid;
+    grid-template-columns: rem(260) 1fr;
+    gap: rem(32);
+    align-items: start;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: rem(220) 1fr;
+      gap: rem(24);
+    }
+
+    @include sp {
+      grid-template-columns: 1fr;
+      padding-inline: $container-pad-sp;
+    }
+
+    > .p-resident-archive__main { grid-column: 2; grid-row: 1; }
+    > .c-filter-sidebar,
+    > .p-resident-archive__sidebar { grid-column: 1; grid-row: 1; }
+
+    @include sp {
+      > .p-resident-archive__main { grid-column: 1; grid-row: 1; }
+      > .c-filter-sidebar,
+      > .p-resident-archive__sidebar { grid-column: 1; grid-row: 2; }
+    }
+  }
+
+  &__main { min-width: 0; }
+
+  &__count {
+    font-size: rem(13);
+    color: $color-text-muted;
+    margin-bottom: rem(20);
+  }
+
+  // カードグリッド
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+
+    @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(16) rem(12); }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    gap: rem(4);
+    margin-top: rem(40);
+
+    .page-numbers {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: rem(36);
+      height: rem(36);
+      padding-inline: rem(8);
+      border-radius: rem(6);
+      font-size: rem(13);
+      color: $color-text;
+      background-color: #fff;
+      border: 1px solid $color-border;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s;
+
+      &.current,
+      &:hover {
+        background-color: $color-primary-dark;
+        color: #fff;
+        border-color: $color-primary-dark;
+      }
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    font-size: rem(14);
+    color: $color-text-muted;
+    padding: rem(60) 0;
+  }
+}
+
+// ─── お隣さんカード（昭和村風） ─────────────────────────────
+.p-resident-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+
+  &__hero {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: rem(4);
+    overflow: hidden;
+    background-color: $color-sakura;
+  }
+
+  // 右上のナンバーバッジ
+  &__no {
+    position: absolute;
+    top: rem(12);
+    right: rem(12);
+    z-index: 3;
+    width: rem(54);
+    height: rem(54);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    background-color: transparent;
+    border: 2px solid $color-text;
+    border-radius: rem(4);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  // 上部タイトルキャプション（白いボックス）
+  &__caption {
+    position: absolute;
+    top: rem(18);
+    left: rem(18);
+    right: rem(80);
+    z-index: 2;
+    background-color: #fff;
+    padding: rem(14) rem(16);
+    border-radius: rem(2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  &__quote {
+    font-family: $font-serif;
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+    margin: 0 0 rem(4);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-text;
+    line-height: 1.4;
+    margin: 0;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // メイン画像
+  &__img {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  &__img-inner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  &__img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, $color-sakura 0%, darken($color-sakura, 8%) 100%);
+  }
+
+  // 右下の日付
+  &__date {
+    position: absolute;
+    right: rem(14);
+    bottom: rem(10);
+    z-index: 2;
+    font-size: rem(13);
+    font-weight: 700;
+    color: #e23a2e;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  @include hover {
+    .p-resident-card__img-inner { transform: scale(1.05); }
+    .p-resident-card__foot-name { color: $color-primary-dark; }
+  }
+
+  // 下部フッター（アバター + 肩書 + 名前）
+  &__foot {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    padding: rem(14) rem(2) 0;
+  }
+
+  &__foot-avatar {
+    flex-shrink: 0;
+    width: rem(36);
+    height: rem(36);
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: $color-sakura;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__foot-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: rem(2);
+  }
+
+  &__foot-role {
+    font-size: rem(11);
+    color: $color-text-muted;
+    line-height: 1.3;
+  }
+
+  &__foot-name {
+    font-family: $font-serif;
+    font-size: rem(13);
+    color: $color-text;
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+}
+
+// ─── サイドバー ──────────────────────────────────────────────
+.p-resident-archive__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+  position: sticky;
+  top: rem(96);
+
+  @include sp { display: none; }
+}
+
+.p-resident-sidebar__block {
+  background-color: $color-washi;
+  border-radius: rem(12);
+  padding: rem(20) rem(20) rem(24);
+
+  &--cta {
+    background-color: $color-sakura;
+    text-align: center;
+    padding: rem(24) rem(20);
+  }
+}
+
+.p-resident-sidebar__block-title {
+  display: flex;
+  align-items: center;
+  gap: rem(6);
+  font-size: rem(13);
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: rem(14);
+  padding-bottom: rem(10);
+  border-bottom: 1px solid $color-border;
+
+  svg { flex-shrink: 0; opacity: 0.7; }
+}
+
+.p-resident-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(10);
+}
+
+.p-resident-sidebar__list-item { display: flex; }
+
+.p-resident-sidebar__list-link {
+  display: flex;
+  align-items: center;
+  gap: rem(10);
+  text-decoration: none;
+  width: 100%;
+
+  @include hover {
+    .p-resident-sidebar__list-name { color: $color-primary-dark; }
+  }
+}
+
+.p-resident-sidebar__list-thumb {
+  flex-shrink: 0;
+  width: rem(48);
+  height: rem(48);
+  border-radius: rem(8);
+  overflow: hidden;
+  background-color: $color-sakura;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.p-resident-sidebar__list-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+.p-resident-sidebar__list-name {
+  font-size: rem(12);
+  color: $color-text;
+  line-height: 1.5;
+  transition: color 0.2s;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.p-resident-sidebar__list-date {
+  font-size: rem(11);
+  color: $color-text-muted;
+}
+
+.p-resident-sidebar__cta-lead {
+  font-family: $font-serif;
+  font-size: rem(13);
+  line-height: 1.8;
+  color: $color-text;
+  margin-bottom: rem(16);
+}

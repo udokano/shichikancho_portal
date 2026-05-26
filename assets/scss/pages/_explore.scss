@@ -1,0 +1,405 @@
+@use '../config' as *;
+
+// ヒーロー: c-page-hero / フィルターチップ: c-chips / タグ: c-tag
+
+// ─── フォトコンテスト ────────────────────────────────────
+.p-explore__photo {
+  background-color: $color-washi;
+  padding-block: rem(48);
+
+  @include sp { padding-block: rem(32); }
+
+  &-inner {
+    @include page-inner;
+  }
+
+  &-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: rem(32);
+    align-items: center;
+    background-color: #fff;
+    border-radius: rem(16);
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s ease;
+
+    @include hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); }
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+
+  &-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: $color-border;
+
+    @include sp { aspect-ratio: 16 / 9; }
+  }
+
+  &-body {
+    padding: rem(32);
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+    align-items: flex-start;
+
+    @include sp { padding: rem(20); }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+
+  &-cta {
+    margin-top: auto;
+    color: $color-primary-dark;
+    font-size: rem(13);
+    font-weight: 600;
+  }
+
+  &-awards {
+    margin-top: rem(48);
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(18);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(20);
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: rem(16);
+
+      @include mq-down(md) { grid-template-columns: repeat(2, 1fr); }
+    }
+  }
+
+  &-award {
+    background-color: #fff;
+    border-radius: rem(12);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s ease;
+
+    @include hover { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06); }
+
+    &-img {
+      aspect-ratio: 4 / 3;
+      background-color: $color-border;
+      overflow: hidden;
+    }
+
+    &-body {
+      padding: rem(12) rem(14);
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+    }
+
+    &-name {
+      font-size: rem(13);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.4;
+    }
+
+    &-place {
+      font-size: rem(11);
+      color: $color-text-muted;
+    }
+  }
+}
+
+// ─── メイン（フィルター + コース一覧） ──────────────────
+.p-explore__main {
+  background-color: #fff;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    display: grid;
+    grid-template-columns: rem(240) 1fr;
+    gap: rem(40);
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      grid-template-columns: 1fr;
+      gap: rem(24);
+    }
+  }
+}
+
+// ─── フィルターサイドバー ────────────────────────────────
+.p-explore__filter {
+  &-form {
+    background-color: $color-washi;
+    border-radius: rem(12);
+    padding: rem(24);
+    position: sticky;
+    top: rem(96);
+
+    @include sp { position: static; padding: rem(20); }
+  }
+
+  &-title {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(20);
+    padding-bottom: rem(12);
+    border-bottom: 1px solid $color-border;
+  }
+
+  &-block {
+    border: 0;
+    padding: 0;
+    margin: 0 0 rem(20);
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &-label {
+    font-size: rem(12);
+    font-weight: 700;
+    color: $color-text-muted;
+    margin-bottom: rem(10);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &-reset {
+    display: inline-block;
+    margin-top: rem(8);
+    font-size: rem(12);
+    color: $color-text-muted;
+    text-decoration: underline;
+
+    @include hover { color: $color-primary-dark; }
+  }
+}
+
+// ─── コース一覧 ──────────────────────────────────────────
+.p-explore__courses {
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: rem(20);
+    flex-wrap: wrap;
+    gap: rem(8);
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-text;
+
+    @include sp { font-size: rem(17); }
+  }
+
+  &-count {
+    font-size: rem(13);
+    color: $color-text-muted;
+
+    &-value {
+      font-size: rem(20);
+      font-weight: 700;
+      color: $color-primary-dark;
+      margin-inline: rem(2);
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include mq-down(md) { grid-template-columns: 1fr; }
+  }
+
+  &-empty {
+    padding: rem(48) rem(24);
+    text-align: center;
+    color: $color-text-muted;
+    font-size: rem(14);
+    background-color: $color-washi;
+    border-radius: rem(12);
+  }
+}
+
+// ─── コースカード ────────────────────────────────────────
+.p-explore__course-card {
+  display: block;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+
+  @include hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  &-img {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background-color: $color-border;
+    overflow: hidden;
+  }
+
+  &-area {
+    position: absolute;
+    top: rem(12);
+    left: rem(12);
+  }
+
+  &-body {
+    padding: rem(20);
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &-name {
+    font-family: $font-serif;
+    font-size: rem(17);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
+  }
+
+  &-desc {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+
+  &-meta {
+    display: flex;
+    gap: rem(16);
+    margin-top: rem(4);
+    font-size: rem(12);
+    color: $color-primary-dark;
+    font-weight: 600;
+
+    div { display: contents; }
+    dd { margin: 0; }
+  }
+}
+
+// ─── 月間人気ランキング ──────────────────────────────────
+.p-explore__ranking {
+  background-color: $color-sakura;
+  padding-block: rem(56);
+
+  @include sp { padding-block: rem(40); }
+
+  &-inner {
+    max-width: rem(800);
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
+  &-title {
+    font-family: $font-serif;
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-text;
+    text-align: center;
+    margin-bottom: rem(28);
+
+    @include sp { font-size: rem(18); }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+    list-style: none;
+    padding: 0;
+  }
+
+  &-item {
+    background-color: #fff;
+    border-radius: rem(10);
+    padding: rem(12) rem(20);
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+  }
+
+  &-num {
+    flex-shrink: 0;
+    width: rem(32);
+    height: rem(32);
+    border-radius: 50%;
+    background-color: $color-primary-dark;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: rem(14);
+  }
+
+  &-link {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: rem(12);
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+
+    @include hover {
+      .p-explore__ranking-name { color: $color-primary-dark; }
+    }
+  }
+
+  &-name {
+    font-size: rem(14);
+    font-weight: 700;
+    color: $color-text;
+    transition: color 0.2s;
+    @include line-clamp(1);
+  }
+
+  &-meta {
+    flex-shrink: 0;
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+}
+

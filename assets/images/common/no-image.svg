@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="533" viewBox="0 0 800 533">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbeae4"/>
+      <stop offset="100%" stop-color="#f4d6cd"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="533" fill="url(#bg)"/>
+  <g opacity="0.45" fill="#a04545" transform="translate(400,266)">
+    <!-- 桜の花弁 -->
+    <path d="M0,-70 c10,-25 30,-25 30,0 c0,15 -15,25 -30,30 c-15,-5 -30,-15 -30,-30 c0,-25 20,-25 30,0 z" transform="rotate(0)"/>
+    <path d="M0,-70 c10,-25 30,-25 30,0 c0,15 -15,25 -30,30 c-15,-5 -30,-15 -30,-30 c0,-25 20,-25 30,0 z" transform="rotate(72)"/>
+    <path d="M0,-70 c10,-25 30,-25 30,0 c0,15 -15,25 -30,30 c-15,-5 -30,-15 -30,-30 c0,-25 20,-25 30,0 z" transform="rotate(144)"/>
+    <path d="M0,-70 c10,-25 30,-25 30,0 c0,15 -15,25 -30,30 c-15,-5 -30,-15 -30,-30 c0,-25 20,-25 30,0 z" transform="rotate(216)"/>
+    <path d="M0,-70 c10,-25 30,-25 30,0 c0,15 -15,25 -30,30 c-15,-5 -30,-15 -30,-30 c0,-25 20,-25 30,0 z" transform="rotate(288)"/>
+    <circle cx="0" cy="0" r="8" fill="#7c2828"/>
+  </g>
+  <text x="400" y="430" font-family="'Hiragino Mincho ProN', 'Yu Mincho', serif" font-size="22" letter-spacing="6" fill="#a04545" text-anchor="middle" font-weight="500">七間町 SHICHIKANCHO</text>
+</svg>

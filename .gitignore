@@ -1,0 +1,9 @@
+node_modules/
+assets/css/
+*.map
+.DS_Store
+.claude/
+.vscode/
+.idea/
+.sass-cache/
+*.log

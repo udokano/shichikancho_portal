@@ -1,0 +1,114 @@
+{
+    "key": "group_shop_extra",
+    "title": "お店 追加情報（カード表示用）",
+    "fields": [
+        {
+            "key": "field_shop_price_range",
+            "label": "価格帯",
+            "name": "shop_price_range",
+            "type": "text",
+            "instructions": "例: 1,000〜1,500円 / 〜500円 / 3,000円〜",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_busy_hours",
+            "label": "混雑目安",
+            "name": "shop_busy_hours",
+            "type": "text",
+            "instructions": "例: 土日 11〜18時 / 平日午後は比較的ゆったり",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_seats",
+            "label": "席数",
+            "name": "shop_seats",
+            "type": "text",
+            "instructions": "例: 20席 / カウンター8席+テーブル12席",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_parking_note",
+            "label": "駐車場メモ",
+            "name": "shop_parking_note",
+            "type": "text",
+            "instructions": "例: なし / 共用2台 / 近隣コインパーキング",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_target_audience",
+            "label": "こんな人におすすめ",
+            "name": "shop_target_audience",
+            "type": "text",
+            "instructions": "例: 散歩の休憩 / 雨の日 / 1人旅",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_popular_menu",
+            "label": "人気メニュー",
+            "name": "shop_popular_menu",
+            "type": "text",
+            "instructions": "例: 季節のタルト、カフェラテ",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_shop_tips",
+            "label": "旅行者向けTips",
+            "name": "shop_tips",
+            "type": "textarea",
+            "instructions": "観光客・初訪問者向けの案内（持参物・最寄り駅からの動線・写真撮影可否など）",
+            "required": 0,
+            "default_value": "",
+            "placeholder": "",
+            "rows": 6,
+            "new_lines": "wpautop"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "shop"
+            }
+        ]
+    ],
+    "menu_order": 5,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+}

@@ -1,0 +1,66 @@
+@use '../../config' as *;
+
+.c-breadcrumbs {
+  padding-block: rem(10);
+  background-color: $color-bg-light;
+  border-bottom: 1px solid $color-border;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: rem(4);
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+    list-style: none;
+    margin-block: 0;
+
+    @include sp {
+      padding-inline: $container-pad-sp;
+      font-size: rem(11);
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    font-size: rem(12);
+    color: $color-text-muted;
+
+    &:not(:last-child)::after {
+      content: '›';
+      color: $color-border;
+      font-size: rem(14);
+      line-height: 1;
+      margin-left: rem(4);
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    color: $color-text-muted;
+    transition: color 0.2s;
+    text-decoration: none;
+
+    @include hover { color: $color-text; }
+  }
+
+  &__current {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    color: $color-text;
+    font-weight: 500;
+    max-width: 200px;
+    @include truncate;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    color: $color-text-muted;
+  }
+}

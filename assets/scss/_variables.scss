@@ -1,0 +1,66 @@
+// variables 内で rem() を使うため明示的に use
+@use 'functions' as *;
+
+// ブレイクポイント（レガシー）
+$bp-sp: 768px;
+
+// ブレイクポイントマップ
+$breakpoint: (
+  sp: "screen and (max-width: 749px)",
+  pc: "screen and (min-width: 750px)",
+) !default;
+
+$breakpoint-up: (
+  xs: "screen and (min-width: 540px)",
+  sm: "screen and (min-width: 769px)",
+  md: "screen and (min-width: 901px)",
+  lg: "screen and (min-width: 1025px)",
+  xl: "screen and (min-width: 1400px)",
+  xxl: "screen and (min-width: 1920px)",
+) !default;
+
+$breakpoint-down: (
+  xs: "screen and (max-width: 539px)",
+  sm: "screen and (max-width: 768px)",
+  md: "screen and (max-width: 900px)",
+  lg: "screen and (max-width: 1024px)",
+  xl: "screen and (max-width: 1399px)",
+  xxl: "screen and (max-width: 1919px)",
+) !default;
+
+// カラーパレット（Manus oklch 変換値）
+$color-green:   #2D5A27; // 茶畑の深緑
+$color-blue:    #006da6; // Manus --sakura-deep (oklch 50% .14 235)
+$color-cream:   #f6f9fa; // Manus --washi
+$color-orange:  #E8841A; // みかんのオレンジ
+$color-sakura:  #d8f0fc; // Manus --sakura (oklch 94% .03 230)
+$color-washi:   #f6f9fa; // Manus --washi (oklch 98% .003 230)
+
+// テキスト・背景
+$color-text:        #121c23; // Manus --sumi (oklch 22% .02 240)
+$color-text-muted:  #4b5563; // 薄すぎたので濃いめに調整 (slate-600 相当)
+$color-bg:          #FFFFFF;
+$color-bg-light:    #f6f9fa; // Manus --washi
+$color-border:      #b8c5cf; // 薄すぎたので濃いめに調整
+
+// ブランドカラー（メインアクセント）
+$color-primary:     #006da6; // sakura-deep（アクセント文字/アイコン用、薄い水色だと視認性が悪いため濃色に統一）
+$color-primary-dark: #006da6; // Manus --sakura-deep
+
+// フォント
+$font-sans:  'Inter', 'Noto Sans JP', sans-serif;
+$font-serif: 'Noto Serif JP', Georgia, serif;
+
+// コンテナ幅
+$container-max-wide:   1440px;
+$container-max:        1440px; // normal（既存互換用）
+$container-max-normal: 1440px;
+$container-max-small:  800px;
+$container-pad:    rem(32);
+$container-pad-sp: rem(16);
+
+// z-index
+$z-header:  100;
+$z-drawer:  200;
+$z-overlay: 150;
+$z-modal:   300;
