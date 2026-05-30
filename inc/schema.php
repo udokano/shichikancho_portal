@@ -828,6 +828,38 @@ function schema_contact_page(): void {
 }
 
 // ─────────────────────────────────────────────────────────
+// コワーキングスペース（page-business.php の各カードから呼ぶ）
+// ─────────────────────────────────────────────────────────
+
+function schema_cowork_item( array $data ): void {
+	$schema = [
+		'@context'           => 'https://schema.org',
+		'@type'              => 'LocalBusiness',
+		'name'               => $data['name'] ?? '',
+		'description'        => $data['description'] ?? '',
+		'address'            => [
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => $data['address'] ?? SC_ADDRESS['streetAddress'],
+			'addressLocality' => SC_ADDRESS['addressLocality'],
+			'addressRegion'   => SC_ADDRESS['addressRegion'],
+			'postalCode'      => SC_ADDRESS['postalCode'],
+			'addressCountry'  => SC_ADDRESS['addressCountry'],
+		],
+		'parentOrganization' => [
+			'@type' => 'Organization',
+			'name'  => SC_ORG_NAME,
+		],
+	];
+
+	if ( ! empty( $data['phone'] ) )  { $schema['telephone']    = $data['phone']; }
+	if ( ! empty( $data['hours'] ) )  { $schema['openingHours'] = $data['hours']; }
+	if ( ! empty( $data['url'] ) )    { $schema['url']          = $data['url']; }
+	if ( ! empty( $data['image'] ) )  { $schema['image']        = $data['image']; }
+
+	sc_output_schema( $schema );
+}
+
+// ─────────────────────────────────────────────────────────
 // スポンサーオファー
 // ─────────────────────────────────────────────────────────
 

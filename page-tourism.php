@@ -5,6 +5,8 @@
  */
 get_header();
 
+if ( function_exists( 'schema_tourist_destination' ) ) schema_tourist_destination();
+
 // イベント取得
 $events_q = new WP_Query( [
 	'post_type'      => CPT_EVENT,

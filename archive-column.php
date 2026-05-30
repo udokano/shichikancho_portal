@@ -87,6 +87,7 @@ $base_url = get_post_type_archive_link( CPT_COLUMN );
 $current_page = max( 1, get_query_var( 'paged', 1 ) );
 
 get_header();
+if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_list( $col_query->posts );
 ?>
 <main id="main-content" class="p-column-archive">
 

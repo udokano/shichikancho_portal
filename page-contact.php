@@ -1,7 +1,8 @@
 <?php
 /** お問い合わせページ */
 get_header();
-?>
+<?php if ( function_exists( 'schema_contact_page' ) ) schema_contact_page(); ?>
+<?php
 
 <?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 

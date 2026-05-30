@@ -78,20 +78,22 @@ $living_tabs = [
 foreach ( $living_tabs as $idx => &$tab ) {
 	$tab['items'] = living_get_repeater( $pid, $tab['key'] );
 
-	// 周辺施設グループ（living_tabs_{i}_tab_facility_groups_*）— 新ACF構造から読み込み
+	// 周辺施設グループ（{pre}_facility_groups リピーター）
 	$tab['facility_groups'] = [];
-	$gcount = (int) get_post_meta( $pid, "living_tabs_{$idx}_tab_facility_groups", true );
+	$pre    = $tab['pre']; // lf / lb / ls / lac / lsu
+	$gbase  = "{$pre}_facility_groups";
+	$gcount = (int) get_post_meta( $pid, $gbase, true );
 	for ( $g = 0; $g < $gcount; $g++ ) {
-		$gkey   = "living_tabs_{$idx}_tab_facility_groups_{$g}";
-		$gtitle = get_post_meta( $pid, $gkey . '_group_title', true );
-		$icount = (int) get_post_meta( $pid, $gkey . '_items', true );
-		$items  = [];
+		$gprefix = "{$gbase}_{$g}_";
+		$gtitle  = (string) get_post_meta( $pid, $gprefix . 'group_title', true );
+		$icount  = (int) get_post_meta( $pid, $gprefix . 'items', true );
+		$items   = [];
 		for ( $i = 0; $i < $icount; $i++ ) {
-			$ik = $gkey . "_items_{$i}";
+			$ik = "{$gprefix}items_{$i}_";
 			$items[] = [
-				'name'    => get_post_meta( $pid, $ik . '_name',    true ),
-				'address' => get_post_meta( $pid, $ik . '_address', true ),
-				'note'    => get_post_meta( $pid, $ik . '_note',    true ),
+				'name'    => (string) get_post_meta( $pid, $ik . 'name',    true ),
+				'address' => (string) get_post_meta( $pid, $ik . 'address', true ),
+				'note'    => (string) get_post_meta( $pid, $ik . 'note',    true ),
 			];
 		}
 		if ( $gtitle && $items ) {

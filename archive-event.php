@@ -157,6 +157,7 @@ $keep_cat_qs = $filter_cats ? [ 'ev_cat' => $filter_cats ] : [];
 $keep_tag = $filter_tags ? add_query_arg( array_merge( $keep_cat_qs, [ 'ev_tag' => $filter_tags ] ), $base_url ) : ( $keep_cat_qs ? add_query_arg( $keep_cat_qs, $base_url ) : $base_url );
 
 get_header();
+if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_list( $event_query->posts );
 ?>
 <main id="main-content" class="p-event-archive">
 

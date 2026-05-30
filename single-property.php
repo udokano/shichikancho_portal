@@ -6,6 +6,7 @@ if ( ! have_posts() ) { get_footer(); return; }
 the_post();
 
 $pid       = get_the_ID();
+if ( function_exists( 'schema_property' ) ) schema_property( $pid );
 $name      = get_field( 'prop_name', $pid ) ?: get_the_title( $pid );
 $address   = get_field( 'prop_address', $pid );
 $rent      = get_field( 'prop_rent', $pid );

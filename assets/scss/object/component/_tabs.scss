@@ -24,6 +24,8 @@
   &__inner {
     @include page-inner;
     overflow-x: auto;
+
+    @include sp { overflow-x: visible; }
   }
 
   &__list {
@@ -32,13 +34,15 @@
     list-style: none;
     width: 100%;
 
-    @include sp { min-width: max-content; }
+    @include sp {
+      flex-wrap: wrap;
+    }
   }
 
   &__item {
     flex: 1;
 
-    @include sp { flex: 0 0 auto; }
+    @include sp { flex: 1 0 33.333%; }
   }
 
   &__btn {

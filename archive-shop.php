@@ -43,6 +43,7 @@ if ( $filter_kw ) {
 }
 
 $shop_query = new WP_Query( $args );
+if ( function_exists( 'schema_item_list' ) && $shop_query->posts ) schema_item_list( $shop_query->posts );
 
 // カテゴリー・エリア一覧取得
 $shop_cats = get_terms( [ 'taxonomy' => TAX_SHOP_CAT, 'hide_empty' => false ] );

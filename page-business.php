@@ -226,6 +226,15 @@ get_header();
 						$cwthumb    = $cwmain_id ? wp_get_attachment_image_url( $cwmain_id, 'medium' ) : sc_thumbnail_url( $cwid, 'medium' );
 						$cwtags_raw = get_post_meta( $cwid, 'cw_tags', true );
 						$cwtags = is_array( $cwtags_raw ) ? array_filter( array_map( fn( $r ) => $r['tag'] ?? '', $cwtags_raw ) ) : [];
+						if ( function_exists( 'schema_cowork_item' ) ) schema_cowork_item( [
+							'name'        => $cwname,
+							'description' => $cwdesc,
+							'address'     => $cwaddr,
+							'phone'       => $cwphone,
+							'hours'       => $cwhours,
+							'url'         => $cwurl,
+							'image'       => $cwthumb,
+						] );
 				?>
 					<article class="p-commerce__coworking-card">
 						<div class="p-commerce__coworking-card-img">
@@ -291,6 +300,13 @@ get_header();
 					wp_reset_postdata();
 				else :
 					foreach ( $cw_sample as $cw ) :
+					if ( function_exists( 'schema_cowork_item' ) ) schema_cowork_item( [
+						'name'        => $cw['name'],
+						'description' => $cw['desc'],
+						'address'     => $cw['address'],
+						'phone'       => $cw['phone'],
+						'hours'       => $cw['hours'],
+					] );
 				?>
 					<article class="p-commerce__coworking-card">
 						<div class="p-commerce__coworking-card-img">
