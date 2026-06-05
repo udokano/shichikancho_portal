@@ -164,7 +164,9 @@
     letter-spacing: 0.06em;
     line-height: 1;
 
-    @include sp { font-size: rem(32); }
+    @include sp {
+      font-size: rem(32);
+    }
 
     // JSで生成される1文字ごとの<span>
     .p-home-hero__char {
@@ -197,7 +199,9 @@
     margin: 0;
     opacity: 0.95;
 
-    @include sp { font-size: rem(18); }
+    @include sp {
+      font-size: rem(18);
+    }
   }
 
   // リード
@@ -207,7 +211,9 @@
     letter-spacing: 0.08em;
     opacity: 0.9;
 
-    @include sp { font-size: rem(13); }
+    @include sp {
+      font-size: rem(13);
+    }
   }
 
   // ─── 右カラム: マップ ──
@@ -228,28 +234,51 @@
     height: auto;
     display: block;
   }
-
 }
 
 // ─── ヒーロー keyframes ──
 @keyframes heroCharIn {
-  from { opacity: 0; transform: translateY(0.5em) rotate(6deg); }
-  to   { opacity: 1; transform: translateY(0)     rotate(0); }
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
 }
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(rem(12)); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(rem(12));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // reduce-motion 時：transform は無効化し、opacity フェードのみに留める（軽い動きは残す）
 @media (prefers-reduced-motion: reduce) {
   @keyframes heroCharIn {
-    from { opacity: 0; transform: none; }
-    to   { opacity: 1; transform: none; }
+    from {
+      opacity: 0;
+      transform: none;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   @keyframes heroFadeUp {
-    from { opacity: 0; transform: none; }
-    to   { opacity: 1; transform: none; }
+    from {
+      opacity: 0;
+      transform: none;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   .p-home-hero__char {
     transform: none;
@@ -408,11 +437,30 @@
 
 // ─── TOPイベントカルーセル ────────────────────────────────
 .p-home-event-carousel {
+  // スライドをグリッドで重ね、フェードで切り替え
+  display: grid;
+
   &__slide {
-    display: none;
+    grid-area: 1 / 1; // 全スライドを同セルに重ねる
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.4s ease,
+      visibility 0s linear 0.4s;
+
     &.is-active {
-      display: block;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition:
+        opacity 0.4s ease,
+        visibility 0s linear 0s;
     }
+  }
+
+  &__controls {
+    grid-area: 2 / 1; // コントロールをスライドの下に配置
   }
 
   &__controls {

@@ -80,7 +80,7 @@ get_header();
 			?>
 			<a class="p-gallery__featured-card p-gallery__featured-card--<?php echo esc_attr( $mod ); ?>" href="<?php echo esc_url( get_permalink( $pid ) ); ?>">
 				<div class="p-gallery__featured-img">
-					<img src="<?php echo esc_url( $img ); ?>" alt="" aria-hidden="true" loading="lazy">
+					<img class="p-gallery__featured-img-inner" src="<?php echo esc_url( $img ); ?>" alt="" aria-hidden="true" loading="lazy">
 				</div>
 				<!-- /.p-gallery__featured-img -->
 				<div class="p-gallery__featured-body">
@@ -240,7 +240,7 @@ get_header();
 			<svg aria-hidden="true" focusable="false"><use href="#icon-close"></use></svg>
 		</button>
 		<div class="p-gallery__modal-img">
-			<img src="" alt="" id="gallery-zoom-img">
+			<img class="p-gallery__modal-image" src="" alt="" id="gallery-zoom-img">
 		</div>
 		<div class="p-gallery__modal-caption">
 			<h2 class="p-gallery__modal-title" id="gallery-zoom-title"></h2>

@@ -21,6 +21,22 @@
 
   @include sp { padding-block: rem(64); }
 
+  &-bg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.38;
+    }
+  }
+
   &-inner {
     max-width: rem(720);
     margin-inline: auto;
@@ -562,36 +578,43 @@
     gap: rem(16);
 
     @include sp {
-      grid-template-columns: 1fr;
-      gap: rem(10);
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(12);
     }
   }
 
   &-card {
     background-color: #fff;
     border-radius: rem(12);
-    padding: rem(20);
-    display: flex;
-    align-items: flex-start;
-    gap: rem(12);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.25s, transform 0.25s;
 
-    &-icon {
-      width: rem(36);
-      height: rem(36);
-      border-radius: rem(8);
-      background-color: $color-sakura;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $color-primary-dark;
-      flex-shrink: 0;
+    @include hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(rem(-3));
+
+      .p-cl__wide-card-photo img { transform: scale(1.06); }
+    }
+
+    &-photo {
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
     }
 
     &-body {
+      padding: rem(14) rem(18) rem(18);
       display: flex;
       flex-direction: column;
-      gap: rem(4);
+      gap: rem(8);
     }
 
     &-name {
@@ -633,12 +656,9 @@
   }
 
   &-desc-item {
-    background-color: #fff;
+    background-color: rgba(#000, 0.04);
     border-radius: rem(12);
     padding: rem(24);
-
-    // 左ボーダー装飾
-    border-left: rem(4) solid $color-primary-dark;
   }
 
   &-desc-title {
@@ -646,7 +666,7 @@
     font-size: rem(16);
     font-weight: 700;
     color: $color-text;
-    margin-bottom: rem(8);
+    margin-bottom: rem(10);
   }
 
   &-desc-body {
@@ -941,10 +961,28 @@
 
 // ─── VISION CTA ─────────────────────────────────────────
 .p-cl__future {
-  background-color: #fff;
+  background-color: #120508;
   padding-block: rem(80);
+  position: relative;
+  overflow: hidden;
 
   @include sp { padding-block: rem(56); }
+
+  &-bg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.22;
+    }
+  }
 
   &-inner {
     max-width: rem(680);
@@ -955,6 +993,8 @@
     flex-direction: column;
     align-items: center;
     gap: rem(16);
+    position: relative;
+    z-index: 1;
 
     @include sp { padding-inline: $container-pad-sp; }
   }
@@ -963,7 +1003,7 @@
     font-size: rem(11);
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: $color-text-muted;
+    color: rgba(#fff, 0.55);
     text-transform: uppercase;
   }
 
@@ -971,7 +1011,7 @@
     font-family: $font-serif;
     font-size: rem(28);
     font-weight: 700;
-    color: $color-text;
+    color: #fff;
     line-height: 1.4;
 
     @include sp { font-size: rem(22); }
@@ -979,13 +1019,13 @@
 
   &-lead {
     font-size: rem(14);
-    color: $color-text-muted;
+    color: rgba(#fff, 0.75);
     line-height: 1.9;
   }
 
   &-sub {
     font-size: rem(13);
-    color: $color-text-muted;
+    color: rgba(#fff, 0.6);
     line-height: 1.8;
     margin-top: rem(-4);
   }
@@ -1009,7 +1049,8 @@
       font-family: $font-serif;
       font-size: rem(40);
       font-weight: 800;
-      color: $color-primary-dark;
+      // ダーク背景なのでサクラ色で映える
+      color: $color-sakura;
       line-height: 1;
 
       small {
@@ -1021,7 +1062,7 @@
 
     &-label {
       font-size: rem(12);
-      color: $color-text-muted;
+      color: rgba(#fff, 0.65);
     }
   }
 
@@ -1030,8 +1071,8 @@
     align-items: center;
     gap: rem(8);
     padding: rem(14) rem(32);
-    background-color: $color-primary-dark;
-    color: #fff;
+    background-color: #fff;
+    color: $color-primary-dark;
     font-size: rem(15);
     font-weight: 600;
     text-decoration: none;
@@ -1039,7 +1080,7 @@
     margin-top: rem(8);
     transition: opacity 0.2s;
 
-    @include hover { opacity: 0.85; }
+    @include hover { opacity: 0.88; }
 
     svg { flex-shrink: 0; }
   }

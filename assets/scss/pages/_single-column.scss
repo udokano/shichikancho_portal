@@ -91,10 +91,10 @@
     height: rem(16);
   }
 
-  // ─── リードボックス（c-article__lead 上書き：washi + 左ボーダー） ─
+  // ─── リードボックス（c-article__lead 上書き：washi + 全周1pxボーダー） ─
   &__lead {
     background-color: $color-washi;
-    border-left: 4px solid $color-primary-dark;
+    border: 1px solid $color-border;
     border-radius: rem(12);
     margin-block: rem(24) rem(40);
     padding: rem(24);

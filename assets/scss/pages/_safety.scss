@@ -1,680 +1,694 @@
 @use '../config' as *;
 
-// ─── 重要告知バナー ──────────────────────────────────────
-.p-safety__alert {
-  background-color: #dc2626;
+.p-safety {
 
-  &-inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    padding: rem(20) $container-pad;
+  // ─── 重要告知バナー ──────────────────────────────────────
+  &__alert {
+    background-color: #dc2626;
+
+    &-inner {
+      max-width: $container-max;
+      margin-inline: auto;
+      padding: rem(20) $container-pad;
+      display: flex;
+      align-items: flex-start;
+      gap: rem(16);
+
+      @include sp { padding: rem(16) $container-pad-sp; gap: rem(12); }
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      width: rem(40);
+      height: rem(40);
+      color: #fff;
+
+      @include sp { width: rem(32); height: rem(32); }
+    }
+
+    &-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-heading {
+      font-size: rem(15);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: rem(4);
+
+      @include sp { font-size: rem(13); }
+    }
+
+    &-text {
+      font-size: rem(13);
+      color: rgba(#fff, 0.85);
+      line-height: 1.7;
+      margin: 0;
+    }
+  }
+
+  // ─── セクション共通 ──────────────────────────────────────
+  &__section {
+    background-color: #fff;
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+
+    &--washi { background-color: $color-washi; }
+
+    &-inner {
+      max-width: $container-max;
+      margin-inline: auto;
+      padding-inline: $container-pad;
+
+      @include sp { padding-inline: $container-pad-sp; }
+    }
+
+    &-title {
+      font-size: rem(22);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(12);
+      line-height: 1.5;
+
+      @include sp { font-size: rem(18); }
+    }
+
+    &-lead {
+      font-size: rem(14);
+      color: $color-text-muted;
+      line-height: 1.9;
+      margin-bottom: rem(40);
+
+      @include sp { margin-bottom: rem(28); }
+    }
+  }
+
+  // ─── 緊急連絡先 ─────────────────────────────────────────
+  &__contacts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(12);
+    margin-top: rem(32);
+
+    @include sp {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(8);
+      margin-top: rem(24);
+    }
+  }
+
+  &__contact {
     display: flex;
-    align-items: flex-start;
-    gap: rem(16);
-
-    @include sp { padding: rem(16) $container-pad-sp; gap: rem(12); }
-  }
-
-  &-icon {
-    flex-shrink: 0;
-    width: rem(40);
-    height: rem(40);
-    color: #fff;
-
-    @include sp { width: rem(32); height: rem(32); }
-  }
-
-  &-body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  &-heading {
-    font-size: rem(15);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.4;
-    margin-bottom: rem(4);
-
-    @include sp { font-size: rem(13); }
-  }
-
-  &-text {
-    font-size: rem(13);
-    color: rgba(#fff, 0.85);
-    line-height: 1.7;
-    margin: 0;
-  }
-}
-
-// ─── セクション共通 ──────────────────────────────────────
-.p-safety__section {
-  background-color: #fff;
-  padding-block: rem(64);
-
-  @include sp { padding-block: rem(40); }
-
-  &--washi { background-color: $color-washi; }
-
-  &-inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    padding-inline: $container-pad;
-
-    @include sp { padding-inline: $container-pad-sp; }
-  }
-
-  &-title {
-    font-size: rem(22);
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: rem(12);
-    line-height: 1.5;
-
-    @include sp { font-size: rem(18); }
-  }
-
-  &-lead {
-    font-size: rem(14);
-    color: $color-text-muted;
-    line-height: 1.9;
-    margin-bottom: rem(40);
-
-    @include sp { margin-bottom: rem(28); }
-  }
-}
-
-// ─── 緊急連絡先 ─────────────────────────────────────────
-.p-safety__contacts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: rem(12);
-  margin-top: rem(32);
-
-  @include sp {
-    grid-template-columns: repeat(2, 1fr);
-    gap: rem(8);
-    margin-top: rem(24);
-  }
-}
-
-.p-safety__contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: rem(8);
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  padding: rem(20) rem(16);
-  text-decoration: none;
-  text-align: center;
-  color: $color-text;
-  transition: box-shadow 0.2s ease;
-
-  @include hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-
-  &-circle {
-    width: rem(56);
-    height: rem(56);
-    border-radius: 50%;
-    background-color: $color-primary-dark;
-    color: #fff;
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    gap: rem(8);
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20) rem(16);
+    text-decoration: none;
+    text-align: center;
+    color: $color-text;
+    transition: box-shadow 0.2s ease;
+
+    @include hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    &-circle {
+      width: rem(56);
+      height: rem(56);
+      border-radius: 50%;
+      background-color: $color-primary-dark;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      &-num {
+        font-size: rem(18);
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      &-icon {
+        width: rem(24);
+        height: rem(24);
+      }
+    }
+
+    // 110: 警察 — 青
+    &--police .p-safety__contact-circle { background-color: #1d4ed8; }
+    &--police .p-safety__contact-num   { color: #1d4ed8; }
+
+    // 119: 消防 — 赤
+    &--fire .p-safety__contact-circle { background-color: #dc2626; }
+    &--fire .p-safety__contact-num   { color: #dc2626; }
+
+    // 118: 海上保安庁 — ティール
+    &--coast .p-safety__contact-circle { background-color: #0d9488; }
+    &--coast .p-safety__contact-num   { color: #0d9488; }
+
+    // 市役所 — スレート
+    &--city .p-safety__contact-circle { background-color: #475569; }
+
+    // 防災対策課 — オレンジ
+    &--bousai .p-safety__contact-circle { background-color: #ea580c; }
+
+    // 県警察本部 — ネイビー
+    &--pref-police .p-safety__contact-circle { background-color: #1e3a8a; }
+
+    // 急病センター — ダークレッド
+    &--hospital .p-safety__contact-circle { background-color: #be123c; }
+
+    // 伝言ダイヤル 171 — グリーン
+    &--dengon .p-safety__contact-circle { background-color: #16a34a; }
+    &--dengon .p-safety__contact-num   { color: #16a34a; }
+
+    // 救急安心センター — マゼンタ
+    &--kyukyu .p-safety__contact-circle { background-color: #c026d3; }
+
+    &-label {
+      font-size: rem(13);
+      font-weight: 600;
+      color: $color-text;
+      line-height: 1.4;
+      margin: 0;
+    }
 
     &-num {
       font-size: rem(18);
       font-weight: 800;
+      color: $color-primary-dark;
       line-height: 1;
-    }
+      margin: 0;
 
-    &-icon {
-      width: rem(24);
-      height: rem(24);
+      @include sp { font-size: rem(16); }
     }
   }
 
-  // 110: 警察 — 青
-  &--police .p-safety__contact-circle { background-color: #1d4ed8; }
-  &--police .p-safety__contact-num   { color: #1d4ed8; }
+  // ─── 伝言ダイヤルガイド ──────────────────────────────────
+  &__dengon {
+    &-guide {
+      background-color: #fffbe5;
+      border: 1px solid #fde68a;
+      border-radius: rem(12);
+      padding: rem(24);
+      margin-top: rem(32);
+    }
 
-  // 119: 消防 — 赤
-  &--fire .p-safety__contact-circle { background-color: #dc2626; }
-  &--fire .p-safety__contact-num   { color: #dc2626; }
+    &-title {
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(16);
+    }
 
-  // 118: 海上保安庁 — ティール
-  &--coast .p-safety__contact-circle { background-color: #0d9488; }
-  &--coast .p-safety__contact-num   { color: #0d9488; }
+    &-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+      counter-reset: dengon;
+      margin-bottom: rem(12);
+    }
 
-  // 市役所 — スレート
-  &--city .p-safety__contact-circle { background-color: #475569; }
-
-  // 防災対策課 — オレンジ
-  &--bousai .p-safety__contact-circle { background-color: #ea580c; }
-
-  // 県警察本部 — ネイビー
-  &--pref-police .p-safety__contact-circle { background-color: #1e3a8a; }
-
-  // 急病センター — ダークレッド
-  &--hospital .p-safety__contact-circle { background-color: #be123c; }
-
-  // 伝言ダイヤル 171 — グリーン
-  &--dengon .p-safety__contact-circle { background-color: #16a34a; }
-  &--dengon .p-safety__contact-num   { color: #16a34a; }
-
-  // 救急安心センター — マゼンタ
-  &--kyukyu .p-safety__contact-circle { background-color: #c026d3; }
-
-  &-label {
-    font-size: rem(13);
-    font-weight: 600;
-    color: $color-text;
-    line-height: 1.4;
-    margin: 0;
+    &-note {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.7;
+    }
   }
 
-  &-num {
-    font-size: rem(18);
-    font-weight: 800;
-    color: $color-primary-dark;
-    line-height: 1;
-    margin: 0;
-
-    @include sp { font-size: rem(16); }
-  }
-}
-
-// ─── 伝言ダイヤルガイド ──────────────────────────────────
-.p-safety__dengon-guide {
-  background-color: #fffbe5;
-  border: 1px solid #fde68a;
-  border-radius: rem(12);
-  padding: rem(24);
-  margin-top: rem(32);
-}
-
-.p-safety__dengon-title {
-  font-size: rem(15);
-  font-weight: 700;
-  color: $color-text;
-  margin-bottom: rem(16);
-}
-
-.p-safety__dengon-steps {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: rem(8);
-  counter-reset: dengon;
-  margin-bottom: rem(12);
-}
-
-.p-safety__step {
-  font-size: rem(14);
-  color: $color-text;
-  display: flex;
-  align-items: center;
-  gap: rem(10);
-
-  &::before {
-    counter-increment: dengon;
-    content: counter(dengon);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: rem(22);
-    height: rem(22);
-    border-radius: 50%;
-    background-color: $color-primary-dark;
-    color: #fff;
-    font-size: rem(11);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-}
-
-.p-safety__step-highlight {
-  font-size: rem(18);
-  font-weight: 800;
-  color: #c0392b;
-}
-
-.p-safety__dengon-note {
-  font-size: rem(13);
-  color: $color-text-muted;
-  line-height: 1.7;
-}
-
-// ─── 避難場所グリッド ────────────────────────────────────
-.p-safety__shelter-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: rem(20);
-
-  @include sp {
-    grid-template-columns: 1fr;
-    gap: rem(12);
-  }
-}
-
-.p-safety__shelter-card {
-  background-color: #fff;
-  border-radius: rem(12);
-  padding: rem(20);
-  display: flex;
-  flex-direction: column;
-  gap: rem(12);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
-
-  .p-safety__section--washi & {
-    background-color: #fff;
-  }
-}
-
-.p-safety__shelter-head {
-  display: flex;
-  flex-direction: column;
-  gap: rem(4);
-}
-
-.p-safety__shelter-type {
-  display: inline-flex;
-  padding: rem(2) rem(10);
-  font-size: rem(11);
-  font-weight: 500;
-  border-radius: rem(9999);
-  align-self: flex-start;
-  background-color: $color-washi;
-  color: $color-text-muted;
-
-  &--primary {
-    background-color: $color-primary-dark;
-    color: #fff;
-  }
-}
-
-.p-safety__shelter-name {
-  font-size: rem(15);
-  font-weight: 700;
-  color: $color-text;
-  line-height: 1.4;
-}
-
-.p-safety__shelter-info {
-  display: grid;
-  grid-template-columns: rem(64) 1fr;
-  gap: rem(4) rem(10);
-  font-size: rem(12);
-}
-
-.p-safety__shelter-term {
-  color: $color-text-muted;
-  font-weight: 500;
-}
-
-.p-safety__shelter-desc {
-  color: $color-text;
-}
-
-// ─── 準備のヒント ────────────────────────────────────────
-.p-safety__tips {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(20);
-
-  @include sp {
-    grid-template-columns: 1fr;
-    gap: rem(12);
-  }
-}
-
-.p-safety__tip {
-  background-color: $color-washi;
-  border-radius: rem(12);
-  padding: rem(24);
-  display: flex;
-  flex-direction: column;
-  gap: rem(10);
-
-  &-title {
-    font-size: rem(15);
-    font-weight: 700;
+  &__step {
+    font-size: rem(14);
     color: $color-text;
     display: flex;
     align-items: center;
     gap: rem(10);
-    line-height: 1.4;
+
+    &::before {
+      counter-increment: dengon;
+      content: counter(dengon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: rem(22);
+      height: rem(22);
+      border-radius: 50%;
+      background-color: $color-primary-dark;
+      color: #fff;
+      font-size: rem(11);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    &-highlight {
+      font-size: rem(18);
+      font-weight: 800;
+      color: #c0392b;
+    }
   }
 
-  &-num {
-    font-size: rem(11);
-    font-weight: 700;
+  // ─── 避難場所グリッド ────────────────────────────────────
+  &__shelter {
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(20);
+
+      @include sp {
+        grid-template-columns: 1fr;
+        gap: rem(12);
+      }
+    }
+
+    &-card {
+      background-color: #fff;
+      border-radius: rem(12);
+      padding: rem(20);
+      display: flex;
+      flex-direction: column;
+      gap: rem(12);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+
+      .p-safety__section--washi & {
+        background-color: #fff;
+      }
+    }
+
+    &-head {
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+    }
+
+    &-type {
+      display: inline-flex;
+      padding: rem(2) rem(10);
+      font-size: rem(11);
+      font-weight: 500;
+      border-radius: rem(9999);
+      align-self: flex-start;
+      background-color: $color-washi;
+      color: $color-text-muted;
+
+      &--primary {
+        background-color: $color-primary-dark;
+        color: #fff;
+      }
+    }
+
+    &-name {
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.4;
+    }
+
+    &-info {
+      display: grid;
+      grid-template-columns: rem(64) 1fr;
+      gap: rem(4) rem(10);
+      font-size: rem(12);
+    }
+
+    &-term {
+      color: $color-text-muted;
+      font-weight: 500;
+    }
+
+    &-desc {
+      color: $color-text;
+    }
+
+    // 避難場所 注釈
+    &-note {
+      margin-top: rem(24);
+      font-size: rem(12);
+      color: $color-text-muted;
+      line-height: 1.7;
+    }
+  }
+
+  // ─── 準備のヒント ────────────────────────────────────────
+  &__tips {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(12);
+    }
+  }
+
+  &__tip {
+    background-color: $color-washi;
+    border-radius: rem(12);
+    padding: rem(24);
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+
+    &-title {
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+      display: flex;
+      align-items: center;
+      gap: rem(10);
+      line-height: 1.4;
+    }
+
+    &-num {
+      font-size: rem(11);
+      font-weight: 700;
+      color: $color-text-muted;
+      background-color: rgba($color-primary-dark, 0.1);
+      border-radius: rem(4);
+      padding: rem(2) rem(6);
+      flex-shrink: 0;
+    }
+
+    &-text {
+      font-size: rem(13);
+      line-height: 1.8;
+      color: $color-text-muted;
+    }
+  }
+
+  // ─── 公式リンク ──────────────────────────────────────────
+  &__links {
+    &-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+      margin-top: rem(32);
+    }
+
+    &-item {
+      background-color: #fff;
+      border-radius: rem(8);
+    }
+
+    &-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: rem(16) rem(20);
+      font-size: rem(14);
+      font-weight: 500;
+      color: $color-primary-dark;
+      text-decoration: none;
+      transition: background-color 0.2s;
+
+      @include hover {
+        background-color: $color-sakura;
+        border-radius: rem(8);
+      }
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      color: $color-text-muted;
+    }
+  }
+
+  // ─── 富士山噴火 / 活火山コールアウト ─────────────────────
+  &__callout {
+    margin-top: rem(28);
+    margin-bottom: rem(28);
+    padding: rem(20) rem(24);
+    background-color: #fff7ed; // orange-50
+    border: 1px solid #fed7aa; // orange-200
+    border-radius: rem(12);
+
+    @include sp { padding: rem(16) rem(18); }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(16);
+      font-weight: 700;
+      color: #c2410c; // orange-700
+      margin: 0 0 rem(8);
+    }
+
+    &-text {
+      font-size: rem(13);
+      line-height: 1.9;
+      color: $color-text;
+      margin: 0;
+    }
+
+    // 地震 callout バリアント
+    &--quake {
+      background-color: #fef2f2; // red-50
+      border-color: #fecaca; // red-200
+
+      .p-safety__callout-title { color: #b91c1c; } // red-700
+    }
+  }
+
+  // ─── 富士山セクション内カード群 ──────────────────────────
+  &__fuji {
+    &-cards {
+      display: flex;
+      flex-direction: column;
+      gap: rem(20);
+      margin-top: rem(8);
+    }
+
+    &-card {
+      background-color: #fff;
+      border: 1px solid $color-border;
+      border-radius: rem(12);
+      padding: rem(24);
+
+      @include sp { padding: rem(20); }
+
+      &-title {
+        font-family: $font-serif;
+        font-size: rem(17);
+        font-weight: 700;
+        color: $color-text;
+        margin: 0 0 rem(16);
+        padding-bottom: rem(10);
+        border-bottom: 1px solid $color-border;
+      }
+    }
+
+    // 内閣府リンクカード
+    &-link {
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+      margin-top: rem(20);
+      padding: rem(20) rem(24);
+      background-color: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: rem(12);
+      text-decoration: none;
+      color: $color-text;
+      position: relative;
+      transition: background-color 0.2s ease;
+
+      @include hover {
+        background-color: #ffedd5;
+      }
+
+      &-label {
+        font-weight: 700;
+        font-size: rem(15);
+        color: #c2410c;
+      }
+
+      &-desc {
+        font-size: rem(13);
+        color: $color-text-muted;
+      }
+
+      &-icon {
+        position: absolute;
+        top: rem(20);
+        right: rem(20);
+        color: #c2410c;
+      }
+
+      // 地震バリアント
+      &--quake {
+        background-color: #fef2f2;
+        border-color: #fecaca;
+
+        @include hover { background-color: #fee2e2; }
+
+        .p-safety__fuji-link-label { color: #b91c1c; }
+        .p-safety__fuji-link-icon { color: #b91c1c; }
+      }
+    }
+  }
+
+  // 想定される影響
+  &__impacts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+  }
+
+  &__impact {
+    display: flex;
+    gap: rem(12);
+    align-items: flex-start;
+
+    &-badge {
+      flex-shrink: 0;
+      background-color: #ffedd5; // orange-100
+      color: #c2410c; // orange-700
+      padding: rem(4) rem(10);
+      border-radius: rem(4);
+      font-size: rem(12);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    &-text {
+      flex: 1;
+      font-size: rem(13);
+      line-height: 1.8;
+      color: $color-text;
+    }
+  }
+
+  // 噴火時の行動
+  &__actions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+    counter-reset: none;
+
+    // 地震アクションリストの強調
+    &--quake .p-safety__action-num {
+      background-color: #dc2626; // red-600
+    }
+  }
+
+  &__action {
+    display: flex;
+    gap: rem(12);
+    align-items: flex-start;
+
+    &-num {
+      flex-shrink: 0;
+      width: rem(24);
+      height: rem(24);
+      border-radius: 50%;
+      background-color: #ea580c; // orange-600
+      color: #fff;
+      font-size: rem(12);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-text {
+      flex: 1;
+      font-size: rem(13);
+      line-height: 1.8;
+      color: $color-text;
+      padding-top: rem(2);
+    }
+  }
+
+  // ─── プレースホルダー（情報準備中） ───────────────────────
+  &__placeholder {
+    margin-top: rem(24);
+    padding: rem(32) rem(28);
+    background-color: $color-washi;
+    border-radius: rem(12);
+    font-size: rem(14);
+    line-height: 1.9;
     color: $color-text-muted;
-    background-color: rgba($color-primary-dark, 0.1);
-    border-radius: rem(4);
-    padding: rem(2) rem(6);
-    flex-shrink: 0;
+
+    @include sp { padding: rem(24) rem(20); }
+
+    p { margin: 0; }
+    p + p { margin-top: rem(12); }
+
+    a {
+      color: $color-primary-dark;
+      text-decoration: underline;
+
+      @include hover { text-decoration: none; }
+    }
   }
 
-  &-text {
-    font-size: rem(13);
-    line-height: 1.8;
-    color: $color-text-muted;
-  }
-}
-
-// ─── 公式リンク ──────────────────────────────────────────
-.p-safety__links-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: rem(8);
-  margin-top: rem(32);
-}
-
-.p-safety__links-item {
-  background-color: #fff;
-  border-radius: rem(8);
-}
-
-.p-safety__links-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: rem(16) rem(20);
-  font-size: rem(14);
-  font-weight: 500;
-  color: $color-primary-dark;
-  text-decoration: none;
-  transition: background-color 0.2s;
-
-  @include hover {
-    background-color: $color-sakura;
-    border-radius: rem(8);
-  }
-}
-
-.p-safety__links-icon {
-  flex-shrink: 0;
-  color: $color-text-muted;
-}
-
-// ─── 富士山噴火 / 活火山コールアウト ─────────────────────
-.p-safety__callout {
-  margin-top: rem(28);
-  margin-bottom: rem(28);
-  padding: rem(20) rem(24);
-  background-color: #fff7ed; // orange-50
-  border: 1px solid #fed7aa; // orange-200
-  border-radius: rem(12);
-
-  @include sp { padding: rem(16) rem(18); }
-
-  &-title {
-    font-family: $font-serif;
-    font-size: rem(16);
-    font-weight: 700;
-    color: #c2410c; // orange-700
-    margin: 0 0 rem(8);
-  }
-
-  &-text {
+  &__tsunami-text {
     font-size: rem(13);
     line-height: 1.9;
     color: $color-text;
-    margin: 0;
-  }
-}
-
-// ─── 富士山セクション内カード群 ──────────────────────────
-.p-safety__fuji-cards {
-  display: flex;
-  flex-direction: column;
-  gap: rem(20);
-  margin-top: rem(8);
-}
-
-.p-safety__fuji-card {
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  padding: rem(24);
-
-  @include sp { padding: rem(20); }
-
-  &-title {
-    font-family: $font-serif;
-    font-size: rem(17);
-    font-weight: 700;
-    color: $color-text;
     margin: 0 0 rem(16);
-    padding-bottom: rem(10);
-    border-bottom: 1px solid $color-border;
-  }
-}
-
-// 想定される影響
-.p-safety__impacts {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: rem(12);
-}
-
-.p-safety__impact {
-  display: flex;
-  gap: rem(12);
-  align-items: flex-start;
-
-  &-badge {
-    flex-shrink: 0;
-    background-color: #ffedd5; // orange-100
-    color: #c2410c; // orange-700
-    padding: rem(4) rem(10);
-    border-radius: rem(4);
-    font-size: rem(12);
-    font-weight: 500;
-    white-space: nowrap;
   }
 
-  &-text {
-    flex: 1;
-    font-size: rem(13);
-    line-height: 1.8;
-    color: $color-text;
+  // ─── 日頃の備え：カード共通 ─────────────────────────────
+  &__daily {
+    &-card {
+      background-color: #fff;
+      border: 1px solid $color-border;
+      border-radius: rem(12);
+      padding: rem(28);
+      margin-top: rem(24);
+
+      @include sp { padding: rem(20); }
+
+      &-title {
+        font-family: $font-serif;
+        font-size: rem(17);
+        font-weight: 700;
+        color: $color-text;
+        margin: 0 0 rem(20);
+        padding-bottom: rem(10);
+        border-bottom: 1px solid $color-border;
+      }
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(28);
+
+      @include sp { grid-template-columns: 1fr; gap: rem(20); }
+    }
+
+    &-sub {
+      font-size: rem(14);
+      font-weight: 700;
+      color: $color-text;
+      margin: 0 0 rem(10);
+    }
   }
-}
 
-// 噴火時の行動
-.p-safety__actions {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: rem(10);
-  counter-reset: none;
-}
-
-.p-safety__action {
-  display: flex;
-  gap: rem(12);
-  align-items: flex-start;
-
-  &-num {
-    flex-shrink: 0;
-    width: rem(24);
-    height: rem(24);
-    border-radius: 50%;
-    background-color: #ea580c; // orange-600
-    color: #fff;
-    font-size: rem(12);
-    font-weight: 700;
+  &__bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    gap: rem(6);
   }
 
-  &-text {
-    flex: 1;
-    font-size: rem(13);
-    line-height: 1.8;
-    color: $color-text;
-    padding-top: rem(2);
-  }
-}
-
-// 内閣府リンクカード
-.p-safety__fuji-link {
-  display: flex;
-  flex-direction: column;
-  gap: rem(4);
-  margin-top: rem(20);
-  padding: rem(20) rem(24);
-  background-color: #fff7ed;
-  border: 1px solid #fed7aa;
-  border-radius: rem(12);
-  text-decoration: none;
-  color: $color-text;
-  position: relative;
-  transition: background-color 0.2s ease;
-
-  @include hover {
-    background-color: #ffedd5;
-  }
-
-  &-label {
-    font-weight: 700;
-    font-size: rem(15);
-    color: #c2410c;
-  }
-
-  &-desc {
-    font-size: rem(13);
-    color: $color-text-muted;
-  }
-
-  &-icon {
-    position: absolute;
-    top: rem(20);
-    right: rem(20);
-    color: #c2410c;
-  }
-}
-
-// ─── プレースホルダー（情報準備中） ───────────────────────
-.p-safety__placeholder {
-  margin-top: rem(24);
-  padding: rem(32) rem(28);
-  background-color: $color-washi;
-  border-radius: rem(12);
-  font-size: rem(14);
-  line-height: 1.9;
-  color: $color-text-muted;
-
-  @include sp { padding: rem(24) rem(20); }
-
-  p { margin: 0; }
-  p + p { margin-top: rem(12); }
-
-  a {
-    color: $color-primary-dark;
-    text-decoration: underline;
-
-    @include hover { text-decoration: none; }
-  }
-}
-
-// ─── 避難場所 注釈 ──────────────────────────────────────
-.p-safety__shelter-note {
-  margin-top: rem(24);
-  font-size: rem(12);
-  color: $color-text-muted;
-  line-height: 1.7;
-}
-
-// ─── 地震 callout バリアント ────────────────────────────
-.p-safety__callout--quake {
-  background-color: #fef2f2; // red-50
-  border-color: #fecaca; // red-200
-
-  .p-safety__callout-title { color: #b91c1c; } // red-700
-}
-
-// 地震アクションリストの強調
-.p-safety__actions--quake .p-safety__action-num {
-  background-color: #dc2626; // red-600
-}
-
-.p-safety__tsunami-text {
-  font-size: rem(13);
-  line-height: 1.9;
-  color: $color-text;
-  margin: 0 0 rem(16);
-}
-
-.p-safety__fuji-link--quake {
-  background-color: #fef2f2;
-  border-color: #fecaca;
-
-  @include hover { background-color: #fee2e2; }
-
-  .p-safety__fuji-link-label { color: #b91c1c; }
-  .p-safety__fuji-link-icon { color: #b91c1c; }
-}
-
-// ─── 日頃の備え：カード共通 ─────────────────────────────
-.p-safety__daily-card {
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  padding: rem(28);
-  margin-top: rem(24);
-
-  @include sp { padding: rem(20); }
-
-  &-title {
-    font-family: $font-serif;
-    font-size: rem(17);
-    font-weight: 700;
-    color: $color-text;
-    margin: 0 0 rem(20);
-    padding-bottom: rem(10);
-    border-bottom: 1px solid $color-border;
-  }
-}
-
-.p-safety__daily-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(28);
-
-  @include sp { grid-template-columns: 1fr; gap: rem(20); }
-}
-
-.p-safety__daily-sub {
-  font-size: rem(14);
-  font-weight: 700;
-  color: $color-text;
-  margin: 0 0 rem(10);
-}
-
-.p-safety__bullet-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: rem(6);
-
-  li {
+  &__bullet-item {
     position: relative;
     padding-left: rem(14);
     font-size: rem(13);
@@ -690,154 +704,158 @@
       font-weight: 700;
     }
   }
-}
 
-// ─── 家族で決めておくこと ───────────────────────────────
-.p-safety__family-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: rem(10);
-}
+  // ─── 家族で決めておくこと ───────────────────────────────
+  &__family {
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: rem(10);
+    }
 
-.p-safety__family-item {
-  display: flex;
-  align-items: flex-start;
-  gap: rem(10);
-  font-size: rem(13);
-  line-height: 1.7;
-  color: $color-text;
-}
-
-.p-safety__family-icon {
-  flex-shrink: 0;
-  width: rem(14);
-  height: rem(14);
-  margin-top: rem(5);
-}
-
-.p-safety__family-text { flex: 1; }
-
-// ─── 公式情報 グリッドカード ────────────────────────────
-.p-safety__official-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(16);
-  margin-top: rem(28);
-
-  @include sp { grid-template-columns: 1fr; gap: rem(12); }
-}
-
-.p-safety__official-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: rem(16);
-  padding: rem(20) rem(24);
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  text-decoration: none;
-  color: $color-text;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-
-  @include hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-    .p-safety__official-title { color: #dc2626; }
-  }
-}
-
-.p-safety__official-body { flex: 1; min-width: 0; }
-
-.p-safety__official-title {
-  font-size: rem(15);
-  font-weight: 700;
-  color: $color-text;
-  line-height: 1.5;
-  margin: 0 0 rem(4);
-  transition: color 0.2s ease;
-}
-
-.p-safety__official-desc {
-  font-size: rem(12);
-  color: $color-text-muted;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.p-safety__official-icon {
-  flex-shrink: 0;
-  color: $color-text-muted;
-}
-
-// ─── 日頃の備えチェックリスト ────────────────────────────
-.p-safety__checklist {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(20);
-  margin-top: rem(28);
-
-  @include sp { grid-template-columns: 1fr; gap: rem(16); }
-
-  &-card {
-    background-color: #fff;
-    border: 1px solid $color-border;
-    border-radius: rem(12);
-    padding: rem(24);
-
-    @include sp { padding: rem(20); }
-  }
-
-  &-title {
-    font-family: $font-serif;
-    font-size: rem(17);
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: rem(16);
-    padding-bottom: rem(10);
-    border-bottom: 1px solid $color-border;
-  }
-
-  &-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: rem(8);
-
-    li {
-      position: relative;
-      padding-left: rem(28);
+    &-item {
+      display: flex;
+      align-items: flex-start;
+      gap: rem(10);
       font-size: rem(13);
       line-height: 1.7;
       color: $color-text;
+    }
 
-      &::before {
-        content: "";
-        position: absolute;
-        top: rem(6);
-        left: 0;
-        width: rem(18);
-        height: rem(18);
-        border: 1.5px solid $color-primary-dark;
-        border-radius: rem(4);
-        background-color: #fff;
+    &-icon {
+      flex-shrink: 0;
+      width: rem(14);
+      height: rem(14);
+      margin-top: rem(5);
+    }
+
+    &-text { flex: 1; }
+  }
+
+  // ─── 公式情報 グリッドカード ────────────────────────────
+  &__official {
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(16);
+      margin-top: rem(28);
+
+      @include sp { grid-template-columns: 1fr; gap: rem(12); }
+    }
+
+    &-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: rem(16);
+      padding: rem(20) rem(24);
+      background-color: #fff;
+      border: 1px solid $color-border;
+      border-radius: rem(12);
+      text-decoration: none;
+      color: $color-text;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+      @include hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+        .p-safety__official-title { color: #dc2626; }
       }
+    }
 
-      &::after {
-        content: "";
-        position: absolute;
-        top: rem(9);
-        left: rem(4);
-        width: rem(10);
-        height: rem(6);
-        border-left: 2px solid $color-primary-dark;
-        border-bottom: 2px solid $color-primary-dark;
-        transform: rotate(-45deg);
+    &-body { flex: 1; min-width: 0; }
+
+    &-title {
+      font-size: rem(15);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.5;
+      margin: 0 0 rem(4);
+      transition: color 0.2s ease;
+    }
+
+    &-desc {
+      font-size: rem(12);
+      color: $color-text-muted;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      color: $color-text-muted;
+    }
+  }
+
+  // ─── 日頃の備えチェックリスト ────────────────────────────
+  &__checklist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+    margin-top: rem(28);
+
+    @include sp { grid-template-columns: 1fr; gap: rem(16); }
+
+    &-card {
+      background-color: #fff;
+      border: 1px solid $color-border;
+      border-radius: rem(12);
+      padding: rem(24);
+
+      @include sp { padding: rem(20); }
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(17);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(16);
+      padding-bottom: rem(10);
+      border-bottom: 1px solid $color-border;
+    }
+
+    &-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+
+      li {
+        position: relative;
+        padding-left: rem(28);
+        font-size: rem(13);
+        line-height: 1.7;
+        color: $color-text;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: rem(6);
+          left: 0;
+          width: rem(18);
+          height: rem(18);
+          border: 1.5px solid $color-primary-dark;
+          border-radius: rem(4);
+          background-color: #fff;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: rem(9);
+          left: rem(4);
+          width: rem(10);
+          height: rem(6);
+          border-left: 2px solid $color-primary-dark;
+          border-bottom: 2px solid $color-primary-dark;
+          transform: rotate(-45deg);
+        }
       }
     }
   }

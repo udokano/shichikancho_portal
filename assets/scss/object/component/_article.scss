@@ -126,7 +126,8 @@
 
   // ─── リード文 ───────────────────────────────────
   &__lead {
-    background-color: #f3f6fa;
+    background-color: $color-washi;
+    border: 1px solid $color-border;
     border-radius: rem(12);
     padding: rem(24) rem(28);
     margin-block: rem(24);
@@ -325,7 +326,7 @@
     blockquote {
       padding: rem(20) rem(24);
       background-color: $color-washi;
-      border-left: 4px solid $color-primary-dark;
+      border: 1px solid $color-border;
       border-radius: rem(8);
       font-size: rem(15);
       color: $color-text-muted;
@@ -567,12 +568,27 @@
 
   // ─── CTA バナー ─────────────────────────────────
   &__cta-banner {
+    position: relative;
     margin-top: rem(48);
-    padding: rem(40) rem(48);
-    background: linear-gradient(135deg, $color-washi 0%, lighten($color-sakura, 1%) 100%);
-    border: 1px solid rgba($color-border, 0.5);
+    padding: rem(48);
+    background-image: url('../images/top/hero-main.jpg');
+    background-size: cover;
+    background-position: center;
     border-radius: rem(12);
+    overflow: hidden;
     text-align: center;
+
+    // 薄い黒オーバーレイ
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+    }
+
+    // 中身をオーバーレイの上に
+    > * { position: relative; z-index: 1; }
 
     @include sp { padding: rem(28) rem(20); }
   }
@@ -581,7 +597,7 @@
     font-family: $font-serif;
     font-size: rem(22);
     font-weight: 700;
-    color: $color-text;
+    color: #fff;
     margin: 0 0 rem(12);
 
     @include sp { font-size: rem(18); }
@@ -590,7 +606,7 @@
   &__cta-banner-text {
     font-size: rem(14);
     line-height: 1.9;
-    color: $color-text-muted;
+    color: rgba(#fff, 0.9);
     margin: 0 auto rem(24);
     max-width: rem(560);
 

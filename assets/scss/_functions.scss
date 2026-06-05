@@ -4,3 +4,8 @@
 @function rem($val) {
   @return math.div($val, 16) * 1rem;
 }
+
+// px → vw 変換（デザイン基準幅: 1440px）
+@function vw($px, $base: 1440) {
+  @return math.div($px, $base) * 100vw;
+}

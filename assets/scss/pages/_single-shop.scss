@@ -1,624 +1,617 @@
 @use '../config' as *;
 
-// ─── レイアウト：本文 + サイドバー ────────────────────────
-.p-shop__layout {
-  background-color: #fff;
-  padding-block: rem(32) rem(56);
+.p-shop {
 
-  @include sp { padding-block: rem(20) rem(32); }
+  // ─── レイアウト：本文 + サイドバー ────────────────────────
+  &__layout {
+    background-color: #fff;
+    padding-block: rem(32) rem(56);
 
-  &-inner {
-    @include page-inner;
-  }
+    @include sp { padding-block: rem(20) rem(32); }
 
-  &-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    gap: rem(32);
-
-    @include mq-down(lg) { grid-template-columns: 1fr; gap: rem(24); }
-  }
-}
-
-.p-shop__main {
-  min-width: 0;
-}
-
-// ─── ヒーロー / ギャラリースライダー ──────────────────────
-.p-shop__hero {
-  margin-bottom: rem(20);
-
-  &-stage {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    border-radius: rem(16);
-    overflow: hidden;
-    background-color: $color-border;
-
-    @include sp { aspect-ratio: 4 / 3; border-radius: rem(12); }
-  }
-
-  &-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-
-    &.is-active {
-      opacity: 1;
-      pointer-events: auto;
+    &-inner {
+      @include page-inner;
     }
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    &-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: rem(32);
+
+      @include mq-down(lg) { grid-template-columns: 1fr; gap: rem(24); }
     }
   }
 
-  &-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: rem(40);
-    height: rem(40);
-    border-radius: 50%;
-    border: none;
-    background-color: rgba(#fff, 0.9);
-    color: $color-text;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s;
-    z-index: 2;
+  &__main {
+    min-width: 0;
+  }
 
-    @include hover { background-color: #fff; }
+  // ─── ヒーロー / ギャラリースライダー ──────────────────────
+  &__hero {
+    margin-bottom: rem(20);
 
-    svg {
+    &-stage {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: rem(16);
+      overflow: hidden;
+      background-color: $color-border;
+
+      @include sp { aspect-ratio: 4 / 3; border-radius: rem(12); }
+    }
+
+    &-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+
+      &.is-active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    &-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: rem(40);
+      height: rem(40);
+      border-radius: 50%;
+      border: none;
+      background-color: rgba(#fff, 0.9);
+      color: $color-text;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s;
+      z-index: 2;
+
+      @include hover { background-color: #fff; }
+
+      &--prev { left: rem(12); }
+      &--next { right: rem(12); }
+    }
+
+    &-nav-icon {
       width: rem(20);
       height: rem(20);
     }
 
-    &--prev { left: rem(12); }
-    &--next { right: rem(12); }
-  }
+    &-counter {
+      position: absolute;
+      top: rem(12);
+      right: rem(12);
+      padding: rem(4) rem(10);
+      font-size: rem(12);
+      font-weight: 500;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.55);
+      border-radius: rem(9999);
+      z-index: 2;
+    }
 
-  &-counter {
-    position: absolute;
-    top: rem(12);
-    right: rem(12);
-    padding: rem(4) rem(10);
-    font-size: rem(12);
-    font-weight: 500;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.55);
-    border-radius: rem(9999);
-    z-index: 2;
-  }
+    &-thumbs {
+      display: flex;
+      gap: rem(8);
+      margin-top: rem(12);
+      overflow-x: auto;
+      padding-bottom: rem(4);
+    }
 
-  &-thumbs {
-    display: flex;
-    gap: rem(8);
-    margin-top: rem(12);
-    overflow-x: auto;
-    padding-bottom: rem(4);
-  }
+    &-thumb {
+      flex-shrink: 0;
+      width: rem(64);
+      height: rem(64);
+      border-radius: rem(8);
+      overflow: hidden;
+      border: 2px solid transparent;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      transition: border-color 0.2s, opacity 0.2s;
 
-  &-thumb {
-    flex-shrink: 0;
-    width: rem(64);
-    height: rem(64);
-    border-radius: rem(8);
-    overflow: hidden;
-    border: 2px solid transparent;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    transition: border-color 0.2s, opacity 0.2s;
+      @include hover { border-color: $color-primary-dark; }
 
-    @include hover { border-color: $color-primary-dark; }
-
-    &.is-active { border-color: $color-primary-dark; }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      &.is-active { border-color: $color-primary-dark; }
     }
   }
-}
 
-// ─── 見出しヘッダー ──────────────────────────────────────
-.p-shop__head {
-  margin-bottom: rem(16);
-}
+  // ─── 見出しヘッダー ──────────────────────────────────────
+  &__head {
+    margin-bottom: rem(16);
+  }
 
-.p-shop__crumb {
-  font-size: rem(12);
-  color: $color-text-muted;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: rem(6);
-  margin-bottom: rem(12);
-
-  a {
+  &__crumb {
+    font-size: rem(12);
     color: $color-text-muted;
-    text-decoration: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: rem(6);
+    margin-bottom: rem(12);
 
-    @include hover { color: $color-primary-dark; text-decoration: underline; }
+    &-link {
+      color: $color-text-muted;
+      text-decoration: none;
+
+      @include hover { color: $color-primary-dark; text-decoration: underline; }
+    }
+
+    &-sep { color: $color-border; }
   }
 
-  &-sep { color: $color-border; }
-}
-
-.p-shop__head-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: rem(16);
-}
-
-.p-shop__title {
-  font-family: $font-serif;
-  font-size: rem(28);
-  font-weight: 700;
-  color: $color-text;
-  line-height: 1.3;
-  flex: 1;
-  min-width: 0;
-
-  @include sp { font-size: rem(22); }
-}
-
-.p-shop__catch {
-  margin-top: rem(8);
-  font-size: rem(14);
-  color: $color-text-muted;
-  line-height: 1.7;
-}
-
-.p-shop__fav {
-  flex-shrink: 0;
-  width: rem(40);
-  height: rem(40);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: 50%;
-  cursor: pointer;
-  color: $color-text-muted;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-
-  @include hover {
-    background-color: $color-sakura;
-    color: $color-primary-dark;
-    border-color: $color-primary-dark;
+  &__head-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: rem(16);
   }
 
-  &[aria-pressed="true"] {
-    background-color: $color-primary-dark;
-    color: #fff;
-    border-color: $color-primary-dark;
+  &__title {
+    font-family: $font-serif;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+
+    @include sp { font-size: rem(22); }
   }
 
-  &-icon {
-    width: rem(18);
-    height: rem(18);
+  &__catch {
+    margin-top: rem(8);
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.7;
   }
-}
 
-// ─── リード文 ────────────────────────────────────────────
-.p-shop__lead {
-  font-size: rem(14);
-  line-height: 1.9;
-  color: $color-text-muted;
-  margin-bottom: rem(24);
-}
+  // お気に入りボタン（将来のお気に入り機能用）
+  &__fav {
+    flex-shrink: 0;
+    width: rem(40);
+    height: rem(40);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: 50%;
+    cursor: pointer;
+    color: $color-text-muted;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 
-// ─── 3セル情報グリッド（こんな人 / 人気メニュー / 混雑目安）────
-.p-shop__info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: rem(12);
-  margin-bottom: rem(24);
+    @include hover {
+      background-color: $color-sakura;
+      color: $color-primary-dark;
+      border-color: $color-primary-dark;
+    }
 
-  @include sp { grid-template-columns: 1fr; }
-}
+    &[aria-pressed="true"] {
+      background-color: $color-primary-dark;
+      color: #fff;
+      border-color: $color-primary-dark;
+    }
 
-.p-shop__info-cell {
-  background-color: #fff;
-  border: 1px solid rgba($color-border, 0.6);
-  border-radius: rem(8);
-  padding: rem(14) rem(16);
-  display: flex;
-  flex-direction: column;
-  gap: rem(4);
+    &-icon {
+      width: rem(18);
+      height: rem(18);
+    }
+  }
 
-  dt {
+  // ─── リード文 ────────────────────────────────────────────
+  &__lead {
+    font-size: rem(14);
+    line-height: 1.9;
+    color: $color-text-muted;
+    margin-bottom: rem(24);
+  }
+
+  // ─── 3セル情報グリッド（こんな人 / 人気メニュー / 混雑目安）────
+  &__info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(12);
+    margin-bottom: rem(24);
+
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__info-cell {
+    background-color: #fff;
+    border: 1px solid rgba($color-border, 0.6);
+    border-radius: rem(8);
+    padding: rem(14) rem(16);
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+  }
+
+  &__info-cell-term {
     font-size: rem(11);
     color: $color-text-muted;
     margin: 0;
   }
 
-  dd {
+  &__info-cell-desc {
     font-size: rem(13);
     color: $color-text;
     font-weight: 500;
     margin: 0;
     line-height: 1.5;
   }
-}
 
-// ─── タブ ────────────────────────────────────────────────
-.p-shop__tabs {
-  margin-bottom: rem(20);
-  border-bottom: 1px solid $color-border;
-}
-
-// ─── パネル ──────────────────────────────────────────────
-.p-shop__panel {
-  padding-top: rem(20);
-
-  &[hidden] { display: none; }
-}
-
-// ─── 概要パネル：和紙背景カード ──────────────────────────
-.p-shop__overview {
-  background-color: rgba($color-sakura, 0.3);
-  border-radius: rem(12);
-  padding: rem(24);
-
-  @include sp { padding: rem(18); }
-
-  &-text {
-    font-size: rem(14);
-    line-height: 1.9;
-    color: $color-text;
-    margin: 0;
-  }
-}
-
-// ─── 特徴タグ ────────────────────────────────────────────
-.p-shop__features {
-  margin-top: rem(20);
-
-  &-title {
-    font-size: rem(14);
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: rem(10);
-  }
-
-  &-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: rem(8);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  &-item { margin: 0; }
-}
-
-// ─── サイドバー：詳細情報カード ──────────────────────────
-.p-shop__sidebar {
-  min-width: 0;
-
-  @include mq-down(lg) { order: -1; }
-}
-
-.p-shop__detail {
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  padding: rem(20) rem(20) rem(24);
-  position: sticky;
-  top: rem(80);
-
-  @include mq-down(lg) { position: static; }
-
-  &-title {
-    font-size: rem(16);
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: rem(16);
-  }
-
-  &-actions {
-    display: flex;
-    flex-direction: column;
-    gap: rem(8);
+  // ─── タブ ────────────────────────────────────────────────
+  &__tabs {
     margin-bottom: rem(20);
-
-    // サイドバー内では全幅ボタン
-    .c-btn { width: 100%; padding-inline: rem(16); }
+    border-bottom: 1px solid $color-border;
   }
 
-  &-list {
-    display: flex;
-    flex-direction: column;
-    gap: rem(14);
-    margin: 0;
-    padding-top: rem(16);
-    border-top: 1px solid $color-border;
+  // ─── パネル ──────────────────────────────────────────────
+  &__panel {
+    padding-top: rem(20);
+
+    &[hidden] { display: none; }
   }
 
-  &-row { margin: 0; }
+  // ─── 概要パネル：和紙背景カード ──────────────────────────
+  &__overview {
+    background-color: rgba($color-sakura, 0.3);
+    border-radius: rem(12);
+    padding: rem(24);
 
-  &-term {
-    font-size: rem(12);
-    font-weight: 600;
-    color: $color-text-muted;
+    @include sp { padding: rem(18); }
+
+    &-text {
+      font-size: rem(14);
+      line-height: 1.9;
+      color: $color-text;
+      margin: 0;
+    }
+  }
+
+  // ─── 特徴タグ ────────────────────────────────────────────
+  &__features {
+    margin-top: rem(20);
+
+    &-title {
+      font-size: rem(14);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(10);
+    }
+
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(8);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    &-item { margin: 0; }
+  }
+
+  // ─── サイドバー：詳細情報カード ──────────────────────────
+  &__sidebar {
+    min-width: 0;
+
+    @include mq-down(lg) { order: -1; }
+  }
+
+  &__detail {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    padding: rem(20) rem(20) rem(24);
+    position: sticky;
+    top: rem(80);
+
+    @include mq-down(lg) { position: static; }
+
+    &-title {
+      font-size: rem(16);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(16);
+    }
+
+    &-actions {
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+      margin-bottom: rem(20);
+
+      // サイドバー内では全幅ボタン
+      .c-btn { width: 100%; padding-inline: rem(16); }
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: rem(14);
+      margin: 0;
+      padding-top: rem(16);
+      border-top: 1px solid $color-border;
+    }
+
+    &-row { margin: 0; }
+
+    // 追加チップ・混雑行
+    &-row--extras {
+      flex-direction: column;
+      gap: rem(8);
+    }
+
+    &-term {
+      font-size: rem(12);
+      font-weight: 600;
+      color: $color-text-muted;
+      margin-bottom: rem(4);
+    }
+
+    &-desc {
+      font-size: rem(13);
+      color: $color-text;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    &-sub {
+      display: block;
+      font-size: rem(12);
+      color: $color-text-muted;
+      margin-top: rem(2);
+    }
+
+    &-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(6);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    &-tag { margin: 0; }
+
+    &-extras {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(6);
+    }
+
+    &-crowd {
+      margin: 0;
+      font-size: rem(12);
+      color: $color-text-muted;
+    }
+
+    &-link {
+      color: $color-primary-dark;
+      text-decoration: none;
+
+      @include hover { text-decoration: underline; }
+    }
+  }
+
+  // ─── メニュー ────────────────────────────────────────────
+  &__menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(16);
+
+    @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
+  }
+
+  &__menu-item {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(12);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+
+    @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); }
+  }
+
+  &__menu-img {
+    aspect-ratio: 4 / 3;
+    background-color: $color-washi;
+  }
+
+  &__menu-body {
+    padding: rem(12) rem(14);
+  }
+
+  &__menu-name {
+    font-size: rem(14);
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.4;
     margin-bottom: rem(4);
   }
 
-  &-desc {
+  &__menu-price {
     font-size: rem(13);
-    color: $color-text;
-    line-height: 1.7;
-    margin: 0;
-  }
-
-  &-sub {
-    display: block;
-    font-size: rem(12);
-    color: $color-text-muted;
-    margin-top: rem(2);
-  }
-
-  &-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: rem(6);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li { margin: 0; }
-  }
-
-  &-link {
     color: $color-primary-dark;
-    text-decoration: none;
-
-    @include hover { text-decoration: underline; }
-  }
-}
-
-// ─── メニュー ────────────────────────────────────────────
-.p-shop__menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: rem(16);
-
-  @include sp { grid-template-columns: repeat(2, 1fr); gap: rem(12); }
-}
-
-.p-shop__menu-item {
-  background-color: #fff;
-  border: 1px solid $color-border;
-  border-radius: rem(12);
-  overflow: hidden;
-  transition: box-shadow 0.2s ease;
-
-  @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); }
-}
-
-.p-shop__menu-img {
-  aspect-ratio: 4 / 3;
-  background-color: $color-washi;
-}
-
-.p-shop__menu-body {
-  padding: rem(12) rem(14);
-}
-
-.p-shop__menu-name {
-  font-size: rem(14);
-  font-weight: 700;
-  color: $color-text;
-  line-height: 1.4;
-  margin-bottom: rem(4);
-}
-
-.p-shop__menu-price {
-  font-size: rem(13);
-  color: $color-primary-dark;
-  font-weight: 600;
-}
-
-// ─── サイドバー追加チップ・混雑行 ─────────────────────────
-.p-shop__detail-row--extras {
-  flex-direction: column;
-  gap: rem(8);
-}
-
-.p-shop__detail-extras {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: rem(6);
-}
-
-.p-shop__detail-crowd {
-  margin: 0;
-  font-size: rem(12);
-  color: $color-text-muted;
-}
-
-// ─── 旅行者向けTips パネル ────────────────────────────────
-.p-shop__tips {
-  font-size: rem(14);
-  line-height: 1.9;
-  color: $color-text;
-
-  p { margin: 0 0 rem(12); }
-  p:last-child { margin-bottom: 0; }
-
-  ul, ol { padding-left: rem(20); margin: 0 0 rem(12); }
-  li + li { margin-top: rem(4); }
-}
-
-// ─── FAQ ─────────────────────────────────────────────────
-.p-shop__faq {
-  display: flex;
-  flex-direction: column;
-  gap: rem(12);
-  margin: 0;
-
-  &-item {
-    background-color: $color-washi;
-    border-radius: rem(12);
-    padding: rem(20) rem(24);
-
-    @include sp { padding: rem(16) rem(18); }
+    font-weight: 600;
   }
 
-  &-q {
-    font-size: rem(15);
-    font-weight: 700;
+  // ─── 旅行者向けTips パネル ────────────────────────────────
+  // wp_kses_post(wpautop()) の動的出力のため要素セレクタを使用（クラス付与不可）
+  &__tips {
+    font-size: rem(14);
+    line-height: 1.9;
     color: $color-text;
-    margin-bottom: rem(8);
 
-    &::before {
-      content: "Q. ";
-      color: $color-primary-dark;
-    }
+    p { margin: 0 0 rem(12); }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol { padding-left: rem(20); margin: 0 0 rem(12); }
+    li + li { margin-top: rem(4); }
   }
 
-  &-a {
-    font-size: rem(13);
-    color: $color-text-muted;
-    line-height: 1.8;
+  // ─── FAQ（shop_faq フィールド表示用） ─────────────────────
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
     margin: 0;
 
-    &::before {
-      content: "A. ";
-      color: $color-primary-dark;
+    &-item {
+      background-color: $color-washi;
+      border-radius: rem(12);
+      padding: rem(20) rem(24);
+
+      @include sp { padding: rem(16) rem(18); }
+    }
+
+    &-q {
+      font-size: rem(15);
       font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(8);
+
+      &::before {
+        content: "Q. ";
+        color: $color-primary-dark;
+      }
+    }
+
+    &-a {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.8;
+      margin: 0;
+
+      &::before {
+        content: "A. ";
+        color: $color-primary-dark;
+        font-weight: 700;
+      }
     }
   }
-}
 
-// ─── アクセス（地図） ────────────────────────────────────
-.p-shop__map {
-  border-radius: rem(12);
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background-color: $color-washi;
+  // ─── アクセス（地図） ────────────────────────────────────
+  &__map {
+    border-radius: rem(12);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background-color: $color-washi;
+  }
 
-  iframe {
+  &__map-frame {
     display: block;
     width: 100%;
     height: 100%;
     border: 0;
   }
-}
 
-.p-shop__access-address {
-  margin-top: rem(16);
-  font-size: rem(13);
-  color: $color-text-muted;
-}
-
-// ─── 近隣のお店 ──────────────────────────────────────────
-.p-shop__related {
-  background-color: $color-washi;
-  padding-block: rem(48);
-
-  @include sp { padding-block: rem(32); }
-
-  &-inner {
-    @include page-inner;
-  }
-
-  &-title {
-    font-family: $font-serif;
-    font-size: rem(22);
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: rem(20);
-
-    @include sp { font-size: rem(18); }
-  }
-
-  &-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: rem(20);
-
-    @include sp { grid-template-columns: 1fr; gap: rem(16); }
-  }
-
-  &-card {
-    background-color: #fff;
-    border-radius: rem(12);
-    overflow: hidden;
-    transition: box-shadow 0.2s ease;
-
-    @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); }
-  }
-
-  &-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  &-img {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    background-color: $color-border;
-    overflow: hidden;
-  }
-
-  &-badge {
-    position: absolute;
-    top: rem(12);
-    left: rem(12);
-    padding: rem(4) rem(10);
-    font-size: rem(12);
-    font-weight: 600;
-    color: $color-text;
-    background-color: rgba(#fff, 0.95);
-    border-radius: rem(9999);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  }
-
-  &-body {
-    padding: rem(16);
-    display: flex;
-    flex-direction: column;
-    gap: rem(8);
-  }
-
-  &-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: rem(6);
-  }
-
-  &-name {
-    font-family: $font-serif;
-    font-size: rem(16);
-    font-weight: 700;
-    color: $color-text;
-    line-height: 1.4;
-  }
-
-  &-catch {
-    font-size: rem(12);
+  &__access-address {
+    margin-top: rem(16);
+    font-size: rem(13);
     color: $color-text-muted;
-    line-height: 1.7;
-    @include line-clamp(2);
+  }
+
+  // ─── 近隣のお店 ──────────────────────────────────────────
+  &__related {
+    background-color: $color-washi;
+    padding-block: rem(48);
+
+    @include sp { padding-block: rem(32); }
+
+    &-inner {
+      @include page-inner;
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(22);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(20);
+
+      @include sp { font-size: rem(18); }
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(20);
+
+      @include sp { grid-template-columns: 1fr; gap: rem(16); }
+    }
+
+    &-card {
+      background-color: #fff;
+      border-radius: rem(12);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+
+      @include hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); }
+    }
+
+    &-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &-img {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background-color: $color-border;
+      overflow: hidden;
+    }
+
+    &-badge {
+      position: absolute;
+      top: rem(12);
+      left: rem(12);
+      padding: rem(4) rem(10);
+      font-size: rem(12);
+      font-weight: 600;
+      color: $color-text;
+      background-color: rgba(#fff, 0.95);
+      border-radius: rem(9999);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    &-body {
+      padding: rem(16);
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+    }
+
+    &-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(6);
+    }
+
+    &-name {
+      font-family: $font-serif;
+      font-size: rem(16);
+      font-weight: 700;
+      color: $color-text;
+      line-height: 1.4;
+    }
+
+    &-catch {
+      font-size: rem(12);
+      color: $color-text-muted;
+      line-height: 1.7;
+      @include line-clamp(2);
+    }
   }
 }

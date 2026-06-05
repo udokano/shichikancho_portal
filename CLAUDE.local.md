@@ -33,6 +33,10 @@ Claude がこのテーマを編集するときに **必ず守るルール**。
 ## HTML / マークアップ規約
 
 - `<img>` に無駄な class を付けない。必要なスタイルは親要素から
+- **裸のタグセレクタでスタイリングしない**。`li` `p` `a` `svg` `dt` `dd` `strong` `th` `td` 等をSCSSでネストした要素セレクタで直接スタイリングするのは原則禁止。HTML側に要素クラス（`&__item` `&__icon` `&__text` 等）を付与し、クラスセレクタでスタイリングする
+  - 例外1: `<img>`（クラスを付けず親要素で制御）
+  - 例外2: ブロックエディタ出力（`.wp-block-*` 配下、HTML構造を制御できない）
+  - 例外3: `&::before` `&::after` 等の擬似要素、`:hover` 等の状態擬似クラス
 - `<div>` の閉じタグには必ず `<!-- /.class-name -->` コメントを付ける
 - W3C バリデータでエラー 0 件を目指す（`<p>` 内に `<div>` を入れない等）
 - PC/SP で画像を切り替えるときは `<picture>` を使う（base = PC 画像、breakpoint = `768px`）
@@ -47,6 +51,7 @@ Claude がこのテーマを編集するときに **必ず守るルール**。
 - 新規ページスタイルは `assets/scss/pages/_xxx.scss` に追加し、`main.scss` で `@use` する
 - CSS変数（カスタムプロパティ）はハードコードせず `_variables.scss` の値を使う
 - **単位は `rem()` 関数で統一**。`_functions.scss` の `rem()` を使い、px直書き禁止（border / line-height 等の例外除く）
+- **`vw()` 関数あり**（`_functions.scss`）。デザイン基準幅1440pxで `px → vw` 変換。`html { font-size: clamp(14px, vw(16), 16px); }` を `_base.scss` に記述済み
 - **PC-first**。ベースがPC、SP上書きは `@media (max-width: #{$bp-sp})` のみ。`$bp-sp: 768px` は `_variables.scss` で管理
 
 ---

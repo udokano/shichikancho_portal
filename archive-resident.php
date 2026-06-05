@@ -132,7 +132,7 @@ get_header();
 							</article>
 							<footer class="p-resident-card__foot">
 								<?php if ( $thumb_url ) : ?>
-								<span class="p-resident-card__foot-avatar"><img src="<?php echo esc_url( $thumb_url ); ?>" alt="" aria-hidden="true" loading="lazy"></span>
+								<span class="p-resident-card__foot-avatar"><img class="p-resident-card__foot-avatar-img" src="<?php echo esc_url( $thumb_url ); ?>" alt="" aria-hidden="true" loading="lazy"></span>
 								<?php endif; ?>
 								<span class="p-resident-card__foot-body">
 									<?php if ( $role ) : ?>
@@ -189,7 +189,7 @@ get_header();
 						</article>
 						<footer class="p-resident-card__foot">
 							<?php if ( $thumb_url ) : ?>
-							<span class="p-resident-card__foot-avatar"><img src="<?php echo esc_url( $thumb_url ); ?>" alt="" aria-hidden="true" loading="lazy"></span>
+							<span class="p-resident-card__foot-avatar"><img class="p-resident-card__foot-avatar-img" src="<?php echo esc_url( $thumb_url ); ?>" alt="" aria-hidden="true" loading="lazy"></span>
 							<?php endif; ?>
 							<span class="p-resident-card__foot-body">
 								<?php if ( $role ) : ?>
@@ -291,7 +291,7 @@ get_header();
 				<?php if ( $sidebar_latest->have_posts() ) : ?>
 				<div class="p-resident-sidebar__block">
 					<h2 class="p-resident-sidebar__block-title">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-clock-solid"></use></svg>
+						<svg class="p-resident-sidebar__block-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-clock-solid"></use></svg>
 						新着情報
 					</h2>
 					<ul class="p-resident-sidebar__list">
@@ -309,7 +309,7 @@ get_header();
 							<a class="p-resident-sidebar__list-link" href="<?php the_permalink(); ?>">
 								<div class="p-resident-sidebar__list-thumb" aria-hidden="true">
 									<?php if ( $s_thumb ) : ?>
-									<img src="<?php echo esc_url( $s_thumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="48" height="48">
+									<img class="p-resident-sidebar__list-thumb-img" src="<?php echo esc_url( $s_thumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="48" height="48">
 									<?php endif; ?>
 								</div>
 								<div class="p-resident-sidebar__list-body">

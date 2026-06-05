@@ -481,12 +481,25 @@ get_header();
 
 			<?php if ( ! empty( $tab['voice'] ) ) : ?>
 			<section class="p-living__voice-section" aria-label="住んでいる人の声">
-				<h3 class="p-living__voice-section-title">住んでいる人の声</h3>
-				<figure class="p-living__voice">
-					<blockquote class="p-living__voice-quote">「<?php echo esc_html( $tab['voice']['quote'] ); ?>」</blockquote>
-					<figcaption class="p-living__voice-author">— <?php echo esc_html( $tab['voice']['author'] ); ?></figcaption>
-				</figure>
+				<div class="p-living__voice-section-inner">
+					<p class="p-living__voice-section-eyebrow">VOICE</p>
+					<h3 class="p-living__voice-section-title">住んでいる人の声</h3>
+					<figure class="p-living__voice-section-figure">
+						<div class="p-living__voice-section-avatar" aria-hidden="true">
+							<svg class="p-living__voice-section-avatar-icon" focusable="false" aria-hidden="true"><use href="#icon-users-solid"></use></svg>
+						</div>
+						<!-- /.p-living__voice-section-avatar -->
+						<blockquote class="p-living__voice-section-quote">
+							「<?php echo esc_html( $tab['voice']['quote'] ); ?>」
+						</blockquote>
+						<figcaption class="p-living__voice-section-author">
+							<?php echo esc_html( $tab['voice']['author'] ); ?>
+						</figcaption>
+					</figure>
+				</div>
+				<!-- /.p-living__voice-section-inner -->
 			</section>
+			<!-- /.p-living__voice-section -->
 			<?php endif; ?>
 
 			<?php // ─── タブ固有: 移住支援 CTA ─── ?>
@@ -498,18 +511,18 @@ get_header();
 				<p class="p-living__final-cta-text"><?php echo esc_html( $cta['text'] ); ?></p>
 				<div class="p-living__final-cta-buttons">
 					<a class="p-living__final-cta-btn p-living__final-cta-btn--primary" href="<?php echo esc_url( $cta['btn_primary']['url'] ); ?>">
-						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-mail"></use></svg>
+						<svg class="p-living__final-cta-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-mail"></use></svg>
 						<?php echo esc_html( $cta['btn_primary']['label'] ); ?>
 					</a>
 					<a class="p-living__final-cta-btn p-living__final-cta-btn--secondary" href="<?php echo esc_url( $cta['btn_secondary']['url'] ); ?>">
-						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-phone"></use></svg>
+						<svg class="p-living__final-cta-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-phone"></use></svg>
 						<?php echo esc_html( $cta['btn_secondary']['label'] ); ?>
 					</a>
 				</div>
 				<?php if ( ! empty( $cta['notes'] ) ) : ?>
 				<ul class="p-living__final-cta-notes">
 					<?php foreach ( $cta['notes'] as $n ) : ?>
-					<li><?php echo esc_html( $n ); ?></li>
+					<li class="p-living__final-cta-note"><?php echo esc_html( $n ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 				<?php endif; ?>

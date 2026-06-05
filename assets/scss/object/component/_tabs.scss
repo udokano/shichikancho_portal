@@ -11,11 +11,7 @@
 .c-tabs {
   background-color: #fff;
   border-bottom: 1px solid $color-border;
-  position: sticky;
-  top: rem(72);
   z-index: 10;
-
-  @include sp { top: rem(56); }
 
   &--scroll {
     overflow-x: auto;

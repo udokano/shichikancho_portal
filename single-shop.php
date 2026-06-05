@@ -101,10 +101,10 @@ if ( have_posts() ) : the_post();
 							<?php endforeach; ?>
 							<?php if ( count( $hero_images ) > 1 ) : ?>
 							<button type="button" class="p-shop__hero-nav p-shop__hero-nav--prev js-shop-gallery-prev" aria-label="前の画像">
-								<svg aria-hidden="true" focusable="false"><use href="#icon-chevron-left"></use></svg>
+								<svg class="p-shop__hero-nav-icon" aria-hidden="true" focusable="false"><use href="#icon-chevron-left"></use></svg>
 							</button>
 							<button type="button" class="p-shop__hero-nav p-shop__hero-nav--next js-shop-gallery-next" aria-label="次の画像">
-								<svg aria-hidden="true" focusable="false"><use href="#icon-chevron-right"></use></svg>
+								<svg class="p-shop__hero-nav-icon" aria-hidden="true" focusable="false"><use href="#icon-chevron-right"></use></svg>
 							</button>
 							<span class="p-shop__hero-counter" aria-live="polite"><span class="js-shop-gallery-current">1</span>/<?php echo (int) count( $hero_images ); ?></span>
 							<?php endif; ?>
@@ -128,14 +128,14 @@ if ( have_posts() ) : the_post();
 					<header class="p-shop__head">
 						<?php if ( $cat || $area ) : ?>
 						<p class="p-shop__crumb">
-							<a href="<?php echo esc_url( get_post_type_archive_link( CPT_SHOP ) ); ?>">商店街のお店</a>
+							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_post_type_archive_link( CPT_SHOP ) ); ?>">商店街のお店</a>
 							<?php if ( $cat ) : ?>
 							<span class="p-shop__crumb-sep" aria-hidden="true">&rsaquo;</span>
-							<a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
+							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_term_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
 							<?php endif; ?>
 							<?php if ( $area ) : ?>
 							<span class="p-shop__crumb-sep" aria-hidden="true">&rsaquo;</span>
-							<a href="<?php echo esc_url( get_term_link( $area ) ); ?>"><?php echo esc_html( $area->name ); ?></a>
+							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_term_link( $area ) ); ?>"><?php echo esc_html( $area->name ); ?></a>
 							<?php endif; ?>
 						</p>
 						<?php endif; ?>
@@ -162,20 +162,20 @@ if ( have_posts() ) : the_post();
 					<dl class="p-shop__info-grid">
 						<?php if ( $target_audience ) : ?>
 						<div class="p-shop__info-cell">
-							<dt>こんな人におすすめ</dt>
-							<dd><?php echo esc_html( $target_audience ); ?></dd>
+							<dt class="p-shop__info-cell-term">こんな人におすすめ</dt>
+							<dd class="p-shop__info-cell-desc"><?php echo esc_html( $target_audience ); ?></dd>
 						</div>
 						<?php endif; ?>
 						<?php if ( $popular_menu ) : ?>
 						<div class="p-shop__info-cell">
-							<dt>人気メニュー</dt>
-							<dd><?php echo esc_html( $popular_menu ); ?></dd>
+							<dt class="p-shop__info-cell-term">人気メニュー</dt>
+							<dd class="p-shop__info-cell-desc"><?php echo esc_html( $popular_menu ); ?></dd>
 						</div>
 						<?php endif; ?>
 						<?php if ( $busy_hours ) : ?>
 						<div class="p-shop__info-cell">
-							<dt>混雑目安</dt>
-							<dd><?php echo esc_html( $busy_hours ); ?></dd>
+							<dt class="p-shop__info-cell-term">混雑目安</dt>
+							<dd class="p-shop__info-cell-desc"><?php echo esc_html( $busy_hours ); ?></dd>
 						</div>
 						<?php endif; ?>
 					</dl>
@@ -269,6 +269,7 @@ if ( have_posts() ) : the_post();
 						<?php if ( $lat && $lng ) : ?>
 						<div class="p-shop__map">
 							<iframe
+								class="p-shop__map-frame"
 								src="https://www.google.com/maps?q=<?php echo esc_attr( $lat ); ?>,<?php echo esc_attr( $lng ); ?>&output=embed"
 								loading="lazy"
 								title="<?php echo esc_attr( get_the_title() ); ?> 地図"
@@ -332,9 +333,9 @@ if ( have_posts() ) : the_post();
 								<dd class="p-shop__detail-desc">
 									<ul class="p-shop__detail-tags">
 										<?php foreach ( $payments as $f ) : ?>
-										<li><span class="c-tag c-tag--sm"><?php echo esc_html( str_replace( [ '可', '決済' ], '', $feature_labels[ $f ] ) ); ?></span></li>
+										<li class="p-shop__detail-tag"><span class="c-tag c-tag--sm"><?php echo esc_html( str_replace( [ '可', '決済' ], '', $feature_labels[ $f ] ) ); ?></span></li>
 										<?php endforeach; ?>
-										<li><span class="c-tag c-tag--sm">現金</span></li>
+										<li class="p-shop__detail-tag"><span class="c-tag c-tag--sm">現金</span></li>
 									</ul>
 								</dd>
 							</div>
@@ -366,7 +367,7 @@ if ( have_posts() ) : the_post();
 								<dd class="p-shop__detail-desc">
 									<ul class="p-shop__detail-tags">
 										<?php foreach ( $supports as $f ) : ?>
-										<li><span class="c-tag c-tag--sm"><?php echo esc_html( $feature_labels[ $f ] ); ?></span></li>
+										<li class="p-shop__detail-tag"><span class="c-tag c-tag--sm"><?php echo esc_html( $feature_labels[ $f ] ); ?></span></li>
 										<?php endforeach; ?>
 									</ul>
 								</dd>
@@ -428,7 +429,7 @@ if ( have_posts() ) : the_post();
 								<?php if ( $extras ) : ?>
 								<ul class="p-shop__detail-extras">
 									<?php foreach ( $extras as $f ) : ?>
-									<li><span class="c-tag c-tag--sm"><?php echo esc_html( $feature_labels[ $f ] ); ?></span></li>
+									<li class="p-shop__detail-tag"><span class="c-tag c-tag--sm"><?php echo esc_html( $feature_labels[ $f ] ); ?></span></li>
 									<?php endforeach; ?>
 								</ul>
 								<?php endif; ?>

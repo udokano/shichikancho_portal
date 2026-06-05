@@ -1,5 +1,34 @@
 @use '../config' as *;
 
+// ベースフォントサイズ可変（ブレイクポイントごとに基準幅を変えて比例スケール）
+html {
+  font-size: #{$baseFontsize}px;
+}
+
+@include mq-down(xl) {
+  html {
+    font-size: vw($baseFontsize, 1400);
+  }
+}
+
+@include mq-down(lg) {
+  html {
+    font-size: vw(14, 1024);
+  }
+}
+
+@include mq-down(sm) {
+  html {
+    font-size: vw($baseFontsize, 768);
+  }
+}
+
+@include mq-down(xs) {
+  html {
+    font-size: vw($baseFontsize, 540);
+  }
+}
+
 body {
   font-family: $font-sans;
   font-size: rem(16);
@@ -12,7 +41,9 @@ body {
 
 // 基本リンク
 a {
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 // 画像（reset で display:block・max-width:100% 済み、height:auto だけ追加）
@@ -70,10 +101,16 @@ body.is-nav-open {
 
 // Google Translate ツールバー・バルーン非表示
 // （ウィジェットは機能させたまま UI だけ隠す）
-body { top: 0 !important; }
-.goog-te-banner-frame { display: none !important; }
+body {
+  top: 0 !important;
+}
+.goog-te-banner-frame {
+  display: none !important;
+}
 #goog-gt-tt,
-.goog-te-balloon-frame { display: none !important; }
+.goog-te-balloon-frame {
+  display: none !important;
+}
 
 // ユーティリティ：視覚的に隠す（SR 用）
 .u-sr-only {

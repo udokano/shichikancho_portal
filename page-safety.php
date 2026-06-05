@@ -377,21 +377,21 @@ get_header();
 					<div class="p-safety__daily-col">
 						<h4 class="p-safety__daily-sub">必須アイテム</h4>
 						<ul class="p-safety__bullet-list">
-							<li>飲料水（3日分以上）</li>
-							<li>非常食（缶詰・乾パン・レトルト食品）</li>
-							<li>懐中電灯・モバイルバッテリー</li>
-							<li>救急箱・常備薬</li>
-							<li>現金・身分証明書のコピー</li>
+							<li class="p-safety__bullet-item">飲料水（3日分以上）</li>
+							<li class="p-safety__bullet-item">非常食（缶詰・乾パン・レトルト食品）</li>
+							<li class="p-safety__bullet-item">懐中電灯・モバイルバッテリー</li>
+							<li class="p-safety__bullet-item">救急箱・常備薬</li>
+							<li class="p-safety__bullet-item">現金・身分証明書のコピー</li>
 						</ul>
 					</div>
 					<div class="p-safety__daily-col">
 						<h4 class="p-safety__daily-sub">あると便利</h4>
 						<ul class="p-safety__bullet-list">
-							<li>ラジオ（手回し充電式）</li>
-							<li>ウェットティッシュ・トイレットペーパー</li>
-							<li>軍手・マスク・ゴーグル</li>
-							<li>ブルーシート・毛布</li>
-							<li>筆記用具・ホイッスル</li>
+							<li class="p-safety__bullet-item">ラジオ（手回し充電式）</li>
+							<li class="p-safety__bullet-item">ウェットティッシュ・トイレットペーパー</li>
+							<li class="p-safety__bullet-item">軍手・マスク・ゴーグル</li>
+							<li class="p-safety__bullet-item">ブルーシート・毛布</li>
+							<li class="p-safety__bullet-item">筆記用具・ホイッスル</li>
 						</ul>
 					</div>
 				</div>
@@ -430,11 +430,11 @@ get_header();
 			<div class="p-safety__daily-card">
 				<h3 class="p-safety__daily-card-title">家の安全対策</h3>
 				<ul class="p-safety__bullet-list">
-					<li>家具の転倒防止（L字金具・突っ張り棒）</li>
-					<li>ガラスの飛散防止フィルム</li>
-					<li>感震ブレーカーの設置</li>
-					<li>食器棚の上に重い物を置かない</li>
-					<li>避難経路の確保（廊下・玄関に物を置かない）</li>
+					<li class="p-safety__bullet-item">家具の転倒防止（L字金具・突っ張り棒）</li>
+					<li class="p-safety__bullet-item">ガラスの飛散防止フィルム</li>
+					<li class="p-safety__bullet-item">感震ブレーカーの設置</li>
+					<li class="p-safety__bullet-item">食器棚の上に重い物を置かない</li>
+					<li class="p-safety__bullet-item">避難経路の確保（廊下・玄関に物を置かない）</li>
 				</ul>
 			</div>
 			<!-- /.p-safety__daily-card -->

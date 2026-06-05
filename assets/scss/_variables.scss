@@ -47,6 +47,9 @@ $color-border:      #b8c5cf; // 薄すぎたので濃いめに調整
 $color-primary:     #006da6; // sakura-deep（アクセント文字/アイコン用、薄い水色だと視認性が悪いため濃色に統一）
 $color-primary-dark: #006da6; // Manus --sakura-deep
 
+// ベースフォントサイズ（px数値のみ。vw変換に使用）
+$baseFontsize: 16;
+
 // フォント
 $font-sans:  'Inter', 'Noto Sans JP', sans-serif;
 $font-serif: 'Noto Serif JP', Georgia, serif;

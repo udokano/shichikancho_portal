@@ -110,13 +110,13 @@ $links      = guide_get_repeater( $pid, 'guide_links' );
 							<div class="p-guide__facility-meta">
 								<?php if ( $f['gf_address'] ) : ?>
 									<span class="p-guide__facility-address">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg>
+										<svg class="p-guide__facility-meta-icon" aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg>
 										<?php echo esc_html( $f['gf_address'] ); ?>
 									</span>
 								<?php endif; ?>
 								<?php if ( $f['gf_hours'] ) : ?>
 									<span class="p-guide__facility-hours">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-clock"></use></svg>
+										<svg class="p-guide__facility-meta-icon" aria-hidden="true" focusable="false"><use href="#icon-clock"></use></svg>
 										<?php echo esc_html( $f['gf_hours'] ); ?>
 									</span>
 								<?php endif; ?>
@@ -128,8 +128,8 @@ $links      = guide_get_repeater( $pid, 'guide_links' );
 							<?php if ( $f['gf_phone'] ) : ?>
 								<div class="p-guide__facility-footer">
 									<span class="p-guide__facility-phone">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-phone"></use></svg>
-										<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9]/', '', $f['gf_phone'] ) ); ?>"><?php echo esc_html( $f['gf_phone'] ); ?></a>
+										<svg class="p-guide__facility-phone-icon" aria-hidden="true" focusable="false"><use href="#icon-phone"></use></svg>
+										<a class="p-guide__facility-phone-link" href="tel:<?php echo esc_attr( preg_replace( '/[^0-9]/', '',$f['gf_phone'] ) ); ?>"><?php echo esc_html( $f['gf_phone'] ); ?></a>
 									</span>
 								</div>
 							<?php endif; ?>
@@ -165,13 +165,13 @@ $links      = guide_get_repeater( $pid, 'guide_links' );
 							<div class="p-guide__facility-meta">
 								<?php if ( $m['gm_address'] ) : ?>
 									<span class="p-guide__facility-address">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg>
+										<svg class="p-guide__facility-meta-icon" aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg>
 										<?php echo esc_html( $m['gm_address'] ); ?>
 									</span>
 								<?php endif; ?>
 								<?php if ( $m['gm_hours'] ) : ?>
 									<span class="p-guide__facility-hours">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-clock"></use></svg>
+										<svg class="p-guide__facility-meta-icon" aria-hidden="true" focusable="false"><use href="#icon-clock"></use></svg>
 										<?php echo esc_html( $m['gm_hours'] ); ?>
 									</span>
 								<?php endif; ?>
@@ -183,8 +183,8 @@ $links      = guide_get_repeater( $pid, 'guide_links' );
 							<?php if ( $m['gm_phone'] ) : ?>
 								<div class="p-guide__facility-footer">
 									<span class="p-guide__facility-phone">
-										<svg aria-hidden="true" focusable="false"><use href="#icon-phone"></use></svg>
-										<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9]/', '', $m['gm_phone'] ) ); ?>"><?php echo esc_html( $m['gm_phone'] ); ?></a>
+										<svg class="p-guide__facility-phone-icon" aria-hidden="true" focusable="false"><use href="#icon-phone"></use></svg>
+										<a class="p-guide__facility-phone-link" href="tel:<?php echo esc_attr( preg_replace( '/[^0-9]/', '',$m['gm_phone'] ) ); ?>"><?php echo esc_html( $m['gm_phone'] ); ?></a>
 									</span>
 								</div>
 							<?php endif; ?>
@@ -224,7 +224,7 @@ $links      = guide_get_repeater( $pid, 'guide_links' );
 				<ul class="p-guide__garbage-notes">
 					<?php foreach ( explode( "\n", $garbage_notes_raw ) as $note ) : ?>
 						<?php $note = trim( $note ); if ( ! $note ) continue; ?>
-						<li><?php echo esc_html( $note ); ?></li>
+						<li class="p-guide__garbage-note"><?php echo esc_html( $note ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 				<!-- /.p-guide__garbage-notes -->

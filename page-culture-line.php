@@ -9,6 +9,10 @@ get_header();
 
 	<!-- ─── ヒーロー ── -->
 	<section class="p-cl__hero" aria-label="駿河カルチャーライン構想">
+		<picture class="p-cl__hero-bg" aria-hidden="true">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-main.jpg' ); ?>" alt="" width="1440" height="800" loading="eager">
+		</picture>
+		<!-- /.p-cl__hero-bg -->
 		<div class="p-cl__hero-inner">
 			<p class="p-cl__hero-eyebrow">SURUGA CULTURE LINE</p>
 			<h1 class="p-cl__hero-title">駿河カルチャーライン構想</h1>
@@ -408,19 +412,20 @@ get_header();
 
 				<?php
 				$spots = [
-					[ 'name' => '静岡浅間神社', 'cat' => '神社仏閣', 'time' => '徒歩15分' ],
-					[ 'name' => '久能山東照宮', 'cat' => '世界遺産',  'time' => 'バス40分' ],
-					[ 'name' => '日本平',       'cat' => '絶景',      'time' => 'バス30分' ],
-					[ 'name' => '三保の松原',   'cat' => '世界文化遺産', 'time' => 'バス45分' ],
-					[ 'name' => '日本平動物園', 'cat' => 'レジャー',  'time' => 'バス25分' ],
-					[ 'name' => '登呂遺跡',     'cat' => '歴史',      'time' => 'バス20分' ],
+					[ 'name' => '静岡浅間神社', 'cat' => '神社仏閣',    'time' => '徒歩15分', 'img' => 'common/hero-about.jpg'   ],
+					[ 'name' => '久能山東照宮', 'cat' => '世界遺産',     'time' => 'バス40分', 'img' => 'shop/shop-1.jpg'        ],
+					[ 'name' => '日本平',       'cat' => '絶景',         'time' => 'バス30分', 'img' => 'top/hero-tourism.jpg'   ],
+					[ 'name' => '三保の松原',   'cat' => '世界文化遺産', 'time' => 'バス45分', 'img' => 'event/event-1.jpg'      ],
+					[ 'name' => '日本平動物園', 'cat' => 'レジャー',     'time' => 'バス25分', 'img' => 'gallery/gallery-4.jpg'  ],
+					[ 'name' => '登呂遺跡',     'cat' => '歴史',         'time' => 'バス20分', 'img' => 'gallery/gallery-5.jpg'  ],
 				];
 				foreach ( $spots as $spot ) :
 				?>
 				<div class="p-cl__wide-card">
-					<span class="p-cl__wide-card-icon" aria-hidden="true">
-						<svg width="18" height="18" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
-					</span>
+					<div class="p-cl__wide-card-photo" aria-hidden="true">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $spot['img'] ); ?>" alt="" width="400" height="267" loading="lazy">
+					</div>
+					<!-- /.p-cl__wide-card-photo -->
 					<div class="p-cl__wide-card-body">
 						<p class="p-cl__wide-card-name"><?php echo esc_html( $spot['name'] ); ?></p>
 						<div class="p-cl__wide-card-meta">
@@ -595,6 +600,10 @@ get_header();
 
 	<!-- ─── VISION CTA ── -->
 	<section class="p-cl__future" aria-label="駿府城再建がもたらす未来">
+		<picture class="p-cl__future-bg" aria-hidden="true">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
+		</picture>
+		<!-- /.p-cl__future-bg -->
 		<div class="p-cl__future-inner">
 			<p class="p-cl__future-eyebrow">VISION</p>
 			<h2 class="p-cl__future-title">駿府城再建がもたらす未来</h2>

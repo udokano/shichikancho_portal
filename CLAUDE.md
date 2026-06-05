@@ -96,7 +96,8 @@ npx sass assets/scss/main.scss assets/css/main.css --style expanded --no-source-
 ## コーディングルール
 
 - **PC ファースト**レスポンシブ。ブレイクポイント `$bp-sp: 768px`
-- サイズ単位は `rem()` 関数（`math.div` で計算）
+- `html { font-size: clamp(14px, vw(16), 16px); }` を `_base.scss` に設定（可変ベースフォントサイズ）
+- サイズ単位は `rem()` 関数（`math.div` で計算）。`vw()` 関数も `_functions.scss` に定義済み（基準幅1440px）
 - 画像の PC/SP 切り替えは `<picture>` 要素を使用
 - 装飾画像（`alt=""`）には `aria-hidden="true"` を付ける
 - `<img>` タグに class 属性は付けない（親要素でスタイル制御）

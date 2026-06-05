@@ -29,7 +29,7 @@ schema_local_business();
 
 			<!-- 左カラム: タイトル -->
 			<div class="p-home-hero__title-wrap">
-				<p class="p-home-hero__title-en js-hero-split" aria-label="SHICHIKANCHO">SHICHIKANCHO</p>
+				<p class="p-home-hero__title-en js-hero-split" aria-label="SHICHIKANCHO">SHICHIKENCHO</p>
 				<h1 id="home-hero-title" class="p-home-hero__title-ja js-hero-fade">七間町</h1>
 				<p class="p-home-hero__title-sub js-hero-fade">静岡県の中心、七間町</p>
 			</div>
@@ -140,60 +140,65 @@ $event_query = new WP_Query([
 					$event_count  = count($event_posts);
 					$use_carousel = $event_count >= 2;
 				?>
-				<div class="p-home-event-carousel<?php echo $use_carousel ? ' js-home-event-carousel' : ''; ?>">
-					<?php foreach ($event_posts as $i => $ev) :
-						setup_postdata($GLOBALS['post'] = $ev);
-						$thumb = sc_thumbnail_url(get_the_ID(), 'medium_large');
-						$place = sc_field('event_place');
-						$time  = sc_field('event_time');
-						$date  = get_the_date('Y/n/j');
-						$dow   = sc_date_jp(get_the_date('D'));
-					?>
-					<div class="p-home-event-carousel__slide<?php echo $i === 0 ? ' is-active' : ''; ?>" data-slide="<?php echo $i; ?>" aria-hidden="<?php echo $i === 0 ? 'false' : 'true'; ?>">
-						<a class="p-home-event-card" href="<?php the_permalink(); ?>">
-							<div class="p-home-event-card__thumb">
-								<img class="u-img-cover" src="<?php echo esc_url($thumb); ?>" alt="" aria-hidden="true" loading="lazy">
-								<div class="p-home-event-card__date-badge">
-									<span class="p-home-event-card__date"><?php echo esc_html($date); ?></span>
-									<span class="p-home-event-card__dow"><?php echo esc_html($dow); ?></span>
-								</div>
+					<div class="p-home-event-carousel<?php echo $use_carousel ? ' js-home-event-carousel' : ''; ?>">
+						<?php foreach ($event_posts as $i => $ev) :
+							setup_postdata($GLOBALS['post'] = $ev);
+							$thumb = sc_thumbnail_url(get_the_ID(), 'medium_large');
+							$place = sc_field('event_place');
+							$time  = sc_field('event_time');
+							$date  = get_the_date('Y/n/j');
+							$dow   = sc_date_jp(get_the_date('D'));
+						?>
+							<div class="p-home-event-carousel__slide<?php echo $i === 0 ? ' is-active' : ''; ?>" data-slide="<?php echo $i; ?>" aria-hidden="<?php echo $i === 0 ? 'false' : 'true'; ?>">
+								<a class="p-home-event-card" href="<?php the_permalink(); ?>">
+									<div class="p-home-event-card__thumb">
+										<img class="u-img-cover" src="<?php echo esc_url($thumb); ?>" alt="" aria-hidden="true" loading="lazy">
+										<div class="p-home-event-card__date-badge">
+											<span class="p-home-event-card__date"><?php echo esc_html($date); ?></span>
+											<span class="p-home-event-card__dow"><?php echo esc_html($dow); ?></span>
+										</div>
+									</div>
+									<div class="p-home-event-card__body">
+										<?php if ($time || $place) : ?>
+											<div class="p-home-event-card__meta">
+												<?php if ($time) : ?><span class="p-home-event-card__time"><?php echo esc_html($time); ?></span><?php endif; ?>
+												<?php if ($time && $place) : ?><span class="p-home-event-card__sep" aria-hidden="true">|</span><?php endif; ?>
+												<?php if ($place) : ?><span class="p-home-event-card__place"><?php echo esc_html($place); ?></span><?php endif; ?>
+											</div>
+										<?php endif; ?>
+										<h3 class="p-home-event-card__title"><?php the_title(); ?></h3>
+										<?php if (has_excerpt()) : ?>
+											<p class="p-home-event-card__excerpt"><?php echo esc_html(get_the_excerpt()); ?></p>
+										<?php endif; ?>
+									</div>
+								</a>
 							</div>
-							<div class="p-home-event-card__body">
-								<?php if ($time || $place) : ?>
-								<div class="p-home-event-card__meta">
-									<?php if ($time) : ?><span class="p-home-event-card__time"><?php echo esc_html($time); ?></span><?php endif; ?>
-									<?php if ($time && $place) : ?><span class="p-home-event-card__sep" aria-hidden="true">|</span><?php endif; ?>
-									<?php if ($place) : ?><span class="p-home-event-card__place"><?php echo esc_html($place); ?></span><?php endif; ?>
-								</div>
-								<?php endif; ?>
-								<h3 class="p-home-event-card__title"><?php the_title(); ?></h3>
-								<?php if (has_excerpt()) : ?>
-								<p class="p-home-event-card__excerpt"><?php echo esc_html(get_the_excerpt()); ?></p>
-								<?php endif; ?>
-							</div>
-						</a>
-					</div>
-					<!-- /.p-home-event-carousel__slide -->
-					<?php endforeach; wp_reset_postdata(); ?>
+							<!-- /.p-home-event-carousel__slide -->
+						<?php endforeach;
+						wp_reset_postdata(); ?>
 
-					<?php if ($use_carousel) : ?>
-					<div class="p-home-event-carousel__controls">
-						<button type="button" class="p-home-event-carousel__arrow p-home-event-carousel__arrow--prev js-carousel-prev" aria-label="前へ">
-							<svg width="16" height="16" aria-hidden="true" focusable="false"><use href="#icon-chevron-right"></use></svg>
-						</button>
-						<div class="p-home-event-carousel__dots">
-							<?php for ($i = 0; $i < $event_count; $i++) : ?>
-							<button type="button" class="p-home-event-carousel__dot<?php echo $i === 0 ? ' is-active' : ''; ?>" data-target="<?php echo $i; ?>" aria-label="<?php echo $i + 1; ?>枚目"></button>
-							<?php endfor; ?>
-						</div>
-						<button type="button" class="p-home-event-carousel__arrow p-home-event-carousel__arrow--next js-carousel-next" aria-label="次へ">
-							<svg width="16" height="16" aria-hidden="true" focusable="false"><use href="#icon-chevron-right"></use></svg>
-						</button>
+						<?php if ($use_carousel) : ?>
+							<div class="p-home-event-carousel__controls">
+								<button type="button" class="p-home-event-carousel__arrow p-home-event-carousel__arrow--prev js-carousel-prev" aria-label="前へ">
+									<svg width="16" height="16" aria-hidden="true" focusable="false">
+										<use href="#icon-chevron-right"></use>
+									</svg>
+								</button>
+								<div class="p-home-event-carousel__dots">
+									<?php for ($i = 0; $i < $event_count; $i++) : ?>
+										<button type="button" class="p-home-event-carousel__dot<?php echo $i === 0 ? ' is-active' : ''; ?>" data-target="<?php echo $i; ?>" aria-label="<?php echo $i + 1; ?>枚目"></button>
+									<?php endfor; ?>
+								</div>
+								<button type="button" class="p-home-event-carousel__arrow p-home-event-carousel__arrow--next js-carousel-next" aria-label="次へ">
+									<svg width="16" height="16" aria-hidden="true" focusable="false">
+										<use href="#icon-chevron-right"></use>
+									</svg>
+								</button>
+							</div>
+							<!-- /.p-home-event-carousel__controls -->
+						<?php endif; ?>
 					</div>
-					<!-- /.p-home-event-carousel__controls -->
-					<?php endif; ?>
-				</div>
-				<!-- /.p-home-event-carousel -->
+					<!-- /.p-home-event-carousel -->
 				<?php else : ?>
 					<p class="p-home-info__empty">近日のイベントはありません。</p>
 				<?php endif; ?>
