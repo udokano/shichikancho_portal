@@ -67,7 +67,7 @@ if ( $walks_q->have_posts() ) {
 // エリアガイド（CSS Grid 12x12 上のホットスポット座標で実装）
 // hover_color はマップ上のホバー色、span は CSS Grid の行/列スパン
 $areas = [
-	[ 'name' => '七間町・駒形通り・人宿町エリア', 'slug' => 'shichikancho', 'color' => '#F8B4C4', 'col' => '1 / span 5',  'row' => '1 / span 4' ],
+	[ 'name' => '七間町・駒形通り・人宿町エリア', 'slug' => 'shichikencho', 'color' => '#F8B4C4', 'col' => '1 / span 5',  'row' => '1 / span 4' ],
 	[ 'name' => '常磐町・両替町エリア',           'slug' => 'tokiwa',       'color' => '#F9E076', 'col' => '7 / span 6',  'row' => '1 / span 4' ],
 	[ 'name' => '呉服町・紺屋町エリア',           'slug' => 'gofuku',       'color' => '#F5A962', 'col' => '1 / span 5',  'row' => '5 / span 4' ],
 	[ 'name' => '鷹匠・伝馬町エリア',             'slug' => 'takajo',       'color' => '#7EC8E3', 'col' => '7 / span 6',  'row' => '5 / span 4' ],

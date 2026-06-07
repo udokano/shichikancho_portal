@@ -1,6 +1,7 @@
 <?php
 require get_template_directory() . '/inc/constants.php';
 require get_template_directory() . '/inc/cpt-register.php';
+require get_template_directory() . '/inc/admin-menu-order.php';
 require get_template_directory() . '/inc/helpers.php';
 require get_template_directory() . '/inc/acf-settings.php';
 require get_template_directory() . '/inc/pickup-helper.php';

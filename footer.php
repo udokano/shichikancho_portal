@@ -23,7 +23,7 @@
 					<a class="l-footer__sns-link" href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook（新しいタブで開く）">
 						<svg class="l-footer__sns-icon" aria-hidden="true" focusable="false"><use href="#icon-facebook"></use></svg>
 					</a>
-					<a class="l-footer__sns-link" href="https://www.instagram.com/shichikancho/" target="_blank" rel="noopener noreferrer" aria-label="Instagram（新しいタブで開く）">
+					<a class="l-footer__sns-link" href="https://www.instagram.com/shichikencho/" target="_blank" rel="noopener noreferrer" aria-label="Instagram（新しいタブで開く）">
 						<svg class="l-footer__sns-icon" aria-hidden="true" focusable="false"><use href="#icon-instagram"></use></svg>
 					</a>
 					<a class="l-footer__sns-link" href="https://pinterest.com/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest（新しいタブで開く）">

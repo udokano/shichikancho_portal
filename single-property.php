@@ -131,11 +131,11 @@ if ( $main_img && is_array( $main_img ) ) {
 							<span class="p-property__contact-btn-main">054-XXX-XXXX</span>
 						</span>
 					</a>
-					<a class="p-property__contact-btn p-property__contact-btn--mail" href="mailto:info@shichikancho-estate.jp">
+					<a class="p-property__contact-btn p-property__contact-btn--mail" href="mailto:info@shichikencho-estate.jp">
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-mail"></use></svg>
 						<span>
 							<span class="p-property__contact-btn-label">メールでのお問い合わせ</span>
-							<span class="p-property__contact-btn-main">info@shichikancho-estate.jp</span>
+							<span class="p-property__contact-btn-main">info@shichikencho-estate.jp</span>
 						</span>
 					</a>
 				</div>

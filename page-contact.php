@@ -52,7 +52,7 @@ get_header();
 						</span>
 						<div class="p-contact__info-body">
 							<p class="p-contact__info-label">メールアドレス</p>
-							<p class="p-contact__info-value"><a class="p-contact__info-value-link" href="mailto:info@shichikancho.jp">info@shichikancho.jp</a></p>
+							<p class="p-contact__info-value"><a class="p-contact__info-value-link" href="mailto:info@shichikencho.jp">info@shichikencho.jp</a></p>
 						</div>
 					</div>
 				</div>

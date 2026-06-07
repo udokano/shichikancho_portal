@@ -62,8 +62,8 @@ function schema_organization(): void {
 		'address'  => SC_ADDRESS,
 		'geo'      => SC_GEO,
 		'sameAs'   => [
-			'https://www.instagram.com/shichikancho/',
-			'https://www.facebook.com/shichikancho/',
+			'https://www.instagram.com/shichikencho/',
+			'https://www.facebook.com/shichikencho/',
 		],
 		'contactPoint' => [
 			'@type'             => 'ContactPoint',
