@@ -1,8 +1,12 @@
 <?php
 /** お問い合わせページ */
 get_header();
-<?php if ( function_exists( 'schema_contact_page' ) ) schema_contact_page(); ?>
-<?php
+
+// お問い合わせページの構造化データ
+if ( function_exists( 'schema_contact_page' ) ) {
+	schema_contact_page();
+}
+?>
 
 <?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 

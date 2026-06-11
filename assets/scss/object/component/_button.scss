@@ -65,6 +65,19 @@
     }
   }
 
+  // 暗い背景セクション上に置く白ボタン
+  &--white {
+    background-color: #ffffff;
+    color: $color-text;
+    border-color: #ffffff;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $color-sakura;
+      border-color: $color-sakura;
+    }
+  }
+
   &--sm {
     padding: rem(8) rem(20);
     font-size: rem(13);

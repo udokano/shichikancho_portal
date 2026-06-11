@@ -68,7 +68,7 @@ $durations = [
 			<span class="p-walk__contest-badge">開催中</span>
 			<h2 class="p-walk__contest-title">七間町フォトコンテスト</h2>
 			<p class="p-walk__contest-text">あなたが見つけた七間町の魅力を写真で教えてください</p>
-			<a class="p-walk__contest-link" href="<?php echo esc_url( home_url( '/events/' ) ); ?>">
+			<a class="p-walk__contest-link" href="<?php echo esc_url( home_url( '/photo-contest/' ) ); ?>">
 				詳細を見る
 				<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-chevron-right"></use></svg>
 			</a>

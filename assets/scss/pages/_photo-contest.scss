@@ -210,14 +210,58 @@
 
   // ─── 部門・賞品 ──────────────────────────────────────────
   &__category {
-    background-color: $color-washi;
-    padding-block: rem(72);
+    position: relative;
+    padding-block: rem(80);
+    overflow: hidden;
+    background-color: #0d2a4a; // 背景画像フォールバック
 
-    @include sp { padding-block: rem(48); }
+    @include sp { padding-block: rem(56); }
+
+    // 背景写真 + 青オーバーレイ
+    &-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba($color-blue, 0.82) 0%, rgba(#0d2a4a, 0.92) 100%);
+      }
+    }
 
     &-inner {
+      position: relative;
+      z-index: 1;
       @include page-inner('small');
     }
+
+    // 見出しは暗背景上なので白／金で上書き
+    .p-photo-contest__section-eyebrow--award {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(6);
+      color: #fff;
+      text-transform: none;
+      letter-spacing: 0.08em;
+    }
+
+    .p-photo-contest__section-eyebrow-icon {
+      width: rem(16);
+      height: rem(16);
+    }
+
+    .p-photo-contest__section-title { color: #fff; }
+    .p-photo-contest__section-lead { color: rgba(#fff, 0.82); }
 
     &-grid {
       display: grid;
@@ -227,97 +271,97 @@
       @include sp { grid-template-columns: 1fr; gap: rem(16); }
     }
 
+    // フロストガラス風カード
     &-card {
-      background-color: #fff;
-      border: 1px solid $color-border;
-      border-radius: rem(12);
-      padding: rem(28);
+      background-color: rgba(#fff, 0.1);
+      border: 1px solid rgba(#fff, 0.22);
+      border-radius: rem(14);
+      padding: rem(32) rem(28);
       display: flex;
       flex-direction: column;
       gap: rem(20);
+      text-align: center;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
 
-      @include sp { padding: rem(20); }
-
-      // 上部のアクセント帯
-      border-top: 4px solid $color-primary-dark;
-
-      &--b { border-top-color: #e0913a; }
+      @include sp { padding: rem(24) rem(20); }
     }
 
     &-card-head {
       display: flex;
-      align-items: flex-start;
-      gap: rem(14);
+      flex-direction: column;
+      align-items: center;
+      gap: rem(12);
     }
 
     &-card-key {
-      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: rem(56);
-      height: rem(56);
-      border-radius: rem(10);
-      background-color: rgba($color-sakura, 0.5);
-      color: $color-primary-dark;
-      font-family: $font-serif;
-      font-size: rem(18);
+      padding: rem(5) rem(18);
+      border-radius: rem(999);
+      background-color: rgba(#fff, 0.18);
+      color: #fff;
+      font-size: rem(13);
       font-weight: 700;
-
-      .p-photo-contest__category-card--b & {
-        background-color: rgba(#e0913a, 0.15);
-        color: #c47820;
-      }
+      letter-spacing: 0.05em;
     }
 
     &-card-name {
       font-family: $font-serif;
-      font-size: rem(17);
+      font-size: rem(19);
       font-weight: 700;
-      color: $color-text;
+      color: #fff;
       line-height: 1.4;
     }
 
     &-card-sub {
-      margin-top: rem(4);
+      margin-top: rem(6);
       font-size: rem(12);
-      color: $color-text-muted;
+      color: rgba(#fff, 0.7);
     }
 
     &-card-prizes {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: rem(8);
-      padding-top: rem(16);
-      border-top: 1px solid $color-border;
+      gap: rem(10);
+      padding-top: rem(18);
+      border-top: 1px solid rgba(#fff, 0.2);
     }
 
     &-cta {
       display: flex;
       justify-content: center;
-      margin-top: rem(40);
+      margin-top: rem(44);
 
-      @include sp { margin-top: rem(28); }
+      @include sp { margin-top: rem(32); }
     }
   }
 
   &__prize {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: rem(12);
+    align-items: baseline;
+    justify-content: center;
+    gap: rem(4);
     font-size: rem(13);
+    color: rgba(#fff, 0.85);
 
     &-rank {
       font-weight: 700;
-      color: $color-text;
-      flex-shrink: 0;
+
+      &::after { content: '：'; }
     }
 
-    &-detail {
-      color: $color-text-muted;
-      text-align: right;
+    // 最優秀賞のみ金色で強調
+    &--top {
+      font-size: rem(15);
+
+      .p-photo-contest__prize-rank,
+      .p-photo-contest__prize-detail {
+        color: $color-orange;
+        font-weight: 700;
+      }
     }
   }
 
@@ -397,27 +441,6 @@
       padding: rem(3) rem(10);
 
       &--b { background-color: rgba(#c47820, 0.92); }
-    }
-
-    &-like {
-      position: absolute;
-      top: rem(12);
-      right: rem(12);
-      display: inline-flex;
-      align-items: center;
-      gap: rem(4);
-      font-size: rem(12);
-      font-weight: 600;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: rem(999);
-      padding: rem(3) rem(10);
-    }
-
-    &-like-icon {
-      width: rem(12);
-      height: rem(12);
-      color: #ff5470;
     }
 
     &-body {
@@ -524,12 +547,22 @@
       @include page-inner('small');
     }
 
-    &-body {
+    // CF7 フォーム本体（プラグイン出力 .wpcf7-form を縦並びに）
+    .wpcf7 {
       max-width: rem(640);
       margin-inline: auto;
+    }
+
+    .wpcf7-form {
       display: flex;
       flex-direction: column;
       gap: rem(20);
+    }
+
+    // CF7 はラップ span が inline。block 化して入力欄を全幅に
+    .wpcf7-form-control-wrap {
+      display: block;
+      width: 100%;
     }
 
     &-field {
@@ -570,7 +603,9 @@
       line-height: 1.7;
     }
 
-    &-radios {
+    // 応募部門ラジオ（CF7 .wpcf7-list-item をボックス化）
+    // ※ CF7 出力は class を付与できないため要素セレクタを使用（プラグイン出力の例外）
+    &-radios .wpcf7-radio {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: rem(12);
@@ -578,54 +613,50 @@
       @include sp { grid-template-columns: 1fr; }
     }
 
-    &-radio {
-      cursor: pointer;
+    &-radios .wpcf7-list-item {
+      margin: 0;
 
-      input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+      label { display: block; cursor: pointer; }
+
+      input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+      }
+
+      .wpcf7-list-item-label {
+        display: block;
+        padding: rem(14) rem(18);
+        border: 1px solid $color-border;
+        border-radius: rem(8);
+        font-weight: 700;
+        font-size: rem(14);
+        color: $color-primary-dark;
+        text-align: center;
+        transition: border-color 0.2s, background-color 0.2s;
+      }
+
+      input:checked + .wpcf7-list-item-label {
+        border-color: $color-primary-dark;
+        background-color: rgba($color-sakura, 0.4);
+      }
+
+      input:focus-visible + .wpcf7-list-item-label {
+        box-shadow: 0 0 0 3px rgba($color-primary-dark, 0.12);
+      }
     }
 
-    &-radio-box {
-      display: flex;
-      flex-direction: column;
-      gap: rem(2);
-      padding: rem(14) rem(18);
-      border: 1px solid $color-border;
-      border-radius: rem(8);
-      transition: border-color 0.2s, background-color 0.2s;
-    }
-
-    &-radio input:checked + &-radio-box {
-      border-color: $color-primary-dark;
-      background-color: rgba($color-sakura, 0.4);
-    }
-
-    &-radio input:focus-visible + &-radio-box {
-      box-shadow: 0 0 0 3px rgba($color-primary-dark, 0.12);
-    }
-
-    &-radio-key {
-      font-weight: 700;
-      font-size: rem(14);
-      color: $color-primary-dark;
-    }
-
-    &-radio-name {
-      font-size: rem(12);
-      color: $color-text-muted;
-    }
-
-    &-file {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: rem(6);
-      padding: rem(32) rem(20);
+    // 写真ファイル
+    &-fileinput {
+      width: 100%;
+      padding: rem(20);
       border: 2px dashed $color-border;
       border-radius: rem(10);
       background-color: $color-washi;
+      font-size: rem(13);
+      color: $color-text-muted;
       cursor: pointer;
-      text-align: center;
       transition: border-color 0.2s, background-color 0.2s;
 
       @include hover {
@@ -634,19 +665,9 @@
       }
     }
 
-    &-file-icon {
-      width: rem(28);
-      height: rem(28);
-      color: $color-primary-dark;
-    }
-
-    &-file-text {
-      font-size: rem(14);
-      font-weight: 600;
-      color: $color-text;
-    }
-
     &-file-note {
+      display: block;
+      margin-top: rem(6);
       font-size: rem(12);
       color: $color-text-muted;
     }
@@ -661,8 +682,60 @@
     }
 
     &-submit {
-      align-self: center;
       min-width: rem(220);
+    }
+
+    // wpautop が submit を <p> で囲むため、ラッパー側を中央寄せ
+    .wpcf7-form p:has(.wpcf7-submit) {
+      text-align: center;
+    }
+
+    &-fallback {
+      text-align: center;
+      color: $color-text-muted;
+      padding: rem(40) 0;
+    }
+
+    // CF7 スピナー・送信結果・バリデーション
+    .wpcf7-spinner { margin: rem(8) auto 0; }
+
+    .wpcf7-not-valid-tip {
+      margin-top: rem(4);
+      font-size: rem(12);
+      color: #dc2626;
+    }
+
+    // 送信前は枠なし。メッセージが出る状態でのみボックス表示
+    .wpcf7-response-output {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: rem(8);
+      font-size: rem(13);
+      line-height: 1.7;
+    }
+
+    .wpcf7-form.invalid .wpcf7-response-output,
+    .wpcf7-form.unaccepted .wpcf7-response-output,
+    .wpcf7-form.payment-required .wpcf7-response-output,
+    .wpcf7-form.sent .wpcf7-response-output {
+      margin-top: rem(8);
+      padding: rem(12) rem(16);
+      border: 1px solid $color-border;
+    }
+
+    .wpcf7-form.invalid .wpcf7-response-output,
+    .wpcf7-form.unaccepted .wpcf7-response-output,
+    .wpcf7-form.payment-required .wpcf7-response-output {
+      border-color: #dc2626;
+      color: #dc2626;
+      background-color: rgba(#dc2626, 0.05);
+    }
+
+    .wpcf7-form.sent .wpcf7-response-output {
+      border-color: $color-primary-dark;
+      color: $color-primary-dark;
+      background-color: rgba($color-sakura, 0.4);
     }
   }
 
@@ -686,40 +759,78 @@
     }
 
     &-card {
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: rem(8);
-      padding: rem(28) rem(24);
-      background-color: #fff;
-      border: 1px solid $color-border;
+      justify-content: flex-end;
+      gap: rem(6);
+      min-height: rem(180);
+      padding: rem(24) rem(22);
       border-radius: rem(12);
+      overflow: hidden;
       text-decoration: none;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
 
+      // 下から暗くするグラデオーバーレイ
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0.1) 100%);
+      }
+
       @include hover {
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
         transform: translateY(rem(-3));
 
+        .p-photo-contest__archive-card-bg img { transform: scale(1.05); }
         .p-photo-contest__archive-card-link { text-decoration: underline; }
       }
 
+      &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+      }
+
       &-year {
+        position: relative;
+        z-index: 2;
         font-family: $font-serif;
         font-size: rem(17);
         font-weight: 700;
-        color: $color-text;
+        color: #fff;
       }
 
       &-link {
+        position: relative;
+        z-index: 2;
         font-size: rem(13);
         font-weight: 600;
-        color: $color-primary-dark;
+        color: rgba(#fff, 0.9);
       }
 
+      // 作品数は右上の白バッジ
       &-count {
-        margin-top: auto;
+        position: absolute;
+        top: rem(12);
+        right: rem(12);
+        z-index: 2;
         font-size: rem(12);
-        color: $color-text-muted;
+        font-weight: 600;
+        color: $color-text;
+        background-color: rgba(#fff, 0.92);
+        border-radius: rem(999);
+        padding: rem(3) rem(12);
       }
     }
 

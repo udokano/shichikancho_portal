@@ -161,8 +161,9 @@
 
       input[type="submit"] {
         display: block;
-        width: 100%;
-        margin-top: rem(8);
+        width: fit-content;
+        min-width: rem(220);
+        margin: rem(8) auto 0;
         padding: rem(14) rem(32);
         font-size: rem(15);
         font-weight: 600;

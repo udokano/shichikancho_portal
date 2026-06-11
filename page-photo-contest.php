@@ -39,12 +39,12 @@ $pc_categories = [
 
 // 最新の投稿作品（サンプル）
 $pc_entries = [
-	[ 'cat' => 'A', 'likes' => 42, 'title' => '朝の七間町',   'author' => '山田太郎', 'comment' => '早朝の静けさの中、打ち水をする店主の姿が印象的でした。', 'img' => 'gallery/gallery-1.jpg' ],
-	[ 'cat' => 'A', 'likes' => 51, 'title' => '桜と駿府城',   'author' => '田中美咲', 'comment' => '春の駿府城公園。石垣と桜のコントラストが美しい一枚。',   'img' => 'gallery/gallery-2.jpg' ],
-	[ 'cat' => 'A', 'likes' => 35, 'title' => '映画館の記憶', 'author' => '鈴木一郎', 'comment' => 'かつて映画館が立ち並んだ通り。レトロな看板が当時を伝える。', 'img' => 'gallery/gallery-3.jpg' ],
-	[ 'cat' => 'B', 'likes' => 40, 'title' => '老舗の和菓子', 'author' => '小林美月', 'comment' => '三代続く老舗の練りきり。季節の素材を活かした美しい一品。',   'img' => 'gallery/gallery-4.jpg' ],
-	[ 'cat' => 'B', 'likes' => 31, 'title' => '静岡おでん',   'author' => '山本達也', 'comment' => '冬の定番、黒はんぺんのおでん。湯気が立ち上る幸せの一杯。',   'img' => 'gallery/gallery-5.jpg' ],
-	[ 'cat' => 'A', 'likes' => 45, 'title' => '七間町のお祭り', 'author' => '渡辺明',  'comment' => '提灯の明かりに照らされた商店街。夏祭りの活気が通りに満ちる。', 'img' => 'gallery/gallery-6.png' ],
+	[ 'cat' => 'A', 'title' => '朝の七間町',   'author' => '山田太郎', 'comment' => '早朝の静けさの中、打ち水をする店主の姿が印象的でした。', 'img' => 'gallery/gallery-1.jpg' ],
+	[ 'cat' => 'A', 'title' => '桜と駿府城',   'author' => '田中美咲', 'comment' => '春の駿府城公園。石垣と桜のコントラストが美しい一枚。',   'img' => 'gallery/gallery-2.jpg' ],
+	[ 'cat' => 'A', 'title' => '映画館の記憶', 'author' => '鈴木一郎', 'comment' => 'かつて映画館が立ち並んだ通り。レトロな看板が当時を伝える。', 'img' => 'gallery/gallery-3.jpg' ],
+	[ 'cat' => 'B', 'title' => '老舗の和菓子', 'author' => '小林美月', 'comment' => '三代続く老舗の練りきり。季節の素材を活かした美しい一品。',   'img' => 'gallery/gallery-4.jpg' ],
+	[ 'cat' => 'B', 'title' => '静岡おでん',   'author' => '山本達也', 'comment' => '冬の定番、黒はんぺんのおでん。湯気が立ち上る幸せの一杯。',   'img' => 'gallery/gallery-5.jpg' ],
+	[ 'cat' => 'A', 'title' => '七間町のお祭り', 'author' => '渡辺明',  'comment' => '提灯の明かりに照らされた商店街。夏祭りの活気が通りに満ちる。', 'img' => 'gallery/gallery-6.png' ],
 ];
 $pc_cat_labels = [ 'A' => 'A部門（日常とレトロ）', 'B' => 'B部門（お気に入り）' ];
 
@@ -60,9 +60,9 @@ $pc_guidelines = [
 
 // 過去のアーカイブ
 $pc_archives = [
-	[ 'year' => '2024', 'count' => 156 ],
-	[ 'year' => '2023', 'count' => 128 ],
-	[ 'year' => '2022', 'count' => 97 ],
+	[ 'year' => '2024', 'count' => 156, 'img' => 'gallery/gallery-2.jpg' ],
+	[ 'year' => '2023', 'count' => 128, 'img' => 'gallery/gallery-3.jpg' ],
+	[ 'year' => '2022', 'count' => 97,  'img' => 'gallery/gallery-4.jpg' ],
 ];
 
 $pc_form_anchor = '#photo-contest-entry';
@@ -120,10 +120,17 @@ $pc_form_anchor = '#photo-contest-entry';
 
 	<!-- ─── 部門・賞品 ── -->
 	<section class="p-photo-contest__category" aria-labelledby="pc-category-title">
+		<picture class="p-photo-contest__category-bg" aria-hidden="true">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
+		</picture>
+		<!-- /.p-photo-contest__category-bg -->
 		<div class="p-photo-contest__category-inner">
 			<header class="p-photo-contest__section-head">
-				<p class="p-photo-contest__section-eyebrow">Prize</p>
-				<h2 class="p-photo-contest__section-title" id="pc-category-title">入賞者には七間町の逸品をプレゼント！</h2>
+				<p class="p-photo-contest__section-eyebrow p-photo-contest__section-eyebrow--award">
+					<svg class="p-photo-contest__section-eyebrow-icon" aria-hidden="true" focusable="false"><use href="#icon-trophy"></use></svg>
+					入賞者
+				</p>
+				<h2 class="p-photo-contest__section-title" id="pc-category-title">には七間町の逸品をプレゼント！</h2>
 				<p class="p-photo-contest__section-lead">フォトコンテストに入賞された方には、七間町の商店街で使える商品券や、地元の名産品（駿河の工芸品など）を贈呈いたします。</p>
 			</header>
 			<!-- /.p-photo-contest__section-head -->
@@ -141,8 +148,8 @@ $pc_form_anchor = '#photo-contest-entry';
 					</div>
 					<!-- /.p-photo-contest__category-card-head -->
 					<ul class="p-photo-contest__category-card-prizes">
-						<?php foreach ( $cat['prizes'] as $prize ) : ?>
-						<li class="p-photo-contest__prize">
+						<?php foreach ( $cat['prizes'] as $pc_i => $prize ) : ?>
+						<li class="p-photo-contest__prize<?php echo 0 === $pc_i ? ' p-photo-contest__prize--top' : ''; ?>">
 							<span class="p-photo-contest__prize-rank"><?php echo esc_html( $prize['rank'] ); ?></span>
 							<span class="p-photo-contest__prize-detail"><?php echo esc_html( $prize['detail'] ); ?></span>
 						</li>
@@ -156,7 +163,10 @@ $pc_form_anchor = '#photo-contest-entry';
 			<!-- /.p-photo-contest__category-grid -->
 
 			<div class="p-photo-contest__category-cta">
-				<a class="c-btn c-btn--primary" href="<?php echo esc_url( $pc_form_anchor ); ?>">コンテストに応募する</a>
+				<a class="c-btn c-btn--white" href="<?php echo esc_url( $pc_form_anchor ); ?>">
+					<svg class="c-btn__icon" aria-hidden="true" focusable="false"><use href="#icon-camera"></use></svg>
+					コンテストに応募する
+				</a>
 			</div>
 			<!-- /.p-photo-contest__category-cta -->
 		</div>
@@ -174,7 +184,7 @@ $pc_form_anchor = '#photo-contest-entry';
 			<!-- /.p-photo-contest__section-head -->
 
 			<!-- フィルタタブ -->
-			<nav class="c-tabs js-tabs" data-panels=".p-photo-contest__entries-panel" aria-label="部門で絞り込み">
+			<nav class="c-tabs c-tabs--pill js-tabs" data-panels=".p-photo-contest__entries-panel" aria-label="部門で絞り込み">
 				<div class="c-tabs__inner">
 					<ul class="c-tabs__list" role="tablist">
 						<li class="c-tabs__item" role="presentation"><button type="button" class="c-tabs__btn is-active" role="tab" aria-selected="true" aria-controls="pc-panel-all">すべて</button></li>
@@ -205,10 +215,6 @@ $pc_form_anchor = '#photo-contest-entry';
 						<div class="p-photo-contest__entry-thumb">
 							<img class="u-img-cover" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $entry['img'] ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
 							<span class="p-photo-contest__entry-badge p-photo-contest__entry-badge--<?php echo esc_attr( strtolower( $entry['cat'] ) ); ?>"><?php echo esc_html( $entry['cat'] ); ?>部門</span>
-							<span class="p-photo-contest__entry-like">
-								<svg class="p-photo-contest__entry-like-icon" aria-hidden="true" focusable="false"><use href="#icon-heart-solid"></use></svg>
-								<?php echo esc_html( $entry['likes'] ); ?>
-							</span>
 						</div>
 						<!-- /.p-photo-contest__entry-thumb -->
 						<div class="p-photo-contest__entry-body">
@@ -275,76 +281,23 @@ $pc_form_anchor = '#photo-contest-entry';
 			</header>
 			<!-- /.p-photo-contest__section-head -->
 
-			<!-- ※ 実機化時は CF7 ショートコード等に置換。現状はデザイン用の静的フォーム -->
-			<form class="p-photo-contest__form-body" action="#" method="post" enctype="multipart/form-data" onsubmit="return false;">
-				<div class="p-photo-contest__form-field">
-					<label class="p-photo-contest__form-label" for="pc-nickname">ニックネーム <span class="p-photo-contest__form-required">*</span></label>
-					<input class="p-photo-contest__form-input" type="text" id="pc-nickname" name="nickname" required>
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<label class="p-photo-contest__form-label" for="pc-email">メールアドレス <span class="p-photo-contest__form-required">*</span></label>
-					<input class="p-photo-contest__form-input" type="email" id="pc-email" name="email" required>
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<span class="p-photo-contest__form-label">応募部門 <span class="p-photo-contest__form-required">*</span></span>
-					<div class="p-photo-contest__form-radios">
-						<label class="p-photo-contest__form-radio">
-							<input type="radio" name="category" value="A" required>
-							<span class="p-photo-contest__form-radio-box">
-								<span class="p-photo-contest__form-radio-key">A部門</span>
-								<span class="p-photo-contest__form-radio-name">日常とレトロ</span>
-							</span>
-						</label>
-						<label class="p-photo-contest__form-radio">
-							<input type="radio" name="category" value="B">
-							<span class="p-photo-contest__form-radio-box">
-								<span class="p-photo-contest__form-radio-key">B部門</span>
-								<span class="p-photo-contest__form-radio-name">お気に入り</span>
-							</span>
-						</label>
-					</div>
-					<!-- /.p-photo-contest__form-radios -->
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<label class="p-photo-contest__form-label" for="pc-title">作品タイトル <span class="p-photo-contest__form-required">*</span></label>
-					<input class="p-photo-contest__form-input" type="text" id="pc-title" name="title" required>
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<label class="p-photo-contest__form-label" for="pc-place">撮影場所</label>
-					<input class="p-photo-contest__form-input" type="text" id="pc-place" name="place">
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<label class="p-photo-contest__form-label" for="pc-comment">写真コメント・エピソード <span class="p-photo-contest__form-required">*</span></label>
-					<textarea class="p-photo-contest__form-input p-photo-contest__form-textarea" id="pc-comment" name="comment" rows="4" required></textarea>
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<div class="p-photo-contest__form-field">
-					<span class="p-photo-contest__form-label">写真ファイル <span class="p-photo-contest__form-required">*</span></span>
-					<label class="p-photo-contest__form-file">
-						<input type="file" accept="image/jpeg,image/png" hidden>
-						<svg class="p-photo-contest__form-file-icon" aria-hidden="true" focusable="false"><use href="#icon-camera"></use></svg>
-						<span class="p-photo-contest__form-file-text">クリックまたはドラッグ＆ドロップ</span>
-						<span class="p-photo-contest__form-file-note">JPEG / PNG（10MB以内）</span>
-					</label>
-					<!-- /.p-photo-contest__form-file -->
-				</div>
-				<!-- /.p-photo-contest__form-field -->
-
-				<p class="p-photo-contest__form-agreement">応募作品は七間町のプロモーション（ウェブサイト、SNS、印刷物等）に無償で使用させていただく場合があります。人物が写っている場合は、必ず被写体の許可を得てからご応募ください。</p>
-
-				<button class="p-photo-contest__form-submit c-btn c-btn--primary" type="submit">作品を応募する</button>
-			</form>
+			<?php
+			// 応募フォームは Contact Form 7（管理画面で「フォトコンテスト応募」を編集）
+			// ID 直書きを避け、タイトルで動的に解決
+			$pc_cf7 = get_posts( array(
+				'post_type'   => 'wpcf7_contact_form',
+				'title'       => 'フォトコンテスト応募',
+				'post_status' => 'publish',
+				'numberposts' => 1,
+				'fields'      => 'ids',
+			) );
+			if ( $pc_cf7 ) :
+				echo do_shortcode( '[contact-form-7 id="' . (int) $pc_cf7[0] . '"]' );
+			else :
+				// フォーム未作成時のフォールバック
+				echo '<p class="p-photo-contest__form-fallback">応募フォームは現在準備中です。お問い合わせは事務局までご連絡ください。</p>';
+			endif;
+			?>
 			<!-- /.p-photo-contest__form-body -->
 		</div>
 		<!-- /.p-photo-contest__form-inner -->
@@ -363,9 +316,13 @@ $pc_form_anchor = '#photo-contest-entry';
 			<div class="p-photo-contest__archive-grid">
 				<?php foreach ( $pc_archives as $a ) : ?>
 				<a class="p-photo-contest__archive-card" href="<?php echo esc_url( home_url( '/gallery/' ) ); ?>">
+					<picture class="p-photo-contest__archive-card-bg" aria-hidden="true">
+						<img class="u-img-cover" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $a['img'] ); ?>" alt="" loading="lazy" width="400" height="240">
+					</picture>
+					<!-- /.p-photo-contest__archive-card-bg -->
+					<p class="p-photo-contest__archive-card-count"><?php echo esc_html( $a['count'] ); ?>作品</p>
 					<p class="p-photo-contest__archive-card-year">七間町フォトコン <?php echo esc_html( $a['year'] ); ?></p>
 					<p class="p-photo-contest__archive-card-link">投稿作品を見る →</p>
-					<p class="p-photo-contest__archive-card-count"><?php echo esc_html( $a['count'] ); ?>作品</p>
 				</a>
 				<!-- /.p-photo-contest__archive-card -->
 				<?php endforeach; ?>

@@ -17,6 +17,48 @@
     overflow-x: auto;
   }
 
+  // ピル型バリアント（/photo-contest 投稿作品フィルタ）
+  // 下線タブではなく丸ピル。中央寄せ・自動幅
+  &--pill {
+    background-color: transparent;
+    border-bottom: none;
+
+    .c-tabs__inner { overflow-x: visible; }
+
+    .c-tabs__list {
+      justify-content: center;
+      gap: rem(12);
+      flex-wrap: wrap;
+      width: auto;
+    }
+
+    .c-tabs__item { flex: 0 0 auto; }
+
+    .c-tabs__btn {
+      width: auto;
+      padding: rem(8) rem(16);
+      border: 1px solid rgba($color-text, 0.1);
+      border-radius: rem(999);
+      background-color: #fff;
+      color: rgba($color-text, 0.7);
+      font-weight: 500;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+      @include hover {
+        border-color: $color-primary-dark;
+        color: $color-primary-dark;
+      }
+
+      // アクティブ: 濃い水色塗り（白文字が読めるよう Manus の淡色から変更）
+      &.is-active {
+        background-color: $color-blue;
+        border-color: $color-blue;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+
   &__inner {
     @include page-inner;
     overflow-x: auto;

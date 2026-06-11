@@ -236,7 +236,10 @@ $shop_scroll_base = [
 	['src' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',   'alt' => 'お店'],
 	['src' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg', 'alt' => 'お店'],
 ];
+// 1グループ幅をワイド画面幅以上にして -50% ループ時の右余白を防ぐ（4枚×5=20枚）
 $shop_scroll_imgs = array_merge(
+	$shop_scroll_base,
+	$shop_scroll_base,
 	$shop_scroll_base,
 	$shop_scroll_base,
 	$shop_scroll_base
