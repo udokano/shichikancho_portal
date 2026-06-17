@@ -254,6 +254,7 @@
     color: $color-text;
     margin-bottom: rem(4);
     line-height: 1.5;
+    text-align: center;
 
     @include sp { font-size: rem(18); }
   }
@@ -325,6 +326,7 @@
     color: $color-text;
     margin-bottom: rem(4);
     line-height: 1.5;
+    text-align: center;
 
     @include sp { font-size: rem(18); }
   }

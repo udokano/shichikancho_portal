@@ -525,12 +525,12 @@
     &[open] &-icon { transform: rotate(180deg); }
 
     &-body {
-      padding: 0 rem(24) rem(20);
+      padding: rem(10) rem(24) rem(22);
       font-size: rem(13);
       line-height: 1.9;
       color: $color-text-muted;
 
-      @include sp { padding: 0 rem(18) rem(16); }
+      @include sp { padding: rem(8) rem(18) rem(18); }
 
       p { margin: 0; }
     }
@@ -557,6 +557,12 @@
       display: flex;
       flex-direction: column;
       gap: rem(20);
+    }
+
+    // CF7 隠しフィールドの fieldset。既定の枠線・余白が出るので非表示
+    // （hidden input は display:none でも送信される）
+    .hidden-fields-container {
+      display: none;
     }
 
     // CF7 はラップ span が inline。block 化して入力欄を全幅に
@@ -699,10 +705,28 @@
     // CF7 スピナー・送信結果・バリデーション
     .wpcf7-spinner { margin: rem(8) auto 0; }
 
+    // 各フィールド直下の「入力してください。」は冗長なので非表示。
+    // 不正フィールドは下の赤ボーダーで示す
     .wpcf7-not-valid-tip {
-      margin-top: rem(4);
-      font-size: rem(12);
-      color: #dc2626;
+      display: none;
+    }
+
+    .wpcf7-not-valid {
+      border-color: #dc2626;
+    }
+
+    // CF7 既定CSS未読込のため、SR用の重複エラー一覧（summary＋各「入力してください。」）が
+    // 視覚的に表示されてしまう。本来どおりスクリーンリーダー専用にクリップ
+    .screen-reader-response {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     // 送信前は枠なし。メッセージが出る状態でのみボックス表示
@@ -748,6 +772,8 @@
 
     &-inner {
       @include page-inner;
+      // カードの縦横比を整えるため PC では幅を絞る
+      max-width: rem(1000);
     }
 
     &-grid {
@@ -755,6 +781,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: rem(20);
 
+      // SP は slick センターモードで表示（JS無効時は1カラムのフォールバック）
       @include sp { grid-template-columns: 1fr; gap: rem(12); }
     }
 
@@ -764,7 +791,7 @@
       flex-direction: column;
       justify-content: flex-end;
       gap: rem(6);
-      min-height: rem(180);
+      aspect-ratio: 3 / 2;
       padding: rem(24) rem(22);
       border-radius: rem(12);
       overflow: hidden;
@@ -831,6 +858,35 @@
         background-color: rgba(#fff, 0.92);
         border-radius: rem(999);
         padding: rem(3) rem(12);
+      }
+    }
+
+    // slick 初期化後（SP センターモード）。カード(a)自体が slick-slide になる
+    // ※ slick 生成要素は class 付与不可のため要素セレクタ（プラグイン出力の例外）
+    &-grid.slick-initialized {
+      display: block;
+
+      .slick-slide {
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+
+      .slick-center { opacity: 1; }
+
+      .slick-dots {
+        position: static;
+        margin-top: rem(20);
+        display: flex;
+        justify-content: center;
+        gap: rem(2);
+
+        li button::before {
+          font-size: rem(8);
+          color: $color-primary-dark;
+          opacity: 0.35;
+        }
+
+        li.slick-active button::before { opacity: 1; }
       }
     }
 

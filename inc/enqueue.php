@@ -103,6 +103,22 @@ function sichikenchou_enqueue() {
 		);
 	}
 
+	// SP センタースライダー（暮らし「住んでいる人の声」/ フォトコン「これまでの投稿作品」）
+	if ( is_page( 'living' ) || is_page( 'photo-contest' ) ) {
+		wp_enqueue_style( 'slick',       'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css',       [], '1.8.1' );
+		wp_enqueue_style( 'slick-theme', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css', [], '1.8.1' );
+		wp_enqueue_script( 'slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', [ 'jquery' ], '1.8.1', true );
+
+		$cs_js = get_template_directory() . '/assets/js/center-slider.js';
+		wp_enqueue_script(
+			'sichikenchou-center-slider',
+			get_template_directory_uri() . '/assets/js/center-slider.js',
+			[ 'jquery', 'slick' ],
+			filemtime( $cs_js ),
+			true
+		);
+	}
+
 	// 町のギャラリー 無限スクロール
 	if ( is_page( 'gallery' ) ) {
 		$g_js = get_template_directory() . '/assets/js/gallery-infinite.js';

@@ -39,7 +39,7 @@ schema_local_business();
 			<div class="p-home-hero__map-wrap">
 				<img
 					class="p-home-hero__map-img"
-					src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-map.png'); ?>"
+					src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-map-2.png'); ?>"
 					alt="静岡県の地図と七間町の位置"
 					loading="eager">
 			</div>
@@ -257,7 +257,7 @@ $shop_cats = [
 	<div class="p-home-section__inner">
 		<div class="p-home-section__head">
 			<h2 class="p-home-section__title p-home-section__title--center" id="home-shops-title">七間町商店街のお店</h2>
-			<p class="p-home-section__sub">静岡の真ん中に、人と店の物語がある。カフェ、雑貨店、映画館、職人の工房まで。</p>
+			<p class="p-home-section__sub">静岡の真ん中に、人と店の物語がある。<br class="u-br-sp">カフェ、雑貨店、映画館、職人の工房まで。</p>
 		</div>
 	</div>
 

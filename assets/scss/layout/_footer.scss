@@ -45,6 +45,15 @@
       @media (max-width: 1024px) {
         grid-column: 1 / -1;
       }
+
+      // SP: ブランド情報（ロゴ・SNS・人口/世帯数・住所）を中央寄せ
+      @include sp {
+        align-items: center;
+        text-align: center;
+
+        .l-footer__stats-list { align-items: center; }
+        .l-footer__stats-row { justify-content: center; }
+      }
     }
 
     &--sub {
@@ -90,6 +99,9 @@
     display: block;
     height: rem(55);
     width: auto;
+
+    // SP: ロゴ 125%
+    @include sp { height: rem(69); }
   }
 
   &__stats-list {

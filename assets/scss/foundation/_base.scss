@@ -3,6 +3,9 @@
 // ベースフォントサイズ可変（ブレイクポイントごとに基準幅を変えて比例スケール）
 html {
   font-size: #{$baseFontsize}px;
+
+  // アンカー遷移時に sticky ヘッダー分を引く（JS の window.scrollTo が主、これは保険）
+  scroll-padding-top: rem(120);
 }
 
 @include mq-down(xl) {
@@ -17,15 +20,16 @@ html {
   }
 }
 
+// SP は文字・余白を一律 +15%（rem 基準のルートを底上げ）
 @include mq-down(sm) {
   html {
-    font-size: vw($baseFontsize, 768);
+    font-size: vw($baseFontsize * 1.15, 768);
   }
 }
 
 @include mq-down(xs) {
   html {
-    font-size: vw($baseFontsize, 540);
+    font-size: vw($baseFontsize * 1.15, 540);
   }
 }
 

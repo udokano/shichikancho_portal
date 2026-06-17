@@ -160,17 +160,43 @@ document.addEventListener('DOMContentLoaded', () => {
 		lazyImages.forEach((img) => observer.observe(img));
 	}
 
-	// ─── スムーズスクロール（アンカーリンク）────────────────
+	// ─── アンカーリンクの固定ヘッダーオフセット ────────────────
+	// このサイトはネイティブの fragment スクロールも scrollIntoView も不安定なため、
+	// window.scrollTo で目標位置を実測計算して飛ぶ（最も確実）。
+	// ヘッダー高さは is-scrolled / SP で可変なので都度実測して引く。
+	function scrollToHash(hash) {
+		if (!hash || hash === '#') return false;
+		let target;
+		try { target = document.querySelector(hash); } catch (e) { return false; }
+		if (!target) return false;
+		const headerH = header ? header.offsetHeight : 0;
+		const top = target.getBoundingClientRect().top + window.scrollY - headerH - 8;
+		// CSS の scroll-behavior:smooth が残っていても確実に instant で飛ぶよう一時上書き
+		// （smooth スクロールは GT の html{height:100%} 等の影響で不発になることがある）
+		const de = document.documentElement;
+		const prev = de.style.scrollBehavior;
+		de.style.scrollBehavior = 'auto';
+		window.scrollTo(0, top);
+		de.style.scrollBehavior = prev;
+		return true;
+	}
+
 	document.querySelectorAll('a[href^="#"]').forEach((link) => {
 		link.addEventListener('click', (e) => {
-			const target = document.querySelector(link.getAttribute('href'));
-			if (!target) return;
-			e.preventDefault();
-			const headerHeight = header?.offsetHeight ?? 0;
-			const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
-			window.scrollTo({ top, behavior: 'smooth' });
+			const href = link.getAttribute('href');
+			if (href.length < 2) return; // "#" 単体は無視
+			if (scrollToHash(href)) {
+				e.preventDefault();
+				history.pushState(null, '', href); // URL は更新（ネイティブジャンプは使わない）
+			}
 		});
 	});
+
+	// 別ページから #hash 付きで着地した場合の補正（ネイティブが効かないため）
+	if (location.hash) {
+		requestAnimationFrame(() => scrollToHash(location.hash));
+	}
+	window.addEventListener('hashchange', () => scrollToHash(location.hash));
 
 	// ─── 目次（TOC）開閉トグル ──────────────────────────────
 	document.querySelectorAll('.js-toc-toggle').forEach((btn) => {

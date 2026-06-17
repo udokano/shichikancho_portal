@@ -103,16 +103,12 @@ foreach ( $living_tabs as $idx => &$tab ) {
 }
 unset( $tab );
 
-// 各タブごとの「住んでいる人の声」（Manus準拠）
+// 「住んでいる人の声」3名（全タブ共通で PC3カード / SPスライダー表示）
 $tab_voices = [
 	'living_family'   => [ 'quote' => '東京から移住して3年。子どもが「おはよう」って商店街の人に声をかけるのを見ると、ここに来てよかったって心から思います。', 'author' => '田中 美咲さん（32歳・2児の母）' ],
 	'living_business' => [ 'quote' => 'フリーランスのエンジニアです。東京と同じ仕事をしながら、生活の質は格段に上がりました。朝は駿府城公園をランニングして、昼はコワーキングで集中。夜は商店街の行きつけの居酒屋で仲間と一杯。この暮らしが手に入るなんて。', 'author' => '佐藤 健太さん（28歳・フリーランスエンジニア）' ],
 	'living_senior'   => [ 'quote' => '定年後、東京から引っ越してきました。毎朝の散歩で商店街の人と挨拶を交わし、午後は囲碁クラブへ。夕方は行きつけの居酒屋で一杯。こんなに穏やかで充実した日々が待っているとは思いませんでした。', 'author' => '山田 義雄さん（68歳・元会社員）' ],
 ];
-foreach ( $living_tabs as &$tab ) {
-	$tab['voice'] = $tab_voices[ $tab['key'] ] ?? null;
-}
-unset( $tab );
 
 // ─── タブ固有の追加コンテンツ（Manus準拠ハードコード）
 $tab_extras = [
@@ -479,29 +475,6 @@ get_header();
 			</section>
 			<?php endif; ?>
 
-			<?php if ( ! empty( $tab['voice'] ) ) : ?>
-			<section class="p-living__voice-section" aria-label="住んでいる人の声">
-				<div class="p-living__voice-section-inner">
-					<p class="p-living__voice-section-eyebrow">VOICE</p>
-					<h3 class="p-living__voice-section-title">住んでいる人の声</h3>
-					<figure class="p-living__voice-section-figure">
-						<div class="p-living__voice-section-avatar" aria-hidden="true">
-							<svg class="p-living__voice-section-avatar-icon" focusable="false" aria-hidden="true"><use href="#icon-users-solid"></use></svg>
-						</div>
-						<!-- /.p-living__voice-section-avatar -->
-						<blockquote class="p-living__voice-section-quote">
-							「<?php echo esc_html( $tab['voice']['quote'] ); ?>」
-						</blockquote>
-						<figcaption class="p-living__voice-section-author">
-							<?php echo esc_html( $tab['voice']['author'] ); ?>
-						</figcaption>
-					</figure>
-				</div>
-				<!-- /.p-living__voice-section-inner -->
-			</section>
-			<!-- /.p-living__voice-section -->
-			<?php endif; ?>
-
 			<?php // ─── タブ固有: 移住支援 CTA ─── ?>
 			<?php if ( ! empty( $tab['extras']['cta'] ) ) :
 				$cta = $tab['extras']['cta'];
@@ -534,6 +507,34 @@ get_header();
 	</section>
 	<!-- /.p-living__panel -->
 	<?php endforeach; ?>
+
+	<!-- ─── 住んでいる人の声（全タブ共通・PC3カード / SPスライダー）── -->
+	<section class="p-living__voices" aria-label="住んでいる人の声">
+		<div class="p-living__voices-inner">
+			<header class="p-living__voices-head">
+				<p class="p-living__voices-eyebrow">VOICE</p>
+				<h2 class="p-living__voices-title">住んでいる人の声</h2>
+			</header>
+			<!-- /.p-living__voices-head -->
+			<ul class="p-living__voices-grid js-center-slider">
+				<?php foreach ( $tab_voices as $voice ) : ?>
+				<li class="p-living__voices-card">
+					<figure class="p-living__voices-figure">
+						<div class="p-living__voices-avatar" aria-hidden="true">
+							<svg class="p-living__voices-avatar-icon" focusable="false" aria-hidden="true"><use href="#icon-users-solid"></use></svg>
+						</div>
+						<!-- /.p-living__voices-avatar -->
+						<blockquote class="p-living__voices-quote">「<?php echo esc_html( $voice['quote'] ); ?>」</blockquote>
+						<figcaption class="p-living__voices-author"><?php echo esc_html( $voice['author'] ); ?></figcaption>
+					</figure>
+				</li>
+				<?php endforeach; ?>
+			</ul>
+			<!-- /.p-living__voices-grid -->
+		</div>
+		<!-- /.p-living__voices-inner -->
+	</section>
+	<!-- /.p-living__voices -->
 
 </article>
 <!-- /.p-living -->

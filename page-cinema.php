@@ -26,7 +26,7 @@ get_header();
 					<h3 class="p-cinema__concept-toc-label">ストーリーガイド</h3>
 					<ol class="p-cinema__concept-toc-list">
 						<li class="p-cinema__concept-toc-item">
-							<a class="p-cinema__concept-toc-link" href="#cinema-history-title-01">
+							<a class="p-cinema__concept-toc-link" href="#cinema-history-block-01">
 								<span class="p-cinema__concept-toc-num">01</span>
 								<span class="p-cinema__concept-toc-body">
 									<span class="p-cinema__concept-toc-name">この町の映画性</span>
@@ -44,7 +44,7 @@ get_header();
 							</a>
 						</li>
 						<li class="p-cinema__concept-toc-item">
-							<a class="p-cinema__concept-toc-link" href="#cinema-old-title">
+							<a class="p-cinema__concept-toc-link" href="#cinema-history-block-03">
 								<span class="p-cinema__concept-toc-num">03</span>
 								<span class="p-cinema__concept-toc-body">
 									<span class="p-cinema__concept-toc-name">昔の映画館</span>
@@ -53,7 +53,7 @@ get_header();
 							</a>
 						</li>
 						<li class="p-cinema__concept-toc-item">
-							<a class="p-cinema__concept-toc-link" href="#cinema-now-title">
+							<a class="p-cinema__concept-toc-link" href="#cinema-history-block-04">
 								<span class="p-cinema__concept-toc-num">04</span>
 								<span class="p-cinema__concept-toc-body">
 									<span class="p-cinema__concept-toc-name">いまの映画館</span>
@@ -62,7 +62,7 @@ get_header();
 							</a>
 						</li>
 						<li class="p-cinema__concept-toc-item">
-							<a class="p-cinema__concept-toc-link" href="#cinema-next">
+							<a class="p-cinema__concept-toc-link" href="#cinema-now-title">
 								<span class="p-cinema__concept-toc-num">05</span>
 								<span class="p-cinema__concept-toc-body">
 									<span class="p-cinema__concept-toc-name">映画館の余韻で歩く</span>
@@ -86,14 +86,14 @@ get_header();
 	<!-- /.p-cinema__concept -->
 
 	<!-- ─── 映画史 ── -->
-	<section class="p-cinema__history" aria-labelledby="cinema-history-title-01">
+	<section class="p-cinema__history" aria-labelledby="cinema-history-heading-01">
 
 		<!-- 01 誕生（テキスト左・画像右） -->
-		<div class="p-cinema__history-block">
+		<div class="p-cinema__history-block" id="cinema-history-block-01">
 			<div class="p-cinema__history-block-text">
 				<span class="p-cinema__history-block-num" aria-hidden="true">01</span>
 				<span class="p-cinema__history-block-label">ヒストリー</span>
-				<h2 class="p-cinema__history-block-title" id="cinema-history-title-01">七間町映画史｜なぜ七間町は「映画の町」なのか</h2>
+				<h2 class="p-cinema__history-block-title" id="cinema-history-heading-01">七間町映画史｜なぜ七間町は「映画の町」なのか</h2>
 				<p class="p-cinema__history-block-body">七間町は、もともと「華やかさ」が根づく町でした。商いと人の往来が絶えることのない、芝居小屋や寄席場が並ぶ、日常の中で特別に触れる場所でした。そこに映画という新しい娯楽が入り込んだとき、人々はまるで当然のように受け入れ、観客を続けていったのです。</p>
 			</div>
 			<!-- /.p-cinema__history-block-text -->
@@ -121,7 +121,7 @@ get_header();
 		<!-- /.p-cinema__history-block -->
 
 		<!-- 03 変化（テキスト左・画像右） -->
-		<div class="p-cinema__history-block">
+		<div class="p-cinema__history-block" id="cinema-history-block-03">
 			<div class="p-cinema__history-block-text">
 				<span class="p-cinema__history-block-num" aria-hidden="true">03</span>
 				<span class="p-cinema__history-block-label">変化</span>
@@ -137,7 +137,7 @@ get_header();
 		<!-- /.p-cinema__history-block -->
 
 		<!-- 04 継承（テキスト左・画像右） -->
-		<div class="p-cinema__history-block p-cinema__history-block--reverse">
+		<div class="p-cinema__history-block p-cinema__history-block--reverse" id="cinema-history-block-04">
 			<div class="p-cinema__history-block-text">
 				<span class="p-cinema__history-block-num" aria-hidden="true">04</span>
 				<span class="p-cinema__history-block-label">ムービー特集</span>
@@ -156,9 +156,9 @@ get_header();
 	<!-- /.p-cinema__history -->
 
 	<!-- ─── 昔の映画館 ── -->
-	<section class="p-cinema__old" aria-labelledby="cinema-old-title">
+	<section class="p-cinema__old" id="cinema-old-title" aria-labelledby="cinema-old-heading">
 		<div class="p-cinema__old-inner">
-			<h2 class="p-cinema__old-title" id="cinema-old-title">昔の映画館｜たくさんの灯りがあった頃</h2>
+			<h2 class="p-cinema__old-title" id="cinema-old-heading">昔の映画館｜たくさんの灯りがあった頃</h2>
 			<p class="p-cinema__old-text">七間町周辺には、かつて複数の映画館が存在しました。ヒカデン、富竹（七間町電気館跡地）、ここでは「映画の街」として、映画館の名前と軌跡を紹介しています。</p>
 			<div class="p-cinema__old-photos">
 				<figure class="p-cinema__old-photo">
@@ -185,9 +185,9 @@ get_header();
 	<!-- /.p-cinema__old -->
 
 	<!-- ─── 現在の映画館 ── -->
-	<section class="p-cinema__now" aria-labelledby="cinema-now-title">
+	<section class="p-cinema__now" id="cinema-now-title" aria-labelledby="cinema-now-heading">
 		<div class="p-cinema__now-inner">
-			<h2 class="p-cinema__now-title" id="cinema-now-title">映画館のある景色｜いまの七間町</h2>
+			<h2 class="p-cinema__now-title" id="cinema-now-heading">映画館のある景色｜いまの七間町</h2>
 			<p class="p-cinema__now-lead">七間町・周辺には、現在も3つの映画館が営業中です。映画が終わった後も時間が続く、ここで暮らす幸せのひとつです。</p>
 			<ul class="p-cinema__now-list">
 

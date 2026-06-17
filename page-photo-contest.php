@@ -313,7 +313,7 @@ $pc_form_anchor = '#photo-contest-entry';
 			</header>
 			<!-- /.p-photo-contest__section-head -->
 
-			<div class="p-photo-contest__archive-grid">
+			<div class="p-photo-contest__archive-grid js-center-slider">
 				<?php foreach ( $pc_archives as $a ) : ?>
 				<a class="p-photo-contest__archive-card" href="<?php echo esc_url( home_url( '/gallery/' ) ); ?>">
 					<picture class="p-photo-contest__archive-card-bg" aria-hidden="true">
