@@ -7,6 +7,16 @@ get_header();
 
 if ( function_exists( 'schema_tourist_destination' ) ) schema_tourist_destination();
 
+// Pick up News: 最新 news 投稿1件
+$pickup_news = get_posts( [
+	'post_type'      => CPT_NEWS,
+	'posts_per_page' => 1,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+	'no_found_rows'  => true,
+] );
+$pickup = ! empty( $pickup_news ) ? $pickup_news[0] : null;
+
 // イベント取得
 $events_q = new WP_Query( [
 	'post_type'      => CPT_EVENT,
@@ -16,17 +26,28 @@ $events_q = new WP_Query( [
 	'no_found_rows'  => true,
 ] );
 
-// スポット取得（最新3件）
-$spots_q = new WP_Query( [
-	'post_type'      => CPT_SPOT,
-	'posts_per_page' => 3,
-	'orderby'        => 'date',
-	'order'          => 'DESC',
-	'no_found_rows'  => true,
-] );
-
 // スポットタクソノミー（タブ用）
 $spot_types = get_terms( [ 'taxonomy' => TAX_SPOT_TYPE, 'hide_empty' => false ] );
+
+// タームごとにスポットを取得（タブ切替用・各最大6件）
+$spots_by_type = [];
+if ( ! is_wp_error( $spot_types ) && $spot_types ) {
+	foreach ( $spot_types as $st ) {
+		$q = new WP_Query( [
+			'post_type'      => CPT_SPOT,
+			'posts_per_page' => 6,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'no_found_rows'  => true,
+			'tax_query'      => [ [
+				'taxonomy' => TAX_SPOT_TYPE,
+				'field'    => 'term_id',
+				'terms'    => $st->term_id,
+			] ],
+		] );
+		$spots_by_type[ $st->slug ] = $q;
+	}
+}
 
 // 人気散策コース（walk_course CPT から最新3件）
 $walks_q = new WP_Query( [
@@ -53,7 +74,7 @@ if ( $walks_q->have_posts() ) {
 				'step' => 'STEP' . ( $i + 1 ),
 				'cat'  => get_the_title( $ref_id ),
 				'desc' => $note,
-				'time' => get_field( 'spot_duration', $ref_id ) ?: '',
+				'time' => $step['time_to_next'] ?? '',
 			];
 		}
 		$timelines[ $w->ID ] = [
@@ -91,15 +112,19 @@ $area_map_url  = file_exists( $area_map_path ) ? get_template_directory_uri() . 
 	?>
 
 	<!-- ─── Pick up News ── -->
+	<?php if ( $pickup ) : ?>
 	<section class="p-visit__pickup" aria-label="ピックアップニュース">
-		<div class="p-visit__pickup-inner">
+		<a class="p-visit__pickup-inner" href="<?php echo esc_url( get_permalink( $pickup ) ); ?>">
 			<span class="p-visit__pickup-label">Pick up News</span>
-			<time class="p-visit__pickup-date" datetime="2025-01-07">2025/01/07</time>
-			<p class="p-visit__pickup-text">タイトル入れるタイトル入れるタイトル入れるタイトル入れるタイトル入れる</p>
-		</div>
+			<time class="p-visit__pickup-date" datetime="<?php echo esc_attr( get_the_date( 'Y-m-d', $pickup ) ); ?>">
+				<?php echo esc_html( get_the_date( 'Y/n/j', $pickup ) ); ?>
+			</time>
+			<p class="p-visit__pickup-text"><?php echo esc_html( get_the_title( $pickup ) ); ?></p>
+		</a>
 		<!-- /.p-visit__pickup-inner -->
 	</section>
 	<!-- /.p-visit__pickup -->
+	<?php endif; ?>
 
 	<!-- ─── 人気の散策コース ── -->
 	<section class="p-visit__walks" aria-labelledby="visit-walks-title">
@@ -289,50 +314,66 @@ $area_map_url  = file_exists( $area_map_path ) ? get_template_directory_uri() . 
 				<?php foreach ( $spot_types as $i => $t ) :
 					$icon = $spot_type_icons[ $t->name ] ?? 'icon-map-pin';
 				?>
-				<a class="p-visit__spots-tab<?php echo $i === 0 ? ' is-active' : ''; ?>"
-					href="<?php echo esc_url( add_query_arg( 'type', $t->slug, home_url( '/spots/' ) ) ); ?>">
+				<button type="button"
+					class="p-visit__spots-tab<?php echo $i === 0 ? ' is-active' : ''; ?>"
+					role="tab"
+					aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"
+					aria-controls="spot-panel-<?php echo esc_attr( $t->slug ); ?>"
+					data-spot-type="<?php echo esc_attr( $t->slug ); ?>">
 					<span class="p-visit__spots-tab-icon">
 						<svg aria-hidden="true" focusable="false" width="20" height="20"><use href="#<?php echo esc_attr( $icon ); ?>"></use></svg>
 					</span>
 					<span class="p-visit__spots-tab-label"><?php echo esc_html( $t->name ); ?></span>
-				</a>
+				</button>
 				<?php endforeach; ?>
 			</div>
 			<!-- /.p-visit__spots-tabs -->
-			<?php endif; ?>
 
-			<?php if ( $spots_q->have_posts() ) : ?>
-			<div class="p-visit__spots-grid">
-				<?php while ( $spots_q->have_posts() ) : $spots_q->the_post();
-					$sid    = get_the_ID();
-					$sthumb = sc_thumbnail_url( $sid, 'medium_large' );
-					$sorg   = get_post_meta( $sid, 'spot_organization', true );
-				?>
-				<a class="p-visit__spot-card" href="<?php the_permalink(); ?>">
-					<div class="p-visit__spot-card-img">
-						<picture class="u-picture-fill">
-							<img class="u-img-cover" src="<?php echo esc_url( $sthumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
-						</picture>
-					</div>
-					<div class="p-visit__spot-card-body">
-						<h3 class="p-visit__spot-card-title"><?php the_title(); ?></h3>
-						<?php if ( $sorg ) : ?>
-						<p class="p-visit__spot-card-org"><?php echo esc_html( $sorg ); ?></p>
-						<?php endif; ?>
-						<p class="p-visit__spot-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 50, '…' ) ); ?></p>
-					</div>
-				</a>
-				<?php endwhile; wp_reset_postdata(); ?>
+			<?php foreach ( $spot_types as $i => $t ) :
+				$sq = $spots_by_type[ $t->slug ] ?? null;
+			?>
+			<div class="p-visit__spots-panel<?php echo $i === 0 ? ' is-active' : ''; ?>"
+				id="spot-panel-<?php echo esc_attr( $t->slug ); ?>"
+				role="tabpanel"
+				<?php echo $i !== 0 ? 'hidden' : ''; ?>>
+				<?php if ( $sq && $sq->have_posts() ) : ?>
+				<div class="p-visit__spots-grid">
+					<?php while ( $sq->have_posts() ) : $sq->the_post();
+						$sid    = get_the_ID();
+						$sthumb = sc_thumbnail_url( $sid, 'medium_large' );
+						$sorg   = get_post_meta( $sid, 'spot_organization', true );
+					?>
+					<a class="p-visit__spot-card" href="<?php the_permalink(); ?>">
+						<div class="p-visit__spot-card-img">
+							<picture class="u-picture-fill">
+								<img class="u-img-cover" src="<?php echo esc_url( $sthumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
+							</picture>
+						</div>
+						<div class="p-visit__spot-card-body">
+							<h3 class="p-visit__spot-card-title"><?php the_title(); ?></h3>
+							<?php if ( $sorg ) : ?>
+							<p class="p-visit__spot-card-org"><?php echo esc_html( $sorg ); ?></p>
+							<?php endif; ?>
+							<p class="p-visit__spot-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 50, '…' ) ); ?></p>
+						</div>
+					</a>
+					<?php endwhile; wp_reset_postdata(); ?>
+				</div>
+				<!-- /.p-visit__spots-grid -->
+				<?php else : ?>
+				<p class="p-visit__spots-empty">このカテゴリのスポットはまだありません。</p>
+				<?php endif; ?>
+				<div class="p-visit__spots-more">
+					<a class="c-btn p-visit__more-btn"
+						href="<?php echo esc_url( add_query_arg( 'type', $t->slug, home_url( '/spots/' ) ) ); ?>">
+						もっと見る
+						<svg class="c-btn__icon" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-right"></use></svg>
+					</a>
+				</div>
 			</div>
-			<!-- /.p-visit__spots-grid -->
+			<!-- /.p-visit__spots-panel -->
+			<?php endforeach; ?>
 			<?php endif; ?>
-
-			<div class="p-visit__spots-more">
-				<a class="c-btn p-visit__more-btn" href="<?php echo esc_url( get_post_type_archive_link( CPT_SPOT ) ); ?>">
-					もっと見る
-					<svg class="c-btn__icon" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-right"></use></svg>
-				</a>
-			</div>
 		</div>
 		<!-- /.p-visit__spots-inner -->
 	</section>

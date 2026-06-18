@@ -1,0 +1,14 @@
+@use '../config' as *;
+
+// サイドバー付き2カラムレイアウト（お店・イベント等共通）
+.l-sidebar-layout {
+  display: grid;
+  grid-template-columns: rem(280) 1fr;
+  gap: rem(28);
+  align-items: start;
+
+  @include sp {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+}

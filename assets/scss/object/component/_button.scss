@@ -4,9 +4,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: rem(6);
-  padding: rem(12) rem(28);
-  font-size: rem(14);
+  gap: rem(7);
+  padding: rem(14) rem(34);
+  font-size: rem(17);
   font-weight: 600;
   line-height: 1;
   border-radius: rem(9999);
@@ -15,8 +15,8 @@
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
   white-space: nowrap;
   text-decoration: none;
-  min-height: rem(44);
-  min-width: rem(44);
+  min-height: rem(53);
+  min-width: rem(53);
 
   &--primary {
     background-color: $color-blue;
@@ -79,14 +79,14 @@
   }
 
   &--sm {
-    padding: rem(8) rem(20);
-    font-size: rem(13);
-    min-height: rem(36);
+    padding: rem(10) rem(24);
+    font-size: rem(16);
+    min-height: rem(43);
   }
 
   &--lg {
-    padding: rem(16) rem(40);
-    font-size: rem(16);
+    padding: rem(19) rem(48);
+    font-size: rem(19);
   }
 
   &__icon {

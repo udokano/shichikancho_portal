@@ -6,7 +6,7 @@
 
 ## 1. 直近のセッションでやったこと
 
-### ★ 2026-06-17 セッション（cinema アンカー整備 + SP 調整・全て未コミット→このセッション末でコミット予定）
+### ★ 2026-06-17 セッション（cinema アンカー整備 + SP 調整・コミット済み `5b3f9b8`・push 済み。前セッション未コミット分 B〜F も同コミットに同梱）
 
 #### G) アンカーリンク固定ヘッダーオフセット（難航・最終解決）
 - **根本原因**：`assets/scss/pages/_single-walk-course.scss:304` の `html { scroll-behavior: smooth; }` がページ固有ファイルなのに `html{}` で全ページにグローバル漏れ。これで `window.scrollTo` が全部 smooth 化し、その smooth が Google 翻訳の `html{height:100%}` 注入と干渉して**不発**→アンカークリックで一切スクロールしない状態だった
@@ -85,7 +85,8 @@
 
 ## 3. 残タスク
 
-- **未コミット分の `git push`**（B〜F、ユーザー指示待ち）。`hero-map-2.png`・`center-slider.js` は新規追跡
+- **`assets/scss/pages/_single-walk-course.scss:304` の `html { scroll-behavior: smooth; }` 本修正**（ページ固有ファイルから `html{}` でグローバル漏れ。現状 main.js 側で無害化済みだが正しいスコープに移すのが本筋）
+- **cinema TOC のラベルと飛び先の不一致解消**（TOC 03/04/05 ラベル＝昔の映画館/いまの映画館/余韻で歩く、飛び先＝block-03/block-04/now。ラベル側 or 飛び先の整理が必要・ユーザー判断待ち）
 - **Contact ページにも `.screen-reader-response` 可視化バグが残存**（CF7 標準 CSS 未読込が根本原因。photo-contest のみ対応済み）。同じクリップ 1 ルールで対応可 → 要確認
 - CF7 サマリ「入力内容に問題があります…」を残すか消すか保留中
 - **本番デプロイ時**：
@@ -98,6 +99,7 @@
 
 ## 4. 触るときの注意
 
+- **アンカースクロールは `scroll-behavior: smooth` / `scrollIntoView` 禁止**。Google 翻訳の `html{height:100%}` と干渉して smooth が不発になる。`main.js` の `scrollToHash()` のように scroll-behavior を一時 auto に上書きして `window.scrollTo` で instant 実行すること
 - **CF7 標準 CSS が未読込**（`cf7CssLoaded: false`）。そのため CF7 が SR 用に出す `.screen-reader-response` が視覚表示される。新規 CF7 フォームを置くページでは SR 専用クリップを当てること
 - **CF7 はカード/li 自体に `slick-slide`/`slick-center` を付与**（ラップ div を作らない）。dim 等は子孫セレクタでなく要素自身に当てる
 - slick 生成要素・CF7 出力・wp-block などプラグイン出力は class 付与不可 → 要素セレクタ使用可（`CLAUDE.local.md` の裸タグ禁止の例外）

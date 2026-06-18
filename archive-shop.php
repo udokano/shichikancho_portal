@@ -62,16 +62,19 @@ get_header();
 		?>
 
 	<div class="p-shop-archive">
-		<div class="p-shop-archive__inner">
+		<div class="l-sidebar-layout">
 
 			<!-- サイドバー -->
 			<aside class="c-filter-sidebar" aria-label="絞り込み">
 				<form id="js-shop-filter" class="c-filter-sidebar__filter" method="get" action="<?php echo esc_url( get_post_type_archive_link( CPT_SHOP ) ); ?>">
 
-					<div class="c-filter-sidebar__head">
-						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-						<h2 class="c-filter-sidebar__title">絞り込み検索</h2>
-					</div>
+					<button type="button" class="c-filter-sidebar__head" id="js-filter-toggle" aria-expanded="false" aria-controls="js-filter-body">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+						<span class="c-filter-sidebar__title">絞り込み検索</span>
+						<svg class="c-filter-sidebar__toggle-icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#icon-plus"></use></svg>
+					</button>
+
+					<div id="js-filter-body" class="c-filter-sidebar__body">
 
 					<div class="c-filter-sidebar__group">
 						<label class="c-filter-sidebar__label" for="shop-kw">店名で検索</label>
@@ -112,6 +115,8 @@ get_header();
 						<span class="c-filter-sidebar__result-label">検索結果</span>
 						<p class="c-filter-sidebar__result-value"><?php echo (int) $total; ?><span class="c-filter-sidebar__result-unit">件</span></p>
 					</div>
+
+					</div><!-- /.c-filter-sidebar__body -->
 				</form>
 				<!-- /.c-filter-sidebar__filter -->
 				<script>
@@ -190,7 +195,7 @@ get_header();
 				if ( $pickup_query->have_posts() && ! ( $is_filtering || $current_page >= 2 ) ) : ?>
 				<div class="p-shop-pickup">
 					<h2 class="c-pickup-title"><span class="c-pickup-title__badge">PICK UP</span> おすすめ店舗</h2>
-					<div class="p-shop-pickup__grid">
+					<div class="p-shop-pickup__grid js-center-slider">
 						<?php while ( $pickup_query->have_posts() ) : $pickup_query->the_post();
 							$thumb   = sc_thumbnail_url( get_the_ID(), 'medium_large' );
 							$cats    = get_the_terms( get_the_ID(), TAX_SHOP_CAT );
@@ -407,7 +412,7 @@ get_header();
 						<?php
 						echo paginate_links( [
 							'total'   => $shop_query->max_num_pages,
-							'current' => get_query_var( 'paged', 1 ),
+							'current' => max( 1, get_query_var( 'paged' ) ),
 							'prev_text' => '‹',
 							'next_text' => '›',
 						] );
@@ -424,7 +429,7 @@ get_header();
 			<!-- /.p-shop-archive__main -->
 
 		</div>
-		<!-- /.p-shop-archive__inner -->
+		<!-- /.l-sidebar-layout -->
 	</div>
 
 </main>

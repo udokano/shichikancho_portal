@@ -810,6 +810,62 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}());
 
+	// ─── 観光スポット タブ切替 ─────────────────────────────
+	(function () {
+		const tabs   = document.querySelectorAll('.p-visit__spots-tab');
+		const panels = document.querySelectorAll('.p-visit__spots-panel');
+		if ( ! tabs.length ) return;
+
+		tabs.forEach((tab) => {
+			tab.addEventListener('click', () => {
+				const type = tab.dataset.spotType;
+
+				tabs.forEach((t) => {
+					t.classList.remove('is-active');
+					t.setAttribute('aria-selected', 'false');
+				});
+				panels.forEach((p) => {
+					p.classList.remove('is-active');
+					p.setAttribute('hidden', 'hidden');
+				});
+
+				tab.classList.add('is-active');
+				tab.setAttribute('aria-selected', 'true');
+				const panel = document.getElementById('spot-panel-' + type);
+				if (panel) {
+					panel.classList.add('is-active');
+					panel.removeAttribute('hidden');
+				}
+			});
+		});
+	}());
+
+	// ─── フィルターアコーディオン（SP のみ）────────────────────
+	const filterToggle = document.querySelector('.c-filter-sidebar__head[aria-controls]');
+	if (filterToggle) {
+		const filterBody = document.getElementById(filterToggle.getAttribute('aria-controls'));
+		const filterMq   = window.matchMedia('(max-width: 768px)');
+
+		const openFilter = () => {
+			filterToggle.setAttribute('aria-expanded', 'true');
+			filterBody.classList.add('is-open');
+		};
+		const closeFilter = () => {
+			filterToggle.setAttribute('aria-expanded', 'false');
+			filterBody.classList.remove('is-open');
+		};
+
+		filterToggle.addEventListener('click', () => {
+			if (!filterMq.matches) return; // PC では動かさない
+			filterToggle.getAttribute('aria-expanded') === 'true' ? closeFilter() : openFilter();
+		});
+
+		// PC に戻ったら閉じ状態をリセット（CSS 側で常時表示）
+		filterMq.addEventListener('change', () => {
+			if (!filterMq.matches) closeFilter();
+		});
+	}
+
 	// ─── お気に入りボタン（localStorage で記憶）─────────────
 	document.querySelectorAll('.js-favorite').forEach((btn) => {
 		const key = 'fav:' + (btn.dataset.postId || location.pathname);

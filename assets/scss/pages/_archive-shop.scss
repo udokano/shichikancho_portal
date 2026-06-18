@@ -5,53 +5,93 @@
   background-color: $color-washi;
   padding-block: rem(40) rem(64);
 
-  @include sp { padding-block: rem(24) rem(40); }
-
-  &__inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    padding-inline: $container-pad;
-    display: grid;
-    grid-template-columns: rem(280) 1fr;
-    gap: rem(28);
-    align-items: start;
-
-    @include sp {
-      padding-inline: $container-pad-sp;
-      grid-template-columns: 1fr;
-      gap: rem(24);
-    }
+  @include sp {
+    padding-block: rem(24) rem(40);
   }
-}
 
+  // 2カラム grid は l-sidebar-layout が担当
+}
 
 // ─── PICKUPセクション ────────────────────────────────────────
 .p-shop-pickup {
   margin-bottom: rem(40);
+
+  @include sp {
+    overflow-x: hidden;
+  }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: rem(16);
 
-    @include sp { grid-template-columns: 1fr; }
+    @include sp {
+      display: block; // slick が制御するため grid を解除
+
+      // slick 未初期化時は縦積み防止のため2枚目以降を隠す
+      > article:nth-child(n+2) { display: none; }
+    }
+
+    .slick-slide {
+      height: auto;
+      margin-inline: rem(7);
+    }
+
+    // slick 初期化後（SP センターモード）
+    &.slick-initialized {
+      .slick-slide {
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+
+      .slick-center {
+        opacity: 1;
+      }
+
+      .slick-dots {
+        position: static;
+        margin-top: rem(16);
+        display: flex;
+        justify-content: center;
+        gap: rem(2);
+
+        li button::before {
+          font-size: rem(8);
+          color: $color-primary-dark;
+          opacity: 0.35;
+        }
+
+        li.slick-active button::before {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   &__card {
     background-color: #fff;
     border-radius: rem(10);
     overflow: hidden;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
 
-    &-link { display: block; text-decoration: none; }
+    &-link {
+      display: block;
+      text-decoration: none;
+    }
 
     &-img {
       position: relative;
-      aspect-ratio: 4/3;
+      padding-top: 75%; // 4:3 = 75%（aspect-ratio が slick 内で効かない環境の保険）
       overflow: hidden;
       background-color: $color-washi;
 
-      
+      img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     &-body {
@@ -85,7 +125,7 @@
     right: rem(8);
     font-size: rem(10);
     font-weight: 700;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     padding: rem(2) rem(6);
     border-radius: rem(4);
@@ -108,7 +148,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: rem(20);
 
-    @include sp { grid-template-columns: 1fr; gap: rem(12); }
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(12);
+    }
   }
 
   &__pagination {
@@ -156,14 +199,18 @@
   background-color: #fff;
   border-radius: rem(10);
   overflow: hidden;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.2s;
   display: flex;
   flex-direction: column;
 
-  @include hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  @include hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
 
-  &__img-link { display: block; }
+  &__img-link {
+    display: block;
+  }
 
   &__img {
     position: relative;
@@ -178,7 +225,9 @@
       transition: transform 0.4s;
     }
 
-    &:hover img { transform: scale(1.03); }
+    &:hover img {
+      transform: scale(1.03);
+    }
   }
 
   // 番号 + サブカテゴリ バッジ（画像左上に縦積み）
@@ -356,14 +405,18 @@
   background-color: #fff;
   padding-block: rem(56);
 
-  @include sp { padding-block: rem(32); }
+  @include sp {
+    padding-block: rem(32);
+  }
 
   &__inner {
     max-width: $container-max;
     margin-inline: auto;
     padding-inline: $container-pad;
 
-    @include sp { padding-inline: $container-pad-sp; }
+    @include sp {
+      padding-inline: $container-pad-sp;
+    }
   }
 
   &__title {
@@ -378,8 +431,6 @@
     overflow: hidden;
     aspect-ratio: 16/7;
     background-color: $color-washi;
-
-    
   }
 }
 
@@ -404,9 +455,13 @@
     text-decoration: none;
     transition: background-color 0.2s;
 
-    svg { flex-shrink: 0; }
+    svg {
+      flex-shrink: 0;
+    }
 
-    @include hover { background-color: darken($color-primary-dark, 8%); }
+    @include hover {
+      background-color: darken($color-primary-dark, 8%);
+    }
   }
 
   &__clear {
@@ -420,7 +475,10 @@
     font-size: rem(13);
     font-weight: 500;
     text-decoration: none;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
 
     @include hover {
       background-color: $color-primary-dark;

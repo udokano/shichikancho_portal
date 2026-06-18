@@ -20,16 +20,16 @@ html {
   }
 }
 
-// SP は文字・余白を一律 +15%（rem 基準のルートを底上げ）
+// SP は文字・余白を一律 +32%（1.15×1.15、rem 基準のルートを底上げ）
 @include mq-down(sm) {
   html {
-    font-size: vw($baseFontsize * 1.15, 768);
+    font-size: vw($baseFontsize * 1.3225, 768);
   }
 }
 
 @include mq-down(xs) {
   html {
-    font-size: vw($baseFontsize * 1.15, 540);
+    font-size: vw($baseFontsize * 1.3225, 540);
   }
 }
 

@@ -23,7 +23,7 @@
   color: $color-text;
   margin: 0 0 rem(4);
 
-  @include sp { font-size: rem(22); }
+  @include sp { font-size: rem(28); }
 }
 
 .p-property__page-sub {
@@ -127,7 +127,7 @@
     line-height: 1.4;
     margin: 0 0 rem(16);
 
-    @include sp { font-size: rem(20); }
+    @include sp { font-size: rem(25); }
   }
 
   &__desc {
@@ -380,7 +380,7 @@
       color: $color-text;
       margin: 0 0 rem(16);
 
-      @include sp { font-size: rem(20); }
+      @include sp { font-size: rem(25); }
     }
 
     &-text {

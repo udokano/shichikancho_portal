@@ -95,7 +95,7 @@
     line-height: 1.4;
     margin: 0;
 
-    @include sp { font-size: rem(22); }
+    @include sp { font-size: rem(28); }
   }
 
   &__fav {
@@ -284,7 +284,7 @@
       padding-bottom: rem(8);
       border-bottom: 2px solid $color-sakura;
 
-      @include sp { font-size: rem(20); }
+      @include sp { font-size: rem(25); }
     }
 
     h3 {

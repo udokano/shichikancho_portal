@@ -50,9 +50,11 @@
     font-weight: 600;
     line-height: 1.4;
     color: $color-text;
+    margin-bottom: rem(20);
 
     @include sp {
-      font-size: rem(22);
+      font-size: rem(25);
+      margin-bottom: rem(16);
     }
 
     &--center {
@@ -67,7 +69,7 @@
       margin-bottom: rem(32);
 
       @include sp {
-        font-size: rem(20);
+        font-size: rem(22);
       }
 
       &::after {
@@ -226,6 +228,7 @@
     @include sp {
       justify-self: center;
       max-width: rem(320);
+      order: -1; // SP は地図を文字より上に
     }
   }
 
@@ -958,6 +961,7 @@
 
     @include sp {
       @include aspect-ratio(16, 9);
+      order: -1; // SP は画像をテキストより上に
     }
   }
 }

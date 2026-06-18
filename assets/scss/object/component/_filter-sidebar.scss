@@ -8,13 +8,18 @@
   position: sticky;
   top: rem(80);
 
-  @include mq-down(md) { position: static; }
+  @include mq-down(md) {
+    position: static;
+  }
 
   &__filter {
     background-color: #fff;
     border: 1px solid $color-border;
     border-radius: rem(12);
     padding: rem(20);
+    @include mq-down(sm) {
+      margin-bottom: rem(35);
+    }
   }
 
   &__head {
@@ -23,6 +28,21 @@
     gap: rem(8);
     margin-bottom: rem(16);
     color: $color-primary-dark;
+
+    // SP: ボタンのデフォルトスタイルをリセットしてトグルとして使う
+    @include sp {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      margin-bottom: 0;
+      text-align: left;
+
+      &[aria-expanded='true'] {
+        margin-bottom: rem(16);
+      }
+    }
   }
 
   &__title {
@@ -31,10 +51,40 @@
     color: $color-text;
   }
 
+  // SP アコーディオン用 + アイコン（PC では非表示）
+  &__toggle-icon {
+    display: none;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: transform 0.25s ease;
+
+    @include sp {
+      display: block;
+    }
+
+    // aria-expanded="true" のとき 45° 回転して × に見せる
+    .c-filter-sidebar__head[aria-expanded='true'] & {
+      transform: rotate(45deg);
+    }
+  }
+
+  // SP では折りたたみ、is-open で展開
+  &__body {
+    @include sp {
+      display: none;
+
+      &.is-open {
+        display: block;
+      }
+    }
+  }
+
   &__group {
     margin-bottom: rem(18);
 
-    &:last-of-type { margin-bottom: rem(8); }
+    &:last-of-type {
+      margin-bottom: rem(8);
+    }
   }
 
   &__label {
@@ -54,7 +104,9 @@
     background-color: #fff;
     outline: none;
 
-    &:focus { border-color: $color-primary-dark; }
+    &:focus {
+      border-color: $color-primary-dark;
+    }
   }
 
   &__chips {
@@ -74,7 +126,10 @@
     color: $color-text;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
 
     @include hover {
       border-color: $color-primary-dark;
@@ -147,6 +202,8 @@
     text-decoration: none;
     transition: opacity 0.2s ease;
 
-    @include hover { opacity: 0.9; }
+    @include hover {
+      opacity: 0.9;
+    }
   }
 }

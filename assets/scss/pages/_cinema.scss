@@ -63,7 +63,7 @@
     color: $color-text;
     line-height: 1.5;
 
-    @include sp { font-size: rem(20); }
+    @include sp { font-size: rem(25); }
   }
 
   &-text {
@@ -484,7 +484,7 @@
     line-height: 1.5;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
-    @include sp { font-size: rem(20); }
+    @include sp { font-size: rem(25); }
   }
 
   &-text {

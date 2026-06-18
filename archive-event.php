@@ -171,7 +171,7 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 				<h1 class="p-event-archive__title">イベント</h1>
 			</div>
 
-			<div class="p-event-archive__layout">
+			<div class="l-sidebar-layout">
 
 				<!-- ─── 左サイドバー: 絞り込み ── -->
 				<aside class="c-filter-sidebar" aria-label="絞り込み">
@@ -181,10 +181,13 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 						<input type="hidden" name="ev_tag[]" value="<?php echo esc_attr( $t_slug ); ?>">
 						<?php endforeach; ?>
 
-						<div class="c-filter-sidebar__head">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-							<h2 class="c-filter-sidebar__title">絞り込み検索</h2>
-						</div>
+						<button type="button" class="c-filter-sidebar__head" id="js-filter-toggle" aria-expanded="false" aria-controls="js-filter-body">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+							<span class="c-filter-sidebar__title">絞り込み検索</span>
+							<svg class="c-filter-sidebar__toggle-icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#icon-plus"></use></svg>
+						</button>
+
+						<div id="js-filter-body" class="c-filter-sidebar__body">
 
 						<?php if ( ! is_wp_error( $event_cats ) && $event_cats ) : ?>
 						<div class="c-filter-sidebar__group">
@@ -223,6 +226,8 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 							<span class="c-filter-sidebar__result-label">検索結果</span>
 							<p class="c-filter-sidebar__result-value"><?php echo (int) $event_query->found_posts; ?><span class="c-filter-sidebar__result-unit">件</span></p>
 						</div>
+
+						</div><!-- /.c-filter-sidebar__body -->
 					</form>
 					<!-- /.c-filter-sidebar__filter -->
 					<script>
@@ -284,7 +289,7 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 					<?php if ( ! $is_filtered && $featured_query->have_posts() ) : ?>
 					<section class="p-event-archive__section">
 						<h2 class="c-pickup-title"><span class="c-pickup-title__badge">PICK UP</span> 特集イベント</h2>
-						<div class="p-event-archive__featured-grid">
+						<div class="p-event-archive__featured-grid js-center-slider">
 							<?php while ( $featured_query->have_posts() ) : $featured_query->the_post();
 								$pid   = get_the_ID();
 								$thumb = sc_thumbnail_url( $pid, 'large' );
@@ -513,7 +518,7 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 				<!-- /.p-event-archive__content -->
 
 			</div>
-			<!-- /.p-event-archive__layout -->
+			<!-- /.l-sidebar-layout -->
 		</div>
 	</section>
 	<!-- /.p-event-archive__main -->
