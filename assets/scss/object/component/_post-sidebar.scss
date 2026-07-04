@@ -5,11 +5,10 @@
   display: flex;
   flex-direction: column;
   gap: rem(20);
+  position: sticky;
+  top: rem(96);
 
-  @media (min-width: 1025px) {
-    position: sticky;
-    top: rem(96);
-  }
+  @include mq-down(lg) { position: static; }
 
   &__widget {
     background-color: #fff;

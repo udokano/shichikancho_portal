@@ -88,7 +88,7 @@ get_header();
 							<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_cats ? ' is-active' : ''; ?>" data-group="cat">すべて</button>
 							<?php foreach ( $shop_cats as $cat ) : ?>
 							<label class="c-filter-sidebar__chip<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $cat->name ); ?>
 							</label>
 							<?php endforeach; ?>
@@ -103,7 +103,7 @@ get_header();
 							<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_areas ? ' is-active' : ''; ?>" data-group="sh_area">すべて</button>
 							<?php foreach ( $areas as $area ) : ?>
 							<label class="c-filter-sidebar__chip<?php echo in_array( $area->slug, $filter_areas, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $area->slug ); ?>"<?php echo in_array( $area->slug, $filter_areas, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $area->slug ); ?>"<?php echo in_array( $area->slug, $filter_areas, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $area->name ); ?>
 							</label>
 							<?php endforeach; ?>

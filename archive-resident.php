@@ -244,7 +244,7 @@ get_header();
 							<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_ages ? ' is-active' : ''; ?>" data-group="age">すべて</button>
 							<?php foreach ( $age_choices as $val => $lbl ) : ?>
 							<label class="c-filter-sidebar__chip<?php echo in_array( $val, $filter_ages, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="age[]" value="<?php echo esc_attr( $val ); ?>"<?php echo in_array( $val, $filter_ages, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="age[]" value="<?php echo esc_attr( $val ); ?>"<?php echo in_array( $val, $filter_ages, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $lbl ); ?>
 							</label>
 							<?php endforeach; ?>

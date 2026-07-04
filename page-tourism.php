@@ -86,14 +86,8 @@ if ( $walks_q->have_posts() ) {
 }
 
 // エリアガイド（CSS Grid 12x12 上のホットスポット座標で実装）
-// hover_color はマップ上のホバー色、span は CSS Grid の行/列スパン
-$areas = [
-	[ 'name' => '七間町・駒形通り・人宿町エリア', 'slug' => 'shichikencho', 'color' => '#F8B4C4', 'col' => '1 / span 5',  'row' => '1 / span 4' ],
-	[ 'name' => '常磐町・両替町エリア',           'slug' => 'tokiwa',       'color' => '#F9E076', 'col' => '7 / span 6',  'row' => '1 / span 4' ],
-	[ 'name' => '呉服町・紺屋町エリア',           'slug' => 'gofuku',       'color' => '#F5A962', 'col' => '1 / span 5',  'row' => '5 / span 4' ],
-	[ 'name' => '鷹匠・伝馬町エリア',             'slug' => 'takajo',       'color' => '#7EC8E3', 'col' => '7 / span 6',  'row' => '5 / span 4' ],
-	[ 'name' => '馬場町・宮ヶ崎町・大手町エリア', 'slug' => 'baba',         'color' => '#90C695', 'col' => '1 / span 12', 'row' => '9 / span 4' ],
-];
+// データは inc/area.php に一元化（下層ページと共通）
+$areas = sc_get_areas();
 
 // マップ画像（未配置時はフォールバック）
 $area_map_path = get_template_directory() . '/assets/images/common/area-map.png';
@@ -427,6 +421,49 @@ $area_map_url  = file_exists( $area_map_path ) ? get_template_directory_uri() . 
 		<!-- /.p-visit__area-inner -->
 	</section>
 	<!-- /.p-visit__area -->
+
+	<!-- ─── エリアを選んで詳しく見る ── -->
+	<section class="p-visit__explore" aria-labelledby="visit-explore-title">
+		<div class="p-visit__explore-inner">
+			<header class="p-visit__explore-head">
+				<p class="p-visit__explore-en">Explore Each Area</p>
+				<h2 class="p-visit__explore-title" id="visit-explore-title">エリアを選んで詳しく見る</h2>
+				<p class="p-visit__explore-lead">各エリアの歴史・グルメ・観光スポット・モデルコースをご紹介します</p>
+			</header>
+
+			<div class="p-visit__explore-grid">
+				<?php foreach ( $areas as $a ) : ?>
+				<a class="p-visit__explore-card p-visit__explore-card--<?php echo esc_attr( $a['slug'] ); ?>" href="<?php echo esc_url( home_url( '/area/' . $a['slug'] ) ); ?>">
+					<div class="p-visit__explore-card-body">
+						<div class="p-visit__explore-card-icon">
+							<svg aria-hidden="true" focusable="false" width="20" height="20"><use href="#icon-map-pin"></use></svg>
+						</div>
+						<!-- /.p-visit__explore-card-icon -->
+						<div class="p-visit__explore-card-main">
+							<h3 class="p-visit__explore-card-title"><?php echo esc_html( $a['card_title'] ); ?></h3>
+							<p class="p-visit__explore-card-desc"><?php echo esc_html( $a['desc'] ); ?></p>
+						</div>
+						<!-- /.p-visit__explore-card-main -->
+					</div>
+					<!-- /.p-visit__explore-card-body -->
+					<ul class="p-visit__explore-card-tags">
+						<?php foreach ( $a['tags'] as $tag ) : ?>
+						<li class="p-visit__explore-card-tag"><?php echo esc_html( $tag ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+					<span class="p-visit__explore-card-more">
+						詳しく見る
+						<svg aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-right"></use></svg>
+					</span>
+				</a>
+				<!-- /.p-visit__explore-card -->
+				<?php endforeach; ?>
+			</div>
+			<!-- /.p-visit__explore-grid -->
+		</div>
+		<!-- /.p-visit__explore-inner -->
+	</section>
+	<!-- /.p-visit__explore -->
 
 	<!-- ─── 初めて七間町を訪れる方へ ── -->
 	<?php

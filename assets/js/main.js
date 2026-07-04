@@ -597,18 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		start();
 	});
 
-	// ─── 絞り込みフィルター 開閉 ─────────────
-	document.querySelectorAll('.js-filter-toggle').forEach((btn) => {
-		const targetId = btn.getAttribute('aria-controls');
-		const target = targetId ? document.getElementById(targetId) : null;
-		if (!target) return;
-		btn.addEventListener('click', () => {
-			const open = btn.getAttribute('aria-expanded') === 'true';
-			btn.setAttribute('aria-expanded', String(!open));
-			if (open) target.setAttribute('hidden', ''); else target.removeAttribute('hidden');
-		});
-	});
-
 	// ─── スポット詳細 メインビジュアル スライダー ──────────────
 	document.querySelectorAll('.js-spot-mv').forEach((mv) => {
 		const slides = mv.querySelectorAll('.p-spot-detail__mv-slide');
@@ -841,30 +829,28 @@ document.addEventListener('DOMContentLoaded', () => {
 	}());
 
 	// ─── フィルターアコーディオン（SP のみ）────────────────────
-	const filterToggle = document.querySelector('.c-filter-sidebar__head[aria-controls]');
-	if (filterToggle) {
+	document.querySelectorAll('.c-filter-sidebar__head[aria-controls]').forEach((filterToggle) => {
 		const filterBody = document.getElementById(filterToggle.getAttribute('aria-controls'));
 		const filterMq   = window.matchMedia('(max-width: 768px)');
+		if (!filterBody) return;
 
-		const openFilter = () => {
-			filterToggle.setAttribute('aria-expanded', 'true');
-			filterBody.classList.add('is-open');
+		const setFilterOpen = (open) => {
+			filterToggle.setAttribute('aria-expanded', String(open));
+			filterBody.classList.toggle('is-open', open);
 		};
-		const closeFilter = () => {
-			filterToggle.setAttribute('aria-expanded', 'false');
-			filterBody.classList.remove('is-open');
+
+		const syncFilter = () => {
+			setFilterOpen(!filterMq.matches);
 		};
 
 		filterToggle.addEventListener('click', () => {
-			if (!filterMq.matches) return; // PC では動かさない
-			filterToggle.getAttribute('aria-expanded') === 'true' ? closeFilter() : openFilter();
+			if (!filterMq.matches) return; // PC では常時表示
+			setFilterOpen(filterToggle.getAttribute('aria-expanded') !== 'true');
 		});
 
-		// PC に戻ったら閉じ状態をリセット（CSS 側で常時表示）
-		filterMq.addEventListener('change', () => {
-			if (!filterMq.matches) closeFilter();
-		});
-	}
+		syncFilter();
+		filterMq.addEventListener('change', syncFilter);
+	});
 
 	// ─── お気に入りボタン（localStorage で記憶）─────────────
 	document.querySelectorAll('.js-favorite').forEach((btn) => {
@@ -882,5 +868,40 @@ document.addEventListener('DOMContentLoaded', () => {
 			setState(on);
 		});
 	});
+
+	// ─── エリア詳細: 歴史・文化タブ + ページネーション ──────
+	(function () {
+		const tabsWrap = document.querySelector('.js-history-tabs');
+		const panelsWrap = document.querySelector('.js-history-panels');
+		if (!tabsWrap || !panelsWrap) return;
+
+		const tabs = [...tabsWrap.querySelectorAll('.p-area__history-tab')];
+		const panels = [...panelsWrap.querySelectorAll('.p-area__history-panel')];
+		const total = tabs.length;
+
+		const activate = (idx) => {
+			if (idx < 0 || idx >= total) return;
+			tabs.forEach((t, i) => {
+				const on = i === idx;
+				t.classList.toggle('is-active', on);
+				t.setAttribute('aria-selected', String(on));
+			});
+			panels.forEach((p, i) => {
+				const on = i === idx;
+				p.classList.toggle('is-active', on);
+				p.hidden = !on;
+			});
+		};
+
+		tabs.forEach((t, i) => t.addEventListener('click', () => activate(i)));
+
+		// 各パネル内の 前へ / 次へ
+		panels.forEach((p, i) => {
+			const prev = p.querySelector('.js-history-prev');
+			const next = p.querySelector('.js-history-next');
+			if (prev) prev.addEventListener('click', () => activate(i - 1));
+			if (next) next.addEventListener('click', () => activate(i + 1));
+		});
+	}());
 
 });

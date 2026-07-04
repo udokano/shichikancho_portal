@@ -2,7 +2,7 @@
 // インライン SVG スプライト（body 直後に配置）
 // 新規アイコン追加はここに <symbol> を追加する
 ?>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<svg class="u-hidden" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 
 	<!-- ナビアイコン：町の紹介 -->
 	<symbol id="icon-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -89,6 +89,14 @@
 	<symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
 		<circle cx="12" cy="12" r="9"/>
 		<polyline points="12 7 12 12 16 14"/>
+	</symbol>
+
+	<!-- 共通：calendar（日付） -->
+	<symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M8 2v4"/>
+		<path d="M16 2v4"/>
+		<rect width="18" height="18" x="3" y="4" rx="2"/>
+		<path d="M3 10h18"/>
 	</symbol>
 
 	<!-- 共通：ruler（距離） -->

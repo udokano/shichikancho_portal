@@ -395,7 +395,7 @@ get_header();
 						<p class="p-living__stat-label"><?php echo esc_html( $f['label'] ); ?></p>
 						<p class="p-living__stat-value"><?php echo esc_html( $f['desc'] ); ?></p>
 						<?php if ( ! empty( $f['note'] ) ) : ?>
-						<p class="p-living__train-note" style="margin-top:.25rem;"><?php echo esc_html( $f['note'] ); ?></p>
+						<p class="p-living__train-note p-living__train-note--spaced"><?php echo esc_html( $f['note'] ); ?></p>
 						<?php endif; ?>
 					</li>
 					<?php endforeach; ?>
@@ -414,7 +414,7 @@ get_header();
 						<h4 class="p-living__card-name p-living__card-name--lg"><?php echo esc_html( $w['name'] ); ?></h4>
 						<p class="p-living__card-price"><?php echo esc_html( $w['price'] ); ?></p>
 						<p class="p-living__card-meta">
-							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:.25rem;"><use href="#icon-clock"></use></svg><?php echo esc_html( $w['hours'] ); ?>
+							<svg class="p-living__card-meta-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-clock"></use></svg><?php echo esc_html( $w['hours'] ); ?>
 						</p>
 						<?php if ( ! empty( $w['tags'] ) ) : ?>
 						<ul class="p-living__card-tags">

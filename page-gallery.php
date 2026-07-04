@@ -129,7 +129,7 @@ get_header();
 				?>
 				<label class="c-chips__chip c-chips__chip--solid<?php echo in_array( $cat->slug, $filter_slugs, true ) ? ' is-active' : ''; ?>"
 				   data-term-id="<?php echo (int) $cat->term_id; ?>">
-					<input type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_slugs, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+					<input class="u-sr-only" type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_slugs, true ) ? ' checked' : ''; ?>>
 					<?php if ( strpos( $icon, 'icon-' ) === 0 ) : ?>
 					<svg class="p-gallery__chip-icon" aria-hidden="true" focusable="false"><use href="#<?php echo esc_attr( $icon ); ?>"></use></svg>
 					<?php else : ?>

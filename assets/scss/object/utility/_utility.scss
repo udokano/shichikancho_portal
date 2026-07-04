@@ -25,6 +25,11 @@
   height: 100%;
 }
 
+// 表示しない要素
+.u-hidden {
+  display: none !important;
+}
+
 // テキストアライメント
 .u-text-center {
   text-align: center;

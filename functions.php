@@ -21,6 +21,7 @@ require get_template_directory() . '/inc/event-views.php';
 require get_template_directory() . '/inc/blocks-register.php';
 require get_template_directory() . '/inc/ajax-gallery.php';
 require get_template_directory() . '/inc/user-profile.php';
+require get_template_directory() . '/inc/area.php';
 
 // Google Maps APIキー（フロントページのお店・スポットマップ用）
 define( 'SC_GOOGLE_MAPS_KEY', 'AIzaSyCaBn8CakCqCFVC_Q6HCNNVuDyKT1dscQk' );

@@ -616,20 +616,18 @@
       margin-top: rem(16);
     }
 
-    // ─── モバイル用エリアリスト ──
-    // PC ではホットスポット地図のみ表示、SP ではリストも表示
+    // ─── エリアリスト ──
+    // PC はホットスポット地図のみ表示
     &-list {
       list-style: none;
-      display: grid;
+      display: none;
       grid-template-columns: repeat(3, 1fr);
       gap: rem(12);
       margin: rem(24) 0 0;
       padding: 0;
 
+      @include mq-down(lg) { display: grid; }
       @include sp { grid-template-columns: 1fr; gap: rem(8); }
-
-      // PC で地図が表示されている場合は隠す（lg:hidden 相当）
-      @media (min-width: 1025px) { display: none; }
     }
 
     &-item { display: flex; }
@@ -667,6 +665,146 @@
     &-arrow {
       flex-shrink: 0;
       color: $color-text-muted;
+    }
+  }
+
+  // ─── エリアを選んで詳しく見る ──
+  &__explore {
+    padding-block: rem(64) rem(0);
+
+    @include sp { padding-block: rem(40) rem(0); }
+
+    &-inner {
+      @include page-inner;
+    }
+
+    &-head {
+      text-align: center;
+      margin-bottom: rem(40);
+    }
+
+    &-en {
+      font-size: rem(12);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: $color-text-muted;
+      margin-bottom: rem(8);
+    }
+
+    &-title {
+      font-family: $font-serif;
+      font-size: rem(24);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(12);
+
+      @include sp { font-size: rem(22); }
+    }
+
+    &-lead {
+      font-size: rem(13);
+      color: $color-text-muted;
+
+      @include sp { font-size: rem(12); }
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(24);
+
+      @include mq-down(lg) { grid-template-columns: repeat(2, 1fr); }
+      @include sp { grid-template-columns: 1fr; gap: rem(16); }
+    }
+
+    // 差し色は slug ごとの --area-color で制御（inline style 回避）
+    // テーマカラーの薄い背景 + 全方位 1px（差し色）
+    &-card {
+      display: flex;
+      flex-direction: column;
+      padding: rem(24);
+      background-color: color-mix(in srgb, var(--area-color, #{$color-primary-dark}) 10%, #fff);
+      border: 1px solid color-mix(in srgb, var(--area-color, #{$color-primary-dark}) 45%, #fff);
+      border-radius: rem(12);
+      text-decoration: none;
+      color: $color-text;
+      transition: box-shadow 0.2s, transform 0.2s;
+
+      @include hover {
+        box-shadow: 0 rem(6) rem(16) rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      &--shichikancho { --area-color: #f8b4c4; }
+      &--tokiwa       { --area-color: #f9e076; }
+      &--gofuku       { --area-color: #f5a962; }
+      &--takajo       { --area-color: #7ec8e3; }
+      &--baba         { --area-color: #90c695; }
+    }
+
+    &-card-body {
+      display: flex;
+      gap: rem(14);
+      margin-bottom: rem(16);
+    }
+
+    &-card-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: rem(44);
+      height: rem(44);
+      border-radius: 50%;
+      // 差し色を白に混ぜた淡い背景
+      background-color: color-mix(in srgb, var(--area-color, #{$color-primary-dark}) 35%, #fff);
+      color: $color-text;
+    }
+
+    &-card-main { min-width: 0; }
+
+    &-card-title {
+      font-size: rem(16);
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: rem(8);
+      line-height: 1.4;
+    }
+
+    &-card-desc {
+      font-size: rem(13);
+      color: $color-text-muted;
+      line-height: 1.7;
+    }
+
+    &-card-tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(8);
+      margin: 0 0 rem(16);
+      padding: 0;
+    }
+
+    &-card-tag {
+      font-size: rem(11);
+      color: $color-text-muted;
+      background-color: color-mix(in srgb, var(--area-color, #{$color-primary-dark}) 22%, #fff);
+      padding: rem(4) rem(10);
+      border-radius: rem(9999);
+    }
+
+    &-card-more {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(4);
+      margin-top: auto;
+      font-size: rem(13);
+      font-weight: 500;
+      color: $color-text-muted;
+      transition: opacity 0.2s;
+
+      .p-visit__explore-card:hover & { opacity: 0.7; }
     }
   }
 

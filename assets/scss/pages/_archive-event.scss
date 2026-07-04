@@ -721,7 +721,10 @@
 
 // ─── Manus準拠 v2 上書き ─────────────────────────────────
 .p-event-archive {
-  &__main { padding-block: rem(40) rem(80); }
+  &__main {
+    padding-block: rem(40) rem(80);
+    @include sp { padding-block: rem(24) rem(40); }
+  }
 
   &__head {
     display: flex;
@@ -769,6 +772,19 @@
   }
 
   // 2カラム grid は l-sidebar-layout が担当
+
+  // タグ・CTA: PC では左列2行目、SP ではメインの後（DOM順）
+  &__sidebar-extra {
+    display: flex;
+    flex-direction: column;
+    gap: rem(20);
+
+    // PC: grid 自動配置で left-col 2行目に収まるよう左列を明示
+    grid-column: 1;
+    align-self: start;
+
+    @include sp { margin-top: rem(24); }
+  }
 
   // タグウィジェット
   &__widget {

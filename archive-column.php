@@ -209,7 +209,7 @@ if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_li
 								<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_cats ? ' is-active' : ''; ?>" data-group="cat">すべて</button>
 								<?php foreach ( $col_cats as $cat ) : ?>
 								<label class="c-filter-sidebar__chip<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' is-active' : ''; ?>">
-									<input type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?>>
 									<?php echo esc_html( $cat->name ); ?>
 								</label>
 								<?php endforeach; ?>
@@ -224,7 +224,7 @@ if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_li
 								<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_tags ? ' is-active' : ''; ?>" data-group="tag">すべて</button>
 								<?php foreach ( $col_tags as $t ) : ?>
 								<label class="c-filter-sidebar__chip<?php echo in_array( $t->slug, $filter_tags, true ) ? ' is-active' : ''; ?>">
-									<input type="checkbox" name="tag[]" value="<?php echo esc_attr( $t->slug ); ?>"<?php echo in_array( $t->slug, $filter_tags, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="tag[]" value="<?php echo esc_attr( $t->slug ); ?>"<?php echo in_array( $t->slug, $filter_tags, true ) ? ' checked' : ''; ?>>
 									<?php echo esc_html( $t->name ); ?>
 								</label>
 								<?php endforeach; ?>

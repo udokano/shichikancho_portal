@@ -5,13 +5,14 @@
 // ─── フォトコンテストバナー ──────────────────────────────
 .p-walk__contest {
   position: relative;
-  background-color: #065f46; // fallback
+  background-color: #065f46;
+  background-image: url('../images/common/hero-walk.jpg');
   background-size: cover;
   background-position: center;
   overflow: hidden;
   margin-block: rem(40);
 
-  // 背景画像の上にグリーンオーバーレイ
+  // 背景画像に濃色を重ねて文字を読ませる
   &::before {
     content: '';
     position: absolute;

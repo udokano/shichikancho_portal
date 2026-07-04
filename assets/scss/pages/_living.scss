@@ -288,6 +288,10 @@
       border-radius: rem(999);
       padding: rem(2) rem(10);
       margin: 0;
+
+      &--spaced {
+        margin-top: rem(4);
+      }
     }
   }
 
@@ -831,6 +835,11 @@
       color: $color-text-muted;
       line-height: 1.5;
       margin: 0;
+    }
+
+    &-meta-icon {
+      vertical-align: rem(-1);
+      margin-right: rem(4);
     }
 
     &-note {

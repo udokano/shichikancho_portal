@@ -8,6 +8,17 @@ function sc_get_breadcrumbs(): array {
 		[ 'label' => 'ホーム', 'url' => home_url( '/' ) ],
 	];
 
+	// エリアガイド下層ページ（/area/{slug}）はカスタムクエリ変数で判定
+	$area_slug = get_query_var( 'sc_area' );
+	if ( $area_slug && function_exists( 'sc_get_area' ) ) {
+		$area = sc_get_area( $area_slug );
+		if ( $area ) {
+			$crumbs[] = [ 'label' => '観光情報', 'url' => esc_url( home_url( '/tourism/' ) ) ];
+			$crumbs[] = [ 'label' => esc_html( $area['card_title'] ), 'url' => null ];
+			return $crumbs;
+		}
+	}
+
 	if ( is_singular() ) {
 		$post_type = get_post_type();
 		$obj       = get_post_type_object( $post_type );
@@ -89,7 +100,8 @@ function sc_get_breadcrumbs(): array {
 
 // パンくず HTML を出力（template-parts から呼び出す）
 function sc_breadcrumbs_html(): void {
-	if ( is_front_page() ) return;
+	// エリア下層ページはカスタムクエリのため front_page 判定を除外
+	if ( is_front_page() && ! get_query_var( 'sc_area' ) ) return;
 
 	$crumbs = sc_get_breadcrumbs();
 	$last   = count( $crumbs ) - 1;

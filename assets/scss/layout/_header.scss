@@ -89,12 +89,10 @@
   }
 
   &__lang-wrap {
-    display: none;
+    display: block;
     position: relative;
 
-    @media (min-width: 1024px) {
-      display: block;
-    }
+    @include mq-down(lg) { display: none; }
   }
 
   &__lang {
@@ -269,6 +267,7 @@
 
 // ─── SP ドロワー ──────────────────────────────────────────
 .l-drawer {
+  display: none;
   position: fixed;
   inset: 0;
   top: 0;
@@ -289,12 +288,10 @@
     pointer-events: auto;
   }
 
-  @media (min-width: 769px) {
-    display: none;
-  }
+  @include sp { display: block; }
 
   &__inner {
-    max-width: 480px;
+    max-width: rem(480);
     margin-inline: auto;
   }
 

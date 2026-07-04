@@ -80,7 +80,7 @@ $durations = [
 						<div class="c-chips">
 							<?php foreach ( $areas as $a ) : ?>
 							<label class="c-chips__chip<?php echo in_array( $a->slug, $filter_areas, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $a->slug ); ?>"<?php echo in_array( $a->slug, $filter_areas, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+							<input class="u-sr-only" type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $a->slug ); ?>"<?php echo in_array( $a->slug, $filter_areas, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $a->name ); ?>
 							</label>
 							<?php endforeach; ?>
@@ -108,7 +108,7 @@ $durations = [
 						<div class="c-chips">
 							<?php foreach ( $scenes as $s ) : ?>
 							<label class="c-chips__chip<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="scene[]" value="<?php echo esc_attr( $s->slug ); ?>"<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+							<input class="u-sr-only" type="checkbox" name="scene[]" value="<?php echo esc_attr( $s->slug ); ?>"<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $s->name ); ?>
 							</label>
 							<?php endforeach; ?>

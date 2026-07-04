@@ -63,7 +63,7 @@ $durations = [
 	?>
 
 	<!-- ─── フォトコンテストバナー ── -->
-	<section class="p-walk__contest" aria-label="フォトコンテスト" style="background-image:url('<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/common/hero-walk.jpg')">
+	<section class="p-walk__contest" aria-label="フォトコンテスト">
 		<div class="p-walk__contest-inner">
 			<span class="p-walk__contest-badge">開催中</span>
 			<h2 class="p-walk__contest-title">七間町フォトコンテスト</h2>
@@ -152,7 +152,7 @@ $durations = [
 							<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_areas ? ' is-active' : ''; ?>" data-group="sh_area">すべて</button>
 							<?php foreach ( $areas as $a ) : ?>
 							<label class="c-filter-sidebar__chip<?php echo in_array( $a->slug, $filter_areas, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $a->slug ); ?>"<?php echo in_array( $a->slug, $filter_areas, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+								<input class="u-sr-only" type="checkbox" name="sh_area[]" value="<?php echo esc_attr( $a->slug ); ?>"<?php echo in_array( $a->slug, $filter_areas, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $a->name ); ?>
 							</label>
 							<?php endforeach; ?>
@@ -181,7 +181,7 @@ $durations = [
 							<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_scenes ? ' is-active' : ''; ?>" data-group="scene">すべて</button>
 							<?php foreach ( $scenes as $s ) : ?>
 							<label class="c-filter-sidebar__chip<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' is-active' : ''; ?>">
-								<input type="checkbox" name="scene[]" value="<?php echo esc_attr( $s->slug ); ?>"<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+							<input class="u-sr-only" type="checkbox" name="scene[]" value="<?php echo esc_attr( $s->slug ); ?>"<?php echo in_array( $s->slug, $filter_scenes, true ) ? ' checked' : ''; ?>>
 								<?php echo esc_html( $s->name ); ?>
 							</label>
 							<?php endforeach; ?>

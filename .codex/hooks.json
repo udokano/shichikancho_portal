@@ -1,0 +1,1 @@
+{"hooks":{"Stop":[{"matcher":"","hooks":[{"type":"command","command":"'/Users/okanoyusuke/.agents/skills/agmsg/scripts/check-inbox.sh' 'codex' '/Users/okanoyusuke/Local Sites/sitikentxhou/app/public/wp-content/themes/sichikenchou'"}]}]}}

@@ -1,0 +1,911 @@
+@use '../config' as *;
+
+// ─── エリアガイド下層ページ（Manus 準拠） ────────────────────
+.p-area {
+  background-color: #fff;
+  color: $color-text;
+
+  // 差し色（slug ごと）。ヒーロー帯・見出しライン等で使用
+  --area-color: #{$color-primary-dark};
+
+  &--shichikancho { --area-color: #f8b4c4; }
+  &--tokiwa       { --area-color: #f9e076; }
+  &--gofuku       { --area-color: #f5a962; }
+  &--takajo       { --area-color: #7ec8e3; }
+  &--baba         { --area-color: #90c695; }
+
+  // ─── セクション共通見出し ──
+  &__section-head {
+    text-align: center;
+    margin-bottom: rem(40);
+
+    @include sp { margin-bottom: rem(28); }
+  }
+
+  &__section-en {
+    font-size: rem(12);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-bottom: rem(8);
+  }
+
+  &__section-title {
+    position: relative;
+    display: inline-block;
+    font-family: $font-serif;
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    padding-bottom: rem(12);
+
+    @include sp { font-size: rem(22); }
+
+    // テーマカラー（エリア差し色）単色ライン
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: rem(64);
+      height: rem(4);
+      background-color: var(--area-color);
+      transform: translateX(-50%);
+      border-radius: rem(9999);
+    }
+
+    // 見出し左のアイコン付き
+    &--icon {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(10);
+    }
+  }
+
+  &__section-lead {
+    margin-top: rem(16);
+    font-size: rem(13);
+    color: $color-text-muted;
+  }
+
+  // ─── ヒーロー ──
+  &__hero {
+    padding-block: rem(48);
+    background-color: $color-washi;
+
+    @include sp { padding-block: rem(32); }
+  }
+
+  &__hero-inner {
+    @include page-inner;
+  }
+
+  &__hero-title {
+    font-family: $font-serif;
+    font-size: rem(30);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+
+    @include sp { font-size: rem(26); }
+  }
+
+  &__hero-desc {
+    font-size: rem(15);
+    color: $color-text-muted;
+    line-height: 1.8;
+
+    @include sp { font-size: rem(13); }
+  }
+
+  // ─── 特徴（キャッチ + 3カード） ──
+  &__intro {
+    padding-block: rem(64);
+    text-align: center;
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__intro-inner {
+    @include page-inner;
+  }
+
+  &__intro-en {
+    font-size: rem(12);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-bottom: rem(12);
+  }
+
+  &__intro-title {
+    font-family: $font-serif;
+    font-size: rem(26);
+    font-weight: 700;
+    color: $color-text;
+    padding-bottom: rem(16);
+    margin-bottom: rem(40);
+    position: relative;
+
+    @include sp { font-size: rem(20); margin-bottom: rem(28); }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: rem(48);
+      height: rem(3);
+      background-color: var(--area-color);
+      transform: translateX(-50%);
+      border-radius: rem(9999);
+    }
+  }
+
+  &__feature-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+    margin: 0;
+    padding: 0;
+
+    @include mq-down(lg) { grid-template-columns: 1fr; }
+  }
+
+  &__feature {
+    padding: rem(32) rem(24);
+    background-color: $color-washi;
+    border-radius: rem(16);
+  }
+
+  &__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(56);
+    height: rem(56);
+    border-radius: 50%;
+    margin-bottom: rem(16);
+    background-color: color-mix(in srgb, var(--area-color) 35%, #fff);
+    color: $color-text;
+  }
+
+  &__feature-title {
+    font-size: rem(16);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+  }
+
+  &__feature-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+
+  // ─── エリア内の町 ──
+  &__towns {
+    padding-block: rem(64);
+    background-color: $color-washi;
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__towns-inner {
+    @include page-inner;
+  }
+
+  &__town-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+
+    @include mq-down(lg) { grid-template-columns: 1fr; gap: rem(20); }
+  }
+
+  &__town {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__town-media {
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background-color: $color-border;
+
+    // 画像は親要素で制御（img にクラスを付けない）
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__town-body {
+    padding: rem(20);
+  }
+
+  &__town-name {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    font-family: $font-serif;
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+
+    // 名前前の area-color ドット
+    &::before {
+      content: '';
+      flex-shrink: 0;
+      width: rem(8);
+      height: rem(8);
+      border-radius: 50%;
+      background-color: var(--area-color);
+    }
+  }
+
+  &__town-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.9;
+  }
+
+  // ─── 歴史・文化 ──
+  &__history {
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__history-inner {
+    @include page-inner;
+  }
+
+  &__history-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: rem(8);
+    margin-bottom: rem(32);
+  }
+
+  &__history-tab {
+    padding: rem(8) rem(24);
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-text-muted;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(9999);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    @include hover {
+      border-color: var(--area-color);
+      color: $color-text;
+    }
+
+    &.is-active {
+      color: $color-text;
+      background-color: var(--area-color);
+      border-color: var(--area-color);
+    }
+  }
+
+  &__history-panels {
+    max-width: rem(920);
+    margin-inline: auto;
+  }
+
+  &__history-panel {
+    &[hidden] { display: none; }
+  }
+
+  &__history-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: rem(20);
+    padding: rem(28);
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+    @include sp { padding: rem(20); }
+  }
+
+  &__history-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(48);
+    height: rem(48);
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--area-color) 35%, #fff);
+    color: $color-text;
+  }
+
+  &__history-body {
+    flex: 1;
+    min-width: rem(200);
+  }
+
+  &__history-badge {
+    display: inline-block;
+    font-size: rem(11);
+    font-weight: 700;
+    color: $color-text;
+    background-color: color-mix(in srgb, var(--area-color) 30%, #fff);
+    padding: rem(3) rem(12);
+    border-radius: rem(9999);
+    margin-bottom: rem(12);
+  }
+
+  &__history-title {
+    font-family: $font-serif;
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+  }
+
+  &__history-text {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 2;
+  }
+
+  // ページネーション（前へ / n / 次へ）
+  &__history-nav {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: rem(20);
+    padding-top: rem(16);
+    border-top: 1px solid $color-border;
+  }
+
+  &__history-prev,
+  &__history-next {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    padding: rem(6) rem(12);
+    font-size: rem(13);
+    color: $color-text-muted;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    @include hover { color: $color-primary-dark; }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+
+  &__history-count {
+    font-size: rem(13);
+    color: $color-text-muted;
+  }
+
+  // ─── おすすめスポット ──
+  &__spots {
+    padding-block: rem(64);
+    background-color: $color-washi;
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__spots-inner {
+    @include page-inner;
+  }
+
+  &__spot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(20);
+
+    @include mq-down(lg) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__spot-card {
+    display: block;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+    overflow: hidden;
+    text-decoration: none;
+    color: $color-text;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    @include hover {
+      box-shadow: 0 rem(8) rem(20) rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+
+      .u-img-cover--transition { transform: scale(1.04); }
+    }
+  }
+
+  &__spot-media {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background-color: $color-border;
+  }
+
+  &__spot-body {
+    padding: rem(16);
+  }
+
+  &__spot-name {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(8);
+    line-height: 1.5;
+  }
+
+  &__spot-text {
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.7;
+    margin-bottom: rem(12);
+    @include line-clamp(3);
+  }
+
+  &__spot-tag {
+    display: inline-block;
+    font-size: rem(11);
+    color: $color-text-muted;
+    background-color: $color-washi;
+    padding: rem(3) rem(10);
+    border-radius: rem(9999);
+  }
+
+  &__spots-more,
+  &__events-more {
+    margin-top: rem(32);
+    text-align: center;
+  }
+
+  &__more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    padding: rem(12) rem(32);
+    font-size: rem(14);
+    font-weight: 500;
+    color: #fff;
+    background-color: $color-text;
+    border: none;
+    border-radius: rem(9999);
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    @include hover { opacity: 0.85; }
+  }
+
+  // ─── おすすめグルメ ──
+  &__gourmet {
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__gourmet-inner {
+    @include page-inner;
+  }
+
+  &__gourmet-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(20);
+
+    @include mq-down(lg) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__gourmet-card {
+    padding: rem(20);
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+  }
+
+  &__gourmet-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(44);
+    height: rem(44);
+    border-radius: 50%;
+    margin-bottom: rem(16);
+    background-color: color-mix(in srgb, var(--area-color) 35%, #fff);
+    color: $color-text;
+  }
+
+  &__gourmet-cat {
+    display: inline-block;
+    font-size: rem(11);
+    font-weight: 500;
+    color: $color-text;
+    background-color: color-mix(in srgb, var(--area-color) 30%, #fff);
+    padding: rem(3) rem(10);
+    border-radius: rem(9999);
+    margin-bottom: rem(12);
+  }
+
+  &__gourmet-name {
+    font-family: $font-serif;
+    font-size: rem(17);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(8);
+  }
+
+  &__gourmet-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.8;
+    margin-bottom: rem(12);
+  }
+
+  &__gourmet-price {
+    font-size: rem(12);
+    font-weight: 500;
+    color: $color-primary-dark;
+  }
+
+  // ─── モデルコース（タイムライン） ──
+  &__course {
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__course-inner {
+    @include page-inner;
+  }
+
+  &__course-list {
+    list-style: none;
+    max-width: rem(760);
+    margin-inline: auto;
+    padding: 0;
+  }
+
+  &__course-step {
+    display: grid;
+    grid-template-columns: rem(72) 1fr;
+    gap: rem(20);
+    padding-bottom: rem(20);
+    position: relative;
+
+    // 縦ライン（薄い area 色）— time 列の中央 = バッジ中央を貫通
+    &::before {
+      content: '';
+      position: absolute;
+      left: rem(36);
+      top: 0;
+      bottom: 0;
+      width: rem(2);
+      background-color: color-mix(in srgb, var(--area-color) 45%, #fff);
+      transform: translateX(-50%);
+    }
+
+    // 最初はバッジ中央から下へ
+    &:first-child::before { top: rem(14); }
+
+    // 最後はバッジ中央で止める
+    &:last-child {
+      padding-bottom: 0;
+
+      &::before { bottom: auto; height: rem(14); }
+    }
+  }
+
+  &__course-time {
+    position: relative;
+    z-index: 1;
+    align-self: start;
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: rem(28);
+    padding-inline: rem(12);
+    font-size: rem(12);
+    font-weight: 700;
+    color: $color-text;
+    background-color: var(--area-color);
+    border-radius: rem(9999);
+  }
+
+  &__course-body {
+    padding: rem(16) rem(20);
+    background-color: $color-washi;
+    border-radius: rem(12);
+  }
+
+  &__course-title {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(6);
+  }
+
+  &__course-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+
+  // ─── アクセス ──
+  &__access {
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__access-inner {
+    @include page-inner;
+  }
+
+  &__access-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__access-item {
+    display: flex;
+    gap: rem(16);
+    padding: rem(20);
+    background-color: $color-washi;
+    border-radius: rem(16);
+  }
+
+  &__access-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(48);
+    height: rem(48);
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--area-color) 35%, #fff);
+    color: $color-text;
+  }
+
+  &__access-label {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(6);
+    display: flex;
+    align-items: baseline;
+    gap: rem(10);
+  }
+
+  &__access-time {
+    font-size: rem(12);
+    font-weight: 500;
+    color: $color-primary-dark;
+  }
+
+  &__access-text {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.7;
+  }
+
+  // ─── このエリアのイベント ──
+  &__events {
+    padding-block: rem(64);
+    background-color: $color-washi;
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__events-inner {
+    @include page-inner;
+  }
+
+  &__event-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(20);
+
+    @include mq-down(lg) { grid-template-columns: repeat(2, 1fr); }
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__event-card {
+    display: block;
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+    overflow: hidden;
+    text-decoration: none;
+    color: $color-text;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    @include hover {
+      box-shadow: 0 rem(8) rem(20) rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+
+      .u-img-cover--transition { transform: scale(1.04); }
+    }
+  }
+
+  &__event-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: $color-border;
+  }
+
+  // 画像左上のタグ・終了バッジ
+  &__event-flags {
+    position: absolute;
+    top: rem(12);
+    left: rem(12);
+    display: flex;
+    gap: rem(6);
+    z-index: 1;
+  }
+
+  &__event-area {
+    font-size: rem(11);
+    font-weight: 500;
+    color: $color-text;
+    background-color: color-mix(in srgb, var(--area-color) 60%, #fff);
+    padding: rem(3) rem(10);
+    border-radius: rem(9999);
+  }
+
+  &__event-ended {
+    font-size: rem(11);
+    font-weight: 500;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: rem(3) rem(10);
+    border-radius: rem(9999);
+  }
+
+  &__event-body {
+    padding: rem(16);
+  }
+
+  &__event-name {
+    font-size: rem(15);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(12);
+    line-height: 1.5;
+  }
+
+  &__event-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+    margin-bottom: rem(12);
+  }
+
+  &__event-meta {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    font-size: rem(12);
+    color: $color-text-muted;
+
+    svg { flex-shrink: 0; }
+  }
+
+  &__event-text {
+    margin-top: rem(8);
+    font-size: rem(12);
+    color: $color-text-muted;
+    line-height: 1.7;
+    @include line-clamp(2);
+  }
+
+  // ─── 他のエリア ──
+  &__others {
+    padding-block: rem(64);
+
+    @include sp { padding-block: rem(40); }
+  }
+
+  &__others-inner {
+    @include page-inner;
+  }
+
+  &__other-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(20);
+
+    @include sp { grid-template-columns: 1fr; }
+  }
+
+  &__other-card {
+    display: flex;
+    flex-direction: column;
+    padding: rem(24);
+    background-color: #fff;
+    border: 1px solid $color-border;
+    border-radius: rem(16);
+    text-decoration: none;
+    color: $color-text;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    @include hover {
+      box-shadow: 0 rem(8) rem(20) rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__other-name {
+    font-size: rem(16);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: rem(8);
+  }
+
+  &__other-desc {
+    font-size: rem(13);
+    color: $color-text-muted;
+    line-height: 1.8;
+    margin-bottom: rem(16);
+  }
+
+  &__other-more {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(4);
+    margin-top: auto;
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-primary-dark;
+  }
+
+  // ─── 観光情報に戻る ──
+  &__back {
+    padding-block: rem(48) rem(80);
+    text-align: center;
+
+    @include sp { padding-block: rem(32) rem(48); }
+  }
+
+  &__back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: rem(44);
+    padding: rem(12) rem(40);
+    font-size: rem(14);
+    font-weight: 500;
+    color: #fff;
+    background-color: $color-primary-dark;
+    border-radius: rem(9999);
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    @include hover { opacity: 0.9; }
+  }
+}

@@ -117,7 +117,7 @@
 <!-- /.l-footer -->
 
 <!-- Google Translate 非表示ウィジェット（クッキー制御で翻訳を作動させるため必要） -->
-<div id="google_translate_element" style="display:none" aria-hidden="true"></div>
+<div id="google_translate_element" class="u-hidden" aria-hidden="true"></div>
 <script>
 function googleTranslateElementInit() {
 	new google.translate.TranslateElement({

@@ -196,7 +196,7 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 								<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $filter_cats ? ' is-active' : ''; ?>" data-group="ev_cat">すべて</button>
 								<?php foreach ( $event_cats as $cat ) : ?>
 								<label class="c-filter-sidebar__chip<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' is-active' : ''; ?>">
-									<input type="checkbox" name="ev_cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+									<input class="u-sr-only" type="checkbox" name="ev_cat[]" value="<?php echo esc_attr( $cat->slug ); ?>"<?php echo in_array( $cat->slug, $filter_cats, true ) ? ' checked' : ''; ?>>
 									<?php echo esc_html( $cat->name ); ?>
 								</label>
 								<?php endforeach; ?>
@@ -214,7 +214,7 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 								<button type="button" class="c-filter-sidebar__chip js-chips-clear<?php echo ! $current_vals ? ' is-active' : ''; ?>" data-group="<?php echo esc_attr( $key ); ?>">すべて</button>
 								<?php foreach ( $cfg['choices'] as $val => $lbl ) : ?>
 								<label class="c-filter-sidebar__chip<?php echo in_array( $val, $current_vals, true ) ? ' is-active' : ''; ?>">
-									<input type="checkbox" name="<?php echo esc_attr( $key ); ?>[]" value="<?php echo esc_attr( $val ); ?>"<?php echo in_array( $val, $current_vals, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+									<input class="u-sr-only" type="checkbox" name="<?php echo esc_attr( $key ); ?>[]" value="<?php echo esc_attr( $val ); ?>"<?php echo in_array( $val, $current_vals, true ) ? ' checked' : ''; ?>>
 									<?php echo esc_html( $lbl ); ?>
 								</label>
 								<?php endforeach; ?>
@@ -258,28 +258,8 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 					}());
 					</script>
 
-					<?php if ( ! is_wp_error( $event_tags ) && $event_tags ) : ?>
-					<div class="p-event-archive__widget">
-						<h3 class="p-event-archive__widget-title">タグ</h3>
-						<div class="p-event-archive__tag-cloud">
-							<?php foreach ( $event_tags as $t ) : ?>
-							<a class="p-event-archive__tag-link<?php echo in_array( $t->slug, $filter_tags, true ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( [ 'ev_tag' => [ $t->slug ] ], $keep_tag ) ); ?>">
-								<?php echo esc_html( $t->name ); ?>
-								<span class="p-event-archive__tag-count">(<?php echo (int) $t->count; ?>)</span>
-							</a>
-							<?php endforeach; ?>
-						</div>
-					</div>
-					<?php endif; ?>
-
-					<div class="c-sidebar-cta">
-						<h3 class="c-sidebar-cta__title">イベントを掲載しませんか？</h3>
-						<p class="c-sidebar-cta__text">七間町で開催するイベント情報を募集しています。</p>
-						<a class="c-sidebar-cta__btn" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">掲載依頼</a>
-					</div>
-
 				</aside>
-				<!-- /.p-event-archive__sidebar -->
+				<!-- /.c-filter-sidebar -->
 
 				<!-- ─── 右メイン ── -->
 				<div class="p-event-archive__content">
@@ -516,6 +496,30 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 
 				</div>
 				<!-- /.p-event-archive__content -->
+
+				<!-- SP では main の下に来る。PC では grid 自動配置で左列2行目 -->
+				<div class="p-event-archive__sidebar-extra">
+					<?php if ( ! is_wp_error( $event_tags ) && $event_tags ) : ?>
+					<div class="p-event-archive__widget">
+						<h3 class="p-event-archive__widget-title">タグ</h3>
+						<div class="p-event-archive__tag-cloud">
+							<?php foreach ( $event_tags as $t ) : ?>
+							<a class="p-event-archive__tag-link<?php echo in_array( $t->slug, $filter_tags, true ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( [ 'ev_tag' => [ $t->slug ] ], $keep_tag ) ); ?>">
+								<?php echo esc_html( $t->name ); ?>
+								<span class="p-event-archive__tag-count">(<?php echo (int) $t->count; ?>)</span>
+							</a>
+							<?php endforeach; ?>
+						</div>
+					</div>
+					<?php endif; ?>
+
+					<div class="c-sidebar-cta">
+						<h3 class="c-sidebar-cta__title">イベントを掲載しませんか？</h3>
+						<p class="c-sidebar-cta__text">七間町で開催するイベント情報を募集しています。</p>
+						<a class="c-sidebar-cta__btn" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">掲載依頼</a>
+					</div>
+				</div>
+				<!-- /.p-event-archive__sidebar-extra -->
 
 			</div>
 			<!-- /.l-sidebar-layout -->

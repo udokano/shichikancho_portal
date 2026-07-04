@@ -65,7 +65,7 @@ get_header();
 					$icon_id = $type_icons[ $type->name ] ?? 'icon-map-pin';
 				?>
 				<label class="p-spot-type-tab<?php echo in_array( $type->slug, $filter_types, true ) ? ' is-active' : ''; ?>">
-					<input type="checkbox" name="type[]" value="<?php echo esc_attr( $type->slug ); ?>"<?php echo in_array( $type->slug, $filter_types, true ) ? ' checked' : ''; ?> style="position:absolute;opacity:0;width:1px;height:1px;">
+				<input class="u-sr-only" type="checkbox" name="type[]" value="<?php echo esc_attr( $type->slug ); ?>"<?php echo in_array( $type->slug, $filter_types, true ) ? ' checked' : ''; ?>>
 					<svg class="p-spot-type-tab__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#<?php echo esc_attr( $icon_id ); ?>"></use></svg>
 					<span class="p-spot-type-tab__label"><?php echo esc_html( $type->name ); ?></span>
 				</label>
