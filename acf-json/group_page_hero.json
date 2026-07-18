@@ -1,0 +1,68 @@
+{
+    "key": "group_page_hero",
+    "title": "ページヒーロー",
+    "fields": [
+        {
+            "key": "field_page_hero_title",
+            "label": "見出し（H1）",
+            "name": "page_hero_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "空ならページタイトルを使用。例: お問い合わせ",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_page_hero_sub",
+            "label": "サブテキスト",
+            "name": "page_hero_sub",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "空ならサブテキスト非表示。例: ご質問やご意見はこちらからお気軽にお問い合わせください。",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-contact-form-base.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1784152722
+}

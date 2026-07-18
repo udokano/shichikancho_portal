@@ -1,0 +1,214 @@
+[
+	{
+		"key": "group_area_detail",
+		"title": "エリア詳細（下層ページ）",
+		"fields": [
+			{
+				"key": "field_area_intro_en",
+				"label": "キャッチ（英語・小見出し）",
+				"name": "area_intro_en",
+				"type": "text",
+				"instructions": "例: A Timeless Shopping Street Where Cinema History Meets Artisan Craft",
+				"wrapper": { "width": "50" }
+			},
+			{
+				"key": "field_area_intro_title",
+				"label": "キャッチ（日本語）",
+				"name": "area_intro_title",
+				"type": "text",
+				"instructions": "例: 映画の記憶と職人の技が息づく、時代を超えた商店街",
+				"wrapper": { "width": "50" }
+			},
+			{
+				"key": "field_area_features",
+				"label": "特徴カード（3枚）",
+				"name": "area_features",
+				"type": "repeater",
+				"instructions": "アイコン付き特徴カード。空なら特徴セクション非表示",
+				"layout": "block",
+				"button_label": "特徴を追加",
+				"sub_fields": [
+					{
+						"key": "field_area_feat_icon",
+						"label": "アイコンID",
+						"name": "icon",
+						"type": "text",
+						"instructions": "SVGスプライトID。例: icon-film / icon-ruler / icon-cafe",
+						"wrapper": { "width": "30" }
+					},
+					{
+						"key": "field_area_feat_title",
+						"label": "タイトル",
+						"name": "title",
+						"type": "text",
+						"wrapper": { "width": "70" }
+					},
+					{
+						"key": "field_area_feat_text",
+						"label": "説明",
+						"name": "text",
+						"type": "textarea",
+						"rows": 3
+					}
+				]
+			},
+			{
+				"key": "field_area_towns",
+				"label": "エリア内の町",
+				"name": "area_towns",
+				"type": "repeater",
+				"instructions": "町ごとの紹介カード。空なら「エリア内の町」セクション非表示",
+				"layout": "block",
+				"button_label": "町を追加",
+				"sub_fields": [
+					{
+						"key": "field_area_town_name",
+						"label": "町名",
+						"name": "name",
+						"type": "text",
+						"wrapper": { "width": "40" }
+					},
+					{
+						"key": "field_area_town_image",
+						"label": "画像",
+						"name": "image",
+						"type": "image",
+						"return_format": "url",
+						"preview_size": "medium",
+						"wrapper": { "width": "60" }
+					},
+					{
+						"key": "field_area_town_text",
+						"label": "説明",
+						"name": "text",
+						"type": "textarea",
+						"rows": 3
+					}
+				]
+			},
+			{
+				"key": "field_area_history",
+				"label": "歴史・文化（時代タブ）",
+				"name": "area_history",
+				"type": "repeater",
+				"instructions": "時代ごとのタブ。空なら歴史・文化セクション非表示",
+				"layout": "block",
+				"button_label": "時代を追加",
+				"sub_fields": [
+					{
+						"key": "field_area_hist_era",
+						"label": "時代（タブ名）",
+						"name": "era",
+						"type": "text",
+						"instructions": "例: 江戸時代 / 明治〜大正 / 昭和 / 現在",
+						"wrapper": { "width": "40" }
+					},
+					{
+						"key": "field_area_hist_title",
+						"label": "見出し",
+						"name": "title",
+						"type": "text",
+						"wrapper": { "width": "60" }
+					},
+					{
+						"key": "field_area_hist_text",
+						"label": "本文",
+						"name": "text",
+						"type": "textarea",
+						"rows": 3
+					}
+				]
+			},
+			{
+				"key": "field_area_gourmet",
+				"label": "おすすめグルメ",
+				"name": "area_gourmet",
+				"type": "repeater",
+				"instructions": "グルメカード。空ならグルメセクション非表示",
+				"layout": "block",
+				"button_label": "グルメを追加",
+				"sub_fields": [
+					{
+						"key": "field_area_gour_cat",
+						"label": "カテゴリー",
+						"name": "cat",
+						"type": "text",
+						"instructions": "例: カフェ / 和菓子 / 食堂 / バル",
+						"wrapper": { "width": "30" }
+					},
+					{
+						"key": "field_area_gour_name",
+						"label": "店名",
+						"name": "name",
+						"type": "text",
+						"wrapper": { "width": "40" }
+					},
+					{
+						"key": "field_area_gour_price",
+						"label": "予算目安",
+						"name": "price",
+						"type": "text",
+						"instructions": "例: 〜800円",
+						"wrapper": { "width": "30" }
+					},
+					{
+						"key": "field_area_gour_text",
+						"label": "説明",
+						"name": "text",
+						"type": "textarea",
+						"rows": 2
+					}
+				]
+			},
+			{
+				"key": "field_area_course",
+				"label": "モデルコース",
+				"name": "area_course",
+				"type": "repeater",
+				"instructions": "タイムライン。空ならモデルコースセクション非表示",
+				"layout": "block",
+				"button_label": "ステップを追加",
+				"sub_fields": [
+					{
+						"key": "field_area_course_time",
+						"label": "時刻",
+						"name": "time",
+						"type": "text",
+						"instructions": "例: 10:00",
+						"wrapper": { "width": "25" }
+					},
+					{
+						"key": "field_area_course_title",
+						"label": "見出し",
+						"name": "title",
+						"type": "text",
+						"wrapper": { "width": "75" }
+					},
+					{
+						"key": "field_area_course_text",
+						"label": "説明",
+						"name": "text",
+						"type": "textarea",
+						"rows": 2
+					}
+				]
+			}
+		],
+		"location": [
+			[
+				{
+					"param": "page_template",
+					"operator": "==",
+					"value": "page-area.php"
+				}
+			]
+		],
+		"menu_order": 0,
+		"position": "normal",
+		"style": "default",
+		"label_placement": "top",
+		"instruction_placement": "label",
+		"active": true,
+		"description": "エリアガイド下層ページ（Template: エリアページ（下層））のコンテンツ。access は全エリア共通のため inc/area.php 側で管理"
+	}
+]

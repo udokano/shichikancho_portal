@@ -26,3 +26,7 @@ define( 'TAX_JOB_IND',     'job_industry' );
 define( 'TAX_WALK_SCENE',  'walk_scene' );
 define( 'TAX_PHOTO_SEASON','photo_season' );
 define( 'TAX_NEWS_CAT',   'news_category' );
+
+// ページテンプレート定数
+// 本文をブロックエディタで管理し、ヒーローを ACF で持つページ用
+define( 'SC_TPL_CONTACT_FORM', 'page-contact-form-base.php' );

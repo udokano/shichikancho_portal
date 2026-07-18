@@ -1,0 +1,84 @@
+@use '../../config' as *;
+
+// スライダー操作バー（円形矢印 ＋ ピル型ドット）
+// slick が appendArrows / appendDots で矢印・ドットを流し込む。空のうちは非表示
+.c-slider-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem(12);
+  margin-top: rem(20);
+
+  &:empty { display: none; } // slick 未初期化（中身が空）のときは出さない
+
+  // 円形矢印ボタン
+  .slick-prev,
+  .slick-next {
+    position: static; // slick 既定の絶対配置を解除して inline フローへ
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(40);
+    height: rem(40);
+    margin: 0;
+    padding: 0;
+    border: 1px solid $color-border;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: none; // slick の translateY(-50%) 解除
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &::before { content: none; } // slick デフォルトの矢印文字を消す
+
+    svg {
+      width: rem(18);
+      height: rem(18);
+      color: $color-text;
+    }
+
+    &:hover {
+      background-color: $color-washi;
+      border-color: $color-primary;
+    }
+  }
+
+  // 並び順: 前矢印 → ドット → 次矢印
+  .slick-prev { order: 0; }
+  .slick-dots { order: 1; }
+  .slick-next { order: 2; }
+
+  // ピル型ドット
+  .slick-dots {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    width: auto;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+
+    li {
+      width: auto;
+      height: auto;
+      margin: 0;
+
+      button {
+        width: rem(8);
+        height: rem(8);
+        padding: 0;
+        border-radius: 999px;
+        background-color: $color-border;
+        transition: width 0.25s ease, background-color 0.25s ease;
+
+        &::before { content: none; }
+      }
+
+      &.slick-active button {
+        width: rem(22);
+        background-color: $color-primary;
+      }
+    }
+  }
+}

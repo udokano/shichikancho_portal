@@ -9,7 +9,22 @@
     padding-block: rem(24) rem(40);
   }
 
+  // washi 背景は全幅。中身だけコンテナ幅に収める
+  &__container {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $container-pad;
+
+    @include sp { padding-inline: $container-pad-sp; }
+  }
+
   // 2カラム grid は l-sidebar-layout が担当
+
+  // grid 子（1fr カラム）の min-width:auto を解除。
+  // これが無いと中の slick トラックの巨大幅にカラムが引き伸ばされ暴走膨張する
+  &__main {
+    min-width: 0;
+  }
 }
 
 // ─── PICKUPセクション ────────────────────────────────────────
@@ -37,36 +52,49 @@
       margin-inline: rem(7);
     }
 
-    // slick 初期化後（SP センターモード）
+    // slick 初期化後のセンターモード演出は SP のみ（PC 複数枚スライダーは減光しない）
     &.slick-initialized {
-      .slick-slide {
-        opacity: 0.5;
-        transition: opacity 0.3s ease;
-      }
-
-      .slick-center {
-        opacity: 1;
-      }
-
-      .slick-dots {
-        position: static;
-        margin-top: rem(16);
-        display: flex;
-        justify-content: center;
-        gap: rem(2);
-
-        li button::before {
-          font-size: rem(8);
-          color: $color-primary-dark;
-          opacity: 0.35;
+      @include sp {
+        .slick-slide {
+          opacity: 0.5;
+          transition: opacity 0.3s ease;
         }
 
-        li.slick-active button::before {
+        .slick-center {
           opacity: 1;
+        }
+
+        .slick-dots {
+          position: static;
+          margin-top: rem(16);
+          display: flex;
+          justify-content: center;
+          gap: rem(2);
+
+          li button::before {
+            font-size: rem(8);
+            color: $color-primary-dark;
+            opacity: 0.35;
+          }
+
+          li.slick-active button::before {
+            opacity: 1;
+          }
         }
       }
     }
+
+    // 4件以上: PC も slick スライダー。
+    // grid を使わず block（grid 残存だと slick-list が1カラムに潰れ、幅計測も誤る）
+    &.is-pc-slider {
+      display: block;
+
+      // 初期化前は3枚に抑えてチラつき・縦積みを低減
+      &:not(.slick-initialized) > article:nth-child(n+4) { display: none; }
+    }
   }
+
+  // 操作バーは共通コンポーネント c-slider-nav を使用
 
   &__card {
     background-color: #fff;
@@ -304,6 +332,7 @@
       display: flex;
       flex-direction: column;
       gap: rem(2);
+      min-width: 0; // grid セル内で dd を省略表示させるため
     }
 
     dt {
@@ -319,6 +348,10 @@
       font-weight: 500;
       margin: 0;
       line-height: 1.4;
+      // 一覧カードは折り返さず1行省略（詳細は個別ページで）
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -358,6 +391,7 @@
     align-items: center;
     gap: rem(6);
     min-height: rem(20);
+    flex-shrink: 0; // 決済バッジは縮めず、営業時間側を省略させる
   }
 
   &__pay-badge {
@@ -384,11 +418,20 @@
     font-size: rem(11);
     color: $color-text-muted;
     font-weight: 500;
+    min-width: 0; // フレックス子として縮小＆省略できるように
   }
 
   &__hours-icon {
     width: rem(14);
     height: rem(14);
+    flex-shrink: 0;
+  }
+
+  &__hours-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   &__more {

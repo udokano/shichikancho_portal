@@ -1,0 +1,524 @@
+{
+    "key": "group_area_detail",
+    "title": "エリア詳細（下層ページ）",
+    "fields": [
+        {
+            "key": "field_area_intro_en",
+            "label": "キャッチ（英語・小見出し）",
+            "name": "area_intro_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: A Timeless Shopping Street Where Cinema History Meets Artisan Craft",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_area_intro_title",
+            "label": "キャッチ（日本語）",
+            "name": "area_intro_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例: 映画の記憶と職人の技が息づく、時代を超えた商店街",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_area_features",
+            "label": "特徴カード（3枚）",
+            "name": "area_features",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "アイコン付き特徴カード。空なら特徴セクション非表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "特徴を追加",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_area_feat_icon",
+                    "label": "アイコンID",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "SVGスプライトID。例: icon-film \/ icon-ruler \/ icon-cafe",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_features"
+                },
+                {
+                    "key": "field_area_feat_title",
+                    "label": "タイトル",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_features"
+                },
+                {
+                    "key": "field_area_feat_text",
+                    "label": "説明",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 3,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_area_features"
+                }
+            ]
+        },
+        {
+            "key": "field_area_towns",
+            "label": "エリア内の町",
+            "name": "area_towns",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "町ごとの紹介カード。空なら「エリア内の町」セクション非表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "町を追加",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_area_town_name",
+                    "label": "町名",
+                    "name": "name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_towns"
+                },
+                {
+                    "key": "field_area_town_image",
+                    "label": "画像",
+                    "name": "image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "60",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "url",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_area_towns"
+                },
+                {
+                    "key": "field_area_town_text",
+                    "label": "説明",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 3,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_area_towns"
+                }
+            ]
+        },
+        {
+            "key": "field_area_history",
+            "label": "歴史・文化（時代タブ）",
+            "name": "area_history",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "時代ごとのタブ。空なら歴史・文化セクション非表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "時代を追加",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_area_hist_era",
+                    "label": "時代（タブ名）",
+                    "name": "era",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "例: 江戸時代 \/ 明治〜大正 \/ 昭和 \/ 現在",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_history"
+                },
+                {
+                    "key": "field_area_hist_title",
+                    "label": "見出し",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "60",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_history"
+                },
+                {
+                    "key": "field_area_hist_text",
+                    "label": "本文",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 3,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_area_history"
+                }
+            ]
+        },
+        {
+            "key": "field_area_gourmet",
+            "label": "おすすめグルメ",
+            "name": "area_gourmet",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "グルメカード。空ならグルメセクション非表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "グルメを追加",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_area_gour_cat",
+                    "label": "カテゴリー",
+                    "name": "cat",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "例: カフェ \/ 和菓子 \/ 食堂 \/ バル",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_gourmet"
+                },
+                {
+                    "key": "field_area_gour_name",
+                    "label": "店名",
+                    "name": "name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_gourmet"
+                },
+                {
+                    "key": "field_area_gour_price",
+                    "label": "予算目安",
+                    "name": "price",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "例: 〜800円",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_gourmet"
+                },
+                {
+                    "key": "field_area_gour_text",
+                    "label": "説明",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 2,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_area_gourmet"
+                }
+            ]
+        },
+        {
+            "key": "field_area_course",
+            "label": "モデルコース",
+            "name": "area_course",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "タイムライン。空ならモデルコースセクション非表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "ステップを追加",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_area_course_time",
+                    "label": "時刻",
+                    "name": "time",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "例: 10:00",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_course"
+                },
+                {
+                    "key": "field_area_course_title",
+                    "label": "見出し",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "75",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_area_course"
+                },
+                {
+                    "key": "field_area_course_text",
+                    "label": "説明",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 2,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_area_course"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-area.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "エリアガイド下層ページ（Template: エリアページ（下層））のコンテンツ。access は全エリア共通のため inc\/area.php 側で管理",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1783211979
+}

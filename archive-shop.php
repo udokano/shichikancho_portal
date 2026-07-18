@@ -62,6 +62,7 @@ get_header();
 		?>
 
 	<div class="p-shop-archive">
+		<div class="p-shop-archive__container">
 		<div class="l-sidebar-layout">
 
 			<!-- サイドバー -->
@@ -158,15 +159,15 @@ get_header();
 
 				<!-- PICKUP -->
 				<?php
-				// 1) オプションページ（PICK UP 設定）優先
-				$pickup_ids   = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'shop', 3 ) : [];
+				// 1) オプションページ（PICK UP 設定）優先。上限なし・ランダム順（ヘルパー側で shuffle）
+				$pickup_ids   = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'shop' ) : [];
 				$pickup_query = false;
 				if ( $pickup_ids ) {
 					$pickup_query = new WP_Query( [
 						'post_type'      => CPT_SHOP,
 						'post__in'       => $pickup_ids,
 						'orderby'        => 'post__in',
-						'posts_per_page' => 3,
+						'posts_per_page' => -1,
 						'no_found_rows'  => true,
 					] );
 				}
@@ -195,7 +196,9 @@ get_header();
 				if ( $pickup_query->have_posts() && ! ( $is_filtering || $current_page >= 2 ) ) : ?>
 				<div class="p-shop-pickup">
 					<h2 class="c-pickup-title"><span class="c-pickup-title__badge">PICK UP</span> おすすめ店舗</h2>
-					<div class="p-shop-pickup__grid js-center-slider">
+					<?php // 4件以上は PC もスライダー化（is-pc-slider を JS/CSS フックに）
+					$pickup_slider_cls = $pickup_query->post_count >= 4 ? ' is-pc-slider' : ''; ?>
+					<div class="p-shop-pickup__grid js-center-slider<?php echo esc_attr( $pickup_slider_cls ); ?>">
 						<?php while ( $pickup_query->have_posts() ) : $pickup_query->the_post();
 							$thumb   = sc_thumbnail_url( get_the_ID(), 'medium_large' );
 							$cats    = get_the_terms( get_the_ID(), TAX_SHOP_CAT );
@@ -220,6 +223,10 @@ get_header();
 						</article>
 						<?php endwhile; wp_reset_postdata(); ?>
 					</div>
+					<!-- /.p-shop-pickup__grid -->
+					<?php if ( $pickup_query->post_count >= 4 ) : // 4件以上は操作バー（矢印＋ドット）を slick が流し込む ?>
+					<div class="c-slider-nav js-center-slider-nav"></div>
+					<?php endif; ?>
 				</div>
 				<?php endif; ?>
 
@@ -338,7 +345,7 @@ get_header();
 							</a>
 							<div class="p-shop-card__body">
 								<h3 class="p-shop-card__title"><a class="p-shop-card__title-link" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-								<p class="p-shop-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 30 ) ); ?></p>
+								<p class="p-shop-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18 ) ); ?></p>
 
 								<?php
 								$price_range = get_field( 'shop_price_range' );
@@ -392,7 +399,7 @@ get_header();
 									<?php if ( $hours_summary ) : ?>
 									<span class="p-shop-card__hours">
 										<svg class="p-shop-card__hours-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#icon-clock"></use></svg>
-										<?php echo esc_html( $hours_summary ); ?>
+										<span class="p-shop-card__hours-text"><?php echo esc_html( $hours_summary ); ?></span>
 									</span>
 									<?php endif; ?>
 								</div>
@@ -430,7 +437,10 @@ get_header();
 
 		</div>
 		<!-- /.l-sidebar-layout -->
+		</div>
+		<!-- /.p-shop-archive__container -->
 	</div>
+	<!-- /.p-shop-archive -->
 
 </main>
 <?php get_footer(); ?>

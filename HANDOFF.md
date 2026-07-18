@@ -6,6 +6,48 @@
 
 ## 1. 直近のセッションでやったこと
 
+### ★ 2026-07-12〜14 セッション（atosaki 加盟店追加 + PICK UP スライダー刷新・**全て未コミット**）
+
+作業ツリーが全て未コミット。inc/area.php・inc/breadcrumbs.php・page-area.php・acf-import/・acf-json/group_area_detail.json は**前セッションのエリアページ移行分**（今回未着手・別件）。以下 J〜P が今回分。
+
+#### J) WP-CLI で Local の DB に接続する方法（★最重要・環境メモに正式版）
+- 従来「WP-CLI はソケットで DB 接続不可」としていたが**接続方法が確立**。以後の DB 操作はブラウザ経由でなく WP-CLI で可
+- Local の MySQL ソケット: `~/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock`（サイト id は `sites.json` で `sitikentxhou` を検索）
+- `http-auth` プラグインが CLI をブロックするので `--skip-plugins=http-auth`
+- DB_HOST を `--exec` で先に define（wp-config の define より先に評価され定数先勝ち）
+- 実行形（ラッパー `scratchpad/wpx.sh` 参照）:
+  `wp --skip-plugins=http-auth --exec="define('DB_HOST','localhost:<socket>');" <cmd> 2>&1 | grep -v "already defined\|headers already sent"`
+- ACF リピーター等のデータ投入は `wp eval-file <seed.php>`（`update_field()` 使用＝データ投入のみ、フィールドグループ登録ではないので規約 OK）
+
+#### K) atosaki セブン発展会 加盟店 6 店を shop に追加（DB のみ・git 管理外）
+- 出典 https://atosaki7.com/ 加盟店一覧。ID 1255〜1260: 大石精肉店 / 焼肉芳龍 / 和・そばみむらや / 揚屋たけ / 酒場詠 / 静岡洋食器
+- ブロックエディタ不要（shop は post_content プレーンテキスト＋ACF 構成）。カテゴリは `--by=id` で割当（**`wp post term set` は既定で ID でなく名前扱い→ゴミターム量産の罠。必ず `--by=id`**）
+- アイキャッチ未設定＝No-image（`sc_thumbnail_url()` が `no-image.svg` フォールバック）
+- **要確認**: 芳龍の住所を公式に合わせ 2-5-8→**2-5-17** に修正済。たけの 2-5-8 は未確認。価格は公式/食べログ由来で鮮度未検証
+
+#### L) イベント 3 件追加（DB のみ）
+- ID 1252 安倍川花火大会(7/18) / 1253 ハレバレ(3/20) / 1254 防災フェス(6/14)。`acf/event-lead`＋`acf/event-overview` ブロック＋ACF メタ。カテゴリ 14/16/18 を `--by=id`
+
+#### M) 4 店のコンテンツ充実（大石・芳龍・みむらや・たけ / DB のみ）
+- 公式サイト・食べログ・グルメ記事から実データ取材し ACF 投入（description/menu リピーター/faq/price_range/seats/tips 等）。seed は `scratchpad/seed-*.php`
+
+#### N) PICK UP スライダー刷新（★コード変更）
+- **shop 4 件以上 / event 3 件以上で PC もスライダー化**（従来は SP のみ slick）。`is-pc-slider` クラスを PHP が付与→JS/CSS フック
+- `assets/js/center-slider.js`: `is-pc-slider` 時 PC 複数枚 slick（`data-pc-slides` で枚数指定・既定 3・event は 2）。矢印/ドットは `appendArrows`/`appendDots` で操作バーへ流し込み。SP は responsive で従来のセンターモード
+- **新規共通コンポーネント `assets/scss/object/component/_slider-nav.scss`（`.c-slider-nav`）**: 円形矢印（SVG スプライト chevron）＋ピル型ドット。`:empty` で未初期化時は非表示。main.scss に `@use` 追加。矢印は `prevArrow`/`nextArrow` に SVG 直書きで渡す（スプライト `#icon-chevron-left/right`）
+- **ハマり**: grid 内に slick を入れると `display:grid` 残存で `.slick-list` が 1 カラムに潰れる → `is-pc-slider` は `display:block`。さらに `.l-sidebar-layout` の `1fr` カラムが `min-width:auto` だと slick トラックの巨大幅にカラムが引き伸ばされ**暴走膨張**（カード幅 8000px 級）→ カラム側に `min-width:0` 必須（shop=`__main` に追加、event=`__content` は既存で有）
+- 対象 SCSS: `_archive-shop.scss` / `_archive-event.scss`（is-pc-slider 時 block 化・センターモード減光を `@include sp` 限定・初期化前ガード）
+
+#### O) PICK UP を全ページ「上限なし・ランダム順」に（★コード変更）
+- `inc/pickup-helper.php` `sc_get_pickup_ids($key, $limit=0)`: `shuffle()` で順ランダム化、`$limit>0` のときだけ上限。既定 0＝上限なし
+- 4 アーカイブ（shop/event/resident/column）とも `sc_get_pickup_ids('xxx')`（上限引数削除）＋ pickup クエリ `posts_per_page => -1`。フォールバック（未登録時の最新 N 件）は据え置き
+- **注意**: `shuffle()` はリクエスト毎。ページキャッシュ/CDN 環境ではキャッシュ有効中は順固定
+
+#### P) 単発 UI 修正（★コード変更）
+- shop アーカイブ**フル幅バグ**: `.p-shop-archive` 直下に幅制御コンテナが無く全幅化 → `__container`（`max-width/margin-inline/padding-inline`）を追加、`archive-shop.php` でラップ
+- tourism: `p-visit__area-list`（モバイル用エリアリスト）を **SP 非表示**（`@include sp{display:none}`。下の explore カードで代替）。`p-visit__explore` の**下余白 0→64**（直後 `__first` が背景色つきでカードが密着していた）
+- shop 一覧カード**折り返し防止**: excerpt 30→18 語、情報 `dd`・営業時間 `__hours-text` を `nowrap`+`ellipsis` 1 行化（`__pay`/`__hours-icon` は `flex-shrink:0`、セル/hours に `min-width:0`）。営業時間テキストは `<span class="p-shop-card__hours-text">` で包む
+
 ### ★ 2026-06-17 セッション（cinema アンカー整備 + SP 調整・コミット済み `5b3f9b8`・push 済み。前セッション未コミット分 B〜F も同コミットに同梱）
 
 #### G) アンカーリンク固定ヘッダーオフセット（難航・最終解決）
@@ -77,14 +119,21 @@
 
 - **SCSS コンパイル必須**：編集後 `npx sass assets/scss/main.scss assets/css/main.css --style expanded --no-source-map`。`assets/css/main.css` は **.gitignore 対象**（コミットしない・本番でビルド前提）
 - **OPcache**：PHP 編集後、`public/flush.php`（`opcache_reset()`）を curl で叩いて削除。本番反映には別途必要
-- **Restricted Site Access プラグイン稼働**：未ログインの curl / PHP CLI は 401 or DB 接続不可。DB 操作の seed スクリプトは**ログイン済みブラウザ**（Claude in Chrome の認証済みタブ）でアクセスして実行 → 実行後削除
-- **WP-CLI はソケット複数で DB 接続不可**。DB 操作は wp-load.php 直 seed をブラウザ経由で
-- **検証は Claude in Chrome の `javascript_tool`**（認証済み）。computed-style や naturalWidth で確認
+- **WP-CLI で DB 操作可（推奨）**：Local ソケット + `--skip-plugins=http-auth` + `--exec` で DB_HOST 上書き（詳細は §1-J）。ラッパー例 `scratchpad/wpx.sh`。ACF データ投入は `wp eval-file seed.php`（`update_field()`）。ブラウザ経由 seed はもう不要
+  - `wp --skip-plugins=http-auth --exec="define('DB_HOST','localhost:~/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock');" <cmd>`
+  - **`wp post term set` は `--by=id` 必須**（既定は名前扱いでゴミターム量産）
+- **Restricted Site Access / http-auth プラグイン稼働**：未ログインの curl は 401。CLI は `--skip-plugins=http-auth` で回避
+- **検証は Claude in Chrome の `javascript_tool`**（認証済みタブ）。computed-style や naturalWidth で確認。chrome-devtools MCP は別ブラウザ起動で http-auth 未認証→ローカルサイト到達不可
 
 ---
 
 ## 3. 残タスク
 
+- **今セッション分（J〜P）は全て未コミット**。動作確認後にコミット（DB のデータ投入はコード外＝git には乗らない点に注意）
+- **atosaki 加盟店の一次情報照合**：芳龍/たけの住所（2-5-17 修正済/2-5-8 未確認）、各店の価格（公式・食べログ由来で鮮度未検証）。公開前に店へ確認
+- **残り 2 店の充実**：酒場詠(1259)・静岡洋食器(1260) は基本情報のみ（大石/芳龍/みむらや/たけは充実済）
+- **過去日イベントの扱い**：ハレバレ(3/20)・防災フェス(6/14) は既に終了日。公開のままか下書き化か要判断
+- shop 一覧カードの**高さ完全統一**は未対応（折り返しは解消済だが、価格/席/営業時間の有無で行数差＝背が変わる。揃えるなら一覧で表示項目を固定）
 - **`assets/scss/pages/_single-walk-course.scss:304` の `html { scroll-behavior: smooth; }` 本修正**（ページ固有ファイルから `html{}` でグローバル漏れ。現状 main.js 側で無害化済みだが正しいスコープに移すのが本筋）
 - **cinema TOC のラベルと飛び先の不一致解消**（TOC 03/04/05 ラベル＝昔の映画館/いまの映画館/余韻で歩く、飛び先＝block-03/block-04/now。ラベル側 or 飛び先の整理が必要・ユーザー判断待ち）
 - **Contact ページにも `.screen-reader-response` 可視化バグが残存**（CF7 標準 CSS 未読込が根本原因。photo-contest のみ対応済み）。同じクリップ 1 ルールで対応可 → 要確認
@@ -103,6 +152,7 @@
 - **CF7 標準 CSS が未読込**（`cf7CssLoaded: false`）。そのため CF7 が SR 用に出す `.screen-reader-response` が視覚表示される。新規 CF7 フォームを置くページでは SR 専用クリップを当てること
 - **CF7 はカード/li 自体に `slick-slide`/`slick-center` を付与**（ラップ div を作らない）。dim 等は子孫セレクタでなく要素自身に当てる
 - slick 生成要素・CF7 出力・wp-block などプラグイン出力は class 付与不可 → 要素セレクタ使用可（`CLAUDE.local.md` の裸タグ禁止の例外）
-- **SP slick は実機スワイプ未目視**（MCP のウィンドウが OS 最小幅以上で縮まない）。手動 `$el.slick(...)` 初期化で挙動・CSS は確認済み。DevTools デバイスモードで最終確認推奨
-- `js-center-slider` を living/photo-contest 以外で付けると slick 対象になる（現状その 2 箇所のみ）
+- **SP slick は実機スワイプ未目視**（`resize_window` が実ビューポートに効かず SP 幅に絞れない・innerWidth が縮まない）。PC 幅は確認済み。DevTools デバイスモードで最終確認推奨
+- **`js-center-slider` は living / photo-contest / shop・event アーカイブ PICK UP で使用**。PC もスライダー化したい箇所は `is-pc-slider`（+ `data-pc-slides`）を付与、操作バーは空 `<div class="c-slider-nav js-center-slider-nav">` を隣接配置（§1-N）
+- **grid/flex 内に slick を置くときは親カラムに `min-width:0`**（無いと slick トラック幅でカラムが暴走膨張）。slick 対象要素自体は `display:block`（grid 残存で潰れる）
 - ACF / CPT / CF7 のハードコード禁止ルール（`CLAUDE.local.md`）厳守。フォーム定義は管理画面 or DB seed で

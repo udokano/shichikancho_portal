@@ -35,13 +35,13 @@ if ( $keyword )   $args['s'] = $keyword;
 $col_query = new WP_Query( $args );
 
 // 特集コラム（カルーセル）: オプションページ優先、無ければ最新3件
-$pickup_column_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'column', 3 ) : [];
+$pickup_column_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'column' ) : [];
 if ( $pickup_column_ids ) {
 	$featured_query = new WP_Query( [
 		'post_type'      => CPT_COLUMN,
 		'post__in'       => $pickup_column_ids,
 		'orderby'        => 'post__in',
-		'posts_per_page' => 3,
+		'posts_per_page' => -1,
 		'no_found_rows'  => true,
 	] );
 } else {

@@ -945,28 +945,40 @@
       margin-inline: rem(7);
     }
 
+    // 3件以上: PC も slick スライダー（2枚見せ）。
+    // grid を使わず block（grid 残存だと slick-list が潰れ、幅計測も誤る）
+    &.is-pc-slider {
+      display: block;
+
+      // 初期化前は2枚に抑えてチラつき・崩れを防ぐ
+      &:not(.slick-initialized) > a:nth-child(n+3) { display: none; }
+    }
+
+    // センターモード演出は SP のみ（PC 複数枚スライダーは減光しない）
     &.slick-initialized {
-      .slick-slide {
-        opacity: 0.5;
-        transition: opacity 0.3s ease;
-      }
-
-      .slick-center { opacity: 1; }
-
-      .slick-dots {
-        position: static;
-        margin-top: rem(16);
-        display: flex;
-        justify-content: center;
-        gap: rem(2);
-
-        li button::before {
-          font-size: rem(8);
-          color: $color-primary-dark;
-          opacity: 0.35;
+      @include sp {
+        .slick-slide {
+          opacity: 0.5;
+          transition: opacity 0.3s ease;
         }
 
-        li.slick-active button::before { opacity: 1; }
+        .slick-center { opacity: 1; }
+
+        .slick-dots {
+          position: static;
+          margin-top: rem(16);
+          display: flex;
+          justify-content: center;
+          gap: rem(2);
+
+          li button::before {
+            font-size: rem(8);
+            color: $color-primary-dark;
+            opacity: 0.35;
+          }
+
+          li.slick-active button::before { opacity: 1; }
+        }
       }
     }
   }

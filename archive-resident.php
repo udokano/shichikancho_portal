@@ -37,13 +37,13 @@ if ( $filter_ages ) {
 $resident_query = new WP_Query( $query_args );
 
 // PICK UP: オプションページで選択した投稿 → なければ最新3件
-$pickup_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'resident', 3 ) : [];
+$pickup_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'resident' ) : [];
 if ( $pickup_ids ) {
 	$pickup_query = new WP_Query( [
 		'post_type'      => CPT_RESIDENT,
 		'post__in'       => $pickup_ids,
 		'orderby'        => 'post__in',
-		'posts_per_page' => 3,
+		'posts_per_page' => -1,
 		'no_found_rows'  => true,
 	] );
 } else {

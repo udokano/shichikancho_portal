@@ -1,19 +1,32 @@
 <?php
 /**
- * エリアガイド下層ページ（/area/{slug}）
- * ルーティングは inc/area.php の template_include 経由
- * データは sc_get_area() / sc_get_area_detail()
+ * Template Name: エリアページ（下層）
+ *
+ * エリアガイド下層ページ。/area/ 配下の固定ページに割り当てて量産する
+ * ページスラッグ（shichikancho 等）で sc_get_area() / sc_get_area_detail() を引く
  */
 
-$slug = get_query_var( 'sc_area' );
+$slug = get_post_field( 'post_name', get_queried_object_id() );
 $area = sc_get_area( $slug );
 if ( ! $area ) {
-	// 通常ここには来ない（template_include で 404 済み）
+	// エリア未定義スラッグ（テンプレート誤割当）はタイトルのみのフォールバック
 	get_header();
+	echo '<main id="main-content" class="p-area"><section class="p-area__hero"><div class="p-area__hero-inner"><h1 class="p-area__hero-title">' . esc_html( get_the_title() ) . '</h1></div></section></main>';
 	get_footer();
 	return;
 }
-$detail = sc_get_area_detail( $slug );
+// コンテンツは ACF（固定ページのカスタムフィールド）から取得。access のみ共通
+$pid    = get_queried_object_id();
+$detail = [
+	'intro_en'    => get_field( 'area_intro_en', $pid ),
+	'intro_title' => get_field( 'area_intro_title', $pid ),
+	'features'    => get_field( 'area_features', $pid ) ?: [],
+	'towns'       => get_field( 'area_towns', $pid ) ?: [],
+	'history'     => get_field( 'area_history', $pid ) ?: [],
+	'gourmet'     => get_field( 'area_gourmet', $pid ) ?: [],
+	'course'      => get_field( 'area_course', $pid ) ?: [],
+	'access'      => sc_get_area_access(),
+];
 
 // 大エリアに属する TAX_AREA（サブ地名）ターム ID に解決
 $area_term_ids = [];
@@ -105,7 +118,7 @@ get_header();
 				<?php foreach ( $detail['towns'] as $t ) : ?>
 				<article class="p-area__town">
 					<div class="p-area__town-media">
-						<img src="<?php echo esc_url( $t['img'] ?? sc_no_image_url() ); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+						<img src="<?php echo esc_url( ! empty( $t['image'] ) ? $t['image'] : sc_no_image_url() ); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 					</div>
 					<!-- /.p-area__town-media -->
 					<div class="p-area__town-body">

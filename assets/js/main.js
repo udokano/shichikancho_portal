@@ -198,6 +198,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	window.addEventListener('hashchange', () => scrollToHash(location.hash));
 
+	// ─── CF7 バリデーションエラー時：最初のエラー箇所へスクロール ──
+	// wpcf7invalid は Ajax バリデーション失敗時に document で発火する
+	document.addEventListener('wpcf7invalid', (e) => {
+		const form = e.target;
+		const firstError = form.querySelector('.wpcf7-not-valid');
+		if (!firstError) return;
+		const headerH = header ? header.offsetHeight : 0;
+		const top = firstError.getBoundingClientRect().top + window.scrollY - headerH - 16;
+		const de = document.documentElement;
+		const prev = de.style.scrollBehavior;
+		de.style.scrollBehavior = 'auto';
+		window.scrollTo(0, top);
+		de.style.scrollBehavior = prev;
+		if (typeof firstError.focus === 'function') firstError.focus({ preventScroll: true });
+	});
+
 	// ─── 目次（TOC）開閉トグル ──────────────────────────────
 	document.querySelectorAll('.js-toc-toggle').forEach((btn) => {
 		btn.addEventListener('click', () => {

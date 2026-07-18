@@ -84,14 +84,14 @@ if ( count( $tax_query ) > 1 ) $tax_query['relation'] = 'AND';
 if ( $tax_query ) $args['tax_query'] = $tax_query;
 $event_query = new WP_Query( $args );
 
-// 特集イベント: PICK UPオプション or 最新2件
-$pickup_event_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'event', 2 ) : [];
+// 特集イベント: PICK UPオプション or 最新。上限なし・ランダム順（ヘルパー側で shuffle）
+$pickup_event_ids = function_exists( 'sc_get_pickup_ids' ) ? sc_get_pickup_ids( 'event' ) : [];
 $featured_query = $pickup_event_ids
 	? new WP_Query( [
 		'post_type'      => CPT_EVENT,
 		'post__in'       => $pickup_event_ids,
 		'orderby'        => 'post__in',
-		'posts_per_page' => 2,
+		'posts_per_page' => -1,
 		'no_found_rows'  => true,
 	] )
 	: new WP_Query( [
@@ -269,7 +269,9 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 					<?php if ( ! $is_filtered && $featured_query->have_posts() ) : ?>
 					<section class="p-event-archive__section">
 						<h2 class="c-pickup-title"><span class="c-pickup-title__badge">PICK UP</span> 特集イベント</h2>
-						<div class="p-event-archive__featured-grid js-center-slider">
+						<?php // 3件以上は PC もスライダー化（2枚見せ）。is-pc-slider を JS/CSS フックに
+						$feat_slider_cls = $featured_query->post_count >= 3 ? ' is-pc-slider' : ''; ?>
+						<div class="p-event-archive__featured-grid js-center-slider<?php echo esc_attr( $feat_slider_cls ); ?>" data-pc-slides="2">
 							<?php while ( $featured_query->have_posts() ) : $featured_query->the_post();
 								$pid   = get_the_ID();
 								$thumb = sc_thumbnail_url( $pid, 'large' );
@@ -314,6 +316,10 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 							<!-- /.p-event-archive__feat-card -->
 							<?php endwhile; wp_reset_postdata(); ?>
 						</div>
+						<!-- /.p-event-archive__featured-grid -->
+						<?php if ( $featured_query->post_count >= 3 ) : // 3件以上は操作バー（矢印＋ドット） ?>
+						<div class="c-slider-nav js-center-slider-nav"></div>
+						<?php endif; ?>
 					</section>
 					<?php endif; ?>
 

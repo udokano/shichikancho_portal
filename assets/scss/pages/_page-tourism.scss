@@ -627,7 +627,8 @@
       padding: 0;
 
       @include mq-down(lg) { display: grid; }
-      @include sp { grid-template-columns: 1fr; gap: rem(8); }
+      // SP はエリアリスト不要（下の「エリアを選んで詳しく見る」で代替）
+      @include sp { display: none; }
     }
 
     &-item { display: flex; }
@@ -670,9 +671,9 @@
 
   // ─── エリアを選んで詳しく見る ──
   &__explore {
-    padding-block: rem(64) rem(0);
+    padding-block: rem(64);
 
-    @include sp { padding-block: rem(40) rem(0); }
+    @include sp { padding-block: rem(40); }
 
     &-inner {
       @include page-inner;

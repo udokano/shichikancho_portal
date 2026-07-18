@@ -19,6 +19,8 @@ require get_template_directory() . '/inc/editor-classic-pages.php';
 require get_template_directory() . '/inc/likes.php';
 require get_template_directory() . '/inc/event-views.php';
 require get_template_directory() . '/inc/blocks-register.php';
+require get_template_directory() . '/inc/block-patterns.php';
+require get_template_directory() . '/inc/cf7-japanese.php';
 require get_template_directory() . '/inc/ajax-gallery.php';
 require get_template_directory() . '/inc/user-profile.php';
 require get_template_directory() . '/inc/area.php';

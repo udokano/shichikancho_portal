@@ -12,16 +12,28 @@ add_action( 'wp_head', function (): void {
 
 // main.css は同期読み込みを維持（非同期化すると CLS が発生するため）
 
-// ─── CF7 CSS/JS：contact ページ以外では読み込まない ──
+// ─── CF7 CSS/JS：フォームが無いページでは読み込まない ──
+// contact はブロックエディタ管理なので本文のブロック/ショートコードで判定する
 add_action( 'wp_enqueue_scripts', function (): void {
-	if ( ! is_page( 'contact' ) ) {
-		wp_dequeue_style( 'contact-form-7' );
-		wp_deregister_style( 'contact-form-7' );
-		wp_dequeue_script( 'contact-form-7' );
-		wp_deregister_script( 'contact-form-7' );
-		wp_dequeue_script( 'swv' );
-		wp_deregister_script( 'swv' );
+	$post    = get_post();
+	$has_cf7 = false;
+
+	if ( $post instanceof WP_Post ) {
+		$has_cf7 = has_block( 'contact-form-7/contact-form-selector', $post )
+			|| has_shortcode( (string) $post->post_content, 'contact-form-7' );
 	}
+
+	// フォトコンテストはテンプレート側で do_shortcode するため本文判定に出てこない
+	if ( is_page( 'photo-contest' ) ) $has_cf7 = true;
+
+	if ( $has_cf7 ) return;
+
+	wp_dequeue_style( 'contact-form-7' );
+	wp_deregister_style( 'contact-form-7' );
+	wp_dequeue_script( 'contact-form-7' );
+	wp_deregister_script( 'contact-form-7' );
+	wp_dequeue_script( 'swv' );
+	wp_deregister_script( 'swv' );
 }, 100 );
 
 add_action( 'wp_enqueue_scripts', 'sichikenchou_enqueue' );
