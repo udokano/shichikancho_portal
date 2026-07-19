@@ -445,7 +445,8 @@
     font-size: rem(12);
     color: $color-primary-dark;
     font-weight: 600;
-    margin-top: rem(2);
+    // 内容量が違っても下辺を揃える（body が flex:1 なので auto で最下部へ）
+    margin-top: auto;
   }
 }
 
