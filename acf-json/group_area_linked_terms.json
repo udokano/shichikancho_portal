@@ -1,0 +1,52 @@
+{
+    "key": "group_area_linked_terms",
+    "title": "エリア連動ターム",
+    "fields": [
+        {
+            "key": "field_area_linked_terms",
+            "label": "このエリアの地名ターム",
+            "name": "area_linked_terms",
+            "aria-label": "",
+            "type": "taxonomy",
+            "instructions": "このエリアに含まれる地名タームを選ぶ。ここで選んだタームが付いた観光スポット・お店（飲食）・イベントが下に表示される",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "area",
+            "field_type": "checkbox",
+            "add_term": 0,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id",
+            "multiple": 0,
+            "allow_null": 0,
+            "bidirectional_target": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-area.php"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "このエリアページに紐づく area タームを選択。観光地・グルメ・イベントの各セクションが選択タームで絞り込まれる",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1784488301
+}

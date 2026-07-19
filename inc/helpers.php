@@ -49,7 +49,7 @@ function sc_date_jp( string $date_str ): string {
 
 // ノーイメージプレースホルダー URL
 function sc_no_image_url(): string {
-	return esc_url( get_template_directory_uri() . '/assets/images/common/no-image.svg' );
+	return esc_url( get_template_directory_uri() . '/assets/images/common/no-image.jpg' );
 }
 
 // タクソノミースラッグから term_id を取得（$wpdb 直クエリ）
@@ -135,11 +135,11 @@ add_action( 'init', function () {
 function sc_get_areas(): array {
 	// area_terms は TAX_AREA（サブ地名）タームの名称。spot/event はこれで大エリアに束ねる
 	return [
-		[ 'name' => '七間町・駒形通り・人宿町エリア', 'slug' => 'shichikancho', 'color' => '#F8B4C4', 'col' => '1 / span 5',  'row' => '1 / span 4', 'card_title' => '七間町・駒形通り・人宿町', 'desc' => '江戸時代から続く商店街の中心地。映画館文化が栄えた歴史ある町並みが残ります。', 'tags' => [ '七間町', '駒形通り', '人宿町' ], 'area_terms' => [ '七間町通り', '人宿町' ] ],
-		[ 'name' => '駿河町・常磐町・両替町・昭和町エリア', 'slug' => 'tokiwa',       'color' => '#F9E076', 'col' => '7 / span 6',  'row' => '1 / span 4', 'card_title' => '駿河町・常磐町・両替町・昭和町', 'desc' => '金融・商業の中心として発展した地域。近代的な街並みと歴史が共存しています。',   'tags' => [ '駿河町', '常磐町', '両替町', '昭和町' ], 'area_terms' => [] ],
-		[ 'name' => '呉服町・紺屋町・御幸町エリア',   'slug' => 'gofuku',       'color' => '#F5A962', 'col' => '1 / span 5',  'row' => '5 / span 4', 'card_title' => '呉服町・紺屋町・御幸町',   'desc' => '染物・呉服の問屋街として栄えた地域。職人の技と伝統が息づく町です。',           'tags' => [ '呉服町', '紺屋町', '御幸町' ], 'area_terms' => [ '呉服町' ] ],
-		[ 'name' => '駿府城公園・駿府町・鷹匠・伝馬町エリア', 'slug' => 'takajo',       'color' => '#7EC8E3', 'col' => '7 / span 6',  'row' => '5 / span 4', 'card_title' => '駿府城公園・駿府町・鷹匠・伝馬町', 'desc' => 'おしゃれなカフェやブティックが集まるエリア。新旧の文化が融合しています。',     'tags' => [ '駿府城公園', '駿府町', '鷹匠', '伝馬町' ], 'area_terms' => [ '鷹匠' ] ],
-		[ 'name' => '馬場町・宮ヶ崎町・大手町・車町エリア', 'slug' => 'baba',         'color' => '#90C695', 'col' => '1 / span 12', 'row' => '9 / span 4', 'card_title' => '馬場町・宮ヶ崎町・大手町・車町', 'desc' => '駿府城に近い歴史的なエリア。神社仏閣や公園が点在する静かな町です。',           'tags' => [ '馬場町', '宮ヶ崎町', '大手町', '車町' ], 'area_terms' => [ '駿府城周辺' ] ],
+		[ 'name' => '七間町・駒形通り・人宿町・駿河町エリア', 'slug' => 'shichikancho', 'color' => '#F8B4C4', 'col' => '1 / span 5',  'row' => '1 / span 4', 'card_title' => '七間町・駒形通り・人宿町・駿河町', 'desc' => '江戸時代から続く商店街の中心地。映画館文化が栄えた歴史ある町並みが残ります。', 'tags' => [ '七間町', '駒形通り', '人宿町', '駿河町' ], 'area_terms' => [ '七間町', '駒形通り', '人宿町', '駿河町' ] ],
+		[ 'name' => '常磐町・両替町・昭和町エリア', 'slug' => 'tokiwa',       'color' => '#F9E076', 'col' => '7 / span 6',  'row' => '1 / span 4', 'card_title' => '常磐町・両替町・昭和町', 'desc' => '金融・商業の中心として発展した地域。近代的な街並みと歴史が共存しています。',   'tags' => [ '常磐町', '両替町', '昭和町' ], 'area_terms' => [ '常磐町', '両替町', '昭和町' ] ],
+		[ 'name' => '呉服町・紺屋町・御幸町エリア',   'slug' => 'gofuku',       'color' => '#F5A962', 'col' => '1 / span 5',  'row' => '5 / span 4', 'card_title' => '呉服町・紺屋町・御幸町',   'desc' => '染物・呉服の問屋街として栄えた地域。職人の技と伝統が息づく町です。',           'tags' => [ '呉服町', '紺屋町', '御幸町' ], 'area_terms' => [ '呉服町', '紺屋町', '御幸町' ] ],
+		[ 'name' => '駿府城公園・駿府町・鷹匠・伝馬町エリア', 'slug' => 'takajo',       'color' => '#7EC8E3', 'col' => '7 / span 6',  'row' => '5 / span 4', 'card_title' => '駿府城公園・駿府町・鷹匠・伝馬町', 'desc' => 'おしゃれなカフェやブティックが集まるエリア。新旧の文化が融合しています。',     'tags' => [ '駿府城公園', '駿府町', '鷹匠', '伝馬町' ], 'area_terms' => [ '駿府城公園', '駿府町', '鷹匠', '伝馬町' ] ],
+		[ 'name' => '馬場町・宮ヶ崎町・大手町・車町・中町エリア', 'slug' => 'baba',         'color' => '#90C695', 'col' => '1 / span 12', 'row' => '9 / span 4', 'card_title' => '馬場町・宮ヶ崎町・大手町・車町・中町', 'desc' => '駿府城に近い歴史的なエリア。神社仏閣や公園が点在する静かな町です。',           'tags' => [ '馬場町', '宮ヶ崎町', '大手町', '車町', '中町' ], 'area_terms' => [ '馬場町', '宮ヶ崎町', '大手町', '車町', '中町' ] ],
 	];
 }
 

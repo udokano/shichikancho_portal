@@ -23,17 +23,19 @@ $detail = [
 	'features'    => get_field( 'area_features', $pid ) ?: [],
 	'towns'       => get_field( 'area_towns', $pid ) ?: [],
 	'history'     => get_field( 'area_history', $pid ) ?: [],
-	'gourmet'     => get_field( 'area_gourmet', $pid ) ?: [],
 	'course'      => get_field( 'area_course', $pid ) ?: [],
 	'access'      => sc_get_area_access(),
 ];
 
-// 大エリアに属する TAX_AREA（サブ地名）ターム ID に解決
-$area_term_ids = [];
-foreach ( ( $area['area_terms'] ?? [] ) as $term_name ) {
-	$t = get_term_by( 'name', $term_name, TAX_AREA );
-	if ( $t && ! is_wp_error( $t ) ) {
-		$area_term_ids[] = $t->term_id;
+// エリアに紐づく area ターム ID
+// ACF「エリア連動ターム」(area_linked_terms) を正とし、未設定ページのみ直書き配列にフォールバック
+$area_term_ids = array_map( 'intval', (array) get_field( 'area_linked_terms', $pid ) );
+if ( ! $area_term_ids ) {
+	foreach ( ( $area['area_terms'] ?? [] ) as $term_name ) {
+		$t = get_term_by( 'name', $term_name, TAX_AREA );
+		if ( $t && ! is_wp_error( $t ) ) {
+			$area_term_ids[] = $t->term_id;
+		}
 	}
 }
 
@@ -52,6 +54,18 @@ $area_events = new WP_Query( [
 	'no_found_rows'  => true,
 	'tax_query'      => $spot_tax_query,
 ] );
+
+// おすすめグルメ：エリアターム × 飲食（shop_category「食べる」）の shop 投稿
+$area_gourmet = $area_term_ids ? new WP_Query( [
+	'post_type'      => CPT_SHOP,
+	'posts_per_page' => 4,
+	'no_found_rows'  => true,
+	'tax_query'      => [
+		'relation' => 'AND',
+		[ 'taxonomy' => TAX_AREA,     'field' => 'term_id', 'terms' => $area_term_ids ],
+		[ 'taxonomy' => TAX_SHOP_CAT, 'field' => 'name',    'terms' => '食べる' ],
+	],
+] ) : null;
 
 // 他エリア（自分を除く）
 $other_areas = array_values( array_filter( sc_get_areas(), function ( $a ) use ( $slug ) {
@@ -234,8 +248,8 @@ get_header();
 	<!-- /.p-area__spots -->
 	<?php endif; ?>
 
-	<?php if ( ! empty( $detail['gourmet'] ) ) : ?>
-	<!-- ─── おすすめグルメ ── -->
+	<?php if ( $area_gourmet && $area_gourmet->have_posts() ) : ?>
+	<!-- ─── おすすめグルメ（エリアターム × 飲食の shop 投稿） ── -->
 	<section class="p-area__gourmet">
 		<div class="p-area__gourmet-inner">
 			<header class="p-area__section-head">
@@ -246,19 +260,31 @@ get_header();
 				</h2>
 			</header>
 			<div class="p-area__gourmet-grid">
-				<?php foreach ( $detail['gourmet'] as $g ) : ?>
-				<article class="p-area__gourmet-card">
+				<?php
+				while ( $area_gourmet->have_posts() ) :
+					$area_gourmet->the_post();
+					$sid = get_the_ID();
+					$cp  = get_field( 'shop_catchphrase', $sid );
+					$pr  = get_field( 'shop_price_range', $sid );
+					?>
+				<a class="p-area__gourmet-card" href="<?php the_permalink(); ?>">
 					<span class="p-area__gourmet-icon">
 						<svg aria-hidden="true" focusable="false" width="20" height="20"><use href="#icon-utensils"></use></svg>
 					</span>
-					<span class="p-area__gourmet-cat"><?php echo esc_html( $g['cat'] ); ?></span>
-					<h3 class="p-area__gourmet-name"><?php echo esc_html( $g['name'] ); ?></h3>
-					<p class="p-area__gourmet-text"><?php echo esc_html( $g['text'] ); ?></p>
-					<p class="p-area__gourmet-price">目安: <?php echo esc_html( $g['price'] ); ?></p>
-				</article>
-				<?php endforeach; ?>
+					<span class="p-area__gourmet-cat">飲食</span>
+					<h3 class="p-area__gourmet-name"><?php the_title(); ?></h3>
+					<?php if ( $cp ) : ?>
+					<p class="p-area__gourmet-text"><?php echo esc_html( $cp ); ?></p>
+					<?php endif; ?>
+					<?php if ( $pr ) : ?>
+					<p class="p-area__gourmet-price">目安: <?php echo esc_html( $pr ); ?></p>
+					<?php endif; ?>
+				</a>
+				<?php endwhile; wp_reset_postdata(); ?>
 			</div>
+			<!-- /.p-area__gourmet-grid -->
 		</div>
+		<!-- /.p-area__gourmet-inner -->
 	</section>
 	<!-- /.p-area__gourmet -->
 	<?php endif; ?>
