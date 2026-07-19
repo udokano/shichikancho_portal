@@ -15,7 +15,9 @@
     margin-inline: auto;
     padding-inline: $container-pad;
 
-    @include sp { padding-inline: $container-pad-sp; }
+    @include sp {
+      padding-inline: $container-pad-sp;
+    }
   }
 
   // 2カラム grid は l-sidebar-layout が担当
@@ -44,7 +46,9 @@
       display: block; // slick が制御するため grid を解除
 
       // slick 未初期化時は縦積み防止のため2枚目以降を隠す
-      > article:nth-child(n+2) { display: none; }
+      > article:nth-child(n + 2) {
+        display: none;
+      }
     }
 
     .slick-slide {
@@ -90,7 +94,9 @@
       display: block;
 
       // 初期化前は3枚に抑えてチラつき・縦積みを低減
-      &:not(.slick-initialized) > article:nth-child(n+4) { display: none; }
+      &:not(.slick-initialized) > article:nth-child(n + 4) {
+        display: none;
+      }
     }
   }
 

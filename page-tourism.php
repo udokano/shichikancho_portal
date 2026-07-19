@@ -86,7 +86,7 @@ if ( $walks_q->have_posts() ) {
 }
 
 // エリアガイド（CSS Grid 12x12 上のホットスポット座標で実装）
-// データは inc/area.php に一元化（下層ページと共通）
+// データは inc/helpers.php（sc_get_areas）に一元化（下層ページと共通）
 $areas = sc_get_areas();
 
 // マップ画像（未配置時はフォールバック）
