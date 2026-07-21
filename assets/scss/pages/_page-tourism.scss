@@ -565,48 +565,50 @@
       @include sp { font-size: rem(12); }
     }
 
-    // ─── レスポンシブ画像マップ ──
+    // ─── クリッカブル SVG マップ ──
     &-map {
-      // 旧背景・パディングは廃止（マップ画像が主役）
+      // 背景・パディングなし（マップが主役）
     }
 
     &-map-wrap {
-      position: relative;
       width: 100%;
       max-width: rem(896); // 4xl 相当
       margin-inline: auto;
     }
 
-    &-map-img {
+    &-svg {
       display: block;
       width: 100%;
       height: auto;
     }
 
-    // 12x12 グリッドオーバーレイ（画像サイズに完全追従＝レスポンシブ）
-    &-map-grid {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: repeat(12, 1fr);
+    // 各エリア領域（塗り面全体がリンクのヒットエリア）
+    // 元PNGに白境界は無いため base では stroke を付けない（境界は装飾パスで表現）
+    &-region {
+      cursor: pointer;
 
-      // SP では地図上のホットスポットが押しづらいため非表示にして下のリストを使用
-      @include sp { display: none; }
-    }
-
-    &-hotspot {
-      border-radius: rem(24);
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      &-shape {
+        transition: filter 0.25s ease;
+      }
 
       @include hover {
-        background-color: rgba(var(--hot-rgb, 0, 0, 0), 0.3);
-        transform: scale(1.02);
+        .p-visit__area-region-shape { filter: brightness(0.9); }
       }
-      // CSS 変数 --hot を半透明合成するため、background は color-mix で動的に
-      &:hover {
-        background-color: color-mix(in srgb, var(--hot, transparent) 30%, transparent);
+
+      // フォーカス時のみ境界を出して領域を明示（通常表示は変えない）
+      &:focus-visible {
+        outline: none;
+
+        .p-visit__area-region-shape {
+          stroke: $color-primary-dark;
+          stroke-width: 3;
+        }
       }
+    }
+
+    // PNG再現用の装飾ディテール（境界線・微細パス）。クリックは領域へ透過
+    &-deco {
+      pointer-events: none;
     }
 
     &-note {

@@ -85,13 +85,9 @@ if ( $walks_q->have_posts() ) {
 	}
 }
 
-// エリアガイド（CSS Grid 12x12 上のホットスポット座標で実装）
+// エリアガイド（クリッカブル SVG マップ＋名称リスト）
 // データは inc/helpers.php（sc_get_areas）に一元化（下層ページと共通）
 $areas = sc_get_areas();
-
-// マップ画像（未配置時はフォールバック）
-$area_map_path = get_template_directory() . '/assets/images/common/area-map.png';
-$area_map_url  = file_exists( $area_map_path ) ? get_template_directory_uri() . '/assets/images/common/area-map.png' : sc_no_image_url();
 ?>
 
 <?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
@@ -385,19 +381,10 @@ $area_map_url  = file_exists( $area_map_path ) ? get_template_directory_uri() . 
 				<p class="p-visit__area-lead">七間町は静岡市中心部に位置し、駿府城や浅間神社へのアクセスも良好です。徒歩圏内に多くの観光スポットが集まっており、5つのエリアでそれぞれ異なる魅力をお楽しみいただけます。</p>
 			</header>
 
-			<!-- レスポンシブ画像マップ（CSS Grid 12x12 でホットスポット配置） -->
+			<!-- クリッカブル SVG マップ（各領域＝エリア詳細ページへのリンク） -->
 			<div class="p-visit__area-map">
 				<div class="p-visit__area-map-wrap">
-					<img class="p-visit__area-map-img" src="<?php echo esc_url( $area_map_url ); ?>" alt="七間町エリアマップ" width="1024" height="768">
-					<div class="p-visit__area-map-grid" aria-hidden="false">
-						<?php foreach ( $areas as $a ) : ?>
-						<a class="p-visit__area-hotspot"
-							href="<?php echo esc_url( home_url( '/area/' . $a['slug'] ) ); ?>"
-							aria-label="<?php echo esc_attr( $a['name'] ); ?>"
-							style="grid-column: <?php echo esc_attr( $a['col'] ); ?>; grid-row: <?php echo esc_attr( $a['row'] ); ?>; --hot: <?php echo esc_attr( $a['color'] ); ?>;"></a>
-						<?php endforeach; ?>
-					</div>
-					<!-- /.p-visit__area-map-grid -->
+					<?php get_template_part( 'template-parts/components/area-map' ); ?>
 				</div>
 				<!-- /.p-visit__area-map-wrap -->
 
