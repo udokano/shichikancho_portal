@@ -224,15 +224,9 @@ $shop_scroll_base = [
 ];
 // 1グループ幅をワイド画面幅以上にして -50% ループ時の右余白を防ぐ（4枚×5=20枚）
 $shop_scroll_imgs = array_merge(...array_fill(0, 5, $shop_scroll_base));
-// カテゴリ別件数（仮の静的データ）
-$shop_cats = [
-	'食べる' => 12,
-	'買う'   =>  8,
-	'遊ぶ'   =>  5,
-	'泊まる' =>  3,
-	'学ぶ'   =>  4,
-	'その他' =>  6,
-];
+// カテゴリ別件数（shop_category 実タームの件数を表示）
+$shop_cat_terms = get_terms(['taxonomy' => TAX_SHOP_CAT, 'hide_empty' => false]);
+$shop_cat_terms = is_wp_error($shop_cat_terms) ? [] : $shop_cat_terms;
 ?>
 <section class="p-home-section p-home-section--sakura p-home-shops" aria-labelledby="home-shops-title">
 	<div class="p-home-section__inner">
@@ -258,8 +252,8 @@ $shop_cats = [
 
 	<div class="p-home-section__inner">
 		<div class="p-home-shops__cats">
-			<?php foreach ($shop_cats as $label => $count) : ?>
-				<a class="p-home-shops__cat" href="<?php echo esc_url(add_query_arg('category', rawurlencode($label), home_url('/shops/'))); ?>"><?php echo esc_html($label); ?><span class="p-home-shops__cat-count"><?php echo esc_html($count); ?></span></a>
+			<?php foreach ($shop_cat_terms as $t) : ?>
+				<a class="p-home-shops__cat" href="<?php echo esc_url(home_url('/shops/?cat[]=' . rawurlencode($t->slug))); ?>"><?php echo esc_html($t->name); ?><span class="p-home-shops__cat-count"><?php echo (int) $t->count; ?></span></a>
 			<?php endforeach; ?>
 		</div>
 
