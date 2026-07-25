@@ -88,7 +88,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -102,7 +102,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -116,7 +116,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -130,7 +130,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -144,7 +144,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -158,7 +158,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -172,7 +172,7 @@ get_header();
 						</div>
 						<!-- /.p-about__story-section-text -->
 						<div class="p-about__story-section-img" aria-hidden="true">
-							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
+							<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="600" height="400">
 						</div>
 						<!-- /.p-about__story-section-img -->
 					</section>
@@ -366,19 +366,19 @@ get_header();
 	$about_cta_items = [
 		[
 			'url'   => home_url( '/tourism/' ),
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-tourism.jpg',
 			'title' => 'カフェ・スポット',
 			'text'  => '七間町のカフェや観光スポットを探す。お気に入りの一軒をみつけよう。',
 		],
 		[
 			'url'   => home_url( '/events/' ),
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-shops.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-shops.jpg',
 			'title' => 'イベント情報',
 			'text'  => '近日開催のイベントをチェック。季節の催しや商店街のお祭り情報。',
 		],
 		[
 			'url'   => home_url( '/culture-line/' ),
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-main.jpg',
 			'title' => '駿河カルチャーライン',
 			'text'  => '七間町を起点に町を回遊する構想。文化と暮らしをつなぐ取り組み。',
 		],

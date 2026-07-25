@@ -8,11 +8,12 @@
   // 差し色（slug ごと）。ヒーロー帯・見出しライン等で使用
   --area-color: #{$color-primary-dark};
 
-  &--shichikancho { --area-color: #f8b4c4; }
-  &--tokiwa       { --area-color: #f9e076; }
-  &--gofuku       { --area-color: #f5a962; }
-  &--takajo       { --area-color: #7ec8e3; }
-  &--baba         { --area-color: #90c695; }
+  // マップ領域と同色（inc/helpers.php sc_get_areas() と揃える）
+  &--shichikancho { --area-color: #8BA7C5; }
+  &--tokiwa       { --area-color: #CBA7A1; }
+  &--gofuku       { --area-color: #A4BBAE; }
+  &--takajo       { --area-color: #D3C4A7; }
+  &--baba         { --area-color: #A8A7C4; }
 
   // ─── セクション共通見出し ──
   &__section-head {

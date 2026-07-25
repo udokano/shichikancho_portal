@@ -126,25 +126,6 @@
     margin-bottom: rem(16);
   }
 
-  &__crumb {
-    font-size: rem(12);
-    color: $color-text-muted;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: rem(6);
-    margin-bottom: rem(12);
-
-    &-link {
-      color: $color-text-muted;
-      text-decoration: none;
-
-      @include hover { color: $color-primary-dark; text-decoration: underline; }
-    }
-
-    &-sep { color: $color-border; }
-  }
-
   &__head-row {
     display: flex;
     align-items: flex-start;

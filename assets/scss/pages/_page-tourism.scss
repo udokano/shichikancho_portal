@@ -437,8 +437,11 @@
 
       &-icon {
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
         width: rem(28);
         height: rem(28);
+        font-size: 0; // マークアップ改行由来の空白でSVGがズレるのを防ぐ
       }
     }
 
@@ -570,10 +573,160 @@
       // 背景・パディングなし（マップが主役）
     }
 
+    // 中央マップ＋左右ラベルカードの3カラム（参考: chuo-kanko.or.jp）
+    &-layout {
+      display: grid;
+      // 最長エリア名のピルが折り返さない幅を確保
+      grid-template-columns: rem(320) minmax(0, 1fr) rem(320);
+      gap: rem(32) rem(32);
+      align-items: center;
+      max-width: rem(1120);
+      margin-inline: auto;
+
+      // lg 以下はマップ→カード2列の縦積み
+      @include mq-down(lg) {
+        grid-template-columns: 1fr;
+      }
+
+      // SP はマップの上にピルを重ねる（参考: chuo-kanko.or.jp SP）
+      @include sp {
+        display: block;
+        position: relative;
+      }
+    }
+
+    &-side {
+      display: flex;
+      flex-direction: column;
+      gap: rem(40);
+
+      @include mq-down(lg) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: rem(24);
+
+        // マップを先頭に（DOM順: left → map → right）
+        &--left { order: 2; }
+        &--right { order: 3; }
+      }
+
+      // SP はボックスを外してカードを &-layout 基準の絶対配置にする
+      @include sp { display: contents; }
+    }
+
+    &-card {
+      // SP はマップ上へ重ねる（位置は下の slug 別指定）
+      @include sp {
+        position: absolute;
+        z-index: 1;
+      }
+
+      &-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: rem(8);
+        min-height: rem(44);
+        min-width: rem(200);
+        padding: rem(10) rem(16) rem(10) rem(24);
+        border-radius: rem(999);
+        background-color: var(--area-color, #{$color-primary-dark});
+        color: #fff;
+        text-decoration: none;
+        font-size: rem(13);
+        font-weight: 700;
+        line-height: 1.4;
+        // 町名の途中改行を避ける（カラム幅は &-layout 側で確保）
+        white-space: nowrap;
+        transition: filter 0.25s ease;
+
+        @include hover { filter: brightness(0.92); }
+
+        // SP はピル単体をマップに重ねるためコンパクトに
+        @include sp {
+          min-width: 0;
+          padding: rem(10) rem(12) rem(10) rem(16);
+          box-shadow: 0 rem(2) rem(8) rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &-arrow { flex-shrink: 0; }
+
+      // ラベル兼アコーディオントリガー（PC は不活性なラベル・SP はピルのみ表示のため非表示）
+      &-toggle {
+        display: flex;
+        align-items: center;
+        gap: rem(4);
+        font-size: rem(12);
+        color: $color-text-muted;
+        margin: rem(14) 0 rem(4) rem(8);
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        pointer-events: none; // PC はただのラベル
+
+        &-icon {
+          display: none;
+          transition: transform 0.25s ease;
+        }
+
+        @include sp { display: none; }
+      }
+
+      &-list {
+        list-style: none;
+        margin: 0 0 0 rem(8);
+        padding: 0;
+
+        @include sp { display: none; }
+      }
+
+      &-item {
+        font-size: rem(13);
+        line-height: 2;
+        color: $color-text;
+      }
+
+      // マップ領域と同色（inc/helpers.php sc_get_areas() と揃える）
+      // SP の座標は領域の位置に合わせた % 指定（基準 = &-layout ≒ マップ）
+      &--shichikancho {
+        --area-color: #8BA7C5;
+
+        @include sp { bottom: 2%; left: 50%; transform: translateX(-50%); }
+      }
+
+      &--tokiwa {
+        --area-color: #CBA7A1;
+
+        @include sp { top: 47%; left: 0; }
+      }
+
+      &--gofuku {
+        --area-color: #A4BBAE;
+
+        @include sp { top: 58%; right: 0; }
+      }
+
+      &--takajo {
+        --area-color: #D3C4A7;
+
+        @include sp { top: 22%; right: 0; }
+      }
+
+      &--baba {
+        --area-color: #A8A7C4;
+
+        @include sp { top: 5%; left: 0; }
+      }
+    }
+
     &-map-wrap {
       width: 100%;
-      max-width: rem(896); // 4xl 相当
+      max-width: rem(627); // 旧896pxの70%に縮小（参考: chuo-kanko.or.jp）
       margin-inline: auto;
+
+      @include mq-down(lg) { order: 1; }
     }
 
     &-svg {
@@ -618,57 +771,6 @@
       margin-top: rem(16);
     }
 
-    // ─── エリアリスト ──
-    // PC はホットスポット地図のみ表示
-    &-list {
-      list-style: none;
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: rem(12);
-      margin: rem(24) 0 0;
-      padding: 0;
-
-      @include mq-down(lg) { display: grid; }
-      // SP はエリアリスト不要（下の「エリアを選んで詳しく見る」で代替）
-      @include sp { display: none; }
-    }
-
-    &-item { display: flex; }
-
-    &-link {
-      display: flex;
-      align-items: center;
-      gap: rem(12);
-      width: 100%;
-      padding: rem(14) rem(16);
-      background-color: #fff;
-      border-radius: rem(12);
-      text-decoration: none;
-      color: $color-text;
-      font-size: rem(14);
-      font-weight: 500;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.2s, color 0.2s;
-
-      @include hover {
-        box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.1);
-        .p-visit__area-name { color: $color-primary-dark; }
-      }
-    }
-
-    &-dot {
-      flex-shrink: 0;
-      width: rem(16);
-      height: rem(16);
-      border-radius: 50%;
-    }
-
-    &-name { flex: 1; transition: color 0.2s; }
-
-    &-arrow {
-      flex-shrink: 0;
-      color: $color-text-muted;
-    }
   }
 
   // ─── エリアを選んで詳しく見る ──
@@ -738,11 +840,12 @@
         transform: translateY(-2px);
       }
 
-      &--shichikancho { --area-color: #f8b4c4; }
-      &--tokiwa       { --area-color: #f9e076; }
-      &--gofuku       { --area-color: #f5a962; }
-      &--takajo       { --area-color: #7ec8e3; }
-      &--baba         { --area-color: #90c695; }
+      // マップ領域と同色（inc/helpers.php sc_get_areas() と揃える）
+      &--shichikancho { --area-color: #8BA7C5; }
+      &--tokiwa       { --area-color: #CBA7A1; }
+      &--gofuku       { --area-color: #A4BBAE; }
+      &--takajo       { --area-color: #D3C4A7; }
+      &--baba         { --area-color: #A8A7C4; }
     }
 
     &-card-body {

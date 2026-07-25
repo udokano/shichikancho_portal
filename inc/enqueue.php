@@ -47,14 +47,14 @@ function sichikenchou_enqueue() {
 
 	wp_enqueue_style(
 		'sichikenchou-main',
-		get_template_directory_uri() . '/assets/css/main.css',
+		SC_TPL_URI . '/assets/css/main.css',
 		[],
 		$css_ver
 	);
 
 	wp_enqueue_script(
 		'sichikenchou-main',
-		get_template_directory_uri() . '/assets/js/main.js',
+		SC_TPL_URI . '/assets/js/main.js',
 		[],
 		$js_ver,
 		true
@@ -79,7 +79,7 @@ function sichikenchou_enqueue() {
 		if ( file_exists( $walkmap_js ) ) {
 			wp_enqueue_script(
 				'sichikenchou-walkmap',
-				get_template_directory_uri() . '/assets/js/walkmap.js',
+				SC_TPL_URI . '/assets/js/walkmap.js',
 				[ 'leaflet' ],
 				filemtime( $walkmap_js ),
 				true
@@ -92,7 +92,7 @@ function sichikenchou_enqueue() {
 		$about_js = get_template_directory() . '/assets/js/about-network.js';
 		wp_enqueue_script(
 			'sichikenchou-about-network',
-			get_template_directory_uri() . '/assets/js/about-network.js',
+			SC_TPL_URI . '/assets/js/about-network.js',
 			[],
 			filemtime( $about_js ),
 			true
@@ -108,7 +108,7 @@ function sichikenchou_enqueue() {
 		$r_js = get_template_directory() . '/assets/js/resident-slider.js';
 		wp_enqueue_script(
 			'sichikenchou-resident-slider',
-			get_template_directory_uri() . '/assets/js/resident-slider.js',
+			SC_TPL_URI . '/assets/js/resident-slider.js',
 			[ 'jquery', 'slick' ],
 			filemtime( $r_js ),
 			true
@@ -124,7 +124,7 @@ function sichikenchou_enqueue() {
 		$cs_js = get_template_directory() . '/assets/js/center-slider.js';
 		wp_enqueue_script(
 			'sichikenchou-center-slider',
-			get_template_directory_uri() . '/assets/js/center-slider.js',
+			SC_TPL_URI . '/assets/js/center-slider.js',
 			[ 'jquery', 'slick' ],
 			filemtime( $cs_js ),
 			true
@@ -136,7 +136,7 @@ function sichikenchou_enqueue() {
 		$g_js = get_template_directory() . '/assets/js/gallery-infinite.js';
 		wp_enqueue_script(
 			'sichikenchou-gallery-infinite',
-			get_template_directory_uri() . '/assets/js/gallery-infinite.js',
+			SC_TPL_URI . '/assets/js/gallery-infinite.js',
 			[],
 			filemtime( $g_js ),
 			true
@@ -151,7 +151,7 @@ function sichikenchou_enqueue() {
 		$cl_js = get_template_directory() . '/assets/js/culture-line.js';
 		wp_enqueue_script(
 			'sichikenchou-culture-line',
-			get_template_directory_uri() . '/assets/js/culture-line.js',
+			SC_TPL_URI . '/assets/js/culture-line.js',
 			[],
 			filemtime( $cl_js ),
 			true
@@ -227,7 +227,7 @@ function sichikenchou_enqueue() {
 		$frontmap_js = get_template_directory() . '/assets/js/frontpage-map.js';
 		wp_enqueue_script(
 			'sichikenchou-frontpage-map',
-			get_template_directory_uri() . '/assets/js/frontpage-map.js',
+			SC_TPL_URI . '/assets/js/frontpage-map.js',
 			[],
 			file_exists( $frontmap_js ) ? filemtime( $frontmap_js ) : '1',
 			true

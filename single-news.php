@@ -8,7 +8,8 @@ if ( ! have_posts() ) {
 }
 the_post();
 
-$thumb    = sc_thumbnail_url( get_the_ID(), 'large' );
+// アイキャッチ未設定時はヒーロー画像を出さない（No Image は表示しない）
+$thumb    = get_the_post_thumbnail_url( get_the_ID(), 'large' ) ?: '';
 $author   = get_the_author();
 
 // 目次（h2/h3 から自動生成）

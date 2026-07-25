@@ -10,7 +10,8 @@ the_post();
 
 if ( function_exists( 'schema_article' ) ) schema_article( get_the_ID() );
 
-$thumb     = sc_thumbnail_url( get_the_ID(), 'large' );
+// アイキャッチ未設定時はヒーロー画像を出さない（No Image は表示しない）
+$thumb     = get_the_post_thumbnail_url( get_the_ID(), 'large' ) ?: '';
 $cats      = get_the_terms( get_the_ID(), TAX_COLUMN_CAT );
 $tags      = get_the_terms( get_the_ID(), 'post_tag' );
 $author_id = get_the_author_meta( 'ID' );

@@ -124,21 +124,8 @@ if ( have_posts() ) : the_post();
 					<!-- /.p-shop__hero -->
 					<?php endif; ?>
 
-					<!-- 見出し + ファボボタン -->
+					<!-- 見出し + ファボボタン（パンくずは Gナビ直下の共通コンポーネントに一本化） -->
 					<header class="p-shop__head">
-						<?php if ( $cat || $area ) : ?>
-						<p class="p-shop__crumb">
-							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_post_type_archive_link( CPT_SHOP ) ); ?>">商店街のお店</a>
-							<?php if ( $cat ) : ?>
-							<span class="p-shop__crumb-sep" aria-hidden="true">&rsaquo;</span>
-							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_term_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
-							<?php endif; ?>
-							<?php if ( $area ) : ?>
-							<span class="p-shop__crumb-sep" aria-hidden="true">&rsaquo;</span>
-							<a class="p-shop__crumb-link" href="<?php echo esc_url( get_term_link( $area ) ); ?>"><?php echo esc_html( $area->name ); ?></a>
-							<?php endif; ?>
-						</p>
-						<?php endif; ?>
 						<div class="p-shop__head-row">
 							<h1 class="p-shop__title" id="shop-title"><?php the_title(); ?></h1>
 						</div>

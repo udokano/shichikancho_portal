@@ -10,7 +10,7 @@ get_header();
 	<!-- ─── ヒーロー ── -->
 	<section class="p-cl__hero" aria-label="駿河カルチャーライン構想">
 		<picture class="p-cl__hero-bg" aria-hidden="true">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-main.jpg' ); ?>" alt="" width="1440" height="800" loading="eager">
+			<img src="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-main.jpg' ); ?>" alt="" width="1440" height="800" loading="eager">
 		</picture>
 		<!-- /.p-cl__hero-bg -->
 		<div class="p-cl__hero-inner">
@@ -423,7 +423,7 @@ get_header();
 				?>
 				<div class="p-cl__wide-card">
 					<div class="p-cl__wide-card-photo" aria-hidden="true">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $spot['img'] ); ?>" alt="" width="400" height="267" loading="lazy">
+						<img src="<?php echo esc_url( SC_TPL_URI . '/assets/images/' . $spot['img'] ); ?>" alt="" width="400" height="267" loading="lazy">
 					</div>
 					<!-- /.p-cl__wide-card-photo -->
 					<div class="p-cl__wide-card-body">
@@ -601,7 +601,7 @@ get_header();
 	<!-- ─── VISION CTA ── -->
 	<section class="p-cl__future" aria-label="駿府城再建がもたらす未来">
 		<picture class="p-cl__future-bg" aria-hidden="true">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
+			<img src="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
 		</picture>
 		<!-- /.p-cl__future-bg -->
 		<div class="p-cl__future-inner">

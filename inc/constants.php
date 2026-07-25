@@ -1,4 +1,7 @@
 <?php
+// テーマアセット URI（毎回の関数呼び出しを避けテンプレート全域で共用）
+define( 'SC_TPL_URI', get_template_directory_uri() );
+
 // CPT スラッグ定数
 define( 'CPT_SHOP',     'shop' );
 define( 'CPT_EVENT',    'event' );

@@ -23,7 +23,8 @@ if ( have_posts() ) : the_post();
 	$author_ig     = get_the_author_meta( 'instagram_url', $author_id );
 	$author_fb     = get_the_author_meta( 'facebook_url', $author_id );
 
-	$hero  = sc_thumbnail_url( $pid, 'large' );
+	// アイキャッチ未設定時はヒーロー画像を出さない（No Image は表示しない）
+	$hero  = get_the_post_thumbnail_url( $pid, 'large' ) ?: '';
 	$cats  = get_the_terms( $pid, TAX_EVENT_CAT );
 	$cats  = ( $cats && ! is_wp_error( $cats ) ) ? $cats : [];
 
@@ -81,7 +82,8 @@ if ( have_posts() ) : the_post();
 
 			<div class="c-article__main">
 
-				<!-- ヒーロー画像 -->
+				<!-- ヒーロー画像（アイキャッチ未設定時は非表示） -->
+				<?php if ( $hero ) : ?>
 				<div class="c-article__hero">
 					<picture class="u-picture-fill">
 						<img class="u-img-cover" src="<?php echo esc_url( $hero ); ?>" alt="<?php echo esc_attr( get_the_title( $pid ) ); ?>" loading="eager" width="1200" height="675">
@@ -91,6 +93,7 @@ if ( have_posts() ) : the_post();
 					<?php endif; ?>
 				</div>
 				<!-- /.c-article__hero -->
+				<?php endif; ?>
 
 				<?php
 				$post_tags = get_the_terms( $pid, 'post_tag' );

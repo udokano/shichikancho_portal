@@ -15,7 +15,8 @@ if ( have_posts() ) : the_post();
 	$season    = get_field( 'spot_season', $pid );
 	$related   = get_field( 'spot_related_spots', $pid );
 
-	$hero  = get_the_post_thumbnail_url( $pid, 'large' ) ?: sc_no_image_url();
+	// アイキャッチ未設定時は MV 自体を出さない（No Image は表示しない）
+	$hero  = get_the_post_thumbnail_url( $pid, 'large' ) ?: '';
 	$types = get_the_terms( $pid, TAX_SPOT_TYPE );
 	$types = ( $types && ! is_wp_error( $types ) ) ? $types : [];
 	$areas = get_the_terms( $pid, TAX_AREA );
@@ -100,6 +101,7 @@ get_template_part( 'template-parts/components/page-hero', null, [
 						<img class="u-img-cover" src="<?php echo esc_url( $mv_images[0]['url'] ); ?>" alt="<?php echo esc_attr( $mv_images[0]['alt'] ); ?>" loading="eager" width="1200" height="675">
 					</picture>
 				</div>
+				<!-- /.p-spot-detail__mv -->
 				<?php elseif ( $mv_count > 1 ) : ?>
 				<div class="p-spot-detail__mv p-spot-detail__mv--slider js-spot-mv" data-count="<?php echo (int) $mv_count; ?>">
 					<div class="p-spot-detail__mv-stage">
@@ -126,8 +128,8 @@ get_template_part( 'template-parts/components/page-hero', null, [
 						<?php endforeach; ?>
 					</ul>
 				</div>
-				<?php endif; ?>
 				<!-- /.p-spot-detail__mv -->
+				<?php endif; ?>
 
 				<!-- 紹介文 -->
 				<?php if ( $desc ) : ?>

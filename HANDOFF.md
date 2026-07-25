@@ -6,6 +6,60 @@
 
 ## 1. 直近のセッションでやったこと
 
+### ★ 2026-07-21 セッション（お問い合わせ改修・inc統合・エリアターム連動・スポット投入・マップSVG化）
+
+**コミット済み**: `3bb472c`(お問い合わせ改修/CF7/ファビコン) → `b9a95a2`(エリア名5構成) → `f29a7fa`(エリアターム連動) → `824876d`(店舗カード下辺) → `da1cd41`(inc統合) → `3faed97`(エリアガイドをPNG完全再現クリッカブルSVGマップ化)。前セッションの未コミット分（archive-*/area/breadcrumps 等）も 3bb472c に巻き込み済。
+
+#### Q) お問い合わせページをブロックエディタ化（★コード）
+- `page-contact.php` → **`page-contact-form-base.php`** にリネーム（`Template Name: お問い合わせフォームベース`）。ファイル名を page-contact.php にするとスラッグ contact が自動適用され `_wp_page_template`=default になり ACF の page_template 判定が外れるため機能名に
+- `SC_TPL_CONTACT_FORM` 定数（constants.php）。テンプレ割当ページだけブロックエディタ有効化（`sc_block_editor_templates()` / editor-classic-pages.php → 統合後は `inc/admin.php`）。判定は `get_page_template_slug()`
+- ヒーロー=ACF（`acf-import/page-hero.json`, `group_page_hero`, location=page_template）。本文=ブロック。連絡先=**同期パターン「連絡先」(wp_block ID 1266)**、テーマ側の種は block-patterns.php の `sichikenchou/contact-info`。フォーム=CF7ブロック
+- **ハマり**: 同期パターンは DB のみ・git外。本番は別途移行要。`remove_post_type_support('page','editor')` は REST保存(`/wp-json/wp/v2/pages/{id}`)時に外れると保存不可→URIパースで除外必須
+- SCSS `_contact.scss` は2カラム→シングル→**PC3カラム中央揃え**（`display:contents` で inner-container 透過が肝、theme.json 無し）
+
+#### R) CF7 エラー処理（★コード）
+- `main.js`: `wpcf7invalid` で最初の `.wpcf7-not-valid` へ固定ヘッダーオフセットしてスクロール＋focus
+- `inc/cf7-japanese.php`（統合後 `inc/blocks.php`）: `wpcf7_messages` で日本語デフォルト。既存フォーム5/1221 の `_messages` も DB 更新
+- enqueue.php: CF7 の CSS/JS 判定を `is_page('contact')`→`has_block('contact-form-7/...')||has_shortcode` に。photo-contest は例外で明示 true（テンプレ do_shortcode のため）
+
+#### S) ファビコン（★コード・DB）
+- ロゴ(logo.png)の富士山マークを crop `357x204+346+0` → 正方形512化 → `assets/images/favicon/`（ico/16/32/180/192/512）
+- **管理画面のサイトアイコン方式**（`site_icon` option、uploads にコピー・サブサイズ生成）。テーマ固定出力(inc/favicon.php)は作ったが削除。差替は 外観→カスタマイズ→サイト基本情報
+
+#### T) inc/ を機能ドメインに統合 25→13（★コード）
+- helpers←helpers+pickup-helper+area / register←cpt-register+menu-locations / acf←acf-settings+acf-options-gallery-icons/best / admin←admin-menu-order+disable-comments/default-post+user-profile+editor-classic-pages / blocks←blocks-register+block-patterns+cf7-japanese / endpoints←event-views+ajax-gallery / seo←seo+seo-llmo
+- 単独維持: constants/enqueue/breadcrumbs/schema/likes/walker-nav。functions.php は読込順コメント付き
+- **手法**: `<?php` 除去して連結（declare/閉じタグ無しを確認済）。関数名重複ゼロ・ランタイム smoke test 済。バックアップ `/tmp/incmerge/`
+- **likes はデッドコード**（テンプレ出力ゼロ、REST/JS/SCSS残骸のみ）。削除は保留中
+
+#### U) エリア5構成 + タームフィールド連動（★コード・ACF・DB）
+- `sc_get_areas()`（helpers.php）の name/card_title/tags/area_terms を5エリア新町名に。ユーザーが area ターム個別追加済（七間町8/駒形通り110/人宿町9/駿河町111/常磐町112/両替町113/昭和町114/呉服町10/紺屋町115/御幸町116/駿府城公園117/駿府町118/鷹匠11/伝馬町119/馬場町120/宮ヶ崎町121/大手町122/車町123/中町124）。旧`青葉通り`(12)は未割当で浮き
+- **ACF「エリア連動ターム」**（`acf-import/area-linked-terms.json`, `group_area_linked_terms`, `area_linked_terms` taxonomy型）。別グループで group_area_detail を壊さず。5ページ(1223-1227)に term投入
+- `page-area.php`: ターム解決を ACF優先+直書きフォールバック。**グルメを手入力リピーター→shop投稿クエリ（area × shop_category「食べる」term2）に**。カードを `<a>` 化（SCSS hover追加）。旧 area_gourmet フィールドは未使用化
+
+#### V) スポット3件を Places API で投入（★DB・公開済）
+- Google Places API(新)が `SC_GOOGLE_MAPS_KEY` で稼働（Geocoding は無効）。**住所/電話/座標/URL の事実のみ**、本文はオリジナル1文、写真/説明の転載なし
+- 公開: #1273 静岡東宝会館 / #1274 七間町名店街 / #1275 人宿町やどりぎ座（全て area=七間町or人宿町）。東宝会館の「24時間営業」は Google 誤りのため hours 空
+- **URLスラッグが日本語(%エンコード)**。英字化は未対応（要判断）
+
+#### W) 店舗アーカイブ カード下辺揃え（★コード）
+- `_archive-shop.scss` `.p-shop-card__more` に `margin-top:auto`（card/body は既に flex縦・flex:1）
+
+#### X) エリアマップ SVG ベクター化（★素材）
+- `~/Desktop/shizuoka-area-map.png`(正/424×482) を **vtracer** でベクター化 → `~/Desktop/shizuoka-area-map.svg`（純パス・約96%一致）。埋め込み版は拒否され純ベクターで再作成
+- クリッカブルSVGマップへの差し替えは **下記 Y) で実装完了**（`3faed97`）
+
+#### Y) エリアガイドを PNG完全再現クリッカブルSVGマップに差替（★コード・コミット `3faed97`）
+- `page-tourism.php`（**URLは /tourism/**。旧メモの /visit/ は誤り）のエリアガイドを、旧「area-map.png + 12x12グリッドhotspot」→ **vtracer全パスのインラインSVG**に差替
+- 新規 `template-parts/components/area-map.php`: vtracer 出力の全パスを保持し PNG を細部まで再現
+  - 5領域 = `<a href="/area/{slug}">` でクリック可能。色/リンク/名称は `sc_get_areas()` 由来（`$sc_area_geo` に slug→d/translate）
+  - 装飾4パス（境界 `#F8F8F8`×2 + 微細 `#CCA9A3`/`#B9B8CF`）= `<g class="p-visit__area-deco" aria-hidden>`。**PNG細部再現用・`pointer-events:none` でクリックは領域へ透過**。背景 `#FEFEFE` は透過のため除外
+- **領域→slug は地理位置で同定しユーザー確認済**（左上/北西=baba, 右=takajo, 中央帯=gofuku, 中央下=tokiwa, 左下=shichikancho）
+- `inc/helpers.php` `sc_get_areas()`: `color` を**元マスター色**に統一（baba #A8A7C4 / takajo #D3C4A7 / gofuku #A4BBAE / tokiwa #CBA7A1 / shichikancho #8BA7C5）。マップ塗り・名称リストのドット・culture-lineのドット全て一致。旧グリッド用 `col`/`row` キー削除
+- `_page-tourism.scss`: `&-map-img/-map-grid/-hotspot` 撤去→ `&-svg`/`&-region`(`&-region-shape`)/`&-deco`。**元PNGに白境界なし→ base に stroke 付けない**（境界は装飾パスで表現）。hover=brightness(0.9)、focus-visible のみ stroke
+- **検証**: 実Chromeでクリック遷移OK（takajo/shichikancho）。元PNG vs テンプレ出力のピクセル比較で塗り内部完全一致、差分は外周1〜2pxのアンチエイリアス縁のみ（ベクター再現の原理的限界＝ユーザー「ベクター再現でOK」承諾済）
+- **ハマり**: ①実DOM 1685×840/dpr2 とスクショ幅がズレ、細い領域はクリック座標が外れやすい（塗り面上を狙う）②**ローカルにページキャッシュ**が効き、変更確認は `?nocache=1` 等でバスト必要（enqueue の filemtime とは別レイヤー）
+
 ### ★ 2026-07-12〜14 セッション（atosaki 加盟店追加 + PICK UP スライダー刷新・**全て未コミット**）
 
 作業ツリーが全て未コミット。inc/area.php・inc/breadcrumbs.php・page-area.php・acf-import/・acf-json/group_area_detail.json は**前セッションのエリアページ移行分**（今回未着手・別件）。以下 J〜P が今回分。
@@ -129,6 +183,11 @@
 
 ## 3. 残タスク
 
+- **DB投入分は全て git 外**（Q〜V の contact本文/ACF値/site_icon/CF7メッセージ/同期パターン1266/area_linked_terms/スポット3件）。本番は別途移行
+- likes 機能はデッドコード。削除するか判断（inc/likes.php + main.js 550-585 + _gallery/_walk.scss の like）
+- スポット3件のURLスラッグが日本語（%エンコード）。英字化するか要判断（公開直後の今が安全）
+- 旧 area ターム `青葉通り`(12) がどのエリアにも未割当。削除 or 割当
+- tokiwa 等 ②〜⑤エリアは spot/shop/event のタグ付けが薄く各セクション空。先方のタグ付け作業待ち
 - **今セッション分（J〜P）は全て未コミット**。動作確認後にコミット（DB のデータ投入はコード外＝git には乗らない点に注意）
 - **atosaki 加盟店の一次情報照合**：芳龍/たけの住所（2-5-17 修正済/2-5-8 未確認）、各店の価格（公式・食べログ由来で鮮度未検証）。公開前に店へ確認
 - **残り 2 店の充実**：酒場詠(1259)・静岡洋食器(1260) は基本情報のみ（大石/芳龍/みむらや/たけは充実済）
@@ -148,6 +207,8 @@
 
 ## 4. 触るときの注意
 
+- **ローカルにページキャッシュあり**。テンプレ/CSS を変えても旧HTMLが出ることがある → 確認は `?nocache=1` 等のクエリ付与かスーパーリロードでバスト（enqueue の filemtime キャッシュバストとは別レイヤー）
+- **`assets/css/main.css` は gitignore 対象**（コンパイル済みは非追跡）。SCSS 変更後は `npx sass ...` で再コンパイルしてローカル反映、コミットは SCSS ソースのみ。デプロイ先ではビルドが要る
 - **アンカースクロールは `scroll-behavior: smooth` / `scrollIntoView` 禁止**。Google 翻訳の `html{height:100%}` と干渉して smooth が不発になる。`main.js` の `scrollToHash()` のように scroll-behavior を一時 auto に上書きして `window.scrollTo` で instant 実行すること
 - **CF7 標準 CSS が未読込**（`cf7CssLoaded: false`）。そのため CF7 が SR 用に出す `.screen-reader-response` が視覚表示される。新規 CF7 フォームを置くページでは SR 専用クリップを当てること
 - **CF7 はカード/li 自体に `slick-slide`/`slick-center` を付与**（ラップ div を作らない）。dim 等は子孫セレクタでなく要素自身に当てる

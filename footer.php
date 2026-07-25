@@ -12,7 +12,7 @@
 			<div class="l-footer__col l-footer__col--wide">
 				<div class="l-footer__logo-wrap">
 					<a class="l-footer__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="SHICHIKANCHO トップページへ">
-						<img class="l-footer__logo-img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo/logo-white.png' ); ?>" alt="SHICHIKANCHO" width="84" height="56" loading="lazy">
+						<img class="l-footer__logo-img" src="<?php echo esc_url( SC_TPL_URI . '/assets/images/logo/logo-white.png' ); ?>" alt="SHICHIKANCHO" width="84" height="56" loading="lazy">
 					</a>
 				</div>
 

@@ -49,7 +49,7 @@ function sc_date_jp( string $date_str ): string {
 
 // ノーイメージプレースホルダー URL
 function sc_no_image_url(): string {
-	return esc_url( get_template_directory_uri() . '/assets/images/common/no-image.jpg' );
+	return esc_url( SC_TPL_URI . '/assets/images/common/no-image.jpg' );
 }
 
 // タクソノミースラッグから term_id を取得（$wpdb 直クエリ）

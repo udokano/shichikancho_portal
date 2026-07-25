@@ -75,7 +75,7 @@ $pc_form_anchor = '#photo-contest-entry';
 	<!-- ─── ヒーロー ── -->
 	<section class="p-photo-contest__hero" aria-labelledby="pc-hero-title">
 		<picture class="p-photo-contest__hero-bg" aria-hidden="true">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-main.jpg' ); ?>" alt="" width="1440" height="800" loading="eager">
+			<img src="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-main.jpg' ); ?>" alt="" width="1440" height="800" loading="eager">
 		</picture>
 		<!-- /.p-photo-contest__hero-bg -->
 		<div class="p-photo-contest__hero-inner">
@@ -121,7 +121,7 @@ $pc_form_anchor = '#photo-contest-entry';
 	<!-- ─── 部門・賞品 ── -->
 	<section class="p-photo-contest__category" aria-labelledby="pc-category-title">
 		<picture class="p-photo-contest__category-bg" aria-hidden="true">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
+			<img src="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-tourism.jpg' ); ?>" alt="" width="1440" height="800" loading="lazy">
 		</picture>
 		<!-- /.p-photo-contest__category-bg -->
 		<div class="p-photo-contest__category-inner">
@@ -213,7 +213,7 @@ $pc_form_anchor = '#photo-contest-entry';
 					?>
 					<li class="p-photo-contest__entry">
 						<div class="p-photo-contest__entry-thumb">
-							<img class="u-img-cover" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $entry['img'] ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
+							<img class="u-img-cover" src="<?php echo esc_url( SC_TPL_URI . '/assets/images/' . $entry['img'] ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
 							<span class="p-photo-contest__entry-badge p-photo-contest__entry-badge--<?php echo esc_attr( strtolower( $entry['cat'] ) ); ?>"><?php echo esc_html( $entry['cat'] ); ?>部門</span>
 						</div>
 						<!-- /.p-photo-contest__entry-thumb -->
@@ -317,7 +317,7 @@ $pc_form_anchor = '#photo-contest-entry';
 				<?php foreach ( $pc_archives as $a ) : ?>
 				<a class="p-photo-contest__archive-card" href="<?php echo esc_url( home_url( '/gallery/' ) ); ?>">
 					<picture class="p-photo-contest__archive-card-bg" aria-hidden="true">
-						<img class="u-img-cover" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/' . $a['img'] ); ?>" alt="" loading="lazy" width="400" height="240">
+						<img class="u-img-cover" src="<?php echo esc_url( SC_TPL_URI . '/assets/images/' . $a['img'] ); ?>" alt="" loading="lazy" width="400" height="240">
 					</picture>
 					<!-- /.p-photo-contest__archive-card-bg -->
 					<p class="p-photo-contest__archive-card-count"><?php echo esc_html( $a['count'] ); ?>作品</p>

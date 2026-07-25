@@ -143,6 +143,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	// ─── エリアガイド 名所リスト（SP のみアコーディオン・PC は CSS で常時表示）──
+	document.querySelectorAll('.js-area-acc').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const expanded = btn.getAttribute('aria-expanded') === 'true';
+			const panel = document.getElementById(btn.getAttribute('aria-controls'));
+
+			btn.setAttribute('aria-expanded', String(!expanded));
+			if (panel) panel.classList.toggle('is-open', !expanded);
+		});
+	});
+
 	// ─── 画像遅延読み込み（ネイティブ loading="lazy" 補完）──
 	if ('IntersectionObserver' in window) {
 		const lazyImages = document.querySelectorAll('img[data-src]');

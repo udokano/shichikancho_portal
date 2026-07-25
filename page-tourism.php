@@ -88,6 +88,49 @@ if ( $walks_q->have_posts() ) {
 // エリアガイド（クリッカブル SVG マップ＋名称リスト）
 // データは inc/helpers.php（sc_get_areas）に一元化（下層ページと共通）
 $areas = sc_get_areas();
+
+// spot 未登録エリアの名所フォールバック（spot が登録され次第そちらを優先）
+$area_landmark_fallback = [
+	'tokiwa' => [ '青葉おでん街', '常磐公園', '両替町通り' ],
+	'baba'   => [ '静岡浅間神社', '浅間通り商店街' ],
+];
+
+// エリアごとの主な観光名所（spot をサブ地名タームで束ねて最大5件・無ければ上記フォールバック）
+$area_spots_titles = [];
+foreach ( $areas as $a ) {
+	$term_ids = [];
+	foreach ( ( $a['area_terms'] ?? [] ) as $term_name ) {
+		$t = get_term_by( 'name', $term_name, TAX_AREA );
+		if ( $t && ! is_wp_error( $t ) ) {
+			$term_ids[] = $t->term_id;
+		}
+	}
+	$titles = [];
+	if ( $term_ids ) {
+		$q = new WP_Query( [
+			'post_type'      => CPT_SPOT,
+			'posts_per_page' => 5,
+			'no_found_rows'  => true,
+			'tax_query'      => [ [
+				'taxonomy' => TAX_AREA,
+				'field'    => 'term_id',
+				'terms'    => $term_ids,
+			] ],
+		] );
+		$titles = wp_list_pluck( $q->posts, 'post_title' );
+	}
+	if ( ! $titles ) {
+		$titles = $area_landmark_fallback[ $a['slug'] ] ?? [];
+	}
+	$area_spots_titles[ $a['slug'] ] = $titles;
+}
+
+// マップ上の領域位置に合わせてラベルカードを左右へ振り分け（上から順）
+$area_map_sides = [
+	'left'  => [ 'baba', 'shichikancho' ],
+	'right' => [ 'takajo', 'gofuku', 'tokiwa' ],
+];
+$areas_by_slug = array_column( $areas, null, 'slug' );
 ?>
 
 <?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
@@ -381,27 +424,49 @@ $areas = sc_get_areas();
 				<p class="p-visit__area-lead">七間町は静岡市中心部に位置し、駿府城や浅間神社へのアクセスも良好です。徒歩圏内に多くの観光スポットが集まっており、5つのエリアでそれぞれ異なる魅力をお楽しみいただけます。</p>
 			</header>
 
-			<!-- クリッカブル SVG マップ（各領域＝エリア詳細ページへのリンク） -->
+			<!-- クリッカブル SVG マップ（各領域＝エリア詳細ページへのリンク）＋左右ラベルカード -->
 			<div class="p-visit__area-map">
-				<div class="p-visit__area-map-wrap">
-					<?php get_template_part( 'template-parts/components/area-map' ); ?>
+				<div class="p-visit__area-layout">
+					<?php foreach ( [ 'left', 'right' ] as $side ) : ?>
+					<div class="p-visit__area-side p-visit__area-side--<?php echo esc_attr( $side ); ?>">
+						<?php foreach ( $area_map_sides[ $side ] as $slug ) :
+							$a = $areas_by_slug[ $slug ] ?? null;
+							if ( ! $a ) { continue; }
+							$spot_titles = $area_spots_titles[ $slug ] ?? [];
+						?>
+						<div class="p-visit__area-card p-visit__area-card--<?php echo esc_attr( $slug ); ?>">
+							<a class="p-visit__area-card-btn" href="<?php echo esc_url( home_url( '/area/' . $slug ) ); ?>">
+								<span class="p-visit__area-card-name"><?php echo esc_html( $a['card_title'] ); ?></span>
+								<svg class="p-visit__area-card-arrow" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-right"></use></svg>
+							</a>
+							<?php if ( $spot_titles ) : ?>
+							<!-- SP のみアコーディオン開閉（PC は常時展開・ボタンは不活性） -->
+							<button class="p-visit__area-card-toggle js-area-acc" type="button" aria-expanded="false" aria-controls="area-spots-<?php echo esc_attr( $slug ); ?>">
+								<span class="p-visit__area-card-toggle-text">[ 主な観光名所 ]</span>
+								<svg class="p-visit__area-card-toggle-icon" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-down"></use></svg>
+							</button>
+							<ul class="p-visit__area-card-list" id="area-spots-<?php echo esc_attr( $slug ); ?>">
+								<?php foreach ( $spot_titles as $st_title ) : ?>
+								<li class="p-visit__area-card-item"><?php echo esc_html( $st_title ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+							<?php endif; ?>
+						</div>
+						<!-- /.p-visit__area-card -->
+						<?php endforeach; ?>
+					</div>
+					<!-- /.p-visit__area-side -->
+					<?php if ( 'left' === $side ) : ?>
+					<div class="p-visit__area-map-wrap">
+						<?php get_template_part( 'template-parts/components/area-map' ); ?>
+					</div>
+					<!-- /.p-visit__area-map-wrap -->
+					<?php endif; ?>
+					<?php endforeach; ?>
 				</div>
-				<!-- /.p-visit__area-map-wrap -->
+				<!-- /.p-visit__area-layout -->
 
 				<p class="p-visit__area-note">※地名をクリックすると詳細ページへ飛びます</p>
-
-				<!-- モバイル用フォールバック（地図上ホットスポットが押しづらいSP用に名称リスト） -->
-				<ul class="p-visit__area-list">
-					<?php foreach ( $areas as $a ) : ?>
-					<li class="p-visit__area-item">
-						<a class="p-visit__area-link" href="<?php echo esc_url( home_url( '/area/' . $a['slug'] ) ); ?>">
-							<span class="p-visit__area-dot" style="background-color: <?php echo esc_attr( $a['color'] ); ?>;" aria-hidden="true"></span>
-							<span class="p-visit__area-name"><?php echo esc_html( $a['name'] ); ?></span>
-							<svg class="p-visit__area-arrow" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-chevron-right"></use></svg>
-						</a>
-					</li>
-					<?php endforeach; ?>
-				</ul>
 			</div>
 			<!-- /.p-visit__area-map -->
 		</div>
@@ -456,7 +521,7 @@ $areas = sc_get_areas();
 	<?php
 	$tourism_first_items = [
 		[
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-tourism.jpg',
 			'title' => 'アクセス方法',
 			'list'  => [
 				'新幹線「静岡駅」より徒歩15分',
@@ -466,7 +531,7 @@ $areas = sc_get_areas();
 			'url'   => home_url( '/access/' ),
 		],
 		[
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-main.jpg',
 			'title' => '特徴的なこと',
 			'list'  => [
 				'江戸時代から続く歴史ある商店街',
@@ -476,7 +541,7 @@ $areas = sc_get_areas();
 			'url'   => home_url( '/about/' ),
 		],
 		[
-			'thumb' => get_template_directory_uri() . '/assets/images/top/hero-shops.jpg',
+			'thumb' => SC_TPL_URI . '/assets/images/top/hero-shops.jpg',
 			'title' => 'おすすめルート',
 			'list'  => [
 				'駿府城〜七間町コース (2時間)',

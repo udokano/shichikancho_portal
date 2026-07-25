@@ -104,7 +104,7 @@ $durations = [
 					$a_rank   = get_field( 'award_rank', $aid ) ?: '';
 					$a_area   = get_field( 'award_area', $aid ) ?: '';
 					$a_thumb  = get_the_post_thumbnail_url( $aid, 'large' )
-					            ?: get_template_directory_uri() . '/assets/images/common/no-image.jpg';
+					            ?: SC_TPL_URI . '/assets/images/common/no-image.jpg';
 					$a_mod    = isset( $rank_mod[ $a_rank ] ) ? ' p-walk__award-card-rank--' . $rank_mod[ $a_rank ] : '';
 				?>
 				<article class="p-walk__award-card">
@@ -401,7 +401,7 @@ $durations = [
 				<div class="p-walk__gallery-card">
 					<div class="p-walk__gallery-card-img" aria-hidden="true">
 						<picture class="u-picture-fill">
-							<img class="u-img-cover" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg' ); ?>" alt="" aria-hidden="true" loading="lazy" width="300" height="300">
+							<img class="u-img-cover" src="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-cinema.jpg' ); ?>" alt="" aria-hidden="true" loading="lazy" width="300" height="300">
 						</picture>
 					</div>
 					<!-- /.p-walk__gallery-card-img -->

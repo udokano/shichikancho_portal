@@ -29,7 +29,7 @@ function sc_seo_meta_head(): void {
 	$site_url    = home_url( '/' );
 	$title       = wp_get_document_title();
 	$description = '';
-	$og_image    = get_template_directory_uri() . '/assets/images/common/ogp.jpg';
+	$og_image    = SC_TPL_URI . '/assets/images/common/ogp.jpg';
 	$og_type     = 'website';
 	$canonical   = '';
 

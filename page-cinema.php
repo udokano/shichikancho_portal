@@ -76,7 +76,7 @@ get_header();
 			<!-- /.p-cinema__concept-left -->
 			<div class="p-cinema__concept-img" aria-hidden="true">
 				<picture class="u-picture-fill">
-					<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="eager" width="1200" height="800">
+					<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="eager" width="1200" height="800">
 				</picture>
 			</div>
 			<!-- /.p-cinema__concept-img -->
@@ -98,7 +98,7 @@ get_header();
 			</div>
 			<!-- /.p-cinema__history-block-text -->
 			<div class="p-cinema__history-block-img" aria-hidden="true">
-				<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
+				<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
 			</div>
 			<!-- /.p-cinema__history-block-img -->
 		</div>
@@ -114,7 +114,7 @@ get_header();
 			</div>
 			<!-- /.p-cinema__history-block-text -->
 			<div class="p-cinema__history-block-img" aria-hidden="true">
-				<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
+				<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
 			</div>
 			<!-- /.p-cinema__history-block-img -->
 		</div>
@@ -130,7 +130,7 @@ get_header();
 			</div>
 			<!-- /.p-cinema__history-block-text -->
 			<div class="p-cinema__history-block-img" aria-hidden="true">
-				<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
+				<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
 			</div>
 			<!-- /.p-cinema__history-block-img -->
 		</div>
@@ -146,7 +146,7 @@ get_header();
 			</div>
 			<!-- /.p-cinema__history-block-text -->
 			<div class="p-cinema__history-block-img" aria-hidden="true">
-				<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
+				<img src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-tourism.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="800" height="540">
 			</div>
 			<!-- /.p-cinema__history-block-img -->
 		</div>
@@ -162,19 +162,19 @@ get_header();
 			<p class="p-cinema__old-text">七間町周辺には、かつて複数の映画館が存在しました。ヒカデン、富竹（七間町電気館跡地）、ここでは「映画の街」として、映画館の名前と軌跡を紹介しています。</p>
 			<div class="p-cinema__old-photos">
 				<figure class="p-cinema__old-photo">
-					<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg'); ?>" alt="七間町電気館" loading="lazy" width="400" height="300">
+					<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-cinema.jpg'); ?>" alt="七間町電気館" loading="lazy" width="400" height="300">
 					<figcaption class="p-cinema__old-photo-caption">七間町電気館</figcaption>
 				</figure>
 				<figure class="p-cinema__old-photo">
-					<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-main.jpg'); ?>" alt="静岡劇場" loading="lazy" width="400" height="300">
+					<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-main.jpg'); ?>" alt="静岡劇場" loading="lazy" width="400" height="300">
 					<figcaption class="p-cinema__old-photo-caption">静岡劇場</figcaption>
 				</figure>
 				<figure class="p-cinema__old-photo">
-					<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-shops.jpg'); ?>" alt="オリオン座" loading="lazy" width="400" height="300">
+					<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-shops.jpg'); ?>" alt="オリオン座" loading="lazy" width="400" height="300">
 					<figcaption class="p-cinema__old-photo-caption">オリオン座</figcaption>
 				</figure>
 				<figure class="p-cinema__old-photo">
-					<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg'); ?>" alt="シネマパレス" loading="lazy" width="400" height="300">
+					<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-tourism.jpg'); ?>" alt="シネマパレス" loading="lazy" width="400" height="300">
 					<figcaption class="p-cinema__old-photo-caption">シネマパレス</figcaption>
 				</figure>
 			</div>
@@ -193,7 +193,7 @@ get_header();
 
 				<li class="p-cinema__now-card">
 					<div class="p-cinema__now-card-img" aria-hidden="true">
-						<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
+						<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-cinema.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
 					</div>
 					<!-- /.p-cinema__now-card-img -->
 					<div class="p-cinema__now-card-body">
@@ -218,7 +218,7 @@ get_header();
 
 				<li class="p-cinema__now-card">
 					<div class="p-cinema__now-card-img" aria-hidden="true">
-						<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
+						<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-main.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
 					</div>
 					<!-- /.p-cinema__now-card-img -->
 					<div class="p-cinema__now-card-body">
@@ -243,7 +243,7 @@ get_header();
 
 				<li class="p-cinema__now-card">
 					<div class="p-cinema__now-card-img" aria-hidden="true">
-						<img class="u-img-cover" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
+						<img class="u-img-cover" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-shops.jpg'); ?>" alt="" aria-hidden="true" loading="lazy" width="80" height="80">
 					</div>
 					<!-- /.p-cinema__now-card-img -->
 					<div class="p-cinema__now-card-body">

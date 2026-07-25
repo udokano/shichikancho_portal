@@ -16,7 +16,7 @@ schema_local_business();
 	<!-- 背景動画 -->
 	<video
 		class="p-home-hero__video"
-		src="<?php echo esc_url(get_template_directory_uri() . '/assets/videos/hero-bg.mp4'); ?>"
+		src="<?php echo esc_url(SC_TPL_URI . '/assets/videos/hero-bg.mp4'); ?>"
 		autoplay
 		muted
 		loop
@@ -39,7 +39,7 @@ schema_local_business();
 			<div class="p-home-hero__map-wrap">
 				<img
 					class="p-home-hero__map-img"
-					src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/top/hero-map-2.png'); ?>"
+					src="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-map-2.png'); ?>"
 					alt="静岡県の地図と七間町の位置"
 					loading="eager">
 			</div>
@@ -89,7 +89,7 @@ $cat_nav = [
 
 <?php
 // ─── インフォメーション ────────────────────────────────────
-// 左: お知らせ（CPT_NEWS 最新5件）
+// 左: お知らせ（CPT_NEWS 最新3件）
 $news_query = new WP_Query([
 	'post_type'      => CPT_NEWS,
 	'posts_per_page' => 3,
@@ -97,7 +97,7 @@ $news_query = new WP_Query([
 	'order'          => 'DESC',
 ]);
 
-// 右: 近日開催のイベント（最大4件、2件以上でカルーセル）
+// 右: イベント（最新4件、2件以上でカルーセル）
 $event_query = new WP_Query([
 	'post_type'      => CPT_EVENT,
 	'posts_per_page' => 4,
@@ -142,7 +142,8 @@ $event_query = new WP_Query([
 				?>
 					<div class="p-home-event-carousel<?php echo $use_carousel ? ' js-home-event-carousel' : ''; ?>">
 						<?php foreach ($event_posts as $i => $ev) :
-							setup_postdata($GLOBALS['post'] = $ev);
+							$GLOBALS['post'] = $ev; // カルーセルは index が必要なため while ではなく foreach + setup_postdata
+							setup_postdata($ev);
 							$thumb = sc_thumbnail_url(get_the_ID(), 'medium_large');
 							$place = sc_field('event_place');
 							$time  = sc_field('event_time');
@@ -213,37 +214,17 @@ $event_query = new WP_Query([
 <!-- /.p-home-section インフォメーション -->
 
 <?php
-// ─── バナー帯（丸型ショップ画像・無限スクロール）───────────
-$banner_base = [
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-shops.jpg',  'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg', 'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',   'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg', 'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-shops.jpg',  'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg', 'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',   'alt' => ''],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg', 'alt' => ''],
-];
-?>
-
-
-<?php
 // ─── 商店街のお店 ──────────────────────────────────────────
-// スライダー用：1セット=4枚を3回繰り返して1グループ（12枚）とし、同じグループを2つ出力して無限ループ
+// 丸型スクロール帯用の画像（仮アセット）
 $shop_scroll_base = [
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-shops.jpg',  'alt' => 'お店'],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-cinema.jpg', 'alt' => 'お店'],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-main.jpg',   'alt' => 'お店'],
-	['src' => get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg', 'alt' => 'お店'],
+	['src' => SC_TPL_URI . '/assets/images/top/hero-shops.jpg',  'alt' => 'お店'],
+	['src' => SC_TPL_URI . '/assets/images/top/hero-cinema.jpg', 'alt' => 'お店'],
+	['src' => SC_TPL_URI . '/assets/images/top/hero-main.jpg',   'alt' => 'お店'],
+	['src' => SC_TPL_URI . '/assets/images/top/hero-tourism.jpg', 'alt' => 'お店'],
 ];
 // 1グループ幅をワイド画面幅以上にして -50% ループ時の右余白を防ぐ（4枚×5=20枚）
-$shop_scroll_imgs = array_merge(
-	$shop_scroll_base,
-	$shop_scroll_base,
-	$shop_scroll_base,
-	$shop_scroll_base,
-	$shop_scroll_base
-);
+$shop_scroll_imgs = array_merge(...array_fill(0, 5, $shop_scroll_base));
+// カテゴリ別件数（仮の静的データ）
 $shop_cats = [
 	'食べる' => 12,
 	'買う'   =>  8,
@@ -261,19 +242,16 @@ $shop_cats = [
 		</div>
 	</div>
 
-	<!-- 丸型画像 無限スクロール帯 -->
+	<!-- 丸型画像 無限スクロール帯（-50% ループ用に同一グループを2周出力） -->
 	<div class="p-home-shops__scroll-wrap" aria-hidden="true">
 		<div class="p-home-shops__scroll-track">
-			<?php foreach ($shop_scroll_imgs as $img) : ?>
-				<div class="p-home-shops__circle">
-					<img class="u-img-cover" src="<?php echo esc_url($img['src']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy">
-				</div>
-			<?php endforeach; ?>
-			<?php foreach ($shop_scroll_imgs as $img) : /* 複製 */ ?>
-				<div class="p-home-shops__circle">
-					<img class="u-img-cover" src="<?php echo esc_url($img['src']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy">
-				</div>
-			<?php endforeach; ?>
+			<?php for ($loop = 0; $loop < 2; $loop++) : ?>
+				<?php foreach ($shop_scroll_imgs as $img) : ?>
+					<div class="p-home-shops__circle">
+						<img class="u-img-cover" src="<?php echo esc_url($img['src']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy">
+					</div>
+				<?php endforeach; ?>
+			<?php endfor; ?>
 		</div>
 	</div>
 	<!-- /.p-home-shops__scroll-wrap -->
@@ -302,11 +280,8 @@ $shop_cats = [
 <section class="p-home-section p-home-section--white" aria-labelledby="home-map-title">
 	<div class="p-home-section__inner">
 		<div class="p-home-section__head">
-			<h2 class="p-home-section__title p-home-section__title--bar" id="home-map-title">観光マップ
-			</h2>
-			<p class="p-home-section__sub u-text-center">七間町とその周辺のお店・スポットを<br class="u-br-sp">マップで確認できます
-
-			</p>
+			<h2 class="p-home-section__title p-home-section__title--bar" id="home-map-title">観光マップ</h2>
+			<p class="p-home-section__sub u-text-center">七間町とその周辺のお店・スポットを<br class="u-br-sp">マップで確認できます</p>
 		</div>
 
 		<div class="p-home-map">
@@ -318,7 +293,6 @@ $shop_cats = [
 				<button class="p-home-map__filter-btn" type="button" data-map-filter="spot">スポット</button>
 			</div>
 			<!-- /.p-home-map__filters -->
-
 
 			<!-- Leaflet マップ本体 -->
 			<div id="home-map-canvas" class="p-home-map__canvas" aria-label="七間町お店・スポットマップ"></div>
@@ -343,7 +317,7 @@ $shop_cats = [
 
 <?php
 // ─── 七間町について ────────────────────────────────────────
-$about_img = get_template_directory_uri() . '/assets/images/top/hero-main.jpg';
+$about_img = SC_TPL_URI . '/assets/images/top/hero-main.jpg';
 ?>
 <section class="p-home-section p-home-section--washi" aria-labelledby="home-about-title">
 	<div class="p-home-section__inner">
@@ -368,7 +342,7 @@ $about_img = get_template_directory_uri() . '/assets/images/top/hero-main.jpg';
 
 <?php
 // ─── お隣さんの話（コラム特集）──────────────────────────
-$neighbors_img = get_template_directory_uri() . '/assets/images/top/hero-tourism.jpg';
+$neighbors_img = SC_TPL_URI . '/assets/images/top/hero-tourism.jpg';
 ?>
 <section class="p-home-section p-home-section--sakura" aria-labelledby="home-neighbors-title">
 	<div class="p-home-section__inner">
@@ -416,7 +390,7 @@ $gallery_imgs = [
 		<div class="p-home-gallery__grid">
 			<?php foreach ($gallery_imgs as $img) : ?>
 				<div class="p-home-gallery__item">
-					<img class="u-img-cover--transition" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/' . $img['src']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy">
+					<img class="u-img-cover--transition" src="<?php echo esc_url(SC_TPL_URI . '/assets/images/' . $img['src']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy">
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -434,7 +408,7 @@ $gallery_imgs = [
 
 <?php
 // ─── アクセス ─────────────────────────────────────────────
-$access_map_img = get_template_directory_uri() . '/assets/images/common/access.jpg';
+$access_map_img = SC_TPL_URI . '/assets/images/common/access.jpg';
 $access_routes  = [
 	['icon' => 'icon-bolt-solid',    'from' => '新幹線「静岡駅」より',    'label' => '徒歩約15分'],
 	['icon' => 'icon-map-pin-solid', 'from' => '静岡鉄道「新静岡駅」より', 'label' => '徒歩約11分'],
@@ -539,16 +513,14 @@ $column_query = new WP_Query([
 
 <?php
 // ─── スポンサー ────────────────────────────────────────────
-$sponsors = [
-	['src' => 'sponsor-1.png', 'label' => 'スポンサーロゴ 1'],
-	['src' => 'sponsor-2.png', 'label' => 'スポンサーロゴ 2'],
-	['src' => 'sponsor-3.png', 'label' => 'スポンサーロゴ 3'],
-	['src' => 'sponsor-4.png', 'label' => 'スポンサーロゴ 4'],
+// 仮データ（現状ロゴ画像は no-image 表示・src は差し替え予定のファイル名）
+$sponsor_base = [
 	['src' => 'sponsor-1.png', 'label' => 'スポンサーロゴ 1'],
 	['src' => 'sponsor-2.png', 'label' => 'スポンサーロゴ 2'],
 	['src' => 'sponsor-3.png', 'label' => 'スポンサーロゴ 3'],
 	['src' => 'sponsor-4.png', 'label' => 'スポンサーロゴ 4'],
 ];
+$sponsors = array_merge($sponsor_base, $sponsor_base);
 ?>
 <section class="p-home-section p-home-section--washi" aria-labelledby="home-sponsor-title">
 	<div class="p-home-section__inner">
@@ -566,16 +538,14 @@ $sponsors = [
 
 <?php
 // ─── メディアパートナー ────────────────────────────────────
-$media_partners = [
-	['src' => 'media-1.png', 'label' => 'メディアロゴ 1'],
-	['src' => 'media-2.png', 'label' => 'メディアロゴ 2'],
-	['src' => 'media-3.png', 'label' => 'メディアロゴ 3'],
-	['src' => 'media-4.png', 'label' => 'メディアロゴ 4'],
+// 仮データ（スポンサー同様、ロゴ差し替え待ち）
+$media_base = [
 	['src' => 'media-1.png', 'label' => 'メディアロゴ 1'],
 	['src' => 'media-2.png', 'label' => 'メディアロゴ 2'],
 	['src' => 'media-3.png', 'label' => 'メディアロゴ 3'],
 	['src' => 'media-4.png', 'label' => 'メディアロゴ 4'],
 ];
+$media_partners = array_merge($media_base, $media_base);
 ?>
 <section class="p-home-section p-home-section--white" aria-labelledby="home-media-title">
 	<div class="p-home-section__inner">

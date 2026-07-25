@@ -25,7 +25,7 @@ wp_head();
 <header class="l-header" role="banner">
 	<div class="l-header__top">
 		<a class="l-header__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="SHICHIKANCHO トップページへ">
-			<img class="l-header__logo-img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo/logo.png' ); ?>" alt="SHICHIKANCHO" width="200" height="35" loading="eager">
+			<img class="l-header__logo-img" src="<?php echo esc_url( SC_TPL_URI . '/assets/images/logo/logo.png' ); ?>" alt="SHICHIKANCHO" width="200" height="35" loading="eager">
 		</a>
 
 		<!-- メインナビ＋コントロール（右まとめ） -->

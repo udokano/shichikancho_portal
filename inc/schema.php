@@ -57,7 +57,7 @@ function schema_organization(): void {
 		'url'      => SC_SITE_URL,
 		'logo'     => [
 			'@type' => 'ImageObject',
-			'url'   => get_template_directory_uri() . '/assets/images/logo/logo.png',
+			'url'   => SC_TPL_URI . '/assets/images/logo/logo.png',
 		],
 		'address'  => SC_ADDRESS,
 		'geo'      => SC_GEO,
@@ -119,7 +119,7 @@ function schema_local_business(): void {
 		'hasMap'        => 'https://maps.google.com/?q=' . SC_GEO['latitude'] . ',' . SC_GEO['longitude'],
 		'openingHours'  => 'Mo-Su 10:00-21:00',
 		'priceRange'    => '¥〜¥¥¥',
-		'image'         => get_template_directory_uri() . '/assets/images/common/ogp.jpg',
+		'image'         => SC_TPL_URI . '/assets/images/common/ogp.jpg',
 		'areaServed'    => [
 			'@type'          => 'AdministrativeArea',
 			'name'           => '静岡市葵区',
