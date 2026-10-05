@@ -298,6 +298,13 @@
 }
 
 // ─── 求人カード ──────────────────────────────────────────
+// 求人が0件のとき
+.p-working__empty {
+  padding: rem(40) rem(16);
+  text-align: center;
+  color: $color-text-muted;
+}
+
 .p-working__jobs {
   display: flex;
   flex-direction: column;

@@ -6,96 +6,306 @@
             "key": "field_job_company",
             "label": "会社名・店舗名",
             "name": "job_company",
-            "type": "text"
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_position",
             "label": "募集職種",
             "name": "job_position",
-            "type": "text"
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_type",
             "label": "雇用形態",
             "name": "job_type",
-            "type": "select",
+            "aria-label": "",
+            "type": "checkbox",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "choices": {
                 "FULL_TIME": "正社員",
                 "PART_TIME": "アルバイト・パート",
                 "CONTRACTOR": "業務委託",
-                "TEMPORARY": "派遣",
+                "TEMPORARY": "契約・派遣（有期）",
                 "INTERN": "インターン"
             },
-            "allow_null": 1,
-            "return_format": "value"
+            "return_format": "value",
+            "layout": "vertical",
+            "default_value": [],
+            "allow_custom": 0,
+            "save_custom": 0,
+            "toggle": 0,
+            "custom_choice_button_text": "新規選択肢を追加"
         },
         {
             "key": "field_job_salary",
             "label": "給与",
             "name": "job_salary",
+            "aria-label": "",
             "type": "text",
-            "instructions": "例: 月給25万円〜 / 時給1,200円"
+            "instructions": "例: 月給25万円〜 \/ 時給1,200円",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_hours",
             "label": "勤務時間",
             "name": "job_hours",
-            "type": "text"
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_job_holiday",
+            "label": "休日",
+            "name": "job_holiday",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "例：土日祝、シフト制",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_location",
             "label": "勤務地",
             "name": "job_location",
-            "type": "text"
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_description",
             "label": "仕事内容",
             "name": "job_description",
+            "aria-label": "",
             "type": "wysiwyg",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "tabs": "all",
             "toolbar": "basic",
-            "media_upload": 1
+            "media_upload": 1,
+            "default_value": "",
+            "delay": 0
         },
         {
             "key": "field_job_requirements",
             "label": "応募条件",
             "name": "job_requirements",
+            "aria-label": "",
             "type": "textarea",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "rows": 3,
-            "new_lines": "br"
+            "new_lines": "br",
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": ""
         },
         {
             "key": "field_job_benefits",
             "label": "待遇・福利厚生",
             "name": "job_benefits",
+            "aria-label": "",
             "type": "textarea",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "rows": 3,
-            "new_lines": "br"
+            "new_lines": "br",
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_job_tags",
+            "label": "タグ",
+            "name": "job_tags",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "カンマ区切り。一覧カードに表示",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_job_contact",
             "label": "応募方法・連絡先",
             "name": "job_contact",
+            "aria-label": "",
             "type": "textarea",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "rows": 3,
-            "new_lines": "br"
+            "new_lines": "br",
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_job_website",
+            "label": "企業サイト",
+            "name": "job_website",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
         },
         {
             "key": "field_job_deadline",
             "label": "応募締切",
             "name": "job_deadline",
+            "aria-label": "",
             "type": "date_picker",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "display_format": "Y-m-d",
-            "return_format": "Y-m-d"
+            "return_format": "Y-m-d",
+            "first_day": 1,
+            "default_to_current_date": 0
         },
         {
             "key": "field_job_is_active",
             "label": "募集中",
             "name": "job_is_active",
+            "aria-label": "",
             "type": "true_false",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "ui": 1,
-            "default_value": 1
+            "default_value": 1,
+            "message": "",
+            "ui_on_text": "",
+            "ui_off_text": ""
         }
     ],
     "location": [
@@ -112,6 +322,12 @@
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
+    "hide_on_screen": [],
     "active": true,
-    "modified": 1777982720
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1791238223
 }

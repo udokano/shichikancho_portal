@@ -21,6 +21,17 @@ function sc_field_textarea( string $key, $post_id = null, string $fallback = '' 
 	return $val ? wp_kses( $val, [ 'br' => [] ] ) : '';
 }
 
+// 雇用形態（複数選択）の日本語ラベル配列。値は schema.org の employmentType
+function sc_job_type_labels( int $post_id ): array {
+	$values  = (array) get_field( 'job_type', $post_id );
+	$choices = acf_get_field( 'job_type' )['choices'] ?? [];
+	$labels  = [];
+	foreach ( $values as $value ) {
+		if ( isset( $choices[ $value ] ) ) $labels[] = $choices[ $value ];
+	}
+	return $labels;
+}
+
 // アイキャッチ画像URLを取得（フォールバック付き）
 function sc_thumbnail_url( int $post_id, string $size = 'medium', string $fallback = '' ): string {
 	$url = get_the_post_thumbnail_url( $post_id, $size );
@@ -154,6 +165,156 @@ function sc_get_area( string $slug ): ?array {
 		}
 	}
 	return null;
+}
+
+/**
+ * 町名ターム（TAX_AREA）→ 大エリアページ の対応表を作る
+ *
+ * 正は各エリアページの ACF「エリア連動ターム」(area_linked_terms)。
+ * 未設定のページのみ sc_get_areas() の area_terms 名称でフォールバックする
+ * （page-area.php の解決順と揃える）。
+ *
+ * @return array<int, array{slug:string, name:string, card_title:string, color:string, page_id:int}> term_id をキーにした対応表
+ */
+function sc_get_area_term_map(): array {
+	static $map = null;
+	if ( $map !== null ) return $map;
+
+	$map = [];
+
+	foreach ( sc_get_areas() as $area ) {
+		$page = get_page_by_path( 'area/' . $area['slug'] ) ?: get_page_by_path( $area['slug'] );
+		if ( ! $page ) continue;
+
+		$term_ids = array_map( 'intval', (array) get_field( 'area_linked_terms', $page->ID ) );
+
+		// ACF 未設定ならターム名で引き当て
+		if ( ! $term_ids ) {
+			foreach ( ( $area['area_terms'] ?? [] ) as $term_name ) {
+				$t = get_term_by( 'name', $term_name, TAX_AREA );
+				if ( $t && ! is_wp_error( $t ) ) $term_ids[] = (int) $t->term_id;
+			}
+		}
+
+		foreach ( $term_ids as $tid ) {
+			if ( ! $tid ) continue;
+			// 先に登録された大エリアを優先（1タームが複数エリアに属する想定はしない）
+			if ( isset( $map[ $tid ] ) ) continue;
+			$map[ $tid ] = [
+				'slug'       => $area['slug'],
+				'name'       => $area['name'],
+				'card_title' => $area['card_title'],
+				'color'      => $area['color'],
+				'page_id'    => (int) $page->ID,
+			];
+		}
+	}
+
+	return $map;
+}
+
+/**
+ * 投稿が属する大エリアを返す（spot / shop / event など TAX_AREA を持つ投稿共通）
+ * 複数の町名タームが付く投稿もあるため、重複を除いた配列で返す
+ *
+ * @return array<int, array{slug:string, name:string, card_title:string, color:string, page_id:int, url:string}>
+ */
+function sc_get_post_areas( int $post_id ): array {
+	$terms = get_the_terms( $post_id, TAX_AREA );
+	if ( ! $terms || is_wp_error( $terms ) ) return [];
+
+	$map   = sc_get_area_term_map();
+	$found = [];
+
+	foreach ( $terms as $t ) {
+		if ( ! isset( $map[ $t->term_id ] ) ) continue;
+		$a = $map[ $t->term_id ];
+		if ( isset( $found[ $a['slug'] ] ) ) continue;
+		$a['url'] = (string) get_permalink( $a['page_id'] );
+		$found[ $a['slug'] ] = $a;
+	}
+
+	return array_values( $found );
+}
+
+/**
+ * このスポットを含む散策コースを返す（walk_spots リピーターの逆引き）
+ *
+ * ACF リピーターは walk_spots_0_ref / walk_spots_1_ref … の postmeta として保存されるため、
+ * meta_query ではキーのワイルドカード指定ができない。$wpdb で直接引く。
+ *
+ * @return array<int, WP_Post> 掲載順（menu_order → 日付）
+ */
+function sc_get_courses_by_spot( int $spot_id ): array {
+	global $wpdb;
+	if ( ! $spot_id ) return [];
+
+	$ids = $wpdb->get_col( $wpdb->prepare(
+		"SELECT DISTINCT pm.post_id
+		 FROM {$wpdb->postmeta} pm
+		 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+		 WHERE pm.meta_key LIKE %s
+		   AND pm.meta_value = %s
+		   AND p.post_type = %s
+		   AND p.post_status = 'publish'",
+		$wpdb->esc_like( 'walk_spots_' ) . '%' . $wpdb->esc_like( '_ref' ),
+		(string) $spot_id,
+		CPT_WALK
+	) );
+
+	if ( ! $ids ) return [];
+
+	return get_posts( [
+		'post_type'      => CPT_WALK,
+		'post__in'       => array_map( 'intval', $ids ),
+		'posts_per_page' => -1,
+		'orderby'        => [ 'menu_order' => 'ASC', 'date' => 'DESC' ],
+		'post_status'    => 'publish',
+	] );
+}
+
+/**
+ * 散策コースの移動手段を区間データから導出する
+ *
+ * walk_spots の time_to_next は「徒歩 15分」「自転車 5分」形式。
+ * 所要時間だけを出すと全て徒歩と読まれるため、手段を明示するために使う。
+ * 複数手段が混在するコースは「徒歩・バス」のように連結。
+ *
+ * @return string 手段ラベル（判定不能なら空文字）
+ */
+function sc_walk_transport( int $post_id ): string {
+	$spots = get_field( 'walk_spots', $post_id );
+	if ( ! is_array( $spots ) ) return '';
+
+	$known = [ '徒歩', '自転車', 'バス', '電車', 'タクシー', 'ロープウェイ', '車' ];
+	$found = [];
+
+	foreach ( $spots as $spot ) {
+		$seg = trim( (string) ( $spot['time_to_next'] ?? '' ) );
+		if ( $seg === '' ) continue;
+		foreach ( $known as $mode ) {
+			if ( mb_strpos( $seg, $mode ) === 0 ) {
+				$found[ $mode ] = true;
+				break;
+			}
+		}
+	}
+
+	if ( ! $found ) return '';
+
+	// $known の順で並べて表記を安定させる
+	$ordered = array_values( array_filter( $known, fn( $m ) => isset( $found[ $m ] ) ) );
+	return implode( '・', $ordered );
+}
+
+/**
+ * 「自転車 24分」形式の所要時間ラベルを返す
+ * 手段が取れないコースは従来どおり「24分」のみ
+ */
+function sc_walk_duration_label( int $post_id, int $duration ): string {
+	if ( ! $duration ) return '';
+	$transport = sc_walk_transport( $post_id );
+	return $transport ? $transport . ' ' . $duration . '分' : $duration . '分';
 }
 
 /**

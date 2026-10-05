@@ -117,7 +117,7 @@ function schema_local_business(): void {
 		'address'       => SC_ADDRESS,
 		'geo'           => SC_GEO,
 		'hasMap'        => 'https://maps.google.com/?q=' . SC_GEO['latitude'] . ',' . SC_GEO['longitude'],
-		'openingHours'  => 'Mo-Su 10:00-21:00',
+		// 商店街全体の統一営業時間は存在しない。根拠の無い Mo-Su 10:00-21:00 は出さない
 		'priceRange'    => '¥〜¥¥¥',
 		'image'         => SC_TPL_URI . '/assets/images/common/ogp.jpg',
 		'areaServed'    => [
@@ -249,11 +249,159 @@ function sc_shop_normalize_hours( string $hours ): array {
 	if ( $raw === '' ) {
 		return [ 'normalized' => null, 'raw' => '' ];
 	}
-	if ( preg_match( '/(\d{1,2}):(\d{2})\s*[-〜~–]\s*(\d{1,2}):(\d{2})/u', $raw, $m ) ) {
-		$normalized = sprintf( '%02d:%02d-%02d:%02d', $m[1], $m[2], $m[3], $m[4] );
-		return [ 'normalized' => $normalized, 'raw' => $raw ];
+	$ranges = sc_shop_time_ranges( $raw );
+	// レンジが複数ある表記はどれが代表か決められないので正規化しない
+	if ( count( $ranges ) !== 1 ) {
+		return [ 'normalized' => null, 'raw' => $raw ];
 	}
-	return [ 'normalized' => null, 'raw' => $raw ];
+	return [ 'normalized' => $ranges[0][0] . '-' . $ranges[0][1], 'raw' => $raw ];
+}
+
+/**
+ * 時刻表記を HH:MM へ。"11時30分" / "9:00" 両対応。
+ */
+function sc_shop_time( string $t ): ?string {
+	if ( preg_match( '/(\d{1,2})\s*[:時]\s*(\d{1,2})/u', $t, $m ) ) {
+		return sprintf( '%02d:%02d', (int) $m[1], (int) $m[2] );
+	}
+	return null;
+}
+
+/**
+ * 1行分のテキストから時間帯を全部拾う。"翌0:00" の翌は落とす。
+ *
+ * @return array<array{0:string,1:string}> [opens, closes] のリスト
+ */
+function sc_shop_time_ranges( string $s ): array {
+	$out = [];
+	$pattern = '/(\d{1,2}\s*[:時]\s*\d{1,2}\s*分?)\s*[-〜～~–]\s*(?:翌)?\s*(\d{1,2}\s*[:時]\s*\d{1,2}\s*分?)/u';
+	if ( preg_match_all( $pattern, $s, $ms, PREG_SET_ORDER ) ) {
+		foreach ( $ms as $m ) {
+			$opens  = sc_shop_time( $m[1] );
+			$closes = sc_shop_time( $m[2] );
+			if ( $opens && $closes ) {
+				$out[] = [ $opens, $closes ];
+			}
+		}
+	}
+	return $out;
+}
+
+/**
+ * shop_hours から OpeningHoursSpecification 配列を組み立てる。
+ * Google 由来の曜日別表記「月曜日: 11時30分～14時00分, 17時00分～22時00分」を優先解析し、
+ * 同一時間帯の曜日をまとめる。「火曜日: 定休日」の行は時間帯が取れないので自然に除外される。
+ * 曜日が読めず時間帯が複数ある表記は、どの曜日に対応するか確定できないため構造化しない。
+ *
+ * @return array{specs:array, raw:string}
+ */
+function sc_shop_hours_specs( string $hours, string $closed = '' ): array {
+	$raw = trim( $hours );
+	if ( $raw === '' ) {
+		return [ 'specs' => [], 'raw' => '' ];
+	}
+
+	$map = [
+		'月' => 'Monday',
+		'火' => 'Tuesday',
+		'水' => 'Wednesday',
+		'木' => 'Thursday',
+		'金' => 'Friday',
+		'土' => 'Saturday',
+		'日' => 'Sunday',
+	];
+
+	// 曜日別表記（2日分以上あれば曜日別とみなす）
+	$found = preg_match_all( '/([月火水木金土日])曜日\s*[:：]\s*([^\n]*)/u', $raw, $ms, PREG_SET_ORDER );
+	if ( $found && count( $ms ) >= 2 ) {
+		$groups = [];
+		foreach ( $ms as $m ) {
+			foreach ( sc_shop_time_ranges( $m[2] ) as $r ) {
+				$key                      = $r[0] . '-' . $r[1];
+				$groups[ $key ]['range']  = $r;
+				$groups[ $key ]['days'][] = $map[ $m[1] ];
+			}
+		}
+		$specs = [];
+		foreach ( $groups as $g ) {
+			$specs[] = [
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => array_values( array_unique( $g['days'] ) ),
+				'opens'     => $g['range'][0],
+				'closes'    => $g['range'][1],
+			];
+		}
+		return [ 'specs' => $specs, 'raw' => $raw ];
+	}
+
+	// フリーテキスト。時間帯が1つのときだけ採用
+	$ranges = sc_shop_time_ranges( $raw );
+	if ( count( $ranges ) !== 1 ) {
+		return [ 'specs' => [], 'raw' => $raw ];
+	}
+	$spec = [
+		'@type'  => 'OpeningHoursSpecification',
+		'opens'  => $ranges[0][0],
+		'closes' => $ranges[0][1],
+	];
+	// 定休日未入力の店は「年中無休」と主張しない
+	$closed_days = sc_shop_closed_days( $closed );
+	if ( $closed_days ) {
+		$spec['dayOfWeek'] = array_values( array_diff( array_values( $map ), $closed_days ) );
+	}
+	return [ 'specs' => [ $spec ], 'raw' => $raw ];
+}
+
+/**
+ * 住所フリーテキストを PostalAddress に分解。
+ * 〒・都道府県・市区町村を抽出し streetAddress との二重表現を防ぐ。
+ * 郵便番号が読めない住所に 420-0035 を固定付与しない（七間町外の店舗があるため）。
+ *
+ * @return array PostalAddress 連想配列
+ */
+function sc_parse_postal_address( string $raw ): array {
+	$s = trim( $raw );
+	if ( $s === '' ) {
+		return SC_ADDRESS;
+	}
+
+	$out = [
+		'@type'          => 'PostalAddress',
+		'addressCountry' => 'JP',
+	];
+
+	// 郵便番号
+	if ( preg_match( '/〒?\s*(\d{3})[-ー‐]?(\d{4})/u', $s, $m ) ) {
+		$out['postalCode'] = $m[1] . '-' . $m[2];
+		$s = trim( str_replace( $m[0], '', $s ) );
+	}
+
+	// 都道府県
+	if ( preg_match( '/^(.{1,3}?[都道府県])/u', $s, $m ) ) {
+		$out['addressRegion'] = $m[1];
+		$s = trim( mb_substr( $s, mb_strlen( $m[1] ) ) );
+	} else {
+		$out['addressRegion'] = SC_ADDRESS['addressRegion'];
+	}
+
+	// 市区町村（政令市の「市＋区」を優先マッチ）
+	if ( preg_match( '/^(.+?市.+?区|.+?[市区町村])/u', $s, $m ) ) {
+		$out['addressLocality'] = $m[1];
+		$s = trim( mb_substr( $s, mb_strlen( $m[1] ) ) );
+	}
+
+	if ( $s !== '' ) {
+		$out['streetAddress'] = $s;
+	}
+
+	// 〒未記載でも七間町内なら郵便番号を確定できる
+	if ( ! isset( $out['postalCode'] )
+		&& ( $out['addressLocality'] ?? '' ) === SC_ADDRESS['addressLocality']
+		&& mb_strpos( $s, '七間町' ) === 0 ) {
+		$out['postalCode'] = SC_ADDRESS['postalCode'];
+	}
+
+	return $out;
 }
 
 function schema_shop( int $post_id ): void {
@@ -303,29 +451,28 @@ function schema_shop( int $post_id ): void {
 	}
 	$images = array_values( array_unique( array_slice( $images, 0, 3 ) ) );
 
-	// address: PostalAddress 維持、shop_address は streetAddress に明示代入
-	$address = [
-		'@type'           => 'PostalAddress',
-		'streetAddress'   => $address_str ?: SC_ADDRESS['streetAddress'],
-		'addressLocality' => SC_ADDRESS['addressLocality'],
-		'addressRegion'   => SC_ADDRESS['addressRegion'],
-		'postalCode'      => SC_ADDRESS['postalCode'],
-		'addressCountry'  => SC_ADDRESS['addressCountry'],
-	];
+	// address: フリーテキストを分解して二重表現・誤った郵便番号の固定付与を防ぐ
+	$address = sc_parse_postal_address( (string) $address_str );
 
 	$data = [
 		'@context'           => 'https://schema.org',
 		'@type'              => sc_shop_schema_type( $post_id ),
+		// WebPage の mainEntity から参照するアンカー（seo.php の AIOSEO 拡張と対）
+		'@id'                => get_permalink( $post_id ) . '#shop',
 		'name'               => $name,
 		'description'        => $description,
 		'url'                => get_permalink( $post_id ),
 		'address'            => $address,
-		'telephone'          => $phone,
 		'parentOrganization' => [
 			'@type' => 'Organization',
 			'name'  => SC_ORG_NAME,
 		],
 	];
+
+	// 電話は空値を出力しない
+	if ( $phone ) {
+		$data['telephone'] = $phone;
+	}
 
 	if ( ! empty( $images ) ) {
 		// 単一画像なら文字列、複数なら配列で出力
@@ -343,21 +490,11 @@ function schema_shop( int $post_id ): void {
 	}
 
 	// openingHours / openingHoursSpecification
-	$h = sc_shop_normalize_hours( (string) $hours );
-	if ( $h['normalized'] !== null ) {
-		$closed_days = sc_shop_closed_days( (string) $closed );
-		$all_days    = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ];
-		$open_days   = array_values( array_diff( $all_days, $closed_days ) );
-
-		[ $open_t, $close_t ] = explode( '-', $h['normalized'] );
-		$data['openingHoursSpecification'] = [
-			'@type'     => 'OpeningHoursSpecification',
-			'dayOfWeek' => $open_days,
-			'opens'     => $open_t,
-			'closes'    => $close_t,
-		];
+	$h = sc_shop_hours_specs( (string) $hours, (string) $closed );
+	if ( $h['specs'] ) {
+		$data['openingHoursSpecification'] = count( $h['specs'] ) === 1 ? $h['specs'][0] : $h['specs'];
 	} elseif ( $h['raw'] !== '' ) {
-		// パース失敗時はフリーテキストを openingHours に流す（仕様外形式の許容）
+		// 曜日対応が確定できない表記は構造化せず生テキストのまま
 		$data['openingHours'] = $h['raw'];
 	}
 
@@ -446,23 +583,39 @@ function schema_event( int $post_id ): void {
 
 function schema_spot( int $post_id ): void {
 	$name    = get_the_title( $post_id );
-	$desc    = get_field( 'spot_description', $post_id ) ?? '';
-	$address = get_field( 'spot_address', $post_id ) ?? '静岡市葵区七間町';
+	$desc    = (string) ( get_field( 'spot_description', $post_id ) ?: '' );
+	$address = (string) ( get_field( 'spot_address', $post_id ) ?: '' );
 	$lat     = get_field( 'spot_map_lat', $post_id ) ?? '';
 	$lng     = get_field( 'spot_map_lng', $post_id ) ?? '';
-	$hours   = get_field( 'spot_hours', $post_id ) ?? '';
+	$hours   = (string) ( get_field( 'spot_hours', $post_id ) ?: '' );
 	$thumb   = get_the_post_thumbnail_url( $post_id, 'large' ) ?: '';
+
+	// フィールド未入力時は抜粋にフォールバック
+	if ( $desc === '' ) {
+		$desc = wp_strip_all_tags( get_the_excerpt( $post_id ) );
+	}
 
 	$data = [
 		'@context'    => 'https://schema.org',
 		'@type'       => 'TouristAttraction',
+		// WebPage の mainEntity から参照するアンカー（seo.php の AIOSEO 拡張と対）
+		'@id'         => get_permalink( $post_id ) . '#spot',
 		'name'        => $name,
-		'description' => $desc,
 		'url'         => get_permalink( $post_id ),
-		'image'       => $thumb,
-		'address'     => $address,
-		'touristType'  => '観光客・地域住民',
+		'touristType' => '観光客・地域住民',
 	];
+
+	if ( $desc !== '' ) {
+		$data['description'] = $desc;
+	}
+	if ( $thumb ) {
+		$data['image'] = $thumb;
+	}
+
+	// 住所未入力時は出力しない（七間町外のスポットに誤住所を主張しないため）
+	if ( $address !== '' ) {
+		$data['address'] = sc_parse_postal_address( $address );
+	}
 
 	if ( $lat && $lng ) {
 		$data['geo'] = [
@@ -472,8 +625,15 @@ function schema_spot( int $post_id ): void {
 		];
 	}
 
-	if ( $hours ) {
-		$data['openingHours'] = $hours;
+	// "9:00〜17:00" 等を正規化。曜日情報は無いため dayOfWeek は主張しない
+	$h = sc_shop_normalize_hours( $hours );
+	if ( $h['normalized'] !== null ) {
+		[ $open_t, $close_t ] = explode( '-', $h['normalized'] );
+		$data['openingHoursSpecification'] = [
+			'@type' => 'OpeningHoursSpecification',
+			'opens'  => $open_t,
+			'closes' => $close_t,
+		];
 	}
 
 	sc_output_schema( $data );
@@ -500,7 +660,7 @@ function schema_article( int $post_id ): void {
 		'headline'         => $title,
 		'description'      => $excerpt,
 		'image'            => $thumb,
-		'url'              => get_permalink( $post_id ),
+		'url'              => $job_url,
 		'datePublished'    => $published,
 		'dateModified'     => $modified,
 		'author'           => [
@@ -527,8 +687,10 @@ function schema_job( int $post_id ): void {
 	$salary   = get_field( 'job_salary', $post_id ) ?? '';
 	$location = get_field( 'job_location', $post_id ) ?? '静岡市葵区七間町';
 	$deadline = get_field( 'job_deadline', $post_id ) ?? '';
-	$desc     = get_the_excerpt( $post_id );
-	$type_val = get_field( 'job_type', $post_id ) ?? '';
+	// 本文は使わず ACF の仕事内容から。求人の個別テンプレートは無く、働くページのモーダルで見せる
+	$desc     = wp_strip_all_tags( (string) get_field( 'job_description', $post_id ) );
+	$type_val = (array) ( get_field( 'job_type', $post_id ) ?: [] );
+	$job_url  = home_url( '/work/#job-modal-' . $post_id );
 
 	$data = [
 		'@context'         => 'https://schema.org',
@@ -543,7 +705,13 @@ function schema_job( int $post_id ): void {
 		],
 		'jobLocation'      => [
 			'@type'   => 'Place',
-			'address' => $location,
+			'address' => [
+				'@type'           => 'PostalAddress',
+				'streetAddress'   => $location,
+				'addressLocality' => '静岡市葵区',
+				'addressRegion'   => '静岡県',
+				'addressCountry'  => 'JP',
+			],
 		],
 		'employmentType'   => $type_val,
 	];

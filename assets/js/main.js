@@ -345,15 +345,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		const apply = () => {
 			let visible = 0;
 			cards.forEach((card) => {
-				const type = card.querySelector('.p-working__job-type')?.textContent.trim() || '';
-				const metaItems = card.querySelectorAll('.p-working__job-meta-item');
-				// 3番目の meta-item (#icon-tag) がカテゴリー
-				const category = (metaItems[2]?.textContent || '').trim();
+				// 雇用形態・職種はカードの data 属性から読む（複数の雇用形態はカンマ区切り）
+				const types = (card.dataset.type || '').split(',').map((v) => v.trim()).filter(Boolean);
+				const category = (card.dataset.category || '').trim();
 				const text = card.textContent.toLowerCase();
 
 				const matchKw = !state.keyword || text.includes(state.keyword);
 				const matchCat = !state.category || category === state.category;
-				const matchType = !state.type || type === state.type;
+				const matchType = !state.type || types.includes(state.type);
 
 				const show = matchKw && matchCat && matchType;
 				card.style.display = show ? '' : 'none';
