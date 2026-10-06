@@ -157,7 +157,7 @@ add_filter( 'user_contactmethods', function ( array $methods ): array {
  * - 例外: sc_block_editor_templates() のページテンプレートはブロックエディタで本文を管理する
  */
 
-// event / column / news 以外の CPT と固定ページはクラシックエディタ
+// event / column / news / resident 以外の CPT と固定ページはクラシックエディタ
 function sc_classic_editor_types(): array {
 	return [
 		'page',
@@ -166,7 +166,6 @@ function sc_classic_editor_types(): array {
 		'job',
 		'learn_facility',
 		'property',
-		'resident',
 		'shop',
 		'spot',
 		'walk_course',
