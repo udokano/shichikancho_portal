@@ -3,46 +3,6 @@
     "title": "求人情報",
     "fields": [
         {
-            "key": "field_job_company",
-            "label": "会社名・店舗名",
-            "name": "job_company",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_job_position",
-            "label": "募集職種",
-            "name": "job_position",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_job_type",
             "label": "雇用形態",
             "name": "job_type",
@@ -72,12 +32,72 @@
             "custom_choice_button_text": "新規選択肢を追加"
         },
         {
+            "key": "field_job_company",
+            "label": "会社名・店舗名",
+            "name": "job_company",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_job_description",
+            "label": "仕事内容",
+            "name": "job_description",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 1,
+            "default_value": "",
+            "delay": 0
+        },
+        {
             "key": "field_job_salary",
             "label": "給与",
             "name": "job_salary",
             "aria-label": "",
             "type": "text",
             "instructions": "例: 月給25万円〜 \/ 時給1,200円",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_job_location",
+            "label": "勤務地",
+            "name": "job_location",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
             "required": false,
             "conditional_logic": false,
             "wrapper": {
@@ -132,9 +152,9 @@
             "append": ""
         },
         {
-            "key": "field_job_location",
-            "label": "勤務地",
-            "name": "job_location",
+            "key": "field_job_position",
+            "label": "募集職種",
+            "name": "job_position",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -150,26 +170,6 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
-        },
-        {
-            "key": "field_job_description",
-            "label": "仕事内容",
-            "name": "job_description",
-            "aria-label": "",
-            "type": "wysiwyg",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "tabs": "all",
-            "toolbar": "basic",
-            "media_upload": 1,
-            "default_value": "",
-            "delay": 0
         },
         {
             "key": "field_job_requirements",
@@ -329,5 +329,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1791238223
+    "modified": 1791249724
 }
