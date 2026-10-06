@@ -71,7 +71,7 @@
 - サーバー反映：`inc/admin.php` 1ファイルのみ。サーバー現行が変更前のリポジトリ版と md5 一致するのを確認してから差し替え。旧ファイルは サーバーの `~/sc_admin.php.bak`（不要になったら削除）
 - 差し替え後の権限が 664 になっていたので 644 に修正（`chmod --reference=~/...` は `~` が展開されず失敗する。`$HOME` で書く）
 - 確認は wp-cli の `use_block_editor_for_post()` 判定のみ。管理画面の目視と、サーバー Web 側の OPcache は未確認
-- 残り：`property` / `gallery_photo` / `coworking` / `spot` は同じ矛盾のまま
+- 残り：editor 有効でクラシック固定なのは `property` / `learn_facility` のみ。`gallery_photo` / `coworking` / `spot` は editor 無効で本文欄が出ないので矛盾は起きない（当初の記述は誤り）
 
 #### H) 未コミットだった過去セッション分をコミット・push
 - `0e6bead` LLMO を inc/seo-llmo.php に分離（functions.php / inc/seo.php / inc/seo-llmo.php / llms.txt / _docs/seo-meta-drafts.md）
@@ -514,7 +514,7 @@
 - 先方へ連絡：WP 7.1.2 に上げたこと、news と求人の編集画面が変わったこと、ベーシック認証が `demo` / `pass` のままであること
 - **wp-cron が動いていない**（ベーシック認証で弾かれる）。`DISABLE_WP_CRON` ＋ サーバー cron への切り替えを先方に提案するか判断
 - AIOSEO 5.0 / Taxonomy Terms Order 2.0 のメジャー更新（先方の作業が落ち着いてから・構造化データの検証付き）
-- クラシック固定のまま本文がブロック形式の CPT（property / gallery_photo / coworking / spot）の扱いを決める。resident は G) で対応済み
+- クラシック固定で editor が有効なまま残っているのは `property` と `learn_facility`（どちらも single テンプレートで本文を出していない）。editor ごと外すかブロックエディタにするか判断。`gallery_photo` / `coworking` / `spot` / `shop` / `walk_course` / `job` は投稿タイプ定義で editor 無効（本文欄なし）なので対応不要。resident は本文を single で出力しているので G) でブロックエディタ化済み
 - サーバーの管理画面で住民紹介がブロックエディタで開くか目視確認（OPcache が残っていればクラシックのまま出る）
 - 求人 3件（ID 125 / 126 / 127）の会社名・職種・タグ等が未入力。正しい情報を入れるか下書きに戻すか判断（サーバー側で）
 - **ACF フィールドの残骸がサイト全体に残存**（ローカル DB）：キー重複 44 / 親投稿なし 322（単純 JOIN の概算・内訳未調査）。求人以外のグループでも重複インポートが起きている可能性
