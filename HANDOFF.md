@@ -44,7 +44,7 @@
 - 未使用だった `schema_job()` を page-work.php から呼び出し（JobPosting ×10）。description は ACF、url は `/work/#job-modal-{ID}`
 - 動作確認（ローカル・ブラウザ）：カード10・モーダル10、絞り込み（業務委託2 / 正社員4 / 契約派遣1 / 医療福祉1 / キーワード「そば」1）、モーダル内容すべて正常
 
-#### F) 求人 ACF のフィールド順をモーダル順に + 重複グループ掃除（`75cdff6`・push 済み・**サーバー未反映**）
+#### F) 求人 ACF のフィールド順をモーダル順に + 重複グループ掃除（`75cdff6`・push 済み・サーバー反映済み 2026-10-06）
 - 編集画面の並びをモーダルの表示順に変更：雇用形態 → 会社名 → 仕事内容 → 給与 → 勤務地 → 勤務時間 → 休日 → 職種 → 応募条件 → 待遇 →（以下元の順）タグ / 応募方法 / 企業サイト / 応募締切 / 募集中
 - 定義は不変（並びと `modified` のみ）。インポート用 JSON はテーマ外 `wp-content/themes/acf-import-group_job-reorder.json`
 - 反映は管理画面インポートと同じ処理を wp-cli で実行（`acf_get_internal_post_type_post()` で既存 ID を引いて `acf_import_internal_post_type()`）。`acf-json/group_job.json` は ACF の自動同期で更新
@@ -53,10 +53,14 @@
 - **会社名・タグが出ない3件（ID 125 SNS・広報 / 126 そば店スタッフ / 127 まちづくりコーディネーター）はデータ欠け**。`job_company` / `job_tags` / `job_position` / `job_hours` / `job_holiday` / `job_benefits` のメタ行が無い。旧直書きに載っていなかった簡易投稿で、元データがリポジトリに無い。テンプレートは正常（空なら出さない分岐）。`job_position` が無いので職種絞り込みにも掛からない
 - push で `d3da7a4` / `b1897fc` / `0fd20d9` も同時に GitHub へ上がった（それまで未 push）
 - 確認はすべて curl + wp-cli。ブラウザでの目視はしていない
+- **サーバー反映**：rsync ドライランで差分は `acf-json/group_job.json` のみ（PHP / SCSS は 0）。ファイルは送らず、サーバー上で同じインポート処理を実行して ACF に JSON を書かせた。サーバー DB の `group_job`（ID 430）は旧12フィールドのままだったのが15フィールド・新しい順に。重複は無し
+- サーバーのバックアップ：`tools/sc-import/backups/server-before-acforder-20261006-105148.sql.gz`（36テーブル）/ `server-theme-before-acforder-20261006-105148.tar.gz`（画像・動画除く）
+- `acf-json/post_type_job.json` はサーバー側の `modified` が新しいので上書きしていない。サーバーにのみ `acf-json/group_69fbe9e562f4b.json` がある（先方作成と推測・中身未確認）
 
 **ハマりポイント**
 - wp-cli が「データベース接続確立エラー」になる。Local の PHP にソケットを直接渡す：`"/Applications/Local.app/Contents/Resources/extraResources/lightning-services/php-8.2.29+0/bin/darwin-arm64/bin/php" -d mysqli.default_socket="$HOME/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock" /usr/local/bin/wp-cli.phar ...`（`WP_CLI_PHP_ARGS` はパスの空白で失敗）
 - 編集画面のフィールド順は DB ではなく `acf-json` の定義が優先される。DB 側に重複があっても表示は変わらないので気付きにくい
+- **サーバーへの SSH は短時間に連続接続すると拒否される**（10回前後で `Connection reset by peer`・10分ほどで復帰）。処理は1本のスクリプトにまとめて `ssh mc-core 'bash -s' < script.sh` で流す
 - ACF グループを消すとき `acf_delete_field_group()` は使わない（同じキーの `acf-json` ファイルまで消える）。CLI から `wp_delete_post()` で子フィールド → グループの順に消す
 
 ### ★ 2026-10-04 セッション（掲載情報の一括取込フロー設計 + Excel一括登録ツール作成・テーマ外）
@@ -495,7 +499,6 @@
 - **wp-cron が動いていない**（ベーシック認証で弾かれる）。`DISABLE_WP_CRON` ＋ サーバー cron への切り替えを先方に提案するか判断
 - AIOSEO 5.0 / Taxonomy Terms Order 2.0 のメジャー更新（先方の作業が落ち着いてから・構造化データの検証付き）
 - クラシック固定のまま本文がブロック形式の CPT（resident / property / job / gallery_photo / coworking / spot）の扱いを決める
-- **求人 ACF の並び替えをサーバーに反映**（F 参照）。テーマ更新後、サーバーの ACF 管理画面で同期するか `acf-import-group_job-reorder.json` をインポート。サーバー DB にも `group_job` の重複が無いか先に確認
 - 求人 3件（ID 125 / 126 / 127）の会社名・職種・タグ等が未入力。正しい情報を入れるか下書きに戻すか判断（サーバー側で）
 - **ACF フィールドの残骸がサイト全体に残存**（ローカル DB）：キー重複 44 / 親投稿なし 322（単純 JOIN の概算・内訳未調査）。求人以外のグループでも重複インポートが起きている可能性
 - 求人：`job_website` は10件とも未入力、`validThrough`（応募締切）は JobPosting に 0/10
