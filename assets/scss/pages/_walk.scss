@@ -279,6 +279,28 @@
 
 // ─── コース一覧 ──────────────────────────────────────────
 .p-walk__courses {
+  // /tourism/ からのアンカー着地点。固定ヘッダー分のオフセットを持たせる
+  &-title {
+    display: flex;
+    align-items: baseline;
+    gap: rem(10);
+    font-size: rem(22);
+    font-weight: 700;
+    margin-bottom: rem(20);
+    scroll-margin-top: rem(100);
+
+    @include sp {
+      font-size: rem(19);
+      margin-bottom: rem(16);
+    }
+  }
+
+  &-count {
+    font-size: rem(14);
+    font-weight: 500;
+    color: $color-text-muted;
+  }
+
   &-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -346,15 +368,30 @@
 
   &-meta {
     display: flex;
-    gap: rem(16);
+    flex-wrap: wrap;
+    gap: rem(6) rem(16);
     margin-top: rem(4);
     font-size: rem(12);
     color: $color-primary-dark;
     font-weight: 600;
+  }
 
-    div { display: contents; }
-    dt { display: contents; }
-    dd { margin: 0; display: flex; align-items: center; gap: rem(4); }
+  // アイコンと値を1行として扱う（display:contents では dl 直下の gap が
+  // アイコン⇔値の間にも効き、縦位置も揃わなかった）
+  &-meta-row {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+  }
+
+  &-meta-term {
+    display: flex;
+    align-items: center;
+  }
+
+  &-meta-desc {
+    margin: 0;
+    line-height: 1;
   }
 
   &-meta-icon {

@@ -274,6 +274,20 @@ $areas_by_slug = array_column( $areas, null, 'slug' );
 			}());
 			</script>
 			<?php endif; ?>
+
+			<?php
+			// コース一覧（/walk/ の絞り込み付き一覧）への導線
+			$course_list_page = get_page_by_path( 'walk' );
+			if ( $course_list_page ) :
+			?>
+			<div class="p-visit__walks-more">
+				<a class="c-btn c-btn--primary" href="<?php echo esc_url( get_permalink( $course_list_page ) . '#walk-courses-title' ); ?>">
+					散策コースをすべて見る
+					<svg class="p-visit__walks-more-icon" aria-hidden="true" focusable="false" width="18" height="18"><use href="#icon-chevron-right"></use></svg>
+				</a>
+			</div>
+			<!-- /.p-visit__walks-more -->
+			<?php endif; ?>
 		</div>
 		<!-- /.p-visit__walks-inner -->
 	</section>

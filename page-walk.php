@@ -222,6 +222,14 @@ $durations = [
 
 			<!-- コース一覧 -->
 			<div class="p-walk__courses">
+				<!-- /tourism/ のボタンからのアンカー先。section の aria-labelledby も参照 -->
+				<h2 class="p-walk__courses-title" id="walk-courses-title">
+					散策コース一覧
+					<?php if ( $walks->found_posts ) : ?>
+					<span class="p-walk__courses-count"><?php echo esc_html( (string) $walks->found_posts ); ?>件</span>
+					<?php endif; ?>
+				</h2>
+
 				<?php if ( $walks->have_posts() ) : ?>
 				<div class="p-walk__courses-grid">
 					<?php while ( $walks->have_posts() ) : $walks->the_post();
@@ -250,21 +258,21 @@ $durations = [
 							<?php endif; ?>
 							<dl class="p-walk__course-card-meta">
 								<?php if ( $wdur ) : ?>
-								<div>
-									<dt>
+								<div class="p-walk__course-card-meta-row">
+									<dt class="p-walk__course-card-meta-term">
 										<svg aria-hidden="true" focusable="false" class="p-walk__course-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#icon-clock"></use></svg>
 										<span class="u-sr-only">所要時間</span>
 									</dt>
-									<dd><?php echo esc_html( $wdur ); ?>分</dd>
+									<dd class="p-walk__course-card-meta-desc"><?php echo esc_html( sc_walk_duration_label( $wid, $wdur ) ); ?></dd>
 								</div>
 								<?php endif; ?>
 								<?php if ( $wdist ) : ?>
-								<div>
-									<dt>
+								<div class="p-walk__course-card-meta-row">
+									<dt class="p-walk__course-card-meta-term">
 										<svg aria-hidden="true" focusable="false" class="p-walk__course-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#icon-map-pin"></use></svg>
 										<span class="u-sr-only">距離</span>
 									</dt>
-									<dd><?php echo esc_html( $wdist ); ?></dd>
+									<dd class="p-walk__course-card-meta-desc"><?php echo esc_html( $wdist ); ?></dd>
 								</div>
 								<?php endif; ?>
 							</dl>
@@ -364,7 +372,7 @@ $durations = [
 						<?php if ( $rdur ) : ?>
 						<p class="p-walk__ranking-card-meta">
 							<svg aria-hidden="true" focusable="false" class="p-walk__ranking-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#icon-clock"></use></svg>
-							<?php echo esc_html( $rdur ); ?>分
+							<?php echo esc_html( sc_walk_duration_label( $rid, $rdur ) ); ?>
 						</p>
 						<?php endif; ?>
 					</div>

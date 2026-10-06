@@ -79,6 +79,24 @@ get_template_part( 'template-parts/components/page-hero', null, [
 				</ul>
 				<?php endif; ?>
 
+				<?php
+				// 町名タームから大エリアを逆引き（エリアガイドページへの導線）
+				$spot_area_guides = sc_get_post_areas( $pid );
+				if ( $spot_area_guides ) :
+				?>
+				<ul class="p-spot-detail__areaguide">
+					<?php foreach ( $spot_area_guides as $ag ) : ?>
+					<li class="p-spot-detail__areaguide-item">
+						<a class="p-spot-detail__areaguide-link p-spot-detail__areaguide-link--<?php echo esc_attr( $ag['slug'] ); ?>" href="<?php echo esc_url( $ag['url'] ); ?>">
+							<svg class="p-spot-detail__areaguide-icon" aria-hidden="true" focusable="false" width="16" height="16"><use href="#icon-map-pin"></use></svg>
+							<span class="p-spot-detail__areaguide-text"><?php echo esc_html( $ag['card_title'] ); ?>エリアのガイドを見る</span>
+						</a>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				<!-- /.p-spot-detail__areaguide -->
+				<?php endif; ?>
+
 				<!-- メインビジュアル: gallery あり = スライダー / なし = アイキャッチ単一 -->
 				<?php
 				$mv_images = [];
@@ -211,6 +229,51 @@ get_template_part( 'template-parts/components/page-hero', null, [
 					] );
 				}
 				?>
+				<?php
+				// このスポットを含む散策コース（walk_spots の逆引き）
+				$spot_courses = sc_get_courses_by_spot( $pid );
+				if ( $spot_courses ) :
+				?>
+				<section class="p-spot-detail__courses" aria-labelledby="spot-courses-title">
+					<h2 class="c-heading-line" id="spot-courses-title">このスポットをめぐる散策コース</h2>
+					<ul class="p-spot-detail__courses-list">
+						<?php foreach ( $spot_courses as $sc_course ) :
+							$sc_cid   = (int) $sc_course->ID;
+							$sc_thumb = sc_thumbnail_url( $sc_cid, 'medium' );
+							$sc_dur   = (int) get_field( 'walk_duration', $sc_cid );
+							$sc_spots = get_field( 'walk_spots', $sc_cid ) ?: [];
+						?>
+						<li class="p-spot-detail__courses-item">
+							<a class="p-spot-detail__courses-card" href="<?php echo esc_url( get_permalink( $sc_cid ) ); ?>">
+								<span class="p-spot-detail__courses-thumb">
+									<img src="<?php echo esc_url( $sc_thumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="120" height="90">
+								</span>
+								<span class="p-spot-detail__courses-body">
+									<span class="p-spot-detail__courses-name"><?php echo esc_html( get_the_title( $sc_cid ) ); ?></span>
+									<span class="p-spot-detail__courses-meta">
+										<?php if ( $sc_dur ) : ?>
+										<span class="p-spot-detail__courses-meta-item">
+											<svg class="p-spot-detail__courses-meta-icon" aria-hidden="true" focusable="false" width="15" height="15"><use href="#icon-clock"></use></svg>
+											<?php echo esc_html( sc_walk_duration_label( $sc_cid, $sc_dur ) ); ?>
+										</span>
+										<?php endif; ?>
+										<?php if ( $sc_spots ) : ?>
+										<span class="p-spot-detail__courses-meta-item">
+											<svg class="p-spot-detail__courses-meta-icon" aria-hidden="true" focusable="false" width="15" height="15"><use href="#icon-map-pin"></use></svg>
+											<?php echo esc_html( (string) count( $sc_spots ) ); ?>スポット
+										</span>
+										<?php endif; ?>
+									</span>
+								</span>
+							</a>
+						</li>
+						<?php endforeach; ?>
+					</ul>
+					<!-- /.p-spot-detail__courses-list -->
+				</section>
+				<!-- /.p-spot-detail__courses -->
+				<?php endif; ?>
+
 				<?php if ( $same_q && $same_q->have_posts() ) : ?>
 				<section class="c-article__related" aria-label="同じカテゴリーのスポット">
 					<h2 class="c-heading-line">同じカテゴリーのスポット</h2>

@@ -169,7 +169,7 @@ $durations = [
 							<?php endif; ?>
 							<dl class="p-explore__course-card-meta">
 								<?php if ( $wdur ) : ?>
-								<div><dt class="u-sr-only">所要時間</dt><dd><?php echo esc_html( $wdur ); ?>分</dd></div>
+								<div><dt class="u-sr-only">所要時間</dt><dd><?php echo esc_html( sc_walk_duration_label( $wid, $wdur ) ); ?></dd></div>
 								<?php endif; ?>
 								<?php if ( $wdist ) : ?>
 								<div><dt class="u-sr-only">距離</dt><dd><?php echo esc_html( $wdist ); ?></dd></div>
@@ -231,7 +231,7 @@ $durations = [
 					<a class="p-explore__ranking-link" href="<?php echo esc_url( get_permalink( $rid ) ); ?>">
 						<span class="p-explore__ranking-name"><?php echo esc_html( get_the_title( $rid ) ); ?></span>
 						<?php if ( $rdur ) : ?>
-						<span class="p-explore__ranking-meta"><?php echo esc_html( $rdur ); ?>分</span>
+						<span class="p-explore__ranking-meta"><?php echo esc_html( sc_walk_duration_label( $rid, $rdur ) ); ?></span>
 						<?php endif; ?>
 					</a>
 				</li>

@@ -41,7 +41,7 @@ if ( have_posts() ) : the_post();
 				<?php if ( $duration ) : ?>
 				<li class="p-walk-detail__meta-item">
 					<svg class="p-walk-detail__meta-icon" aria-hidden="true" focusable="false" width="20" height="20"><use href="#icon-clock"></use></svg>
-					<span><?php echo esc_html( $duration ); ?>分</span>
+					<span><?php echo esc_html( sc_walk_duration_label( $pid, $duration ) ); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ( $distance ) : ?>
@@ -298,7 +298,7 @@ if ( have_posts() ) : the_post();
 						<?php endif; ?>
 						<dl class="p-explore__course-card-meta">
 							<?php if ( $rdur ) : ?>
-							<div><dt class="u-sr-only">所要時間</dt><dd><?php echo esc_html( $rdur ); ?>分</dd></div>
+							<div><dt class="u-sr-only">所要時間</dt><dd><?php echo esc_html( sc_walk_duration_label( $rid, $rdur ) ); ?></dd></div>
 							<?php endif; ?>
 							<?php if ( $rdist ) : ?>
 							<div><dt class="u-sr-only">距離</dt><dd><?php echo esc_html( $rdist ); ?></dd></div>

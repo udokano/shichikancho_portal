@@ -1,0 +1,155 @@
+@use '../config' as *;
+
+// ─── 散策コース一覧（walk_course 全件） ────────────────────
+.p-course-list {
+  background-color: $color-bg;
+  color: $color-text;
+
+  &__main {
+    padding: rem(64) 0 rem(96);
+
+    @include sp {
+      padding: rem(40) 0 rem(64);
+    }
+  }
+
+  &__inner {
+    width: min(rem(1120), 100% - rem(48));
+    margin-inline: auto;
+
+    @include sp {
+      width: 100%;
+      padding-inline: rem(20);
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    gap: rem(12);
+    font-size: rem(26);
+    font-weight: 700;
+    margin-bottom: rem(32);
+
+    @include sp {
+      font-size: rem(21);
+      margin-bottom: rem(24);
+    }
+  }
+
+  &__count {
+    font-size: rem(15);
+    font-weight: 500;
+    color: $color-text-muted;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(32) rem(28);
+    list-style: none;
+
+    @include sp {
+      grid-template-columns: 1fr;
+      gap: rem(24);
+    }
+  }
+
+  &__item {
+    display: flex;
+  }
+
+  // ─── カード ──
+  &__card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: $color-bg;
+    border: 1px solid rgba($color-text, 0.08);
+    border-radius: rem(14);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+    &:hover,
+    &:focus-visible {
+      box-shadow: 0 rem(10) rem(28) rgba($color-text, 0.12);
+      transform: translateY(rem(-3));
+    }
+
+    &-img {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    &-area {
+      position: absolute;
+      top: rem(12);
+      left: rem(12);
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: rem(20) rem(20) rem(22);
+    }
+
+    &-name {
+      font-size: rem(19);
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: rem(10);
+    }
+
+    &-desc {
+      font-size: rem(14);
+      line-height: 1.8;
+      color: $color-text-muted;
+      margin-bottom: rem(16);
+    }
+
+    // メタ情報は常にカード下端へ（カード高さを揃える）
+    &-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(8) rem(18);
+      margin-top: auto;
+      padding-top: rem(14);
+      border-top: 1px solid rgba($color-text, 0.08);
+
+      &-row {
+        display: flex;
+        align-items: center;
+        gap: rem(6);
+      }
+
+      &-term {
+        display: flex;
+        align-items: center;
+        color: $color-blue;
+      }
+
+      // スプライトはストロークアイコンなので fill は指定しない
+      &-icon {
+        width: rem(18);
+        height: rem(18);
+        flex-shrink: 0;
+      }
+
+      &-desc {
+        font-size: rem(14);
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__empty {
+    font-size: rem(15);
+    color: $color-text-muted;
+    text-align: center;
+    padding: rem(48) 0;
+  }
+}

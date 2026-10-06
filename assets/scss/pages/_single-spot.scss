@@ -12,6 +12,136 @@
     @include page-inner;
   }
 
+  // ─── エリアガイドへの導線（町名ターム→大エリアの逆引き）──
+  &__areaguide {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(8);
+    margin: rem(12) 0 rem(4);
+    list-style: none;
+
+    &-item { display: flex; }
+
+    &-link {
+      // 既定はテーマ色。エリアごとにマップと同色へ上書き
+      --area-color: #{$color-primary-dark};
+
+      display: inline-flex;
+      align-items: center;
+      gap: rem(6);
+      padding: rem(8) rem(14);
+      border: 1px solid var(--area-color);
+      border-left: rem(4) solid var(--area-color);
+      border-radius: rem(6);
+      background-color: #fff;
+      color: $color-text;
+      font-size: rem(13);
+      font-weight: 600;
+      text-decoration: none;
+      min-height: rem(44);
+      transition: background-color 0.2s ease;
+
+      &:hover,
+      &:focus-visible { background-color: rgba($color-text, 0.04); }
+
+      // エリアガイドマップと同じ配色（_page-tourism.scss / _area.scss と揃える）
+      &--shichikancho { --area-color: #8BA7C5; }
+      &--tokiwa       { --area-color: #CBA7A1; }
+      &--gofuku       { --area-color: #A4BBAE; }
+      &--takajo       { --area-color: #D3C4A7; }
+      &--baba         { --area-color: #A8A7C4; }
+    }
+
+    &-icon {
+      width: rem(16);
+      height: rem(16);
+      flex-shrink: 0;
+      color: var(--area-color);
+    }
+  }
+
+  // ─── このスポットをめぐる散策コース（walk_spots の逆引き）──
+  &__courses {
+    margin-top: rem(40);
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(14);
+      list-style: none;
+      margin-top: rem(20);
+
+      @include sp { grid-template-columns: 1fr; }
+    }
+
+    &-item { display: flex; }
+
+    &-card {
+      display: flex;
+      align-items: stretch;
+      gap: rem(14);
+      width: 100%;
+      padding: rem(12);
+      background-color: #fff;
+      border-radius: rem(10);
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s ease;
+
+      &:hover,
+      &:focus-visible { box-shadow: 0 rem(6) rem(18) rgba($color-text, 0.12); }
+    }
+
+    &-thumb {
+      flex-shrink: 0;
+      width: rem(96);
+      aspect-ratio: 4 / 3;
+      border-radius: rem(6);
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: rem(6);
+      min-width: 0;
+    }
+
+    &-name {
+      font-size: rem(15);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    &-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(4) rem(14);
+      font-size: rem(12);
+      font-weight: 600;
+      color: $color-primary-dark;
+
+      &-item {
+        display: inline-flex;
+        align-items: center;
+        gap: rem(4);
+      }
+
+      &-icon {
+        width: rem(15);
+        height: rem(15);
+        flex-shrink: 0;
+      }
+    }
+  }
+
   // ─── メインビジュアル ────────────────────
   &__mv {
     margin-bottom: rem(20);
