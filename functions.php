@@ -8,7 +8,8 @@ require get_template_directory() . '/inc/admin.php';       // 管理画面・エ
 require get_template_directory() . '/inc/enqueue.php';     // CSS/JS・フォント・ファビコン
 require get_template_directory() . '/inc/breadcrumbs.php'; // パンくずデータ
 require get_template_directory() . '/inc/schema.php';      // 構造化データ（SC_ADDRESS 等の定数含む）
-require get_template_directory() . '/inc/seo.php';         // SEO 補完・LLMO・geo（schema の定数を参照）
+require get_template_directory() . '/inc/seo.php';         // SEO 補完（schema の定数を参照）
+require get_template_directory() . '/inc/seo-llmo.php';    // LLMO・AIクローラー・geo・AIOSEO スキーマ拡張
 require get_template_directory() . '/inc/blocks.php';      // ブロック登録・パターン・CF7日本語化
 require get_template_directory() . '/inc/endpoints.php';   // REST / AJAX エンドポイント
 require get_template_directory() . '/inc/likes.php';       // いいねカウント（現在フロント未使用）
