@@ -33,6 +33,7 @@
 - news 16件は全てブロック形式で保存済み。クラシックで保存するとブロックが壊れる状態だった
 - 全16件のブロック種類を確認：段落41 / 見出し10 / リスト1。クラシックブロック・生HTML は 0
 - **同じ矛盾が resident(18) / property(10) / job(10) / gallery_photo(10) / coworking(5) / spot(13) に残存**（今回は news だけ対応）
+  - → resident は G) で対応、job は E) で editor ごと除去
 
 #### E) 求人（job）を直書きから CPT + ACF 駆動に（`0fd20d9`・サーバー反映済み）
 - page-work.php に求人カード7件＋モーダル7件が直書きされていた。922行 → 192行
@@ -62,6 +63,21 @@
 - 編集画面のフィールド順は DB ではなく `acf-json` の定義が優先される。DB 側に重複があっても表示は変わらないので気付きにくい
 - **サーバーへの SSH は短時間に連続接続すると拒否される**（10回前後で `Connection reset by peer`・10分ほどで復帰）。処理は1本のスクリプトにまとめて `ssh mc-core 'bash -s' < script.sh` で流す
 - ACF グループを消すとき `acf_delete_field_group()` は使わない（同じキーの `acf-json` ファイルまで消える）。CLI から `wp_delete_post()` で子フィールド → グループの順に消す
+
+#### G) 住民紹介（resident）をブロックエディタに戻す（`bdd3fbb`・サーバー反映済み 2026-10-06）
+- `inc/admin.php` の `sc_classic_editor_types()` から `resident` を除外。D) の news と同じ直し方
+- 事前確認：resident 18件すべてブロック形式（見出し24・段落68）、クラシックブロック・ブロック外の生 HTML は 0。サーバー側の18件も同じ
+- 子テーマにエディタ切り替えのフィルタは無いので親テーマの修正だけで効く
+- サーバー反映：`inc/admin.php` 1ファイルのみ。サーバー現行が変更前のリポジトリ版と md5 一致するのを確認してから差し替え。旧ファイルは サーバーの `~/sc_admin.php.bak`（不要になったら削除）
+- 差し替え後の権限が 664 になっていたので 644 に修正（`chmod --reference=~/...` は `~` が展開されず失敗する。`$HOME` で書く）
+- 確認は wp-cli の `use_block_editor_for_post()` 判定のみ。管理画面の目視と、サーバー Web 側の OPcache は未確認
+- 残り：`property` / `gallery_photo` / `coworking` / `spot` は同じ矛盾のまま
+
+#### H) 未コミットだった過去セッション分をコミット・push
+- `0e6bead` LLMO を inc/seo-llmo.php に分離（functions.php / inc/seo.php / inc/seo-llmo.php / llms.txt / _docs/seo-meta-drafts.md）
+- `18948f6` 散策コース一覧ページ追加・コース/スポット/エリアの相互導線（page-course-list.php ほか12ファイル）
+- 内容は 07-25 セッションの AI / AR / AT / AU。サーバーには反映済みだった（rsync ドライランで差分 0）
+- 分け方はファイル名ベース。作業ツリーの未コミットは 0 に
 
 ### ★ 2026-10-04 セッション（掲載情報の一括取込フロー設計 + Excel一括登録ツール作成・テーマ外）
 
@@ -498,7 +514,8 @@
 - 先方へ連絡：WP 7.1.2 に上げたこと、news と求人の編集画面が変わったこと、ベーシック認証が `demo` / `pass` のままであること
 - **wp-cron が動いていない**（ベーシック認証で弾かれる）。`DISABLE_WP_CRON` ＋ サーバー cron への切り替えを先方に提案するか判断
 - AIOSEO 5.0 / Taxonomy Terms Order 2.0 のメジャー更新（先方の作業が落ち着いてから・構造化データの検証付き）
-- クラシック固定のまま本文がブロック形式の CPT（resident / property / job / gallery_photo / coworking / spot）の扱いを決める
+- クラシック固定のまま本文がブロック形式の CPT（property / gallery_photo / coworking / spot）の扱いを決める。resident は G) で対応済み
+- サーバーの管理画面で住民紹介がブロックエディタで開くか目視確認（OPcache が残っていればクラシックのまま出る）
 - 求人 3件（ID 125 / 126 / 127）の会社名・職種・タグ等が未入力。正しい情報を入れるか下書きに戻すか判断（サーバー側で）
 - **ACF フィールドの残骸がサイト全体に残存**（ローカル DB）：キー重複 44 / 親投稿なし 322（単純 JOIN の概算・内訳未調査）。求人以外のグループでも重複インポートが起きている可能性
 - 求人：`job_website` は10件とも未入力、`validThrough`（応募締切）は JobPosting に 0/10
