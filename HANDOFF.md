@@ -6,6 +6,272 @@
 
 ## 1. 直近のセッションでやったこと
 
+### ★ 2026-10-05〜06 セッション（サーバー＝正に転換・WP/プラグイン更新・news ブロックエディタ化・求人を CPT+ACF 駆動に）
+
+**前提が変わった**：テストサーバー `https://shichikancho.main-color.com/`（SSH: `ssh mc-core`・CORESERVER）を調べたところ、**先方が子テーマ `sichikenchou-finish` を作って運用中**だった。有効テーマは子テーマ（親 = sichikenchou）。先方は管理画面＋自作ツールで店舗名簿319件を下書き投入済み。**AIM でローカル → サーバーへ流すと全部消える**ため、運用を反転。
+
+#### A) サーバー → ローカルへ取り込み（コンテンツの正をサーバーに）
+- サーバー DB（接頭辞 `siwn_`）を取得してローカルへ投入。**ローカルの wp-config も `siwn_` に変更**（旧 `wp_` テーブルは残置・未削除）
+- URL 置換1332件、子テーマ・mu-plugins・uploads（145MB）同期、ローカルで http-auth を無効化
+- サーバーにのみ存在したテンプレート5件（page-company / page-contact / page-links / page-privacy / single-resident）をリポジトリに取り込み（`d3da7a4`）
+- 子テーマを Git 管理に。GitHub **非公開** `udokano/sichikenchou-finish`（初回 `146d1d3`）
+- 取り込みスクリプト `tools/pull-finish.sh`（rsync → commit → push ＋ 親テーマのズレ件数も表示）。**cron 登録済み：平日 9:00**、ログは `tools/pull-finish.log`
+
+#### B) サーバーの掃除（開発用ファイルが公開ディレクトリに置かれていた）
+- 削除：`.git`(15MB) / `.claude/worktrees`(12MB) / `.codex` / `.vscode` / `.sass-cache` / `.playwright-mcp` / `_docs` / `acf-import` / `div` / ルートの `*.md` / `sitemap.csv` / **`_seed-*.php` 6本（5本は認証ガード無しで URL から実行可能だった）** / 旧 `inc/*.php` 17本
+- 退避アーカイブ：`tools/sc-import/backups/server-devfiles-*.tar.gz`（21MB・1446ファイル）
+- サーバーの PHP ファイル 221本 → 69本
+
+#### C) WordPress・プラグイン更新（サーバー / ローカル両方）
+- 本体 7.0.2 → **7.1.2**（7.0.6 を経由）。DB バージョンは 61833 で変化なし
+- ACF Pro 6.8.6→6.8.10 / CF7 6.1.6→6.1.7 / AIM 7.107→7.111＋拡張 2.86→2.87 / その他マイナー計10件
+- **保留**：AIOSEO 4.9.10 → 5.0.2.1、Taxonomy Terms Order 1.9.9.1 → 2.0（いずれもメジャー）
+- 先方の自動更新設定は `auto_update_core_major = enabled`。**意図的な固定ではなく、ベーシック認証で wp-cron が動いていないのが原因**（予約投稿・定期処理も止まる）
+
+#### D) インフォメーション（news）をブロックエディタに戻す（`b1897fc`・サーバー反映済み）
+- 原因：`inc/admin.php` の `sc_classic_editor_types()` に `news` が入っていた（プラグインではなくテーマ側の指定）
+- news 16件は全てブロック形式で保存済み。クラシックで保存するとブロックが壊れる状態だった
+- 全16件のブロック種類を確認：段落41 / 見出し10 / リスト1。クラシックブロック・生HTML は 0
+- **同じ矛盾が resident(18) / property(10) / job(10) / gallery_photo(10) / coworking(5) / spot(13) に残存**（今回は news だけ対応）
+
+#### E) 求人（job）を直書きから CPT + ACF 駆動に（`0fd20d9`・サーバー反映済み）
+- page-work.php に求人カード7件＋モーダル7件が直書きされていた。922行 → 192行
+- 新規：`template-parts/components/job-card.php` / `job-modal.php`、`sc_job_type_labels()`（inc/helpers.php）
+- ACF：雇用形態を**チェックボックス（複数選択）**化（schema.org の employmentType は複数可）、`TEMPORARY` のラベルを「契約・派遣（有期）」に変更して契約社員を収容、`job_holiday` / `job_website` / `job_tags` を追加
+- 直書きにしか無かった会社名・職種・休日・応募条件・待遇・タグを ACF へ取り込み。本文は空にし `_sc_legacy_content` に退避
+- **求人情報の投稿タイプから editor を除去**（`supports: title, thumbnail`）
+- 絞り込みチップを実データ＋ACF 選択肢から生成。JS を data 属性ベースに変更（雇用形態の複数持ち対応）
+- 未使用だった `schema_job()` を page-work.php から呼び出し（JobPosting ×10）。description は ACF、url は `/work/#job-modal-{ID}`
+- 動作確認（ローカル・ブラウザ）：カード10・モーダル10、絞り込み（業務委託2 / 正社員4 / 契約派遣1 / 医療福祉1 / キーワード「そば」1）、モーダル内容すべて正常
+
+#### F) 求人 ACF のフィールド順をモーダル順に + 重複グループ掃除（`75cdff6`・push 済み・**サーバー未反映**）
+- 編集画面の並びをモーダルの表示順に変更：雇用形態 → 会社名 → 仕事内容 → 給与 → 勤務地 → 勤務時間 → 休日 → 職種 → 応募条件 → 待遇 →（以下元の順）タグ / 応募方法 / 企業サイト / 応募締切 / 募集中
+- 定義は不変（並びと `modified` のみ）。インポート用 JSON はテーマ外 `wp-content/themes/acf-import-group_job-reorder.json`
+- 反映は管理画面インポートと同じ処理を wp-cli で実行（`acf_get_internal_post_type_post()` で既存 ID を引いて `acf_import_internal_post_type()`）。`acf-json/group_job.json` は ACF の自動同期で更新
+- **ローカル DB に `group_job` が2件あった**（ID 430＝旧12フィールド / ID 1704＝15フィールド）。ACF が解決するのは 430。1704 と子15件（1705〜1719）、親なしで残っていた `field_job_type`（ID 1703）を削除。原因不明（E のチェックボックス化時の副産物と推測）
+- バックアップ：`wp-content/themes/acf-group_job-dup-1704-backup.sql` / `acf-field_job_type-dup-1703-backup.sql`（不要になったら削除）
+- **会社名・タグが出ない3件（ID 125 SNS・広報 / 126 そば店スタッフ / 127 まちづくりコーディネーター）はデータ欠け**。`job_company` / `job_tags` / `job_position` / `job_hours` / `job_holiday` / `job_benefits` のメタ行が無い。旧直書きに載っていなかった簡易投稿で、元データがリポジトリに無い。テンプレートは正常（空なら出さない分岐）。`job_position` が無いので職種絞り込みにも掛からない
+- push で `d3da7a4` / `b1897fc` / `0fd20d9` も同時に GitHub へ上がった（それまで未 push）
+- 確認はすべて curl + wp-cli。ブラウザでの目視はしていない
+
+**ハマりポイント**
+- wp-cli が「データベース接続確立エラー」になる。Local の PHP にソケットを直接渡す：`"/Applications/Local.app/Contents/Resources/extraResources/lightning-services/php-8.2.29+0/bin/darwin-arm64/bin/php" -d mysqli.default_socket="$HOME/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock" /usr/local/bin/wp-cli.phar ...`（`WP_CLI_PHP_ARGS` はパスの空白で失敗）
+- 編集画面のフィールド順は DB ではなく `acf-json` の定義が優先される。DB 側に重複があっても表示は変わらないので気付きにくい
+- ACF グループを消すとき `acf_delete_field_group()` は使わない（同じキーの `acf-json` ファイルまで消える）。CLI から `wp_delete_post()` で子フィールド → グループの順に消す
+
+### ★ 2026-10-04 セッション（掲載情報の一括取込フロー設計 + Excel一括登録ツール作成・テーマ外）
+
+**背景**：ディレクターから「ページ内の情報を本当の情報にしたい／コラム100本・店舗・病院・学校も」。現地確認ができないため、**ディレクター側 Claude Code で情報収集 → Excel → こちらでローカルに一括登録 → AIM でテストサーバーへインポート**の分担で合意。記事本文はディレクター側が担当、こちらはデータ投入のみ。
+
+**作成物（テーマ外・git / AIM 書き出し対象外）** `/Users/okanoyusuke/Local Sites/sitikentxhou/tools/sc-import/`
+- `run.sh <import.xlsx> [--apply]`：既定 dry-run。`--apply` 時のみ mysqldump を `backups/` へ。JSON とレポートは `work/`
+- `xlsx2json.py`：openpyxl でシート→行配列 JSON（float / 日付を文字列化）
+- `import.php`：`wp eval-file` で実行。shop / spot / living / shelter の4シート対応
+
+**仕様**
+- 列名 = ACF フィールド名。`title` 完全一致で既存投稿を照合（複数ヒットは保留）、無ければ publish で新規
+- 空セルは既存値を上書きしない。`確度=低` の行は見送り
+- タクソノミー（shop_category / area / spot_type）は**既存タームのみ紐付け、新規作成しない**（表記ゆれで分類が増えるのを防ぐ）
+- checkbox / select は choices 照合して不正値を除外
+- 緯度経度は国土地理院 AddressSearch で補完（〒・全角を整形してから投げる。住所変更時か lat 空のときだけ）
+- アイキャッチは xlsx と同階層 `images/` から取り込み、添付に `_sci_source`（元ファイル名）を残して二重登録を防止
+- living は page-living.php の `{lf,lb,ls,lac,lsu}_facility_groups` を、シートに出たタブだけ丸ごと置換
+- shelter（page-safety.php 直書き）は取込対象外。レポートに一覧出力 → PHP 手修正
+- 標準出力は件数サマリのみ、行ごとの結果は `work/report-*.md`
+
+**検証済み**
+- dry-run：更新 / 新規 / 確度低 / 選択肢外 / 未登録ターム / 画像なし / タブ不正 の判定すべて想定通り
+- apply：既存1店を同値更新で成功。バックアップは36テーブル・`Dump completed` 確認
+- 新規経路：トランザクション内で作成 → ACF / ターム / 緯度経度 / アイキャッチ / living 置換まで確認後 ROLLBACK（テスト投稿・画像の残存なし）
+- 初版は郵便番号付き住所でジオコーディング0件 → `mb_convert_kana` + 〒除去 + 数字間ハイフン正規化で解消
+
+**環境メモ（重要）**
+- wp-cli は Local の PHP + `-d mysqli.default_socket=...` + `--skip-plugins=http-auth` でないと動かない。http-auth が CLI も `This Site is Restricted` で弾く
+- テストサーバー `https://shichikancho.main-color.com/` の Basic 認証は**サーバー設定ではなく http-auth プラグイン（DB 保存）**。AIM インポートでサーバー側の ID/PW がローカル値に上書きされる
+
+### ★ 2026-07-25 セッション（SEO/MEO 精査・AIOSEO 投入・LLMO 分離・捏造データ除去・営業時間スキーマ全面修正）
+
+**未コミット**: `inc/schema.php` / `inc/seo.php` / `inc/seo-llmo.php`(新規) / `functions.php` / `llms.txt` / `_docs/`(新規)。**DB 投入分は git 外**
+
+#### AG) NAP 正の確定とプロトタイプ照合（★調査）
+- プロトタイプ https://shichikancho-yx4urq24.manus.space/ の copyright 準拠で運営者名の正は **「七間町町内会」**
+- 住所の正: 〒420-0035 静岡県静岡市葵区七間町17-9
+- meta description（全ページ共通1本）: 「静岡県静岡市葵区七間町。駿河カルチャーライン構想の中心地として、観光情報、商店街のお店、イベント情報など、町の魅力を発信します。」
+- **電話番号・Instagram 以外の SNS URL は一次情報が存在しない**。捏造せず空のまま
+
+#### AH) AIOSEO へ DB 直投入（★DB・git 外）
+- `wp_options.aioseo_options` に投入: `searchAppearance.global.metaDescription` / `schema.organizationName`=七間町町内会 / `schema.organizationLogo` / `social.profiles.urls.instagramUrl`
+- **`organizationLogo` が `.local` 絶対URL**。本番移行時に書換必須
+- JSON を mysql バッチモードでパイプすると壊れる → **PHP mysqli + `mysqli_set_charset('utf8mb4')` で書く**こと
+
+#### AI) LLMO を `inc/seo-llmo.php` に分離（★コード）
+- zakkushi テーマと同構成。llms.txt 動的生成 / robots.txt AI 許可 / AI meta・geo タグ / AIOSEO 拡張を `seo.php` から移動。`seo.php` は純粋な SEO 補完のみに
+- `sc_aioseo_schema_enrich()`（`aioseo_schema_output` フィルタ）— AIOSEO の WebPage/CollectionPage に `mainEntity` / `about` / `speakable` を注入（shop→`#shop`, spot→`#spot`, front→`#localbusiness`）、BreadcrumbList の item 文字列を `@id` オブジェクト化
+- `sc_aioseo_og_type_place()` — shop/spot の og:type を article→website に補正、`article:*` タグ除去
+- `/llms.txt` が `/llms.txt/` へ 301 されていたのを `redirect_canonical` フィルタで抑止
+
+#### AJ) 捏造 NAP データの除去（★DB・git 外）
+- seed 店舗 6件（38/39/40/41/45/47）: `shop_phone` の `054-000-%` と `shop_website` の `%example.com%` を空に。**架空の電話番号は MEO 上の実害**
+- spot 59〜65 に `spot_address` + `_spot_address`(=`field_spot_address`) を投入。**検索で裏取りできた住所のみ**
+- spot 66（旧田中家屋敷跡）と 67（MICE推進センター＝市役所内の課であり施設でない）は検証不能につき**意図的にスキップ**
+- `schema_local_business()` の `'openingHours' => 'Mo-Su 10:00-21:00'` を削除（商店街に統一営業時間など無い）
+
+#### AK) 営業時間スキーマの全面書き換え（★コード・inc/schema.php）
+- **旧 `sc_shop_normalize_hours()` は最初の1レンジしか拾わず、3店で事実と違う営業時間を出力していた**（1256 芳龍→土日ランチのみ / 1257 みむらや→昼のみ / 1258 揚屋たけ→昼のみ）。さらに Google 由来の「11時30分～14時00分」形式に非対応で **35店の曜日別データを丸ごと捨てていた**
+- `sc_shop_time()` / `sc_shop_time_ranges()` / `sc_shop_hours_specs()` を新設
+  - 曜日別表記「月曜日: 11時30分～14時00分, 17時00分～22時00分」を優先解析し、同一時間帯の曜日をまとめて複数 spec で出力
+  - 「火曜日: 定休日」の行は時間帯が取れず自然に `dayOfWeek` から外れる
+  - **曜日不明かつ複数レンジは構造化しない**（生テキストを `openingHours` に退避）。嘘を出すくらいなら出さない方針
+- 定休日未入力の店は `dayOfWeek` を省略（年中無休と主張しない）
+- 結果: 構造化 44件 / 生テキスト 3件 / 時間データ無し 4件
+
+#### AL) AIOSEO 有料版 Local SEO の適用可否（★調査・結論=使えない）
+- 公式ドキュメント（2026-04-15 更新）: Local SEO は **Plus プラン以上**（Plus/Pro/Elite。Basic 不可）
+- ただし LocalBusiness を出せるのは **ホームページ** か **AIOSEO 専用の `Locations` CPT** のみ。既存 `shop` CPT には適用できない
+- 使うなら shop 47件を Locations CPT に全移行 → URL・テンプレ・ACF・タクソノミー作り直し。**割に合わないので shop/spot/event の schema はテーマ側で保持**
+- 価格ページの JSON 抽出は Pro=Local SEO 無しという矛盾した結果を返した（LLM の読み違い）。**pricing ページより docs を信じること**
+
+#### AM) column の Article 二重出力チェック（★調査・結論=重複なし）
+- AIOSEO の `column` CPT デフォルトグラフは `WebPage`（`aioseo()->schema->getDefaultPostTypeGraph()` で確認）。出力ノードは BreadcrumbList / Organization / Person / WebPage / WebSite のみ
+- **テーマの `schema_article()` が唯一の Article 出力元**。削除すると Article が消えるので維持
+
+#### AN) メタディスクリプション全件投入（★DB・git 外）
+- 投入前は**全ページがグローバル既定文1本のみ**（ページ別設定はほぼ空）。公開コンテンツ 213件で **空 0 / ユニーク 212種** に
+- 保存経路は管理画面と同一（`\AIOSEO\Plugin\Common\Models\Post::getPost()->save()` = `wp_aioseo_posts` / `aioseo()->dynamicOptions->save(true)` = `aioseo_options_dynamic`）。**管理画面から普通に編集できる状態**
+- 固定ページ 27枚は個別投入。入力済みは上書きしないガード付き。**エリア5ページは `/area/` の子なので `get_page_by_path('tokiwa')` では拾えない** → ID 指定（1223〜1227）
+- CPT アーカイブ 8種（shop/spot/event/column/resident/news/job/learn_facility）: `dynamicOptions->searchAppearance->archives->{pt}->metaDescription`
+- **CPT 個別は `#custom_field-{ACFフィールド}` スマートタグで自動化。Lite でも動作する（実測）**
+  - shop→`shop_description`（抜粋は 10/51 しか無いが ACF は 47/51）/ spot→`spot_description` / learn_facility→`facility_description` / walk_course→`walk_description`
+  - ACF 空の投稿も AIOSEO が本文から自動生成にフォールバックするため空にならない。**抜粋への転記は不要だった**
+- resident は**本文がシードの同一ダミーで8件完全重複**していたため `#post_title｜…` 形式で一意化。**実インタビューに差し替えたら `#post_excerpt` に戻す**
+- 個別に手当て: photo_award 4件（説明用 ACF が無い）/ shop 2件（揚屋たけ 162字・大石精肉店 179字 → 句点単位で詰めた）
+- 「町に住む」は description 欄に文字列 `#post_content` が入っており、本文が空のテンプレページのため空文字に解決されていた
+- 文面の控えは `_docs/seo-meta-drafts.md`。**テーマ PHP にハードコードしない**（ユーザー方針: メタは管理画面が正、テーマ側は保険のみ）
+- **本番移行時はこの控えから再投入する**（DB は git 外）。固定ページ27枚・アーカイブ8種・投稿タイプ別フォーマット・個別6件の実文言と API 手順を同ファイルに収録済み
+
+#### AO) 散策コースのルートマップが機能していない件（★DB・git 外）
+- 症状: `/walk-course/ocha-machiaruki/` でルートマップが実質出ない。**テンプレートは正常**（`single-walk_course.php:140` の `count($map_points) >= 1` でセクション自体は描画される）
+- 原因: **参照スポット側の `spot_map_lat` / `spot_map_lng` が空**。お茶コースは 6件中 5件が空で、開いてもピン1本のみ・ルート線なし（`walkmap.js` の polyline は 2点以上で描画）
+- 全6コースを監査 → 欠落は2コースで計7件（お茶 1/6・歴史探訪 3/5）。他4コースは元から充足
+- 対応: `SC_GOOGLE_MAPS_KEY` で実データ取得し7件に投入。**住所ありは Geocoding / 住所なしは Places Text Search**。`formatted_address` に「葵区」を含まない結果は採用しないガード付き
+  - Geocoding: 八千代寿し鐵(ROOFTOP) / 茶町(APPROXIMATE=町域の代表点) / 静岡市歴史博物館(ROOFTOP)
+  - Places: T's green omachi(七間町16-7) / 田丸屋本店(紺屋町6-7) / ルモンドふじがや(昭和町6-1) / うおかね(馬場町33)
+- トレーサビリティ用に `_sc_place_id` と `_sc_geo_source`（`geocode:2026-07-25` 形式）を記録
+- **田丸屋本店は候補3つ**（紺屋町の本店 / パルシェ店 / 駿河区の株式会社本社）。まち歩き動線として中心街の本店を採用。意図が違えば差し替え
+- 検証: 全6コースが座標100%。実 HTML の `data-points` で6点出力を確認
+
+#### AP) 散策コースの所要時間に移動手段を明示（★コード）
+- 背景: 歴史探訪コースの「24分」は **PDF のシェアサイクル時間**（区間も `自転車 1分`…）。「散策コース」枠で分数だけ出すと徒歩24分と読まれる（実際は徒歩1時間前後の距離）
+- **新規 ACF フィールドは追加していない**。`walk_spots` の `time_to_next`（「徒歩 15分」「自転車 5分」形式）先頭語から導出
+- `inc/helpers.php` に2関数追加: `sc_walk_transport()`（徒歩/自転車/バス/電車/タクシー/車を集約・混在は「徒歩・バス」）/ `sc_walk_duration_label()`（「自転車 24分」を返す。手段不明なら従来通り分のみ）
+- 差し替え6箇所: `single-walk_course.php`(44, 301) / `page-walk.php`(258, 367) / `page-explore.php`(172, 234)
+- 結果: 歴史探訪=自転車 24分、他5コース=徒歩 45〜120分
+- **`page-explore.php` は「Template Name: 町をめぐる」だがどのページにも未割当**（`/walk/` が `page-walk.php` で稼働中）。重複テンプレートの整理は未判断
+
+#### AQ) 静岡市パンフ PDF とサイト spot/shop の突き合わせ（★調査）
+- 対象: `https://www.visit-shizuoka.com/asset/pamphlet/shizuoka-city-discovery-trip.pdf`（24ページ・**見開き1PDFページ=印刷2ページ**。印刷 P.16 は PDF p9）
+- **AREA GUIDE 1「静岡市街地」（印刷 P.15-18）のみが七間町圏**。GUIDE 2〜7（日本平/丸子・宇津ノ谷/清水・三保/興津・由比・蒲原/オクシズ/用宗）は清水区・駿河区・葵区山間部で掲載基準外
+- 番号付き12件のうち **未登録6件**: 臨済寺（大岩町7-1）/ 駿府楽市（黒金町47 アスティ）/ 12-twelve（紺屋町7-14）/ しずチカ茶店 一茶（黒金町49-1）/ **人宿藍染工房（人宿町2-6-5）** / 静岡ホビースクエア（駿河区＝圏外）
+- 地図ラベルの未登録: **葵舟**（駿府城の堀めぐり遊覧船・要予約）/ **茶町KINZABURO**（お茶コース SPOT4 の中核）/ 華陽院（家康公祖母の墓所）/ 二加番稲荷神社 / 静岡近代美術館 / PARCO / 弥次喜多銅像 / 竹千代像
+- **PDF P.15 にもう1本、未登録の徒歩コースあり**: 「街歩きの王道 歴史探究 街あるき」= JR静岡駅→しずチカ茶店一茶→静岡浅間神社→日本料理うおかね→葵舟(駿府城公園)→人宿町散策→青葉おでん街→JR静岡駅（**徒歩 計93分**）。前回の「モデルコース10本」棚卸しはページ3〜7しか見ておらず漏れていた。**各 AREA GUIDE ページに同種のミニ徒歩コースが付く構成**
+- 副産物: **spot の重複登録**を発見 — 静岡浅間神社(62/1324) / 駿府城公園と駿府城跡(58/1313) / カフェ・ド・七間(spot 787・shop 39 でCPT跨ぎ) / 映画館めぐりコースが七間町商店街(786)を2回連続参照
+
+#### AR) /tourism/ にコース一覧への導線を追加（★コード・DB）
+- `page-tourism.php` の「人気の散策コース」末尾に `c-btn c-btn--primary` で「散策コースをすべて見る」ボタン追加。SCSS は `_page-tourism.scss` の `&__walks-more`
+- 最初に専用一覧ページ `/courses/`（`page-course-list.php` + `_course-list.scss` + 固定ページ ID 1346）を作ったが、**`/walk/` に絞り込み付き一覧が既にあった**ためユーザー判断でボタンは `/walk/` へ。**ID 1346 は draft に降格**（削除ではないので復帰可能）
+- **`page-course-list.php` と `assets/scss/pages/_course-list.scss` + `main.scss` の `@use 'pages/course-list'` は未使用のまま残置**。`/walk/` 一本化で確定なら削除（git 未追跡なので消すと復元不可）
+- ボタンのガードは `get_page_by_path('walk')`。ページが無い環境では出力しない
+
+#### AS) PDF コース・スポットの一括投入（★DB・git 外）
+- 対象の線引き: **JR静岡駅発着で公共交通・徒歩で完結するコースのみ**。IC 発着の車前提コースは原則対象外（後述の例外1本）
+- **スポット20件を新規作成**。住所・電話・説明は PDF 記載、座標は Geocoding（住所あり）/ Places Text Search（住所なし）で裏取り。`_sc_source` に出典、`_sc_place_id` / `_sc_geo_source` に取得元を記録
+  - 葵区中心部: しずチカ茶店 一茶 / 葵舟 / 人宿町 / 駿府楽市 / 人宿藍染工房 / 12-twelve / 臨済寺 / 入船鮨 両替町店 / 茶町KINZABURO
+  - 東海道・丸子: 石部屋 / 駿府の工房 匠宿 / 丁子屋
+  - 日本平・久能山・清水: 久能山東照宮 / 日本平夢テラス / 日本平ロープウェイ / 三保松原 / 日本平ホテル / グリーンエイトカフェ / やすらぎの森 食事処たけのこ / 清照由苑
+- **コース5本を新規作成**（区間時間・移動手段は PDF のコース図を `pdftoppm` で拡大して1区間ずつ転記）
+  - 歴史探究 街あるき（徒歩93分・P.15 街歩きの王道）/ 東海道名物と静岡のソウルフード（徒歩・バス100分）/ 家康公が眠る国宝と絶景（徒歩・バス・ロープウェイ176分）/ 絶景フォトスポットめぐり（徒歩・ロープウェイ106分）/ **感動のお茶体験（車80分・ユーザー指示で車前提だが例外的に投入）**
+- `sc_walk_transport()` に **ロープウェイ** を追加
+- **PDF どおりにできなかった点**: 青葉おでん街は shop 登録（ID 1290）で `walk_spots.ref` が spot 限定のため立ち寄り先にできず、隣接の青葉横丁（spot 1288）で代用
+- 全11コースが座標100%。ルートマップに全点が乗る状態
+
+#### AT) コース↔スポット / エリア↔スポット の逆引き導線（★コード）
+- `inc/helpers.php` に3関数追加
+  - `sc_get_courses_by_spot()` — **ACF リピーターは meta_query でキーのワイルドカード指定ができない**ため `$wpdb` で `meta_key LIKE 'walk_spots_%_ref'` を直接引く
+  - `sc_get_area_term_map()` / `sc_get_post_areas()` — 町名ターム→大エリアの逆引き。正は各エリアページの ACF `area_linked_terms`（page-area.php と同じ解決順）
+- `single-spot.php`: 「このスポットをめぐる散策コース」（所要時間・スポット数つきカード）と「◯◯エリアのガイドを見る」リンクを追加。`_single-spot.scss` に `&__courses` / `&__areaguide`（エリア色は slug 別モディファイア。**インライン style は使わない**）
+- データ側の穴埋め: 住所から area タームを**12件付与**（spot 6・shop 6）、`spot_address` が空だった4件（T's green omachi / 田丸屋本店 / ルモンドふじがや / うおかね）を Places 取得済みの住所で補完
+- **未接続19件は意図的**（清水区・駿河区＝5エリア管轄外／葵区だが町名タームが未登録＝茶町・追手町・黒金町・八千代町・大岩町・弥勒・土太夫町）
+
+#### AU) /walk/ のカードメタ崩れ修正 + コース一覧アンカー（★コード）
+- **アイコンとテキストのズレ**: `.p-walk__course-card-meta` が `display:contents` で div/dt を潰し、`align-items` 未指定だったため 14px の SVG が上寄せ。さらに dl 直下の `gap:16px` がアイコン⇔値の間にも効き、グルーピングも崩れていた
+- `page-walk.php` に `-meta-row` / `-meta-term` / `-meta-desc` クラスを付与し、`_walk.scss` の裸タグセレクタ（div/dt/dd）を廃止して行を実体化（`align-items:center` / 行内 4px・項目間 16px）
+- `/tourism/` のボタン飛び先を `/walk/#walk-courses-title` に。**飛び先の見出しが存在しなかった**（`aria-labelledby` が空参照）ので `page-walk.php` に「散策コース一覧（N件）」の h2 を追加、`scroll-margin-top` 付き
+
+#### AV) ACF 双方向フィールドの検討（★結論=不要・作ったものは削除済み）
+- 「コース↔スポットを ACF の関連フィールドで双方向に」という要望で、両側にトップレベル Relationship を新設する import JSON と移行スクリプトを作成 → **ユーザーが「前からできていた」と判断し削除**
+- 判明した事実は残す: **`walk_spots.ref` はリピーター内サブフィールドなので ACF の双方向対象にできない**（双方向はトップレベルの関連フィールド同士のみ。ACF PRO 6.8.6 のソースで確認）。双方向にするなら別のトップレベルフィールドを新設するしかなく、順路リピーターと二重管理になる
+- 既存の関連フィールド（`pickup_*` / `spot_related_spots` / `resident_favorite_spot`）は**すべて片方向**。双方向設定を使っている箇所は現状ゼロ
+- 迷走の原因: 「双方向」をフロントの相互リンクと解釈して single-spot 側の逆引き→カスタムメタボックスと2回作り直した。**管理画面の話か表示の話かを最初に確認すること**
+
+#### 環境ノウハウ（このセッションで判明）
+- **`/usr/local/bin/wp` ラッパーは Local の PHP を使うためソケット指定が効かない**。homebrew php で phar を直接叩く:
+  ```
+  php -d mysqli.default_socket="$HOME/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock" \
+    /usr/local/bin/wp-cli.phar eval-file <script> --skip-plugins=http-auth
+  ```
+- これで **ブラウザ無しで JSON-LD を全件検査できる**（http-auth があるので HTTP 経由は不可）。`ob_start()` + `schema_shop($id)` で出力を捕まえる
+- firecrawl は **404 ページでも JSON 抽出が「それらしい値」を返す**。`statusCode` を必ず見ること
+
+---
+
+### ★ 2026-07-24〜25 セッション（エリアガイド chuo-kanko 風・Places一括インポート・SC_TPL_URI 定数化）
+
+**コミット済み**: `998ab39`(コードレビュー=本セッションの大半) → `1c1e1d7`(TOPコード修正=front-page)。未コミットは HANDOFF.md のみ。**DB投入分（AB/AC）は git 外**
+
+#### Z) /tourism/ エリアガイドを chuo-kanko 風レイアウトに（★コード）
+- マップ縮小: `&-map-wrap` max-width 896→**627px**（旧の70%）。`width:70%` 指定は max-width で頭打ちになり効かなかったため max-width 側を縮めた
+- **PC: 3カラム**（左320px｜マップ｜右320px、`&-layout` grid）。左=baba/shichikancho、右=takajo/gofuku/tokiwa（マップ領域位置に合わせ振分け。`$area_map_sides` in page-tourism.php）
+- ラベルカード = エリア色ピル（白文字・rem(13)・nowrap）＋「[ 主な観光名所 ]」リスト。**リストは spot 投稿連動**（area_terms→term解決→spot最大5件、`$area_spots_titles`）。spot 0件用の静的フォールバック配列あり（現在は全エリア spot 有で不使用）
+- **SP: マップ上にピルを絶対配置で重ねる**（参考サイトSP準拠）。`&-layout` relative + `&-side` display:contents + slug別 %座標。リスト/トグルはSP非表示
+- **注意**: 途中で実装したSPアコーディオン（`.js-area-acc`、main.js）は上記変更で**どこでも発火しない死にコード**。戻す予定が無ければ削除可
+- 旧モバイル用フォールバックリスト（`&-list` 一式）は撤去済
+- タブアイコンのズレ修正: `&__spots-tab-icon` に flex中央寄せ＋`font-size:0`（マークアップ改行の空白ノードでSVGが4px左に寄っていた）
+
+#### AA) エリア配色をマップ5色に全site統一（★コード）
+- `--area-color` を **マップ同色**（shichikancho #8BA7C5 / tokiwa #CBA7A1 / gofuku #A4BBAE / takajo #D3C4A7 / baba #A8A7C4）に統一
+- 対象: `_page-tourism.scss`（ラベルカード＋exploreカード）と `_area.scss`（エリア詳細ページ）。旧パステル（#f8b4c4 等）は全廃
+
+#### AB) Google Places 一括インポート spot/shop 56件（★DB・公開済）
+- 町名ごとに Text Search →「葵区＋町名」住所一致・レビュー3件以上のみ採用。spot エリア≤5 / shop ≤8、評価件数順。**`_sc_place_id` メタで再実行時も重複しない**。`_sc_places_import`=2026-07-24 で一括抽出可
+- ACF: 住所/電話/サイト/営業時間/緯度経度、area ターム（町名）、spot_type / shop_category を自動設定
+- **概要文も投入済**: editorial_summary（あれば）→ 公式サイト meta description のリライト → 情報薄い店は業態レベルの無難な文。ファクトチェック済（賤機山古墳=円墳・東海の日光・坤櫓など裏取り、駿府町の記述は市民文化会館ベースに修正済）
+- **要ユーザー精査**: 非加盟店掲載の是非（コンコルド=パチンコ、マクドナルド、静岡駅寄りチェーン等）。業態推定の desc 数件（ＤＯＮ幸庵/やぶ福/河内庵/サングリア/カウボーイ）。駿河屋の shop_category が「食べる」誤分類のまま
+- spotと二重登録された shop 4件＋神社1件は削除済
+
+#### AC) エリア詳細ページのコンテンツ補完（★DB/ACF）
+- **町の紹介**（area_towns リピーター）: 不足14町を追記（既存3町保持）。全5ページ=4/3/3/4/5町
+- **冒頭セクション**（area_intro_en / area_intro_title / area_features×3）: 空だった4エリア（tokiwa/gofuku/takajo/baba）に投入。空フィールドのみ設定・七間町エリアは無変更
+- **未登録のまま**: 4エリアの area_history / area_course（歴史は事実確認の重要度高、資料もらってからが安全）
+
+#### AD) 記事系 single の No-image ヘッダー非表示（★コード）
+- spot/news/column/event の4テンプレ: アイキャッチ未設定時にヒーロー画像ブロックごと非表示（`sc_no_image_url()` フォールバック廃止、`?: ''` + if ガード）
+- カード一覧・関連スポットのサムネ placeholder は現状維持。single-property は物件系のため対象外（同パターン残存）
+- **注意**: アイキャッチ無しイベントは「終了」バッジも消える（ヒーロー内にあるため）
+
+#### AE) single-shop パンくず一本化（★コード）
+- タイトル上の独自パンくず `p-shop__crumb`（商店街のお店›カテゴリ›エリア）を削除、Gナビ直下の共通 breadcrumbs のみに。SCSS の `&__crumb` 一式も削除
+- **注意**: エリアタームへの導線がページから消えた（共通パンくずはカテゴリまで）
+
+#### AF) front-page.php 整理 + SC_TPL_URI 定数化（★コード）
+- front-page.php: 未使用 `$banner_base` 削除 / 配列コピペを array_fill・array_merge に / スクロール帯の二重 foreach を for×2 に / コメント不一致修正 / 観光マップ h2 内の崩れ整形。**出力HTML完全一致を diff 検証済**
+- **`SC_TPL_URI` 定数**を inc/constants.php 先頭で定義（`get_template_directory_uri()`）。テーマ全体 **50箇所・13ファイル** を一括置換（header/footer/front-page/page-* 5枚/inc 4枚）。get_template_directory()（パス系）は対象外
+- **shop カテゴリチップを実ターム連動に**: 静的 `$shop_cats`（泊まる/学ぶ等の架空データ）→ `get_terms(TAX_SHOP_CAT)` 全ターム＋実件数。**旧リンク `?cat egory=` はアーカイブが読まず絞り込み無効だった**→ 実仕様 `?cat[]=スラッグ` に修正（「買う」6件で件数一致を検証済）
+
+#### 環境ノウハウ（このセッションで判明）
+- サイトは **http-auth プラグインで Basic認証 demo/pass**（wp_options `http_auth_settings`）。curl は `-u demo:pass`
+- **CLI から WP を叩く方法**: wp-cli は DB 接続不可。`php -d mysqli.default_socket="~/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock" -r '$_SERVER["PHP_AUTH_USER"]="demo"; $_SERVER["PHP_AUTH_PW"]="pass"; require "wp-load.php"; ...'` が確実（認証偽装しないと http-auth が wp_die する）
+- DB直: Local の mysql バイナリ + 上記ソケット、`--default-character-set=utf8mb4` 必須（化け防止）
+
 ### ★ 2026-07-21 セッション（お問い合わせ改修・inc統合・エリアターム連動・スポット投入・マップSVG化）
 
 **コミット済み**: `3bb472c`(お問い合わせ改修/CF7/ファビコン) → `b9a95a2`(エリア名5構成) → `f29a7fa`(エリアターム連動) → `824876d`(店舗カード下辺) → `da1cd41`(inc統合) → `3faed97`(エリアガイドをPNG完全再現クリッカブルSVGマップ化)。前セッションの未コミット分（archive-*/area/breadcrumps 等）も 3bb472c に巻き込み済。
@@ -171,6 +437,12 @@
 
 ## 2. 環境メモ
 
+- **テストサーバー**：`ssh mc-core`（CORESERVER v2012 / `~/domains/shichikancho.main-color.com/public_html`）。ベーシック認証は http-auth プラグイン（DB 保存・`demo` / `pass`）。wp-cli は `php ~/wp-cli.phar --skip-plugins=http-auth`
+- **ローカルのテーブル接頭辞は `siwn_`**（2026-10-05 にサーバー DB を取り込んだ際にサーバーへ合わせた）。旧 `wp_` テーブルは残置
+- **ローカルの管理者は `admin`（サーバー由来）**。Local アプリのワンクリックログインは効かない。パスワードは `wp user update admin --user_pass=...` で付け替える
+- **有効テーマはローカル・サーバーとも子テーマ `sichikenchou-finish`**。親テーマだけ直しても、子が上書きしているファイル（front-page / footer / page-living / page-area / page-learn / page-tourism / page-access / archive-event / area-map.php / assets/main.js）は反映されない
+- **子テーマの取り込み**：`tools/pull-finish.sh`（平日 9:00 に cron 実行・ログは `tools/pull-finish.log`）。GitHub は非公開リポジトリ `udokano/sichikenchou-finish`
+- **バックアップ置き場**：`tools/sc-import/backups/`（DB ダンプ・サーバー退避アーカイブ・更新前プラグイン）
 - **SCSS コンパイル必須**：編集後 `npx sass assets/scss/main.scss assets/css/main.css --style expanded --no-source-map`。`assets/css/main.css` は **.gitignore 対象**（コミットしない・本番でビルド前提）
 - **OPcache**：PHP 編集後、`public/flush.php`（`opcache_reset()`）を curl で叩いて削除。本番反映には別途必要
 - **WP-CLI で DB 操作可（推奨）**：Local ソケット + `--skip-plugins=http-auth` + `--exec` で DB_HOST 上書き（詳細は §1-J）。ラッパー例 `scratchpad/wpx.sh`。ACF データ投入は `wp eval-file seed.php`（`update_field()`）。ブラウザ経由 seed はもう不要
@@ -178,17 +450,72 @@
   - **`wp post term set` は `--by=id` 必須**（既定は名前扱いでゴミターム量産）
 - **Restricted Site Access / http-auth プラグイン稼働**：未ログインの curl は 401。CLI は `--skip-plugins=http-auth` で回避
 - **検証は Claude in Chrome の `javascript_tool`**（認証済みタブ）。computed-style や naturalWidth で確認。chrome-devtools MCP は別ブラウザ起動で http-auth 未認証→ローカルサイト到達不可
+- **JSON-LD / PHP ロジックの検証はブラウザ不要**。homebrew php で wp-cli.phar を直接叩く（`/usr/local/bin/wp` ラッパーは Local の PHP を使うのでソケット指定が効かない）:
+  ```
+  php -d mysqli.default_socket="$HOME/Library/Application Support/Local/run/IG98zSrPa/mysql/mysqld.sock" \
+    /usr/local/bin/wp-cli.phar eval-file <script> --skip-plugins=http-auth
+  ```
+  `ob_start()` + `schema_shop($id)` で出力を捕捉して全件検査できる
 
 ---
 
 ## 3. 残タスク
 
-- **DB投入分は全て git 外**（Q〜V の contact本文/ACF値/site_icon/CF7メッセージ/同期パターン1266/area_linked_terms/スポット3件）。本番は別途移行
+### SEO/MEO（2026-07-25 セッション由来）
+- **NAP 統一 — ユーザー判断待ちで stay**。footer「七間町 町内会」/ `schema.php` の `SC_ORG_NAME`「七間町商店街振興組合」/ copyright「七間町町内会」の3表記混在。**Google に3種類の事業者名を送っている状態で MEO 上いちばん実害が大きい**。町内会側への確認が必要
+- `schema_organization()` の `sameAs` に**未検証の Facebook URL がハードコード**（`https://www.facebook.com/shichikencho/`）。実在確認できないなら削除
+- `schema_article` の `publisher.logo` 欠落 / `schema_event` の price がフリーテキスト / `schema_property` の `offers: null`
+- `seo.php` の `sc_seo_fill_missing_description()` が**未フックの死にコード**。AIOSEO 無効時は description 二重出力
+- 曜日不明で生テキストに退避した3件（1256/1257/1258）の `openingHours` は schema.org 想定形式でないため Rich Results Test で警告が出る可能性。虚偽よりマシという判断だがキー自体を落とす選択もあり
+- 深夜跨ぎ（`closes: "00:00"`）を Google が翌日扱いと解釈するか実機の Rich Results Test で未確認
+- ローマ字表記ゆれ: blogname「SHICHIKENCHO」/ プロトタイプ「SHICHIKANCHO」/ Instagram「shichikencho」— **ブランド判断待ち**
+- 静的 `llms.txt` と `inc/seo-llmo.php` の動的エンドポイントで内容が重複。整理するか要判断
+- **「関連リンク」が `/links/`(1169) と `/links-2/`(1170) で重複公開**。内容も description も同一。統合 or 非公開化はユーザー判断待ち（削除は不可逆のため未実行）
+- ページ別**タイトル**（`#post_title #separator_sa #site_title` の既定のまま）と **OGP 画像**は未着手。description のみ全件投入済み
+- resident の本文がシードのダミーのまま8件同一。実インタビュー投入後に AIOSEO 側フォーマットを `#post_excerpt` に戻す
+- **クライアント確認待ち**: 実店舗41件の定休日・価格帯 / 商店街の代表電話番号 / Instagram 以外の公式SNS URL（**すべて捏造しない方針。空のまま**）
+- **本番移行時**: AIOSEO `organizationLogo` の `.local` URL 書換、http-auth 解除、robots/sitemap 再確認
+
+### 散策コース / PDF 由来（2026-07-25 セッション由来）
+- **未使用ファイルの処分判断**: `page-course-list.php` / `assets/scss/pages/_course-list.scss` / `main.scss` の `@use 'pages/course-list'` / 固定ページ ID 1346（draft）。`/walk/` 一本化なら削除
+- **`page-explore.php`（Template Name: 町をめぐる）が未割当のまま**。`page-walk.php` と役割重複。統合 or 削除の判断
+- **車前提コース4本が未投入**（美食②駿河湾／風景・癒し①②／体験①②）。入れるならスポット約20件の追加が要る。※お茶①「感動のお茶体験」は指示により投入済み
+- **PDF 未登録のまま残したスポット**: 華陽院 / 二加番稲荷神社 / 静岡近代美術館 / PARCO / 弥次喜多銅像 / 竹千代像 / 静岡ホビースクエア（駿河区）
+- **葵区だが area タームが無く大エリアに紐づかないスポット**: 茶町・茶町KINZABURO(土太夫町)・八千代 寿し鐵(八千代町)・静岡市歴史博物館(追手町)・駿府楽市/しずチカ茶店一茶(黒金町)・臨済寺(大岩町)・石部屋(弥勒)。**タームを足して5エリアに含めるかは要判断**（含めるとエリアページの掲載範囲が変わる）
+- **`浅間通り商店街`(spot 61) が「青葉通り」タームのまま**でどのエリアにも解決しない。浅間通りは馬場町・宮ヶ崎町側なのでターム誤りの可能性
+- **spot の重複整理**（AQ 参照）: 静岡浅間神社 62/1324・駿府城公園 58/駿府城跡 1313・カフェ・ド・七間 spot787/shop39。史跡として別ページに分けるのか統合かは編集判断
+- **映画館めぐりコースが七間町商店街(786)を2回連続で参照**。データ入力ミスの可能性
+- **青葉おでん街をコースに入れられない**（shop 登録・`walk_spots.ref` は spot 限定）。ref に shop を許可するか、spot として登録し直すかの判断
+- **車前提コースが「散策コース」一覧に混在**（感動のお茶体験＝車80分）。移動手段での絞り込みか「車のコース」バッジがあると親切
+- **`p-explore__course-card-meta` が `display:contents` のまま**（single-walk_course.php の関連コース）。dt が `u-sr-only` でアイコンを持たないため AU) の症状は出ないが、裸タグセレクタ違反としては残存
+
+### サーバー運用・掲載情報（2026-10-06 時点）
+- **サーバーの `/work/` を目視確認**（ベーシック認証でこちらからは開けない）。求人カード・モーダル・絞り込みの表示確認
+- 先方へ連絡：WP 7.1.2 に上げたこと、news と求人の編集画面が変わったこと、ベーシック認証が `demo` / `pass` のままであること
+- **wp-cron が動いていない**（ベーシック認証で弾かれる）。`DISABLE_WP_CRON` ＋ サーバー cron への切り替えを先方に提案するか判断
+- AIOSEO 5.0 / Taxonomy Terms Order 2.0 のメジャー更新（先方の作業が落ち着いてから・構造化データの検証付き）
+- クラシック固定のまま本文がブロック形式の CPT（resident / property / job / gallery_photo / coworking / spot）の扱いを決める
+- **求人 ACF の並び替えをサーバーに反映**（F 参照）。テーマ更新後、サーバーの ACF 管理画面で同期するか `acf-import-group_job-reorder.json` をインポート。サーバー DB にも `group_job` の重複が無いか先に確認
+- 求人 3件（ID 125 / 126 / 127）の会社名・職種・タグ等が未入力。正しい情報を入れるか下書きに戻すか判断（サーバー側で）
+- **ACF フィールドの残骸がサイト全体に残存**（ローカル DB）：キー重複 44 / 親投稿なし 322（単純 JOIN の概算・内訳未調査）。求人以外のグループでも重複インポートが起きている可能性
+- 求人：`job_website` は10件とも未入力、`validThrough`（応募締切）は JobPosting に 0/10
+- 求人：PICK UP 設定（おすすめバッジ）が未登録。ページ送りは直書き削除で消えたまま（件数が増えたら実装）
+- 避難所（page-safety.php 直書き）の実データ化。行政オープンデータ由来に差し替え
+- page-living.php の仮データらしき施設名・イベント名（コワーキング七間町 / Library Lounge 葵 / Tech Meetup Shizuoka 等）の実在確認
+- ローカルの旧 `wp_` テーブル36個の削除（`siwn_` へ移行済み・動作確認後に）
+- `0fd20d9` に開始前からの未コミット変更（inc/helpers.php・inc/schema.php）が混在。分割するか判断
+
+### その他
+- **Places インポート56件の精査**（`_sc_places_import`=2026-07-24 で抽出可）：非加盟店の掲載可否（コンコルド/マクドナルド/駅前チェーン等）、業態推定 desc 5件の実態確認、駿河屋の shop_category「食べる」→「買う」修正
+- 4エリア（tokiwa/gofuku/takajo/baba）の **area_history / area_course が未登録**。資料をもらってから投入
+- エリア詳細・町の紹介の画像サブフィールドが全町空。ラベルカードの冒頭文・紹介文はユーザーの文言レビュー待ち
+- main.js の `.js-area-acc`（SPアコーディオン）が死にコード。SPピル重ねレイアウト確定なら削除
+- スポンサー/メディアロゴが no-image のまま（front-page の仮データ）
+- **DB投入分は全て git 外**（Q〜V の contact本文/ACF値/site_icon/CF7メッセージ/同期パターン1266/area_linked_terms + Z〜AC の spot/shop 56件/概要文/area_towns/intro）。本番は別途移行
 - likes 機能はデッドコード。削除するか判断（inc/likes.php + main.js 550-585 + _gallery/_walk.scss の like）
 - スポット3件のURLスラッグが日本語（%エンコード）。英字化するか要判断（公開直後の今が安全）
 - 旧 area ターム `青葉通り`(12) がどのエリアにも未割当。削除 or 割当
 - tokiwa 等 ②〜⑤エリアは spot/shop/event のタグ付けが薄く各セクション空。先方のタグ付け作業待ち
-- **今セッション分（J〜P）は全て未コミット**。動作確認後にコミット（DB のデータ投入はコード外＝git には乗らない点に注意）
 - **atosaki 加盟店の一次情報照合**：芳龍/たけの住所（2-5-17 修正済/2-5-8 未確認）、各店の価格（公式・食べログ由来で鮮度未検証）。公開前に店へ確認
 - **残り 2 店の充実**：酒場詠(1259)・静岡洋食器(1260) は基本情報のみ（大石/芳龍/みむらや/たけは充実済）
 - **過去日イベントの扱い**：ハレバレ(3/20)・防災フェス(6/14) は既に終了日。公開のままか下書き化か要判断
@@ -207,6 +534,21 @@
 
 ## 4. 触るときの注意
 
+- **NAP（名称・住所・電話）を絶対に捏造しない**。架空の電話番号・住所・SNS URL は MEO 上の実害になる。裏が取れない項目は**キーごと出力しない**のが正。schema.php は空値を落とす設計になっている
+- **構造化データは「出さない」より「嘘を出す」方が悪い**。営業時間パーサ（`sc_shop_hours_specs()`）は曜日対応が確定できない表記を意図的に構造化しない。この判断を「取りこぼし」と誤読して緩めないこと
+- **JSON-LD はテーマ側と AIOSEO の二系統がある**。WebSite/Organization/Breadcrumb/WebPage は AIOSEO（`header.php` で `defined('AIOSEO_VERSION')` により委譲）、shop/spot/event/article/front-page の LocalBusiness はテーマ側（`inc/schema.php`）。AIOSEO 有料版でも shop CPT には LocalBusiness を出せないのでこの分担は変えられない
+- **`wp_options.aioseo_options` を書き換えるときは PHP mysqli + `mysqli_set_charset('utf8mb4')`**。mysql バッチモードにパイプすると JSON が壊れる。書く前に必ずバックアップ
+- **AIOSEO への投入は生 SQL でなく AIOSEO の API を使う**。ページ別は `\AIOSEO\Plugin\Common\Models\Post::getPost($id)` → `description` 代入 → `save()`、設定系は `aioseo()->dynamicOptions->...` → `save(true)`。管理画面と同じ保存先になり、UI からも編集できる
+- **SEO メタは管理画面（AIOSEO）が正**。定型文をテーマ PHP に足さない。テーマ側フォールバック（`seo.php`）は AIOSEO 無効時の保険として早期 return 構造を維持する
+- **「マップが出ない」系はテンプレより先に参照先の座標を疑う**。散策コースのルートマップは条件が `count($map_points) >= 1` なので、座標が1件でもあればセクションは描画され「実装済みに見える」。ルート線は2点以上必要（`walkmap.js`）。同じ構造は front-page のマップ・shop/spot 詳細にもある
+- **座標を Google から補完するときは `formatted_address` に「葵区」が入っているか必ず確認**。名称検索は同名の別店舗・本社をよく引く（田丸屋本店は3候補あった）。採用したら `_sc_place_id` / `_sc_geo_source` を残して出典を辿れるようにする
+- **所要時間を出すときは移動手段も出す**（`sc_walk_duration_label()`）。徒歩と自転車が混在するデータなので分数だけでは誤読される
+- **観光パンフ PDF は見開き1ページ＝印刷2ページ**。印刷ページ番号で指示されたら `(印刷番号+2)/2` で PDF ページに変換。テキスト抽出はレイアウトが崩れるので、コース図・地図は画像で読む方が確実
+- **新規に一覧ページを作る前に既存ページを確認する**。`/walk/` に絞り込み付きコース一覧があるのを見落として `/courses/` を二重に作った（AR）。CPT アーカイブの有無だけ見ると「一覧が無い」と誤判断する
+- **「双方向にしたい」は管理画面の話かフロントの話か先に確認する**。フロントの相互リンク → カスタムメタボックス → ACF 双方向フィールド、と3回作り直した（AV）。結論は「元からできていた」
+- **ACF リピーターのサブフィールドは逆引きも双方向設定もできない**。逆引きは `$wpdb` で `meta_key LIKE 'walk_spots_%_ref'`、双方向はトップレベルの関連フィールドを別途作るしかない
+- **管理画面に出す HTML でもインライン `style` を書かない**。警告表示は WP コアの `notice notice-warning inline` を使う
+- **firecrawl は 404 ページでも JSON 抽出が「それらしい値」を返す**。`statusCode` を必ず確認。ベンダーの pricing ページより docs の方が正確
 - **ローカルにページキャッシュあり**。テンプレ/CSS を変えても旧HTMLが出ることがある → 確認は `?nocache=1` 等のクエリ付与かスーパーリロードでバスト（enqueue の filemtime キャッシュバストとは別レイヤー）
 - **`assets/css/main.css` は gitignore 対象**（コンパイル済みは非追跡）。SCSS 変更後は `npx sass ...` で再コンパイルしてローカル反映、コミットは SCSS ソースのみ。デプロイ先ではビルドが要る
 - **アンカースクロールは `scroll-behavior: smooth` / `scrollIntoView` 禁止**。Google 翻訳の `html{height:100%}` と干渉して smooth が不発になる。`main.js` の `scrollToHash()` のように scroll-behavior を一時 auto に上書きして `window.scrollTo` で instant 実行すること
@@ -216,4 +558,11 @@
 - **SP slick は実機スワイプ未目視**（`resize_window` が実ビューポートに効かず SP 幅に絞れない・innerWidth が縮まない）。PC 幅は確認済み。DevTools デバイスモードで最終確認推奨
 - **`js-center-slider` は living / photo-contest / shop・event アーカイブ PICK UP で使用**。PC もスライダー化したい箇所は `is-pc-slider`（+ `data-pc-slides`）を付与、操作バーは空 `<div class="c-slider-nav js-center-slider-nav">` を隣接配置（§1-N）
 - **grid/flex 内に slick を置くときは親カラムに `min-width:0`**（無いと slick トラック幅でカラムが暴走膨張）。slick 対象要素自体は `display:block`（grid 残存で潰れる）
+- **AIM でローカル → サーバーのインポートは禁止**。サーバーが正。デプロイは親テーマのファイルを rsync（`_seed-*.php` / `acf-import/` は除外）
+- **子テーマが親の `assets/js/main.js` を丸ごと差し替えている**（functions.php で登録済みスクリプトの src を書き換え・親と1875行差分）。**親テーマの JS 修正は画面に出ない**。JS を直すときは両方に入れる
+- **ACF の定義はローカル JSON が優先**。DB だけ変えても反映されない。変更は `acf_import_field_group()` / `acf_import_internal_post_type()`（管理画面のインポートと同じ経路）で入れると acf-json も自動同期される
+- **ACF のテキストエリアは改行を `<br>` に変換して保存**。1行1項目で分割するときは改行と `<br>` の両方で split する
+- サーバーの wp-cli は未導入 → `~/wp-cli.phar` を設置済み。`php ~/wp-cli.phar --skip-plugins=http-auth` で実行（http-auth が CLI も弾く）
+- **Excel 取込は `title` 完全一致**。店名の表記が1文字変わると別投稿として新規作成される → dry-run レポートの「新規」を毎回確認
+- **AIM インポートは DB 丸ごと上書き**。テストサーバー管理画面での編集は運用上禁止（次のインポートで消える）。Basic 認証の ID/PW もローカル値で上書きされる
 - ACF / CPT / CF7 のハードコード禁止ルール（`CLAUDE.local.md`）厳守。フォーム定義は管理画面 or DB seed で
