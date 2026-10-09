@@ -16,7 +16,7 @@ $base_url = get_post_type_archive_link( CPT_NEWS );
 
 get_header();
 ?>
-<main id="main-content" class="p-info-archive">
+<div class="p-info-archive">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -94,7 +94,7 @@ get_header();
 	</section>
 	<!-- /.p-info-archive__main -->
 
-</main>
-<!-- /#main-content -->
+</div>
+<!-- /.p-info-archive -->
 
 <?php get_footer(); ?>

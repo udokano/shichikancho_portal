@@ -67,7 +67,6 @@ $sidebar_latest = new WP_Query( [
 
 get_header();
 ?>
-<main id="main-content">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -338,5 +337,4 @@ get_header();
 	</div>
 	<!-- /.p-resident-archive -->
 
-</main>
 <?php get_footer(); ?>

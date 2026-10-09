@@ -34,7 +34,6 @@ $type_icons = [
 
 get_header();
 ?>
-<main id="main-content">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -157,5 +156,4 @@ get_header();
 		</div>
 	</section>
 
-</main>
 <?php get_footer(); ?>

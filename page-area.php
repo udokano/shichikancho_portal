@@ -11,7 +11,7 @@ $area = sc_get_area( $slug );
 if ( ! $area ) {
 	// エリア未定義スラッグ（テンプレート誤割当）はタイトルのみのフォールバック
 	get_header();
-	echo '<main id="main-content" class="p-area"><section class="p-area__hero"><div class="p-area__hero-inner"><h1 class="p-area__hero-title">' . esc_html( get_the_title() ) . '</h1></div></section></main>';
+	echo '<div class="p-area"><section class="p-area__hero"><div class="p-area__hero-inner"><h1 class="p-area__hero-title">' . esc_html( get_the_title() ) . '</h1></div></section></div>';
 	get_footer();
 	return;
 }
@@ -80,7 +80,7 @@ $sc_area_event_ended = function ( $pid ) {
 
 get_header();
 ?>
-<main id="main-content" class="p-area p-area--<?php echo esc_attr( $slug ); ?>">
+<div class="p-area p-area--<?php echo esc_attr( $slug ); ?>">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -449,6 +449,6 @@ get_header();
 	</div>
 	<!-- /.p-area__back -->
 
-</main>
-<!-- /#main-content -->
+</div>
+<!-- /.p-area -->
 <?php get_footer();

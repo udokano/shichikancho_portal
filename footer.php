@@ -16,7 +16,7 @@
 					</a>
 				</div>
 
-				<div class="l-footer__sns" aria-label="SNSリンク">
+				<div class="l-footer__sns" role="group" aria-label="SNSリンク">
 					<a class="l-footer__sns-link" href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube（新しいタブで開く）">
 						<svg class="l-footer__sns-icon" aria-hidden="true" focusable="false"><use href="#icon-youtube"></use></svg>
 					</a>

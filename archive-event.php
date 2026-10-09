@@ -159,7 +159,7 @@ $keep_tag = $filter_tags ? add_query_arg( array_merge( $keep_cat_qs, [ 'ev_tag' 
 get_header();
 if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_list( $event_query->posts );
 ?>
-<main id="main-content" class="p-event-archive">
+<div class="p-event-archive">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -533,6 +533,6 @@ if ( function_exists( 'schema_item_list' ) && $event_query->posts ) schema_item_
 	</section>
 	<!-- /.p-event-archive__main -->
 
-</main>
-<!-- /#main-content -->
+</div>
+<!-- /.p-event-archive -->
 <?php get_footer(); ?>

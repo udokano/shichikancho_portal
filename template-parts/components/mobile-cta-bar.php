@@ -1,7 +1,7 @@
 <?php
 // SP 固定フッター CTA バー（お問い合わせ・アクセス等のクイックリンク）
 ?>
-<div class="c-mobile-cta" aria-label="クイックリンク">
+<div class="c-mobile-cta" role="group" aria-label="クイックリンク">
 	<a class="c-mobile-cta__item" href="<?php echo esc_url( home_url( '/access/' ) ); ?>">
 		<svg class="c-mobile-cta__icon" aria-hidden="true" focusable="false">
 			<use href="#icon-map-pin"></use>

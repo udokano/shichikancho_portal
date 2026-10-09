@@ -43,7 +43,10 @@ if ( $filter_kw ) {
 }
 
 $shop_query = new WP_Query( $args );
-if ( function_exists( 'schema_item_list' ) && $shop_query->posts ) schema_item_list( $shop_query->posts );
+// get_header() より前に echo すると DOCTYPE の前に出るため wp_head で出力
+if ( function_exists( 'schema_item_list' ) && $shop_query->posts ) {
+	add_action( 'wp_head', fn() => schema_item_list( $shop_query->posts ) );
+}
 
 // カテゴリー・エリア一覧取得
 $shop_cats = get_terms( [ 'taxonomy' => TAX_SHOP_CAT, 'hide_empty' => false ] );
@@ -52,7 +55,6 @@ $total     = $shop_query->found_posts;
 
 get_header();
 ?>
-<main id="main-content">
 
 	<?php
 		get_template_part( 'template-parts/components/page-hero', null, [
@@ -442,5 +444,4 @@ get_header();
 	</div>
 	<!-- /.p-shop-archive -->
 
-</main>
 <?php get_footer(); ?>

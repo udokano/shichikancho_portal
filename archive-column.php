@@ -89,7 +89,7 @@ $current_page = max( 1, get_query_var( 'paged', 1 ) );
 get_header();
 if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_list( $col_query->posts );
 ?>
-<main id="main-content" class="p-column-archive">
+<div class="p-column-archive">
 
 	<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
@@ -451,7 +451,7 @@ if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_li
 	</section>
 	<!-- /.p-column-archive__main -->
 
-</main>
-<!-- /#main-content -->
+</div>
+<!-- /.p-column-archive -->
 
 <?php get_footer(); ?>

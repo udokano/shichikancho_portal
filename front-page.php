@@ -29,7 +29,7 @@ schema_local_business();
 
 			<!-- 左カラム: タイトル -->
 			<div class="p-home-hero__title-wrap">
-				<p class="p-home-hero__title-en js-hero-split" aria-label="SHICHIKANCHO">SHICHIKENCHO</p>
+				<p class="p-home-hero__title-en js-hero-split" role="img" aria-label="SHICHIKENCHO">SHICHIKENCHO</p>
 				<h1 id="home-hero-title" class="p-home-hero__title-ja js-hero-fade">七間町</h1>
 				<p class="p-home-hero__title-sub js-hero-fade">静岡県の中心、七間町</p>
 			</div>
@@ -289,7 +289,7 @@ $shop_cat_terms = is_wp_error($shop_cat_terms) ? [] : $shop_cat_terms;
 			<!-- /.p-home-map__filters -->
 
 			<!-- Leaflet マップ本体 -->
-			<div id="home-map-canvas" class="p-home-map__canvas" aria-label="七間町お店・スポットマップ"></div>
+			<div id="home-map-canvas" class="p-home-map__canvas" role="region" aria-label="七間町お店・スポットマップ"></div>
 
 		</div>
 		<!-- /.p-home-map -->
@@ -474,7 +474,7 @@ $column_query = new WP_Query([
 					$thumb = sc_thumbnail_url(get_the_ID(), 'medium_large');
 				?>
 					<article class="c-card">
-						<a href="<?php the_permalink(); ?>">
+						<a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
 							<div class="c-card__thumb">
 								<img class="u-img-cover" src="<?php echo esc_url($thumb); ?>" alt="" aria-hidden="true" loading="lazy">
 							</div>

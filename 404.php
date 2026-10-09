@@ -4,7 +4,6 @@
  */
 get_header();
 ?>
-<main id="main-content">
 
 	<?php
 	get_template_part( 'template-parts/components/page-hero', null, [
@@ -26,5 +25,4 @@ get_header();
 	</section>
 	<!-- /.p-404 -->
 
-</main>
 <?php get_footer(); ?>
