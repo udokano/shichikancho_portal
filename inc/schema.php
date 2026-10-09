@@ -660,7 +660,7 @@ function schema_article( int $post_id ): void {
 		'headline'         => $title,
 		'description'      => $excerpt,
 		'image'            => $thumb,
-		'url'              => $job_url,
+		'url'              => get_permalink( $post_id ),
 		'datePublished'    => $published,
 		'dateModified'     => $modified,
 		'author'           => [

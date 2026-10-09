@@ -343,12 +343,26 @@ function sc_llmo_meta_head(): void {
  * AIOSEO の @graph を補強して AI クローラー・音声検索に文脈を渡す
  * - WebPage に mainEntity / about / speakable を注入
  * - BreadcrumbList の item を文字列 → @id オブジェクトに変換
+ * - トップページの BreadcrumbList を除去
+ * - CPT アーカイブのパンくず名（空の "Archives for "）を投稿タイプ名に置換
  */
 
 add_filter( 'aioseo_schema_output', 'sc_aioseo_schema_enrich', 15 );
 
 function sc_aioseo_schema_enrich( $graph ) {
 	if ( ! is_array( $graph ) ) return $graph;
+
+	// 表示設定が「最新の投稿」のため、AIOSEO がトップで先頭の投稿（Hello world!）のパンくずを出す
+	if ( is_front_page() ) {
+		$graph = array_values( array_filter(
+			$graph,
+			fn( $g ) => ! is_array( $g ) || ( $g['@type'] ?? '' ) !== 'BreadcrumbList'
+		) );
+		foreach ( $graph as &$g ) {
+			if ( is_array( $g ) ) unset( $g['breadcrumb'] );
+		}
+		unset( $g );
+	}
 
 	// ページ主題エンティティ（テーマ側 JSON-LD の @id を参照）と読み上げ対象セレクタ
 	$entity_id = '';
@@ -364,6 +378,8 @@ function sc_aioseo_schema_enrich( $graph ) {
 		$entity_id = SC_SITE_URL . '#localbusiness';
 		$speakable = [ '.p-home-hero__title-ja', '.p-home-hero__title-sub' ];
 	}
+
+	$archive_name = is_post_type_archive() ? (string) post_type_archive_title( '', false ) : '';
 
 	foreach ( $graph as &$g ) {
 		if ( ! is_array( $g ) ) continue;
@@ -387,6 +403,16 @@ function sc_aioseo_schema_enrich( $graph ) {
 		// item が文字列だと Google が item.id 欠落と警告するため @id 化
 		if ( ( $g['@type'] ?? '' ) === 'BreadcrumbList' && ! empty( $g['itemListElement'] ) ) {
 			foreach ( $g['itemListElement'] as &$item ) {
+				// AIOSEO のアーカイブ用テンプレート "Archives for #breadcrumb_archive_post_type_name" が
+				// CPT で空に解決され "Archives for " だけになる。この時点ではタグ未展開なので前方一致で判定
+				if ( $archive_name ) {
+					foreach ( [ &$item, &$item['nextItem'], &$item['previousItem'] ] as &$node ) {
+						if ( is_array( $node ) && str_starts_with( (string) ( $node['name'] ?? '' ), 'Archives for' ) ) {
+							$node['name'] = $archive_name;
+						}
+					}
+					unset( $node );
+				}
 				if ( isset( $item['item'] ) && is_string( $item['item'] ) ) {
 					$item['item'] = [
 						'@type' => 'WebPage',
@@ -411,6 +437,26 @@ function sc_aioseo_og_type_place( $meta ) {
 	$meta['og:type'] = 'website';
 	foreach ( [ 'article:section', 'article:tag', 'article:published_time', 'article:modified_time', 'article:publisher', 'article:author' ] as $key ) {
 		unset( $meta[ $key ] );
+	}
+	return $meta;
+}
+
+// AIOSEO 側で画像が決まらないページ用の保険。管理画面で既定画像を設定すればそちらが優先される
+add_filter( 'aioseo_facebook_tags', 'sc_aioseo_og_image_fallback', 20 );
+add_filter( 'aioseo_twitter_tags', 'sc_aioseo_og_image_fallback', 20 );
+
+function sc_aioseo_og_image_fallback( $meta ) {
+	if ( ! is_array( $meta ) ) return $meta;
+
+	$image = SC_TPL_URI . '/assets/images/common/ogp.jpg';
+	if ( 'aioseo_twitter_tags' === current_filter() ) {
+		if ( empty( $meta['twitter:image'] ) ) $meta['twitter:image'] = $image;
+		return $meta;
+	}
+	if ( empty( $meta['og:image'] ) ) {
+		$meta['og:image']        = $image;
+		$meta['og:image:width']  = 1600;
+		$meta['og:image:height'] = 893;
 	}
 	return $meta;
 }
