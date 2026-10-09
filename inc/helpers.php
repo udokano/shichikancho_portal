@@ -75,6 +75,38 @@ function sc_get_term_id_by_slug( string $slug, string $taxonomy ): int {
 	) );
 }
 
+// DB にエンコードされず保存された日本語スラッグは、コアの slug 照合（sanitize_title_for_query）で
+// 一致せずターム一覧が 404 になる。該当タームだけ term_id 指定に差し替える
+add_action( 'parse_tax_query', function ( WP_Query $q ): void {
+	if ( is_admin() || ! $q->is_main_query() || empty( $q->tax_query->queries ) ) return;
+
+	foreach ( $q->tax_query->queries as $i => $clause ) {
+		if ( ! is_array( $clause ) || ( $clause['field'] ?? '' ) !== 'slug' || empty( $clause['taxonomy'] ) ) continue;
+		// 標準の投稿は非公開運用（inc/admin.php）。カテゴリー一覧は 404 のままにする
+		if ( 'category' === $clause['taxonomy'] ) continue;
+
+		$ids = [];
+		foreach ( (array) $clause['terms'] as $slug ) {
+			$raw = rawurldecode( (string) $slug );
+			// ASCII とエンコード保存済みのスラッグはコアが解決できる
+			$id  = preg_match( '/[^\x00-\x7F]/', $raw ) ? sc_get_term_id_by_slug( $raw, $clause['taxonomy'] ) : 0;
+			if ( ! $id ) continue 2;
+			$ids[] = $id;
+		}
+
+		$q->tax_query->queries[ $i ]['terms'] = $ids;
+		$q->tax_query->queries[ $i ]['field'] = 'term_id';
+		if ( isset( $q->tax_query->queried_terms[ $clause['taxonomy'] ] ) ) {
+			$q->tax_query->queried_terms[ $clause['taxonomy'] ]['terms'] = $ids;
+			$q->tax_query->queried_terms[ $clause['taxonomy'] ]['field'] = 'term_id';
+		}
+		// タグは get_queried_object() が tag_id を優先して見る
+		if ( 'post_tag' === $clause['taxonomy'] ) {
+			$q->query_vars['tag_id'] = $ids[0];
+		}
+	}
+} );
+
 // ═══════════════════════════════════════════════════════
 // PICK UP ヘルパー
 // ═══════════════════════════════════════════════════════
