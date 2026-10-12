@@ -127,7 +127,15 @@ function googleTranslateElementInit() {
 	}, 'google_translate_element');
 }
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+<script>
+// 翻訳はクッキー＋再読み込みで作動する。日本語表示では使わないので、英語選択時だけ読み込む
+if (document.cookie.indexOf('googtrans=/ja/en') !== -1) {
+	var s = document.createElement('script');
+	s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+	s.async = true;
+	document.body.appendChild(s);
+}
+</script>
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -758,6 +758,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (existing) existing.remove();
 		const toast = document.createElement('div');
 		toast.className = 'c-toast';
+		toast.setAttribute('role', 'status');
 		toast.textContent = msg;
 		document.body.appendChild(toast);
 		requestAnimationFrame(() => toast.classList.add('is-visible'));
@@ -786,6 +787,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	});
+
+	// ─── ヒーロー動画: 読み込み完了後に取得して再生（初期表示を止めない）──
+	(function () {
+		const video = document.querySelector('.js-hero-video');
+		if (!video || !video.dataset.src) return;
+		const start = () => {
+			video.src = video.dataset.src;
+			// 通信量節約の設定・動きを減らす設定では自動再生しない（ボタンからは再生できる）
+			const saveData = navigator.connection && navigator.connection.saveData;
+			if (saveData || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			video.play().catch(() => {});
+		};
+		if (document.readyState === 'complete') start();
+		else window.addEventListener('load', start, { once: true });
+	}());
 
 	// ─── ヒーローアニメ: タイトル文字ばらし出現 + 地図ピン表示 ──
 	(function () {

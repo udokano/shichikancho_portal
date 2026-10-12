@@ -14,10 +14,12 @@ schema_local_business();
 <section class="p-home-hero" aria-labelledby="home-hero-title">
 
 	<!-- 背景動画 -->
+	<?php // 動画（3MB超）は初期表示を止めないよう、静止画を先に出して読み込み完了後に JS で再生する ?>
 	<video
-		class="p-home-hero__video"
-		src="<?php echo esc_url(SC_TPL_URI . '/assets/videos/hero-bg.mp4'); ?>"
-		autoplay
+		class="p-home-hero__video js-hero-video"
+		poster="<?php echo esc_url(SC_TPL_URI . '/assets/images/top/hero-poster.webp'); ?>"
+		data-src="<?php echo esc_url(SC_TPL_URI . '/assets/videos/hero-bg.mp4'); ?>"
+		preload="none"
 		muted
 		loop
 		playsinline

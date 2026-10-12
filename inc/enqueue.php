@@ -7,10 +7,23 @@ add_action( 'wp_head', function (): void {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="preload" href="<?php echo esc_url( $fonts_url ); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
 	<noscript><link rel="stylesheet" href="<?php echo esc_url( $fonts_url ); ?>"></noscript>
+	<?php if ( is_front_page() ) : // ヒーローの静止画（LCP 要素）を最優先で取得 ?>
+	<link rel="preload" as="image" href="<?php echo esc_url( SC_TPL_URI . '/assets/images/top/hero-poster.webp' ); ?>" fetchpriority="high">
+	<?php endif; ?>
 	<?php
 }, 1 );
 
 // main.css は同期読み込みを維持（非同期化すると CLS が発生するため）
+
+// ─── slick の CSS は初期表示を止めない ──
+// スライダーは JS 初期化後にしか slick のスタイルを使わないため、CDN の応答待ちで描画を止めない
+add_filter( 'style_loader_tag', function ( string $tag, string $handle ): string {
+	if ( ! in_array( $handle, [ 'slick', 'slick-theme' ], true ) ) return $tag;
+	$async = str_replace( "media='all'", "media='print' onload=\"this.media='all'\"", $tag );
+	if ( $async === $tag ) return $tag;
+	// noscript 側は id を外す（同じ id が2つになるため）
+	return $async . '<noscript>' . trim( preg_replace( "/ id='[^']*'/", '', $tag ) ) . "</noscript>\n";
+}, 10, 2 );
 
 // ─── CF7 CSS/JS：フォームが無いページでは読み込まない ──
 // contact はブロックエディタ管理なので本文のブロック/ショートコードで判定する
