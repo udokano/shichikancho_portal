@@ -55,6 +55,7 @@ $total     = $shop_query->found_posts;
 
 get_header();
 ?>
+<?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
 
 	<?php
 		get_template_part( 'template-parts/components/page-hero', null, [
@@ -159,6 +160,7 @@ get_header();
 			<!-- メインコンテンツ -->
 			<div class="p-shop-archive__main">
 
+				<?php if ( false ) : // PICK UP 枠は一旦未使用（クエリごと止める）。戻すときはこの if と下の endif を外す ?>
 				<!-- PICKUP -->
 				<?php
 				// 1) オプションページ（PICK UP 設定）優先。上限なし・ランダム順（ヘルパー側で shuffle）
@@ -212,7 +214,7 @@ get_header();
 							<a class="p-shop-pickup__card-link" href="<?php the_permalink(); ?>">
 								<div class="p-shop-pickup__card-img">
 									<?php if ( $thumb ) : ?>
-									<img class="u-img-cover" src="<?php echo esc_url( $thumb ); ?>" alt="" aria-hidden="true" loading="lazy">
+									<img class="u-img-cover" src="<?php echo esc_url( $thumb ); ?>" alt="" aria-hidden="true" loading="<?php echo 0 === $pickup_query->current_post ? 'eager' : 'lazy'; ?>">
 									<?php endif; ?>
 									<span class="p-shop-pickup__pr-badge">PR</span>
 								</div>
@@ -231,6 +233,14 @@ get_header();
 					<?php endif; ?>
 				</div>
 				<?php endif; ?>
+				<?php endif; // PICK UP 枠ここまで ?>
+
+				<?php
+				// 町内会会員の紹介（子テーマの会員機能があるときだけ。絞り込み中・2ページ目以降は出さない）
+				if ( function_exists( 'sc_member_section' ) && ! $filter_cats && ! $filter_areas && ! $filter_kw && (int) get_query_var( 'paged', 1 ) < 2 ) {
+					sc_member_section( 'shops' );
+				}
+				?>
 
 				<!-- お店一覧 -->
 				<div class="p-shop-list">
@@ -346,6 +356,7 @@ get_header();
 								<!-- /.p-shop-card__img -->
 							</a>
 							<div class="p-shop-card__body">
+								<?php if ( function_exists( 'sc_member_badges' ) ) sc_member_badges( get_the_ID() ); ?>
 								<h3 class="p-shop-card__title"><a class="p-shop-card__title-link" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 								<p class="p-shop-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18 ) ); ?></p>
 

@@ -20,6 +20,13 @@ if ( have_posts() ) : the_post();
 	$menu_items  = get_field( 'shop_menu', $pid );
 	$faq         = get_field( 'shop_faq', $pid );
 
+	// 休業中・閉店の店舗（子テーマの会員機能）は、連絡先・地図・予約案内を出さない
+	$is_inactive = function_exists( 'sc_business_inactive' ) && sc_business_inactive( $pid );
+	if ( $is_inactive ) {
+		$phone = ''; $hours = ''; $closed = ''; $map_url = ''; $lat = ''; $lng = '';
+		$features = array_values( array_diff( $features, [ 'reserve' ] ) );
+	}
+
 	// ヒーロー画像配列を構築（メイン画像 → ギャラリー → アイキャッチ）
 	$hero_images = [];
 	if ( is_array( $main_image ) && ! empty( $main_image['url'] ) ) {
@@ -72,10 +79,21 @@ if ( have_posts() ) : the_post();
 	$has_reserve = in_array( 'reserve', $features, true );
 
 	// 構造化データ
-	if ( function_exists( 'schema_shop' ) ) schema_shop( $pid );
+	if ( ! $is_inactive && function_exists( 'schema_shop' ) ) schema_shop( $pid );
 ?>
 
 <?php get_template_part( 'template-parts/components/breadcrumbs' ); ?>
+
+<?php if ( $is_inactive ) :
+	$inactive_status = get_post_meta( $pid, '_sc_business_status', true );
+?>
+<div class="sc-closed-notice" role="note">
+	<h2><?php echo esc_html( sc_business_choices()[ $inactive_status ] ?? '' ); ?>のお知らせ</h2>
+	<p>この店舗は現在、<?php echo 'closed' === $inactive_status ? '閉店しています' : '休業中です'; ?>。以下は過去の掲載情報で、現在の営業案内ではありません。</p>
+	<a href="<?php echo esc_url( home_url( '/shops/' ) ); ?>">ほかのお店を探す →</a>
+</div>
+<!-- /.sc-closed-notice -->
+<?php endif; ?>
 
 <article class="p-shop">
 
@@ -127,6 +145,7 @@ if ( have_posts() ) : the_post();
 					<!-- 見出し + ファボボタン（パンくずは Gナビ直下の共通コンポーネントに一本化） -->
 					<header class="p-shop__head">
 						<div class="p-shop__head-row">
+							<?php if ( function_exists( 'sc_member_badges' ) ) sc_member_badges( $pid ); ?>
 							<h1 class="p-shop__title" id="shop-title"><?php the_title(); ?></h1>
 						</div>
 						<!-- /.p-shop__head-row -->
@@ -331,7 +350,7 @@ if ( have_posts() ) : the_post();
 
 							<div class="p-shop__detail-row">
 								<dt class="p-shop__detail-term">予約</dt>
-								<dd class="p-shop__detail-desc"><?php echo $has_reserve ? '可' : '不要'; ?></dd>
+								<dd class="p-shop__detail-desc"><?php echo $is_inactive ? '受付していません' : ( $has_reserve ? '可' : '店舗へお問い合わせください' ); ?></dd>
 							</div>
 							<!-- /.p-shop__detail-row -->
 
