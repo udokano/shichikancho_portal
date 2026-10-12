@@ -6,6 +6,80 @@
 
 ## 1. 直近のセッションでやったこと
 
+### ★ 2026-10-07〜12 セッション（PHP 8.2・SEO/W3C/改行/表示速度の一括改善・先方 1.0.7 の載せ替え・スキル2本追加）
+
+**現在地**：リポジトリ（親 `dc01462` / 子 `c4d0888`）・ローカル・テストサーバーの3つが同じ内容。サーバー反映は 10/9 20:48 と 10/12 14:27 の2回。
+
+#### I) テストサーバーを PHP 8.2 に（10/7・ユーザーが切替）
+- CLI・Web とも 8.2.28。公開側 23 ページ＋一覧・個別をブラウザで確認、エラーなし
+- ローカルは `WP_DEBUG=false` で debug.log は記録されない。エラー確認は Local の `logs/php/error.log` を見る
+
+#### J) SEO 検査で見つけた不具合の修正（`12ec6c7` `9e77c5c` `9d2c8ec` `bc12e51`）
+- **日本語スラッグのターム一覧が 404**（サイトマップ掲載 48 件）。DB にエンコードされず保存されたスラッグはコアの slug 照合に一致しない。`inc/helpers.php` の `parse_tax_query` で該当タームだけ term_id 指定に差し替え。`category` は標準投稿が非公開運用なので 404 のまま
+- **トップの BreadcrumbList が「Home → Uncategorized → Hello world!」**。表示設定が「最新の投稿」のため AIOSEO が先頭の投稿を拾う。トップでは BreadcrumbList を除去（`sc_aioseo_schema_enrich`）
+- **CPT アーカイブのパンくず名が "Archives for "**。フィルタ時点ではタグ未展開（`Archives for #breadcrumb_archive_post_type_name`）なので前方一致で投稿タイプ名に置換
+- **`schema_article()` の url に `$job_url`**（`0fd20d9` で混入した取り違え）。コラム個別で Warning が出ていた。`get_permalink()` に戻した
+- **`/shops/` で DOCTYPE より前に JSON-LD**。`schema_item_list()` を `get_header()` の前で呼んでいた → `wp_head` で出力
+- **`<main>` の二重**（16 ページ）。`header.php` が開き `footer.php` が閉じる構成なので、テンプレ側の `<main>` を外した（クラス付きは div に）
+- **og:image / twitter:image の保険**：AIOSEO で画像が決まらないページに `assets/images/common/ogp.jpg`。管理画面で既定画像を入れればそちらが優先
+- **robots.txt**：`LLMs:` 行は仕様外で Lighthouse が無効判定 → コメント化。AI クローラ名を現行のものに（`Google-Extended` / `ClaudeBot` 等）
+- **`archive.php` を新設**：専用テンプレの無いターム一覧・投稿タイプ一覧（`/jobs/` `/learn-facilities/`）で `index.php` が記事ごとに h1 を出していた。お知らせ一覧の行レイアウト（`p-info-archive`）を流用
+- **一覧ページの description 補完**（`aioseo_description` フィルタ・空のときだけ）
+
+#### K) W3C エラー（全検査ページで 0 に）（`9d2c8ec` `a48d37c`）
+- aria-label 付きの p / div / span に role、または aria-label を除去。ヒーローの aria-label は表示（SHICHIKENCHO）と綴りが違っていたので合わせた
+- about: 操作できるパネルを含む外枠から `role="img"` を外す / gallery: 空の src にダミー画像 / tourism: button 内の div・h3・p を span に / spot: hidden の required / event: dl の入れ子 / column: h4 → h3
+- slick の CSS を非同期化したときの noscript 側は id を外す（Duplicate ID になる）
+
+#### L) 記事ページの標準装備（`51061f1`）
+- `template-parts/components/article-share.php`（LINE / X / Facebook / URL コピー）。イベント個別の既存デザインを部品化し、コラム・お知らせ・住民紹介の末尾に
+- `sc_post_dates_html()`：公開日＋（公開日より後なら）更新日を `<time>` で
+- お知らせ・住民紹介でも `schema_article()` を呼ぶ。お知らせは抜粋を目次の前に導入文として表示
+- 住民紹介の導入文は未対応（プロフィール型のページでデザイン判断が要る）
+
+#### M) 中途半端な改行（`fe9a79b`）
+- `foundation/_base.scss`：`body { word-break: auto-phrase }` / 見出し `text-wrap: balance` / 本文 `text-wrap: pretty`
+- ローカル 59 ページの計測で PC 99 → 10 件、SP 320 → 38 件（残りは要検討の種別が大半）
+- **`auto-phrase` は Chrome 系だけ**。iPhone の Safari では効かない
+- PC 用の `<br>` は `u-br-pc` に。SP の表（スポンサー・観光タイムライン）は最小幅を持たせて横スクロール
+- 住民カード（SP 2列）はキャプションが 1 行 5 文字前後のまま。これ以上はレイアウト変更で未決
+
+#### N) SP の表示速度（`0aeca94`）
+- Lighthouse モバイル（ローカル）：トップ 57 → 88、`/shops/` 56 → 90
+- ヒーロー動画（3.1MB）：`hero-poster.webp` を先に出し、`window.load` 後に JS で `data-src` → `src` にして再生。通信量節約・動きを減らす設定では自動再生しない
+- Google 翻訳のスクリプト：`googtrans=/ja/en` クッキーがあるときだけ読み込む（翻訳はクッキー＋再読み込みで作動する仕組み）
+- slick の CSS を非同期読み込み、お店一覧の先頭画像を eager、コラム・お知らせのヒーロー画像を `wp_get_attachment_image()`（srcset）に
+- **コラム個別が 78 止まり**：アイキャッチが写真なのに PNG（1024px で 1.2MB）。500KB 超の PNG が 24 枚。ローカルの nginx は WebP を配信しない
+
+#### O) 先方の子テーマ 1.0.7（町内会会員紹介・営業状態・入会案内）を載せ替え（親 `dc01462` / 子 `c4d0888`）
+- 先方の ZIP は 1.0.5 時点のファイルが元。**そのまま入れると求人の絞り込み・W3C 修正・`<main>` の二重などが巻き戻る**ため、新機能だけを現行に載せ替えた
+- 子テーマに追加：`membership.php` / `assets/membership.{css,js}` / `page-membership.php` / `page-company.php` / `header.php` / `data/*.html`。`functions.php` `front-page.php` `footer.php` は追加行だけ。`main.js` は現行のまま
+- **子テーマに `archive-shop.php` / `single-shop.php` のコピーは置かない**。親テーマ側で `function_exists( 'sc_member_section' )` 等を見て呼ぶ（コピーを置くと親の修正が効かなくなる）
+- こちらで直した先方コード：入会案内・運営団体テンプレの `<main>` の二重、メタボックスと select の id 重複
+- お店一覧の **PICK UP おすすめ店舗は一旦未使用**（ユーザー指示）。`if ( false )` で囲んで停止。戻すときは if / endif を外す
+- 検証（ローカル・一時データ）：会員紹介 3 件、絞り込み中・2 ページ目は非表示、AJAX は会員のみ・no-store、閉店は一覧から除外・個別に告知・店舗スキーマ停止、保存は nonce / 権限 / 不正値を確認。管理画面はブラウザで欄・列・絞り込みを確認（「更新」ボタンは未押下）
+- **サーバーの DB は未変更**。先方手順の「ツール → 町内会ページの準備」は未実行（入会案内ページなし・リンクは `/company/` に退避）。ローカルは実行済み（入会案内は下書き ID 1725）
+- 気になる点（未対応）：閉店・休業の除外がターム一覧では効かない作り / 運営名の差し替えがヘッダー出力の文字列置換（親の `SC_ORG_NAME` が旧名のまま）
+
+#### P) サーバーで見つけたもの（未対応）
+- **公開ディレクトリ直下に 2024-02-03 付けの `robots.txt` の実ファイル**。`/?sitemap264.xml` 形式の行が 7 本。実ファイルが優先されるので、テーマの robots.txt 出力はサーバーで効いていない。記載 URL はトップページを返すだけ。由来不明（サイト開設前の日付）。**削除はユーザーの承認待ち**
+- WordPress 本体はチェックサム一致、`.htaccess` に不審な記述なし、管理者 1 名
+- ルート直下に Google の所有権確認ファイルが 2 つ（7/1 付け・誰が置いたか未確認）
+- `tools/pull-finish.sh` の 10/12 9:00 の実行はログに開始行だけ（失敗か中断・原因未調査）
+
+#### Q) スキルを追加（テーマ外・`~/.claude/skills/`）
+- **`linebreak-check`**：PC / SP 幅で中途半端な改行を検出。`node ~/.claude/skills/linebreak-check/scripts/linebreak_check.mjs <URL>`。`--css` で修正案の試し当て
+- **`article-kit`**：記事ページの標準装備（導入文・JSON-LD / meta 連携・更新日・シェア・リンクコピー）。`python3 ~/.claude/skills/article-kit/scripts/article_check.py <URL>`。`seo-kit` には入口（`/seo-kit:article`）だけ追加
+
+**ハマりポイント**
+- **子テーマが上書きしているテンプレ**（front-page / footer / page-tourism / page-learn / main.js 等）は親を直しても画面に出ない。親と子の両方に同じ修正を入れる
+- **サーバーへの配置は1本の SSH にまとめる**：対象ファイルを base64 で 1 つのスクリプトに埋め、`ssh mc-core 'bash -s' < script.sh`。配置前にサーバー側の md5 か更新日時で「先方が触っていないこと」を確認する
+- **デプロイ対象から `_seed-*.php` と `acf-import/` を外す**（リポジトリでは追跡されているが、サーバーには置かない）
+- `assets/css/main.css` は gitignore 対象。デプロイ時はコンパイル済みを送る
+- 日本語を含む URL を検査スクリプトに渡すときはパーセントエンコードする（そのままだと落ちる）
+- サーバーはベーシック認証。ブラウザ確認は Chrome 拡張のタブでユーザーに認証を通してもらう。タブグループが変わるたびに再認証が要る
+- バックアップ：`tools/sc-import/backups/server-db-themes-20261012-142445.tar.gz`（反映前の DB と親子テーマ）ほか。サーバーの `~/sc_deploy_backup_20261009-204847/` と `~/sc_admin.php.bak` は不要になったら削除
+
 ### ★ 2026-10-05〜06 セッション（サーバー＝正に転換・WP/プラグイン更新・news ブロックエディタ化・求人を CPT+ACF 駆動に）
 
 **前提が変わった**：テストサーバー `https://shichikancho.main-color.com/`（SSH: `ssh mc-core`・CORESERVER）を調べたところ、**先方が子テーマ `sichikenchou-finish` を作って運用中**だった。有効テーマは子テーマ（親 = sichikenchou）。先方は管理画面＋自作ツールで店舗名簿319件を下書き投入済み。**AIM でローカル → サーバーへ流すと全部消える**ため、運用を反転。
@@ -510,7 +584,15 @@
 - **`p-explore__course-card-meta` が `display:contents` のまま**（single-walk_course.php の関連コース）。dt が `u-sr-only` でアイコンを持たないため AU) の症状は出ないが、裸タグセレクタ違反としては残存
 
 ### サーバー運用・掲載情報（2026-10-06 時点）
-- **サーバーの `/work/` を目視確認**（ベーシック認証でこちらからは開けない）。求人カード・モーダル・絞り込みの表示確認
+- **サーバーの古い `robots.txt`（2024-02-03 付け）を削除**（P 参照・承認待ち）
+- **先方へ連絡**：1.0.7 は載せ替えて反映済み。手元の ZIP をアップロードすると巻き戻る。お店一覧・個別は親テーマ側で会員機能を呼ぶ構成にした
+- サーバーで「ツール → 町内会ページの準備」を実行するか判断（運営団体ページの本文が書き換わる）。入会案内の公開、会員・営業状態の入力は名簿の確認後
+- スポンサーページの「おすすめ店舗掲載」の記載（PICK UP 枠は停止中）
+- アップロード済み画像の PNG（写真）24 枚を JPEG / WebP に。サーバーで Converter for Media の一括変換が効いているか確認
+- タクソノミーページに OGP が出ない（AIOSEO の管理画面設定）。パンくずの「Home」表記も同じく管理画面
+- 住民カード（SP）のレイアウト、住民紹介の導入文、お店個別で h1 の次が h3 になる店（メニュー見出しが出ない）
+- トップのセクション画像 4 枚（各 200KB 前後）の WebP 化、jQuery のフッター移動、`main.css` の圧縮は未着手
+- `pull-finish.sh` が 10/12 に止まった原因
 - 先方へ連絡：WP 7.1.2 に上げたこと、news と求人の編集画面が変わったこと、ベーシック認証が `demo` / `pass` のままであること
 - **wp-cron が動いていない**（ベーシック認証で弾かれる）。`DISABLE_WP_CRON` ＋ サーバー cron への切り替えを先方に提案するか判断
 - AIOSEO 5.0 / Taxonomy Terms Order 2.0 のメジャー更新（先方の作業が落ち着いてから・構造化データの検証付き）
