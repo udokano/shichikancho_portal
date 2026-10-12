@@ -140,7 +140,9 @@
       box-shadow: 0 4px 16px rgba(0, 109, 166, 0.18);
     }
 
+    // button の中はフレージング要素しか置けないため span で組み、display で並べる
     &-img {
+      display: block;
       aspect-ratio: 4 / 3;
       overflow: hidden;
       background-color: $color-border;
@@ -160,6 +162,7 @@
     }
 
     &-title {
+      display: block;
       font-family: $font-serif;
       font-size: rem(17);
       font-weight: 700;
@@ -168,6 +171,7 @@
     }
 
     &-desc {
+      display: block;
       font-size: rem(13);
       color: $color-text-muted;
       line-height: 1.7;
@@ -238,6 +242,9 @@
       width: 100%;
       border-collapse: collapse;
       font-size: rem(13);
+
+      // SP は概要列が潰れて1行4〜5文字になるため、幅を確保して wrap 側で横スクロールさせる
+      @include sp { min-width: rem(640); }
 
       thead th {
         text-align: left;

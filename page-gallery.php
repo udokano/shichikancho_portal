@@ -240,7 +240,7 @@ get_header();
 			<svg aria-hidden="true" focusable="false"><use href="#icon-close"></use></svg>
 		</button>
 		<div class="p-gallery__modal-img">
-			<img class="p-gallery__modal-image" src="" alt="" id="gallery-zoom-img">
+			<img class="p-gallery__modal-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" id="gallery-zoom-img">
 		</div>
 		<div class="p-gallery__modal-caption">
 			<h2 class="p-gallery__modal-title" id="gallery-zoom-title"></h2>

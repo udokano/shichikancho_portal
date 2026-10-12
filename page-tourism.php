@@ -178,15 +178,15 @@ $areas_by_slug = array_column( $areas, null, 'slug' );
 					aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
 					aria-controls="visit-timeline-panel"
 					data-walk-id="<?php echo esc_attr( $wid ); ?>">
-					<div class="p-visit__walk-card-img">
+					<span class="p-visit__walk-card-img">
 						<picture class="u-picture-fill">
 							<img class="u-img-cover" src="<?php echo esc_url( $wthumb ); ?>" alt="" aria-hidden="true" loading="lazy" width="400" height="300">
 						</picture>
-					</div>
-					<div class="p-visit__walk-card-body">
-						<h3 class="p-visit__walk-card-title"><?php the_title(); ?></h3>
-						<p class="p-visit__walk-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 40, '…' ) ); ?></p>
-					</div>
+					</span>
+					<span class="p-visit__walk-card-body">
+						<span class="p-visit__walk-card-title"><?php the_title(); ?></span>
+						<span class="p-visit__walk-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 40, '…' ) ); ?></span>
+					</span>
 				</button>
 				<?php endwhile; wp_reset_postdata(); ?>
 			</div>

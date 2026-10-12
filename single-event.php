@@ -116,16 +116,16 @@ if ( have_posts() ) : the_post();
 				</div>
 				<!-- /.c-article__title-row -->
 
-				<dl class="p-event-single__keyinfo">
+				<div class="p-event-single__keyinfo">
 					<?php if ( $date_display ) : ?>
 					<div class="p-event-single__keyinfo-item">
 						<span class="p-event-single__keyinfo-icon" aria-hidden="true">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
 						</span>
-						<div class="p-event-single__keyinfo-body">
+						<dl class="p-event-single__keyinfo-body">
 							<dt>開催日</dt>
 							<dd><?php echo esc_html( $date_display ); ?></dd>
-						</div>
+						</dl>
 					</div>
 					<?php endif; ?>
 
@@ -134,10 +134,10 @@ if ( have_posts() ) : the_post();
 						<span class="p-event-single__keyinfo-icon" aria-hidden="true">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
 						</span>
-						<div class="p-event-single__keyinfo-body">
+						<dl class="p-event-single__keyinfo-body">
 							<dt>時間</dt>
 							<dd><?php echo esc_html( $time ); ?></dd>
-						</div>
+						</dl>
 					</div>
 					<?php endif; ?>
 
@@ -146,10 +146,10 @@ if ( have_posts() ) : the_post();
 						<span class="p-event-single__keyinfo-icon" aria-hidden="true">
 							<svg width="20" height="20"><use href="#icon-map-pin"></use></svg>
 						</span>
-						<div class="p-event-single__keyinfo-body">
+						<dl class="p-event-single__keyinfo-body">
 							<dt>場所</dt>
 							<dd><?php echo esc_html( $venue ); ?></dd>
-						</div>
+						</dl>
 					</div>
 					<?php endif; ?>
 
@@ -158,13 +158,13 @@ if ( have_posts() ) : the_post();
 						<span class="p-event-single__keyinfo-icon" aria-hidden="true">
 							<svg width="20" height="20"><use href="#icon-users-solid"></use></svg>
 						</span>
-						<div class="p-event-single__keyinfo-body">
+						<dl class="p-event-single__keyinfo-body">
 							<dt>主催</dt>
 							<dd><?php echo esc_html( $organizer ); ?></dd>
-						</div>
+						</dl>
 					</div>
 					<?php endif; ?>
-				</dl>
+				</div>
 				<!-- /.p-event-single__keyinfo -->
 
 				<?php if ( ! empty( $toc_items ) ) : ?>

@@ -295,10 +295,10 @@ if ( function_exists( 'schema_item_list' ) && $col_query->posts ) schema_item_li
 
 					<!-- 投稿募集ミニ CTA -->
 					<div class="p-column-archive__sidebar-cta">
-						<h4 class="p-column-archive__sidebar-cta-title">
+						<h3 class="p-column-archive__sidebar-cta-title">
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4z"/></svg>
 							コラムを書いてみませんか？
-						</h4>
+						</h3>
 						<p class="p-column-archive__sidebar-cta-text">七間町の魅力を伝えるコラムを募集しています。あなたの視点で町の物語を紡いでみませんか。</p>
 						<a class="p-column-archive__sidebar-cta-btn" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">投稿について</a>
 					</div>

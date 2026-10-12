@@ -195,7 +195,7 @@ get_header();
 			<p class="p-about__network-lead">駿府城を中心に、周辺の町が文化の線でつながる。それぞれの町の特徴を生かした回遊体験を。</p>
 
 			<!-- ネットワーク図 -->
-			<div class="p-about__network-map" role="img" aria-label="七間町周辺エリアネットワーク図">
+			<div class="p-about__network-map">
 				<svg class="p-about__network-svg" viewBox="0 0 700 520" xmlns="http://www.w3.org/2000/svg" aria-label="七間町エリアネットワーク図" role="img">
 					<!-- 破線接続（駿府城→各エリア） -->
 					<line x1="350" y1="145" x2="200" y2="270" stroke="#e5a0b0" stroke-width="1.5" stroke-dasharray="6,4" />

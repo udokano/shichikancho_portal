@@ -52,7 +52,7 @@ $job_type_choices = acf_get_field( 'job_type' )['choices'] ?? [];
 			<div class="p-working__sponsors-grid">
 
 				<a class="p-working__sponsor-card" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">
-					<span class="p-working__sponsor-pr" aria-label="PR">PR</span>
+					<span class="p-working__sponsor-pr">PR</span>
 					<div class="p-working__sponsor-head">
 						<div class="p-working__sponsor-thumb">
 							<picture class="u-picture-fill">
@@ -78,7 +78,7 @@ $job_type_choices = acf_get_field( 'job_type' )['choices'] ?? [];
 				<!-- /.p-working__sponsor-card -->
 
 				<a class="p-working__sponsor-card" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">
-					<span class="p-working__sponsor-pr" aria-label="PR">PR</span>
+					<span class="p-working__sponsor-pr">PR</span>
 					<div class="p-working__sponsor-head">
 						<div class="p-working__sponsor-thumb">
 							<picture class="u-picture-fill">
@@ -104,7 +104,7 @@ $job_type_choices = acf_get_field( 'job_type' )['choices'] ?? [];
 				<!-- /.p-working__sponsor-card -->
 
 				<a class="p-working__sponsor-card" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">
-					<span class="p-working__sponsor-pr" aria-label="PR">PR</span>
+					<span class="p-working__sponsor-pr">PR</span>
 					<div class="p-working__sponsor-head">
 						<div class="p-working__sponsor-thumb">
 							<picture class="u-picture-fill">
