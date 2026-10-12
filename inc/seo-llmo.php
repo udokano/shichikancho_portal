@@ -293,12 +293,13 @@ function sc_robots_txt_ai( string $output, bool $public ): string {
 
 	// llms.txt への誘導と AI クローラー Allow（追加対応：ChatGPT-User / CCBot / Amazonbot）
 	$output .= "\n# LLM / AI Crawlers\n";
-	foreach ( [ 'GPTBot', 'ChatGPT-User', 'Claude-Web', 'anthropic-ai', 'PerplexityBot', 'Googlebot-Extended', 'CCBot', 'Amazonbot' ] as $ua ) {
+	foreach ( [ 'GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'ClaudeBot', 'Claude-User', 'Claude-SearchBot', 'PerplexityBot', 'Google-Extended', 'CCBot', 'Amazonbot' ] as $ua ) {
 		$output .= "User-agent: {$ua}\nAllow: /\n\n";
 	}
-	$output .= "# LLMs.txt\n";
-	$output .= 'LLMs: ' . home_url( '/llms.txt' ) . "\n";
-	$output .= 'LLMs-Full: ' . home_url( '/llms-full.txt' ) . "\n";
+	// LLMs: は robots.txt の仕様に無い行で、Lighthouse が「無効な robots.txt」と判定するためコメントで残す
+	// （llms.txt の場所は <link rel="llms-txt"> でも示している）
+	$output .= '# LLMs.txt: ' . home_url( '/llms.txt' ) . "\n";
+	$output .= '# LLMs-Full: ' . home_url( '/llms-full.txt' ) . "\n";
 	$output .= 'Sitemap: ' . home_url( '/sitemap.xml' ) . "\n";
 
 	return $output;
@@ -459,6 +460,31 @@ function sc_aioseo_og_image_fallback( $meta ) {
 		$meta['og:image:height'] = 893;
 	}
 	return $meta;
+}
+
+// ターム一覧・専用設定の無い投稿タイプ一覧は AIOSEO の description が空になる。管理画面で入力があればそちらが優先
+add_filter( 'aioseo_description', 'sc_aioseo_archive_description_fallback', 20 );
+
+function sc_aioseo_archive_description_fallback( $description ) {
+	if ( '' !== trim( (string) $description ) ) return $description;
+
+	$q = get_queried_object();
+	if ( $q instanceof WP_Term ) {
+		$desc = trim( wp_strip_all_tags( term_description( $q ) ) );
+		if ( '' !== $desc ) return $desc;
+
+		$tax   = get_taxonomy( $q->taxonomy );
+		$type  = $tax && $tax->object_type ? get_post_type_object( $tax->object_type[0] ) : null;
+		$label = ( $type && 'post' !== $type->name ) ? $type->labels->name : '記事';
+		// term の count は非公開の投稿も数えるため、実際に表示される件数を使う
+		$found = (int) ( $GLOBALS['wp_query']->found_posts ?? 0 );
+		$text  = sprintf( '静岡市葵区・七間町商店街の%sから「%s」に関するものをまとめた一覧です。', $label, $q->name );
+		return $found > 0 ? $text . sprintf( '現在%d件を掲載しています。', $found ) : $text;
+	}
+	if ( is_post_type_archive() ) {
+		return sprintf( '静岡市葵区・七間町商店街の%s一覧です。最新の情報を順に掲載しています。', post_type_archive_title( '', false ) );
+	}
+	return $description;
 }
 
 // ─── フラッシュリライトルール（テーマ切替時のみ）──────────
