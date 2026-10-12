@@ -248,6 +248,9 @@
     border-collapse: collapse;
     font-size: rem(14);
 
+    // SP は列が潰れて1行2〜3文字になるため、幅を確保して wrap 側で横スクロールさせる
+    @include sp { min-width: rem(520); }
+
     th, td {
       padding: rem(12) rem(16);
       text-align: left;
@@ -262,6 +265,11 @@
 
     td {
       color: $color-text;
+
+      // メニュー名は短い定型文なので折り返さない
+      &:first-child {
+        white-space: nowrap;
+      }
 
       &:last-child {
         font-weight: 600;

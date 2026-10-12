@@ -82,7 +82,7 @@ $pc_form_anchor = '#photo-contest-entry';
 			<p class="p-photo-contest__hero-eyebrow">PHOTO CONTEST</p>
 			<h1 class="p-photo-contest__hero-title" id="pc-hero-title">七間町フォトコンテスト <?php echo esc_html( $pc_year ); ?></h1>
 			<p class="p-photo-contest__hero-catch">あなたのレンズが切り取る、<br>七間町の新しい記憶。</p>
-			<p class="p-photo-contest__hero-lead">日常の風景、お気に入りの店、歴史を感じる路地、人々の笑顔——<br>あなただけの七間町を、一枚の写真に。</p>
+			<p class="p-photo-contest__hero-lead">日常の風景、お気に入りの店、歴史を感じる路地、人々の笑顔——<br class="u-br-pc">あなただけの七間町を、一枚の写真に。</p>
 			<a class="p-photo-contest__hero-cta c-btn c-btn--primary" href="<?php echo esc_url( $pc_form_anchor ); ?>">
 				<svg class="p-photo-contest__hero-cta-icon" aria-hidden="true" focusable="false"><use href="#icon-camera"></use></svg>
 				コンテストに応募する

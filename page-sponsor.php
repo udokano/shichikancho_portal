@@ -165,7 +165,7 @@ get_header();
 		<div class="p-sponsor__donate-inner">
 			<header class="p-sponsor__section-head">
 				<h2 class="p-sponsor__section-title" id="sponsor-donate-title">寄付で応援する</h2>
-				<p class="p-sponsor__section-lead">スポンサープラン以外にも、七間町のまちづくりを応援する方法があります。<br>いただいた寄付は、イベント運営・商店街美化・地域情報発信に活用させていただきます。</p>
+				<p class="p-sponsor__section-lead">スポンサープラン以外にも、七間町のまちづくりを応援する方法があります。<br class="u-br-pc">いただいた寄付は、イベント運営・商店街美化・地域情報発信に活用させていただきます。</p>
 			</header>
 
 			<div class="p-sponsor__donate-grid">

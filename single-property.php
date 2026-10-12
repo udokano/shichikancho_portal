@@ -173,7 +173,7 @@ if ( $main_img && is_array( $main_img ) ) {
 	<section class="p-property__cta">
 		<div class="p-property__cta-inner">
 			<h2 class="p-property__cta-title">七間町での開業をお考えの方へ</h2>
-			<p class="p-property__cta-text">物件のご相談、開業に関するご質問など、お気軽にお問い合わせください。<br>七間町商店街振興組合が、あなたの新しいビジネスの第一歩をサポートします。</p>
+			<p class="p-property__cta-text">物件のご相談、開業に関するご質問など、お気軽にお問い合わせください。<br class="u-br-pc">七間町商店街振興組合が、あなたの新しいビジネスの第一歩をサポートします。</p>
 			<div class="p-property__cta-buttons">
 				<a class="p-property__cta-btn p-property__cta-btn--primary" href="tel:054-XXX-XXXX">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#icon-phone"></use></svg>

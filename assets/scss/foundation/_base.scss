@@ -41,6 +41,31 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.8;
+  // 文節単位で折り返し、語の途中や「す。」だけが次行に落ちるのを防ぐ（Chrome 系のみ。Safari は未対応）
+  word-break: auto-phrase;
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+// 見出しは各行の長さを揃える / 本文は最終行が数文字だけになるのを避ける（Safari にも効く）
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p,
+li,
+dt,
+dd,
+th,
+td,
+figcaption,
+blockquote {
+  text-wrap: pretty;
 }
 
 // 基本リンク

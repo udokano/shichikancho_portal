@@ -262,6 +262,15 @@
     border: 2px solid $color-text;
     border-radius: rem(4);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+
+    // SP は2列でカード幅が狭い。バッジを縮めてキャプションの幅を確保
+    @include sp {
+      top: rem(8);
+      right: rem(8);
+      width: rem(36);
+      height: rem(36);
+      font-size: rem(15);
+    }
   }
 
   // 上部タイトルキャプション（白いボックス）
@@ -273,6 +282,13 @@
     z-index: 2;
     background-color: #fff;
     padding: rem(14) rem(16);
+
+    @include sp {
+      top: rem(8);
+      left: rem(8);
+      right: rem(50);
+      padding: rem(8) rem(10);
+    }
     border-radius: rem(2);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   }
