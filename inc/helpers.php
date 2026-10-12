@@ -75,6 +75,23 @@ function sc_get_term_id_by_slug( string $slug, string $taxonomy ): int {
 	) );
 }
 
+// 公開日と更新日を <time> で返す。更新日は公開日より後の日付のときだけ付ける（JSON-LD の dateModified と揃える）
+function sc_post_dates_html( int $post_id, string $format = 'Y年n月j日' ): string {
+	$html = sprintf(
+		'<time datetime="%s">%s</time>',
+		esc_attr( get_the_date( 'Y-m-d', $post_id ) ),
+		esc_html( get_the_date( $format, $post_id ) )
+	);
+	if ( get_the_modified_date( 'Ymd', $post_id ) > get_the_date( 'Ymd', $post_id ) ) {
+		$html .= sprintf(
+			'（更新 <time datetime="%s">%s</time>）',
+			esc_attr( get_the_modified_date( 'Y-m-d', $post_id ) ),
+			esc_html( get_the_modified_date( $format, $post_id ) )
+		);
+	}
+	return $html;
+}
+
 // DB にエンコードされず保存された日本語スラッグは、コアの slug 照合（sanitize_title_for_query）で
 // 一致せずターム一覧が 404 になる。該当タームだけ term_id 指定に差し替える
 add_action( 'parse_tax_query', function ( WP_Query $q ): void {

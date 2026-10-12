@@ -94,7 +94,16 @@ $related_query = new WP_Query( $related_args );
 
 				<?php if ( $thumb ) : ?>
 				<div class="c-article__hero">
-					<img class="u-img-cover" src="<?php echo esc_url( $thumb ); ?>" alt="<?php the_title_attribute(); ?>" loading="eager">
+					<?php
+					// 最初に見える画像。画面幅に合うサイズを選ばせ（srcset）、優先度を上げる
+					echo wp_get_attachment_image( get_post_thumbnail_id(), 'large', false, [
+						'class'         => 'u-img-cover',
+						'alt'           => the_title_attribute( [ 'echo' => false ] ),
+						'loading'       => 'eager',
+						'fetchpriority' => 'high',
+						'sizes'         => '(max-width: 768px) 100vw, 800px',
+					] );
+					?>
 				</div>
 				<?php endif; ?>
 
@@ -123,7 +132,7 @@ $related_query = new WP_Query( $related_args );
 						<?php echo esc_html( $author ); ?>
 					</span>
 					<span class="p-column-single__date">
-						<?php echo esc_html( get_the_date( 'Y年n月j日' ) ); ?>
+						<?php echo wp_kses_post( sc_post_dates_html( get_the_ID() ) ); ?>
 					</span>
 					<span class="p-column-single__read">
 						<?php echo esc_html( $read_min ); ?>分で読める
@@ -169,6 +178,8 @@ $related_query = new WP_Query( $related_args );
 				<div class="c-article__body">
 					<?php echo $content_with_ids; ?>
 				</div>
+
+				<?php get_template_part( 'template-parts/components/article-share', null, [ 'label' => 'このコラムをシェアする' ] ); ?>
 
 				<!-- 著者プロフィール -->
 				<aside class="c-article__author p-column-single__bio" aria-label="この記事を書いた人">

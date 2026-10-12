@@ -6,6 +6,9 @@ if ( ! have_posts() ) { get_footer(); exit; }
 the_post();
 
 $pid        = get_the_ID();
+
+if ( function_exists( 'schema_article' ) ) schema_article( $pid );
+
 $name       = get_field( 'resident_name', $pid ) ?: get_the_title();
 $age        = get_field( 'resident_age', $pid );
 $occupation = get_field( 'resident_occupation', $pid );
@@ -101,7 +104,7 @@ $related = new WP_Query( [
 						</div>
 						<!-- /.p-resident-single__profile-body -->
 						<div class="p-resident-single__profile-date">
-							<time datetime="<?php echo esc_attr( get_the_date( 'Y-m-d' ) ); ?>"><?php echo esc_html( get_the_date( 'Y.m.d' ) ); ?></time>
+							<?php echo wp_kses_post( sc_post_dates_html( $pid, 'Y.m.d' ) ); ?>
 						</div>
 						<!-- /.p-resident-single__profile-date -->
 					</div>
@@ -117,6 +120,8 @@ $related = new WP_Query( [
 						<?php echo $content_out; // id付きh2/h3を含む本文 ?>
 					</div>
 					<!-- /.c-article__content -->
+
+					<?php get_template_part( 'template-parts/components/article-share', null, [ 'label' => 'この記事をシェアする' ] ); ?>
 
 					<!-- お気に入りスポット -->
 					<?php if ( $fav_spots && is_array( $fav_spots ) ) : ?>

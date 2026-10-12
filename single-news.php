@@ -10,6 +10,8 @@ the_post();
 
 // アイキャッチ未設定時はヒーロー画像を出さない（No Image は表示しない）
 $thumb    = get_the_post_thumbnail_url( get_the_ID(), 'large' ) ?: '';
+
+if ( function_exists( 'schema_article' ) ) schema_article( get_the_ID() );
 $author   = get_the_author();
 
 // 目次（h2/h3 から自動生成）
@@ -67,7 +69,16 @@ $recent_query = new WP_Query( [
 
 				<?php if ( $thumb ) : ?>
 				<div class="c-article__hero">
-					<img class="u-img-cover" src="<?php echo esc_url( $thumb ); ?>" alt="<?php the_title_attribute(); ?>" loading="eager">
+					<?php
+					// 最初に見える画像。画面幅に合うサイズを選ばせ（srcset）、優先度を上げる
+					echo wp_get_attachment_image( get_post_thumbnail_id(), 'large', false, [
+						'class'         => 'u-img-cover',
+						'alt'           => the_title_attribute( [ 'echo' => false ] ),
+						'loading'       => 'eager',
+						'fetchpriority' => 'high',
+						'sizes'         => '(max-width: 768px) 100vw, 800px',
+					] );
+					?>
 				</div>
 				<?php endif; ?>
 
@@ -78,13 +89,21 @@ $recent_query = new WP_Query( [
 				<div class="p-info-single__meta">
 					<span class="p-info-single__meta-item">
 						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-						<time datetime="<?php echo esc_attr( get_the_date( 'Y-m-d' ) ); ?>"><?php echo esc_html( get_the_date( 'Y年n月j日' ) ); ?></time>
+						<?php echo wp_kses_post( sc_post_dates_html( get_the_ID() ) ); ?>
 					</span>
 					<span class="p-info-single__meta-item">
 						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 						<?php echo esc_html( $author ); ?>
 					</span>
 				</div>
+
+				<?php // 導入文（抜粋を入力した記事だけ表示。JSON-LD の description と同じ文章） ?>
+				<?php if ( has_excerpt() ) : ?>
+				<div class="c-article__lead">
+					<p><?php echo esc_html( get_the_excerpt() ); ?></p>
+				</div>
+				<!-- /.c-article__lead -->
+				<?php endif; ?>
 
 				<?php if ( ! empty( $toc_items ) ) : ?>
 				<nav class="c-article__toc js-toc" aria-label="目次">
@@ -112,6 +131,8 @@ $recent_query = new WP_Query( [
 				<div class="c-article__body">
 					<?php echo $content_with_ids; ?>
 				</div>
+
+				<?php get_template_part( 'template-parts/components/article-share', null, [ 'label' => 'このお知らせをシェアする' ] ); ?>
 
 			</article>
 			<!-- /.p-info-single__article -->
