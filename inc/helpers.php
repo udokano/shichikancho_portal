@@ -187,6 +187,30 @@ add_action( 'init', function () {
 	}
 } );
 
+// プラグイン更新や PHP 切り替えのあと、投稿タイプ未登録の状態でリライトルールが作り直され、
+// お店・イベント等の一覧と個別がまとめて 404 になることがあった（2026-10 に2回・原因未特定）。
+// お店のルールが欠けていたら作り直し、エラーログに残す。連続実行は1時間に1回まで
+add_action( 'wp_loaded', function (): void {
+	$rules = get_option( 'rewrite_rules' );
+	// 空のときは WordPress が次の読み込みで自分で作り直す
+	if ( ! is_array( $rules ) || ! $rules ) return;
+
+	$shop = get_post_type_object( CPT_SHOP );
+	$base = $shop && is_array( $shop->rewrite ) ? (string) ( $shop->rewrite['slug'] ?? '' ) : '';
+	if ( '' === $base || preg_grep( '#^' . preg_quote( $base, '#' ) . '[/(]#', array_keys( $rules ) ) ) return;
+
+	if ( get_transient( 'sc_rewrite_repaired' ) ) return;
+	set_transient( 'sc_rewrite_repaired', 1, HOUR_IN_SECONDS );
+
+	flush_rewrite_rules( false );
+	error_log( sprintf(
+		'[sichikenchou] リライトルールにお店（%s）のルールが無かったため再生成: %d 件 → %d 件',
+		$base,
+		count( $rules ),
+		count( (array) get_option( 'rewrite_rules' ) )
+	) );
+}, 99 );
+
 /**
  * エリア基本データ（tourism マップと共通）
  * col/row は tourism ページの 12x12 グリッド座標
